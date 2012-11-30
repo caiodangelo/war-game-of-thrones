@@ -1,3 +1,5 @@
+package tests;
+
 import java.awt.DisplayMode;
 import org.newdawn.slick.*;
 

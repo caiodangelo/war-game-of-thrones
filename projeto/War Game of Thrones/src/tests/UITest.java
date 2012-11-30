@@ -1,3 +1,5 @@
+package tests;
+
 import java.awt.DisplayMode;
 import mdes.slick.sui.*;
 import mdes.slick.sui.event.MouseAdapter;

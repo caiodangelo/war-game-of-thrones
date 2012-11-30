@@ -1,3 +1,5 @@
+package tests;
+
 import javax.jws.soap.SOAPBinding;
 import org.newdawn.slick.*;
 public class TestObject {
