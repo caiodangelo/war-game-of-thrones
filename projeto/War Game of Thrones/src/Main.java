@@ -16,15 +16,16 @@ public class Main extends StateBasedGame{
         DisplayMode dm = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
         int w = dm.getWidth(), h = dm.getHeight();
         boolean fullscreen = false;
+        
         app.setDisplayMode(w, h, fullscreen);
         app.setTargetFrameRate(60);
         app.start();
-        
     }
 
     @Override
     public void initStatesList(GameContainer container) throws SlickException {
         addState(new GameScene());
+//        addState(new MainScene());
     }
     
 }

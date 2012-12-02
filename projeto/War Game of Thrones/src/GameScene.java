@@ -1,9 +1,7 @@
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import util.Scene;
-
 
 public class GameScene extends Scene{
 
@@ -15,7 +13,7 @@ public class GameScene extends Scene{
 
     @Override
     public int getID() {
-        return GameScenes.GAME_SCENE.ordinal();
+        return WarScenes.GAME_SCENE.ordinal();
     }
 
 }
