@@ -1,12 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package models;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -15,13 +10,12 @@ import java.util.List;
  */
 public class Board {
 
-    // A chave do hash indica a posição de jogada do jogador
-    private HashMap<Integer, Player> players;
+    private LinkedList<Player> players;
 
     private static Board instance;
 
     private Board() {
-        players = new HashMap<Integer, Player>();
+        players = new LinkedList<Player>();
     }
 
     public static Board getInstance() {
@@ -32,24 +26,28 @@ public class Board {
     }
 
     public boolean addPlayer(Player player, int playingOrder) {
-        if (!players.containsKey(playingOrder)) {
-            players.put(playingOrder, player);
+        if (!players.contains(player)) {
+            players.addLast(player);
             return true;
         }
         return false;
+    }
+
+    public boolean removePlayer(Player player) {
+        return players.remove(player);
     }
 
     public Player getPlayer(int playingOrder) {
         return players.get(playingOrder);
     }
 
-    public List<Player> getPlayers() {
-        return (List<Player>) players.values();
+    public LinkedList<Player> getPlayers() {
+        return players;
     }
 
     public List<House> getHouses() {
         List<House> houses = new ArrayList<House>();
-        for (Player player : players.values()) {
+        for (Player player : players) {
             houses.add(player.getHouse());
         }
         return houses;

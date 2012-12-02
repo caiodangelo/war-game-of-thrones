@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package models;
 
 /**
@@ -16,7 +11,7 @@ public class House {
 
     private String name;
     /*
-     * A cor vai ficar em formato ARGB hexadecimal, e terá algumas cores padrões.
+     * A cor vai ficar em formato ARGB hexadecimal, e terá algumas cores padrões./
      *
      * TODO: Definir isso melhor depois.
      */
