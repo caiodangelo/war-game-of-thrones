@@ -1,0 +1,25 @@
+- O jogador poderá acessar o mapa
+- O jogador poderá escolher a cor do exército que irá jogar
+
+UC1- Acesso ao Mapa
+
+1 - O jogador entra na tela inicial do jogo
+2 - O jogador clica em "Jogar2"
+3 - Incluir UC2
+4 - O sistema valida o jogador
+5 - O jogador visualiza o mapa de jogo
+
+UC2 - Escolher Cor/Casa de Preferencia
+
+1 - O jogador digita um nome
+2 - O jogador escolhe a opção "Humano" ou "Computador"
+3 - O jogador seleciona a casa de sua preferencia
+4 - O jogador clica em "Jogar"
+
+	4.a - O jogador não digita um nome
+		1 - O sistema exibe uma mensagem "Digite o seu nome"
+		2 - Volta ao passo 1
+
+	4.b - O jogador não escolhe uma casa
+		1 - O sistema exibe uma mensagem "Selecione a casa  que deseja representar"
+		2 - Volta ao passo 3
