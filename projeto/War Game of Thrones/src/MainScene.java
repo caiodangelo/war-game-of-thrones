@@ -1,8 +1,5 @@
-import com.sun.org.apache.xerces.internal.util.XML11Char;
 import de.lessvoid.nifty.Nifty;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.StateBasedGame;
+import de.lessvoid.nifty.controls.DropDown;
 import util.Scene;
 
 public class MainScene extends Scene{
@@ -15,7 +12,12 @@ public class MainScene extends Scene{
     }
 
     @Override
-    public String getScreenName() {
-        return "addPlayer";
+    public void setupNifty(Nifty n) {
+        n.gotoScreen("addPlayer");
+        
+        DropDown dp = n.getCurrentScreen().findNiftyControl("dropDown2", DropDown.class);
+        String houses[] = {"Stark", "Targaryen", "Lannister", "Greyjoy", "Baratheon", "Free Folk"};
+        for(String house : houses)
+            dp.addItem(house);
     }
 }

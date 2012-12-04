@@ -34,9 +34,13 @@ public abstract class Scene extends NiftyOverlayBasicGameState{
         }
     }
     
+    public void setupNifty(Nifty n){
+        n.gotoScreen("emtpy");
+    }
+    
     @Override
     public void enterState(GameContainer container, StateBasedGame game) throws SlickException { 
-        getNifty().gotoScreen(getScreenName());
+        setupNifty(getNifty());
     }
 
     @Override
@@ -47,10 +51,6 @@ public abstract class Scene extends NiftyOverlayBasicGameState{
         if(!inited)
             getNifty().fromXmlWithoutStartScreen("resources/xml/screens.xml");
         inited = true;
-    }
-    
-    public String getScreenName(){ 
-        return "empty";
     }
     
     @Override
