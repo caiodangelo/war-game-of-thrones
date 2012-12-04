@@ -6,8 +6,8 @@ import util.Scene;
 public class GameScene extends Scene{
 
     @Override
-    public void init(GameContainer container, StateBasedGame game) throws SlickException {
-        super.init(container, game);
+    public void initGameAndGUI(GameContainer container, StateBasedGame game) throws SlickException {
+        super.initGameAndGUI(container, game);
         addEntity(new Map());
     }
 
@@ -15,5 +15,4 @@ public class GameScene extends Scene{
     public int getID() {
         return WarScenes.GAME_SCENE.ordinal();
     }
-
 }
