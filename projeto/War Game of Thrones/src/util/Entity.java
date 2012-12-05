@@ -26,6 +26,15 @@ public class Entity {
         rotation = 0;
     }
     
+    public Vector2f getPosition()
+    {
+	return position;
+    }
+    
+    public void setPosition(Vector2f position) {
+	this.position = position;
+    }
+    
     public Scene getScene() {
         return scene;
     }
