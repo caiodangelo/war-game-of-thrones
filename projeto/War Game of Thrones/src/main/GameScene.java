@@ -18,8 +18,7 @@ public class GameScene extends Scene{
         super.initGameAndGUI(container, game);
         Image map = new Image("resources/images/mapa.jpg");
         m = new Map();
-        m.addComponent(new ImageRenderComponent("map", map));
-        m.addComponent(new Zoom("zoom"));
+        m.addComponent(new Zoom("zoom", map));
         m.setPosition(new Vector2f(0, 0));
         addEntity(m);
     }
