@@ -1,3 +1,5 @@
+package main;
+
 import util.Entity;
 
 public class Map extends Entity{

@@ -3,29 +3,35 @@
 xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
 	<useStyles filename="nifty-default-styles.xml" />
 	<useControls filename="nifty-default-controls.xml" />
-	<screen id="addPlayer" controller="AddPlayerController">
+	<screen id="startingScreen" controller="gui.MainScreenController">
 		<layer id="mainScreenLayer" childLayout="center">
-			<panel childLayout="Vertical">
+			<panel align="right" childLayout="Vertical">
 				<control align="left" id="mainPlayButton" name="button" label="Jogar">
 					<interact onClick="showAddPlayerMenu()"/>
 				</control>
-				<control align="left" id="mainOptionsButton" name="button" label="Opções"/>
-				<control align="left" id="mainCreditsButton" name="button" label="Créditos"/>
-				<control align="left" id="mainExitButton" name="button" label="Sair"/>
+				<control align="left" id="mainOptionsButton" name="button" label="Opcoes">
+					<interact onClick="showOptions()"/>
+				</control>
+				<control align="left" id="mainCreditsButton" name="button" label="Créditos">
+					<interact onClick="showCredits()"/>
+				</control>
+				<control align="left" id="mainExitButton" name="button" label="Sair">
+					<interact onClick="exit()"/>
+				</control>
 			</panel>
+			
 		</layer>
-		<popup id="popUpAddPlayer" childLayout="center" backgroundColor="#003f">
+		
+	</screen>
+	<screen id="empty"/>
+	<screen id="addPlayer" controller="gui.AddPlayerController">
+		<layer id="popUpAddPlayer" childLayout="center">
+		
 			<panel style="nifty-panel-bright" height="50%" width="30%" align="center" childLayout="center">
-				<!-- <image filename="resources/images/box.png" width="100%" height="100%" imageMode="resize:10,10,10,10,2,27,2,10,10,10,10,10">
-					<interact onClick="next()"/>
-				</image> -->
 				<panel align="center" childLayout="vertical">
 					<panel align="center" height="30%" width="80%" childLayout="horizontal">
 						<panel valign="top" align="center" width="100%" childLayout="horizontal" padding="30px">
 							<text textHAlign="left" font="calibri.fnt" color="#000000" text="Jogadores" width="50%"/>
-							<!-- <text font="calibri.fnt" color="#000000" text="+Novo Jogador" width="50%" backgroundColor="#888888" visibleToMouse="true">
-								<interact onClick="next()"/>
-							</text> -->
 							<control id="addPlayerButton" name="button" label="+Novo Jogador">
 								<interact onClick="next()"/>
 							</control>
@@ -33,26 +39,30 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 						
 					</panel>
 					<panel style="nifty-panel-simple" valign="top" align="center" width="100%" height="50%" childLayout="vertical" padding="30px">
-						<control id="radioGroupChosePlayerType" name="radioButtonGroup"/>
+					
+					<control id="RadioGroup-1" name="radioButtonGroup"/>
 						<control valign="center" id="input" name="textfield" width="50%" text="PlayerName"/>
 						<panel valign="center" childLayout="horizontal" width="100%" align="center">
-							<control name="radioButton" id="radioBtn0" group="radioGroupChosePlayerType"/>
+							<control name="radioButton" id="radioBtn0" group="RadioGroup-1"/>
 							<control name="label" text="Humano"/>
-							<control name="radioButton" id="radioBtn1" group="radioGroupChosePlayerType"/>
+							<control name="radioButton" id="radioBtn1" group="RadioGroup-1"/>
 							<control name="label" text="Computador"/>
 						</panel>
 						
-						<control valign="center" id="dropDown2" name="dropDown"/>
 						
+						<control valign="center" id="dropDown2" name="dropDown"/>
 					</panel>
 					<panel align="center" height="10%" childLayout="vertical"/>
 					<panel valign="bottom" align="center" width="100%" childLayout="center">
-						<control align="left" id="cancelButton" name="button" label="Cancelar"/>
-						<control align="right" id="playButton" name="button" label="Jogar"/>
+						<control align="left" id="cancelButton" name="button" label="Cancelar">
+							<interact onClick="closePopup()"/>
+						</control>
+						<control align="right" id="playButton" name="button" label="Jogar">
+							<interact onClick="playButtonPressed()"/>
+						</control>
 					</panel>
 				</panel>
 			</panel>
-		</popup>
+		</layer>
 	</screen>
-	<screen id="empty"/>
 </nifty>
