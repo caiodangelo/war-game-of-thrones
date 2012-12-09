@@ -82,4 +82,5 @@ public abstract class Player {
     public void removeTerritory(Territory territory) {
         territories.remove(territory);
     }
+
 }

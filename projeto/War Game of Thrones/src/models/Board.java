@@ -10,6 +10,9 @@ import java.util.List;
  */
 public class Board {
 
+    public static final int AI_PLAYER = 1;
+    public static final int HUMAN_PLAYER = 2;
+
     private LinkedList<Player> players;
 
     private static Board instance;
@@ -25,10 +28,36 @@ public class Board {
         return instance;
     }
 
-    public boolean addPlayer(Player player, int playingOrder) {
-        if (!players.contains(player)) {
-            players.addLast(player);
-            return true;
+    public boolean addPlayer(Player player, int playingOrder, int type) {
+        if (players.size() < 6){
+            switch (type) {
+                case AI_PLAYER:
+                    addAIPlayer((AIPlayer) player, playingOrder);
+                    break;
+                case HUMAN_PLAYER:
+                    addHumanPlayer((HumanPlayer) player, playingOrder);
+                    break;
+            }
+        }
+        return false;
+    }
+
+    public boolean addAIPlayer(AIPlayer aiPlayer, int playingOrder) {
+        if (players.size() < 6) {
+            if (!players.contains(aiPlayer)) {
+                players.addLast(aiPlayer);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean addHumanPlayer(HumanPlayer human, int playingOrder) {
+        if (players.size() < 6) {
+            if (!players.contains(human)) {
+                players.addLast(human);
+                return true;
+            }
         }
         return false;
     }
@@ -52,4 +81,11 @@ public class Board {
         }
         return houses;
     }
+
+    public boolean managePlayers() {
+        if (players.size() >= 2 && players.size() <= 6)
+            return true;
+        return false;
+    }   
+   
 }
