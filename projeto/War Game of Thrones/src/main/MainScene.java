@@ -27,8 +27,7 @@ public class MainScene extends Scene{
         try {
             map = new Image("resources/images/mapa.jpg");
             Map m = new Map();
-            m.addComponent(new ImageRenderComponent("map", map));
-            m.addComponent(new Zoom("zoom"));
+            m.addComponent(new Zoom("zoom", map));
             m.setPosition(new Vector2f(0, 0));
             addEntity(m);
         } catch (SlickException ex) {

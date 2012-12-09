@@ -5,7 +5,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
-import util.ImageRenderComponent;
 import util.Scene;
 import util.Zoom;
 
