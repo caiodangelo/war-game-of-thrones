@@ -8,6 +8,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import util.ImageRenderComponent;
+import util.MainSceneAnimation;
 import util.Scene;
 import util.Zoom;
 
@@ -27,8 +28,9 @@ public class MainScene extends Scene{
         try {
             map = new Image("resources/images/mapa.jpg");
             Map m = new Map();
-            m.addComponent(new Zoom("zoom", map));
+            m.addComponent(new MainSceneAnimation("animation", map));
             m.setPosition(new Vector2f(0, 0));
+            m.setScale(2);
             addEntity(m);
         } catch (SlickException ex) {
             Logger.getLogger(MainScene.class.getName()).log(Level.SEVERE, null, ex);
