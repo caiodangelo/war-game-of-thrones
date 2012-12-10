@@ -28,7 +28,6 @@ public class MainSceneAnimation extends ImageRenderComponent {
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
         //criar novo Vector2f para que seja apontado um endereço de memória diferente
         Vector2f position = new Vector2f(owner.getPosition());
-        owner.setScale(2);
         if (movingRight)
             moveRight(position, delta);
         if (movingLeft)

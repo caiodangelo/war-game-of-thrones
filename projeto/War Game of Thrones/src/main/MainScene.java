@@ -30,6 +30,7 @@ public class MainScene extends Scene{
             Map m = new Map();
             m.addComponent(new MainSceneAnimation("animation", map));
             m.setPosition(new Vector2f(0, 0));
+            m.setScale(2);
             addEntity(m);
         } catch (SlickException ex) {
             Logger.getLogger(MainScene.class.getName()).log(Level.SEVERE, null, ex);
