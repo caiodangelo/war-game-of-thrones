@@ -89,7 +89,7 @@ public class Zoom extends ImageRenderComponent {
     }
     
     private boolean scrolledLeft(Input input, int mouseX) {
-        System.out.println(mouseX);
+//        System.out.println(mouseX);
         return input.isMouseButtonDown(input.MOUSE_RIGHT_BUTTON) && mouseX < 0;
     }
     

@@ -18,9 +18,11 @@ public class MainScreenController implements ScreenController{
     @Override
     public void onEndScreen() {    }
     
-    
     //Button click actions
     public void showAddPlayerMenu(){
+        AddPlayerController ctrl = AddPlayerController.getBindedController();
+        if(ctrl != null)
+            ctrl.resetController();
         n.gotoScreen("addPlayer");
     }
     

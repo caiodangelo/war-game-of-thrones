@@ -16,6 +16,10 @@ public class Main extends NiftyStateBasedGame{
         super("War Game of Thrones", true);
     }
     
+    public void enterState(WarScenes scene) {
+        enterState(scene.ordinal());
+    }
+    
     public static Main getInstance(){
         if(instance == null)
             instance = new Main();
@@ -38,8 +42,8 @@ public class Main extends NiftyStateBasedGame{
     public void initStatesList(GameContainer container) throws SlickException {
         addState(new MainScene());
         addState(new GameScene());
-        enterState(WarScenes.STARTING_SCENE.ordinal());
-//        enterState(WarScenes.GAME_SCENE.ordinal());
+        enterState(WarScenes.STARTING_SCENE);
+//        enterState(WarScenes.GAME_SCENE);
     }
     
 }
