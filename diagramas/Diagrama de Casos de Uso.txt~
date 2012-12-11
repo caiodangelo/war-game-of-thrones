@@ -7,7 +7,7 @@
 	1 - O jogador abre o sistema
 	2 - O jogador entra na tela inicial do jogo
 	3 - O jogador clica em "Jogar"
-	4 - Incluir UC2 (Adicionar jogadores ao jogo)
+	4 - Incluir UC2
 	5 - O jogador(es) visualizam o mapa de jogo
 
 
@@ -57,9 +57,9 @@
 	UC3 - Participar da rodada
 
 	1 - O jogador recebe os exércitos a que tem direito do sistema
-	2 - Incluir UC5 (Distribuir exércitos pelos territorios)
-	3 - Incluir UC4 (Atacar o território)
-	4 - Incluir UC6 (Deslocar exércitos)
+	2 - Incluir UC5
+	3 - Incluir UC4
+	4 - Incluir UC6
 	5 - O jogador escolhe entre passar a vez ou continuar na rodada
 	
 		4.a - O jogador da vez perdeu a batalha
@@ -152,7 +152,7 @@
 	2 - O jogador seleciona as cartas a serem trocadas
 	3 - O sistema valida a troca
 	4 - O jogador recebe os exercitos a que tem direito
-	5 - Incluir UC5 (Distribuir exércitos pelos territorios)
+	5 - Incluir UC5
 
 		3.a - O jogador não tem cartas suficientes
 			1 - O sistema informa "Você não tem cartas suficientes para fazer a troca"
@@ -168,7 +168,7 @@
 - O sistema deverá fazer o sorteio da ordem do jogo.
 
 
-	UC9 - Definir início de jogo
+	UC9 - Definição inicial de jogo
 
 	1 - O sistema sorteia a ordem do jogo
 	2 - O jogador visualiza a sua posição na lista de jogadores da tela de jogo
