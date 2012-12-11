@@ -8,7 +8,7 @@ import org.newdawn.slick.state.StateBasedGame;
  
 public class ImageRenderComponent extends RenderComponent {
  
-    private Image image;
+    protected Image image;
      
     public ImageRenderComponent(String id, Image image)
     {

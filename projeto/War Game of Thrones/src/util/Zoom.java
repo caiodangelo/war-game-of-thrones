@@ -12,6 +12,9 @@ public class Zoom extends ImageRenderComponent {
 
     private float screenWidth;
     private float screenHeight;
+    
+    float viewX = 0.5f, viewY = 0.5f;
+    public static final float MOVE_OFFSET = 0.05f;
 
     public Zoom(String id, Image image) {
         super(id, image);
@@ -34,21 +37,25 @@ public class Zoom extends ImageRenderComponent {
 
         if (scrolledLeft(input, mouseX)) {
             position.x += 50 * mouseX * delta;
+            viewX += MOVE_OFFSET;
             setUpdates(scale, position);
         }
 
         if (scrolledRight(input, mouseX)) {
             position.x += 50 * mouseX * delta;
+            viewX -= MOVE_OFFSET;
             setUpdates(scale, position);
         }
 
         if (scrolledUp(input, mouseY)) {
             position.y -= 50 * mouseY * delta;
+            viewY -= MOVE_OFFSET;
             setUpdates(scale, position);
         }
 
         if (scrolledDown(input, mouseY)) {
             position.y -= 50 * mouseY * delta;
+            viewY += MOVE_OFFSET;
             setUpdates(scale, position);
         }
         
@@ -60,6 +67,8 @@ public class Zoom extends ImageRenderComponent {
             zoomOut(scale, delta, position);
         }
         //owner.setRotation(rotation);
+        position.x = (main.Main.windowW / 2f) - viewX * getImageWidth(scale);
+        position.y = (main.Main.windowH / 2f) - viewY * getImageHeight(scale);
     }
     
     private void zoom(float scale, float delta, int multiplier, Vector2f position) {
@@ -68,8 +77,11 @@ public class Zoom extends ImageRenderComponent {
         scale += multiplier * delta;
         float newW = getImageWidth(scale);
         float newH = getImageHeight(scale);
-        position.x -= ((newW - oldW) / 2f);
-        position.y -= ((newH - oldH) / 2f);
+//        position.x = (main.Main.windowW / 2f) - viewX * image.getWidth() * scale;
+//        position.y = (main.Main.windowH / 2f) - viewY * image.getHeight() * scale;
+//        System.out.printf("\nviewx %f viewy %f \n", viewX, viewY);
+//        position.x -= ((newW - oldW) / 2f);
+//        position.y -= ((newH - oldH) / 2f);
         setUpdates(scale, position);
     }
 

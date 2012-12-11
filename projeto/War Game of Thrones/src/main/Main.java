@@ -10,6 +10,8 @@ public class Main extends NiftyStateBasedGame{
     
     private static Main instance;
     
+    public static float windowW, windowH;
+    
     private AppGameContainer container;
     
     private Main(){
@@ -32,7 +34,8 @@ public class Main extends NiftyStateBasedGame{
         DisplayMode dm = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
         int w = dm.getWidth(), h = dm.getHeight();
         boolean fullscreen = false;
-        
+        windowW = w;
+        windowH = h;
         app.setDisplayMode(w, h, fullscreen);
         app.setTargetFrameRate(60);
         app.start();
@@ -43,7 +46,6 @@ public class Main extends NiftyStateBasedGame{
         addState(new MainScene());
         addState(new GameScene());
         enterState(WarScenes.STARTING_SCENE);
-//        enterState(WarScenes.GAME_SCENE);
+        enterState(WarScenes.GAME_SCENE);
     }
-    
 }
