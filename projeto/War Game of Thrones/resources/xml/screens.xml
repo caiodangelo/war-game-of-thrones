@@ -5,17 +5,18 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 	<useControls filename="nifty-default-controls.xml" />
 	<screen id="startingScreen" controller="gui.MainScreenController">
 		<layer id="mainScreenLayer" childLayout="center">
-			<panel align="right" childLayout="Vertical">
-				<control align="left" id="mainPlayButton" name="button" label="Jogar">
+			<panel align="center" childLayout="Vertical">
+				<panel align="center" height="80%"/>
+				<control align="center" id="mainPlayButton" name="button" label="Jogar">
 					<interact onClick="showAddPlayerMenu()"/>
 				</control>
-				<control align="left" id="mainOptionsButton" name="button" label="Opcoes">
+				<control align="center" id="mainOptionsButton" name="button" label="Opcoes">
 					<interact onClick="showOptions()"/>
 				</control>
-				<control align="left" id="mainCreditsButton" name="button" label="Créditos">
+				<control align="center" id="mainCreditsButton" name="button" label="Créditos">
 					<interact onClick="showCredits()"/>
 				</control>
-				<control align="left" id="mainExitButton" name="button" label="Sair">
+				<control align="center" id="mainExitButton" name="button" label="Sair">
 					<interact onClick="exit()"/>
 				</control>
 			</panel>
