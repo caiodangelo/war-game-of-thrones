@@ -16,6 +16,10 @@ public class Main extends NiftyStateBasedGame{
     
     private Main(){
         super("War Game of Thrones", true);
+        DisplayMode dm = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
+        int w = dm.getWidth(), h = dm.getHeight();
+        windowW = w;
+        windowH = h;
     }
     
     public void enterState(WarScenes scene) {
@@ -31,12 +35,8 @@ public class Main extends NiftyStateBasedGame{
     public static void main(String[] args) throws SlickException {
         Main m = getInstance();
         AppGameContainer app = new AppGameContainer(m);
-        DisplayMode dm = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
-        int w = dm.getWidth(), h = dm.getHeight();
         boolean fullscreen = false;
-        windowW = w;
-        windowH = h;
-        app.setDisplayMode(w, h, fullscreen);
+        app.setDisplayMode((int)windowW, (int)windowH, fullscreen);
         app.setTargetFrameRate(60);
         app.start();
     }
@@ -46,6 +46,6 @@ public class Main extends NiftyStateBasedGame{
         addState(new MainScene());
         addState(new GameScene());
         enterState(WarScenes.STARTING_SCENE);
-//        enterState(WarScenes.GAME_SCENE);
+        enterState(WarScenes.GAME_SCENE);
     }
 }
