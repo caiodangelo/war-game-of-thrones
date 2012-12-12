@@ -13,8 +13,8 @@ public class Zoom extends ImageRenderComponent {
     private float screenWidth;
     private float screenHeight;
     
-    float viewX = 0.5f, viewY = 0.5f;
-    public static final float MOVE_OFFSET = 0.05f;
+    //float viewX = 0.5f, viewY = 0.5f;
+    //public static final float MOVE_OFFSET = 0.05f;
 
     public Zoom(String id, Image image) {
         super(id, image);
@@ -25,50 +25,52 @@ public class Zoom extends ImageRenderComponent {
 
     @Override
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
-        //float rotation = owner.getRotation();
         float scale = owner.getScale();
-        //criar novo Vector2f para que seja apontado um endereço de memória diferente
-        Vector2f position = new Vector2f(owner.getPosition());
-
+        float positionX = owner.getPosition().getX();
+        float positionY = owner.getPosition().getY();
         Input input = gc.getInput();
         int mouseWheel = Mouse.getDWheel();
         int mouseX = Mouse.getDX();
         int mouseY = Mouse.getDY();
+        if (input.isMouseButtonDown(input.MOUSE_RIGHT_BUTTON))
+            Mouse.setGrabbed(true);
+        else
+            Mouse.setGrabbed(false);
+        boolean isGrabbed = Mouse.isGrabbed();
 
-        if (scrolledLeft(input, mouseX)) {
-            position.x += 50 * mouseX * delta;
-            viewX += MOVE_OFFSET;
-            setUpdates(scale, position);
+        if (scrolledLeft(isGrabbed, mouseX)) {
+            positionX += mouseX;
+            //viewX += MOVE_OFFSET;
+            setUpdates(scale, new Vector2f(positionX, positionY));
         }
 
-        if (scrolledRight(input, mouseX)) {
-            position.x += 50 * mouseX * delta;
-            viewX -= MOVE_OFFSET;
-            setUpdates(scale, position);
+        if (scrolledRight(isGrabbed, mouseX)) {
+            positionX += mouseX;
+            //viewX -= MOVE_OFFSET;
+            setUpdates(scale, new Vector2f(positionX, positionY));
         }
 
-        if (scrolledUp(input, mouseY)) {
-            position.y -= 50 * mouseY * delta;
-            viewY -= MOVE_OFFSET;
-            setUpdates(scale, position);
+        if (scrolledUp(isGrabbed, mouseY)) {
+            positionY -= mouseY;
+            //viewY -= MOVE_OFFSET;
+            setUpdates(scale, new Vector2f(positionX, positionY));
         }
 
-        if (scrolledDown(input, mouseY)) {
-            position.y -= 50 * mouseY * delta;
-            viewY += MOVE_OFFSET;
-            setUpdates(scale, position);
+        if (scrolledDown(isGrabbed, mouseY)) {
+            positionY -= mouseY;
+            //viewY += MOVE_OFFSET;
+            setUpdates(scale, new Vector2f(positionX, positionY));
         }
         
         if (mouseWheel > 0) {
-            zoomIn(scale, delta, position);
+            zoomIn(scale, delta, new Vector2f(positionX, positionY));
         }
 
         if (mouseWheel < 0) {
-            zoomOut(scale, delta, position);
+            zoomOut(scale, delta, new Vector2f(positionX, positionY));
         }
-        //owner.setRotation(rotation);
-        position.x = (main.Main.windowW / 2f) - viewX * getImageWidth(scale);
-        position.y = (main.Main.windowH / 2f) - viewY * getImageHeight(scale);
+//        position.x = (main.Main.windowW / 2f) - viewX * getImageWidth(scale);
+//        position.y = (main.Main.windowH / 2f) - viewY * getImageHeight(scale);
     }
     
     private void zoom(float scale, float delta, int multiplier, Vector2f position) {
@@ -100,20 +102,19 @@ public class Zoom extends ImageRenderComponent {
         }
     }
     
-    private boolean scrolledLeft(Input input, int mouseX) {
-//        System.out.println(mouseX);
-        return input.isMouseButtonDown(input.MOUSE_RIGHT_BUTTON) && mouseX < 0;
+    private boolean scrolledLeft(boolean isGrabbed, int mouseX) {
+        return isGrabbed && mouseX < 0;
     }
     
-    private boolean scrolledRight(Input input, int mouseX) {
-        return input.isMouseButtonDown(input.MOUSE_RIGHT_BUTTON) && mouseX > 0;
+    private boolean scrolledRight(boolean isGrabbed, int mouseX) {
+        return isGrabbed && mouseX > 0;
     }
     
-    private boolean scrolledUp(Input input, int mouseY) {
-        return input.isMouseButtonDown(input.MOUSE_RIGHT_BUTTON) && mouseY < 0;
+    private boolean scrolledUp(boolean isGrabbed, int mouseY) {
+        return isGrabbed && mouseY < 0;
     }
     
-    private boolean scrolledDown(Input input, int mouseY) {
-        return input.isMouseButtonDown(input.MOUSE_RIGHT_BUTTON) && mouseY > 0;
+    private boolean scrolledDown(boolean isGrabbed, int mouseY) {
+        return isGrabbed && mouseY > 0;
     }
 }
