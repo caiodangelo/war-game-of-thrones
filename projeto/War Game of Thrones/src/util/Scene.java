@@ -37,7 +37,7 @@ public abstract class Scene extends NiftyOverlayBasicGameState{
     }
     
     public void setupNifty(Nifty n){
-        n.gotoScreen("emtpy");
+        n.gotoScreen("empty");
     }
     
     @Override
