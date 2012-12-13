@@ -8,22 +8,18 @@ import org.newdawn.slick.state.StateBasedGame;
  
 public class ImageRenderComponent extends RenderComponent {
  
-    private Image image;
+    protected Image image;
      
-    public ImageRenderComponent(String id, Image image)
+    public ImageRenderComponent(String id, Entity owner)
     {
         super(id);
-        this.image = image;
+        image = owner.getImage();
     }
      
     @Override
     public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
         Vector2f pos = owner.position;
         float scale = owner.getScale();
-//        gr.drawImage(image, pos.x, pos.y);
-//        gr.scale(scale, scale);
-//        gr.resetTransform();
-        
         image.draw(pos.x, pos.y, scale);
     }
  
@@ -31,14 +27,6 @@ public class ImageRenderComponent extends RenderComponent {
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
         image.rotate(owner.getRotation() - image.getRotation());
     }
-    
-//    public float getImageWidth() {
-//        return this.image.getWidth() * owner.getScale();
-//    }
-//    
-//    public float getImageHeight() {
-//        return this.image.getHeight() * owner.getScale();
-//    }
     
     public float getImageWidth(float scale) {
         return this.image.getWidth() * scale;

@@ -1,16 +1,19 @@
 package main;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.builder.PanelBuilder;
 import de.lessvoid.nifty.controls.DropDown;
+import de.lessvoid.nifty.controls.dropdown.builder.DropDownBuilder;
+import de.lessvoid.nifty.elements.Element;
+import de.lessvoid.nifty.screen.Screen;
+import de.lessvoid.nifty.tools.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
-import util.ImageRenderComponent;
 import util.MainSceneAnimation;
 import util.Scene;
-import util.Zoom;
 
 public class MainScene extends Scene{
 
@@ -23,15 +26,16 @@ public class MainScene extends Scene{
 
     @Override
     public void setupNifty(Nifty n) {
+        
         n.gotoScreen("startingScreen");
-        Image map;
+        Image mapImage;
         try {
-            map = new Image("resources/images/mapa.jpg");
-            Map m = new Map();
-            m.addComponent(new MainSceneAnimation("animation", map));
-            m.setPosition(new Vector2f(0, 0));
-            m.setScale(2);
-            addEntity(m);
+            mapImage = new Image("resources/images/mapa.jpg");
+            Map map = new Map(mapImage);
+            map.addComponent(new MainSceneAnimation("animation", map));
+            map.setPosition(new Vector2f(0, 0));
+            map.setScale(2);
+            addEntity(map);
         } catch (SlickException ex) {
             Logger.getLogger(MainScene.class.getName()).log(Level.SEVERE, null, ex);
         }
