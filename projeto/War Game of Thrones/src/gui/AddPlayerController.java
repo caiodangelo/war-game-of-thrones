@@ -15,8 +15,6 @@ import java.util.ArrayList;
 
 public class AddPlayerController implements ScreenController{
 
-    private static AddPlayerController ctrl;
-    
     private TextField nameField;
     private Nifty n;
     private DropDown housesDropdown;
@@ -24,10 +22,6 @@ public class AddPlayerController implements ScreenController{
     private List<PlayerData> createdPlayers;
     private RadioButton humanButton;
     private Button addButton, playButton;
-    
-    public static AddPlayerController getBindedController(){
-        return ctrl;
-    }
     
     public void resetController(){
         addButton.enable();
@@ -42,7 +36,6 @@ public class AddPlayerController implements ScreenController{
     
     @Override
     public void bind(Nifty nifty, Screen screen) {
-        ctrl = this;
         n = nifty;
         
         
@@ -51,8 +44,6 @@ public class AddPlayerController implements ScreenController{
         nameField = screen.findNiftyControl("nameTextField", TextField.class);
         housesDropdown = screen.findNiftyControl("dropDown2", DropDown.class);
         humanButton = screen.findNiftyControl("humanRadioBtn", RadioButton.class);
-        
-        resetController();
     }
     
     private void resetDisplay(){
@@ -69,7 +60,9 @@ public class AddPlayerController implements ScreenController{
     }
     
     @Override
-    public void onStartScreen() {    }
+    public void onStartScreen() {   
+        resetController();
+    }
 
     @Override
     public void onEndScreen() {    }

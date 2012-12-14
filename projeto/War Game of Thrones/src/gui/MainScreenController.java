@@ -20,9 +20,6 @@ public class MainScreenController implements ScreenController{
     
     //Button click actions
     public void showAddPlayerMenu(){
-        AddPlayerController ctrl = AddPlayerController.getBindedController();
-        if(ctrl != null)
-            ctrl.resetController();
         n.gotoScreen("addPlayer");
     }
     
