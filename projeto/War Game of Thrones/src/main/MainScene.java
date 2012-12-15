@@ -1,12 +1,6 @@
 package main;
 
 import de.lessvoid.nifty.Nifty;
-import de.lessvoid.nifty.builder.PanelBuilder;
-import de.lessvoid.nifty.controls.DropDown;
-import de.lessvoid.nifty.controls.dropdown.builder.DropDownBuilder;
-import de.lessvoid.nifty.elements.Element;
-import de.lessvoid.nifty.screen.Screen;
-import de.lessvoid.nifty.tools.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.Image;
@@ -26,7 +20,6 @@ public class MainScene extends Scene{
 
     @Override
     public void setupNifty(Nifty n) {
-        
         n.gotoScreen("startingScreen");
         Image mapImage;
         try {
