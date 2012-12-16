@@ -8,6 +8,7 @@ import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.controls.RadioButton;
 import de.lessvoid.nifty.controls.TextFieldChangedEvent;
 import de.lessvoid.nifty.controls.DropDownSelectionChangedEvent;
+import de.lessvoid.nifty.effects.EffectEventId;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.render.NiftyImage;
@@ -80,6 +81,10 @@ public class AddPlayerController implements ScreenController{
         HouseData houseData = (HouseData)housesDropdown.getSelection();
         if(houseData != null)
             r.setImage(n.createImage(houseData.imgPath, false));
+        EffectEventId effectID = EffectEventId.onCustom;
+        for(Element e : playerIcons)
+            e.stopEffect(effectID);
+        icon.startEffect(effectID);
     }
     
     private void resetDisplay(){
