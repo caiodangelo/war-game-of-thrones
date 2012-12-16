@@ -92,22 +92,39 @@ public class AddPlayerController implements ScreenController{
         PlayerData currentPlayer = createdPlayers.get(currentEditingIndex);
         (currentPlayer.isHuman ? humanButton : cpuButton).select();
         
-        nameField.setText(currentPlayer.name);
+        String playerName = currentPlayer.name;
+        nameField.setText(playerName);
         nameField.setFocus();
+        nameField.setCursorPosition(playerName.length());
         
         for(HouseData house : availableHouses)
             housesDropdown.addItem(house);
         
+        for(int i = 0; i < 6; i++){
+            Element icon = playerIcons[i];
+            if(i < createdPlayers.size()){
+                ImageRenderer r = icon.getRenderer(ImageRenderer.class);
+                HouseData houseData = createdPlayers.get(i).house;
+                r.setImage(n.createImage(houseData.imgPath, false));
+                icon.show();
+            } else 
+                icon.hide();
+        }
         housesDropdown.selectItem(currentPlayer.house);
     }
     
     //Elements interaction callbacks
-    public void editPlayer(String playerIndex){
-        saveCurrentPlayerData();
+    private void editPlayer(String playerIndex, boolean saveCurrent){
+        if(saveCurrent)
+            saveCurrentPlayerData();
         currentEditingIndex = Integer.parseInt(playerIndex);
         PlayerData editedPlayer = createdPlayers.get(currentEditingIndex);
         availableHouses.add(0, editedPlayer.house);
         resetDisplay();
+    }
+    
+    public void editPlayer(String playerIndex){
+        editPlayer(playerIndex, true);
     }
     
     private void addBlankPlayerData(){
@@ -136,13 +153,26 @@ public class AddPlayerController implements ScreenController{
             
             resetDisplay();
             playButton.enable();
-//            currentEditingIndex = createdPlayers.size();
             playerIcons[currentEditingIndex].show();
             updatePlayerImage();
         }
         if(createdPlayers.size() == 6){
             addButton.disable();
         }
+    }
+    
+    public void excludePlayer(){
+        PlayerData removedPlayer = createdPlayers.remove(currentEditingIndex);
+        if(currentEditingIndex >= createdPlayers.size())
+            currentEditingIndex--;
+        if(currentEditingIndex < 0){
+            availableHouses.remove(removedPlayer.house);
+            addBlankPlayerData();
+            playButton.disable();
+        }
+        editPlayer(currentEditingIndex + "", false);
+        addButton.enable();
+        resetDisplay();
     }
     
     public void playButtonPressed() {
@@ -162,6 +192,7 @@ public class AddPlayerController implements ScreenController{
     public void closePopup(){
         n.gotoScreen("startingScreen");
     }
+    
     
     //Auxiliary classes
     private static class PlayerData{
