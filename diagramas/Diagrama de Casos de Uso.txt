@@ -1,21 +1,13 @@
-- O jogador poderá acessar o mapa.
-- O jogador poderá acessar a tela inicial.
+	UC1- Acessar o mapa
 
-
-	UC1- Acessar o Mapa
-
-	1 - O jogador abre o sistema
+	1 - O jogador abre o jogo
 	2 - O jogador entra na tela inicial do jogo
 	3 - O jogador clica em "Jogar"
 	4 - Incluir UC2 (Adicionar jogadores ao jogo)
-	5 - O jogador(es) visualizam o mapa de jogo
+	5 - O jogador visualiza o mapa do jogo
 
 
-- O jogador poderá escolher a cor/casa que irá jogar
-- O jogador poderá escolher quantos jogadores terão no jogo. 
-
-
-	UC2 - Adicionar jogadores ao jogo
+	UC2 - Adicionar jogadores
 
 	1 - O sistema abre a tela de adição de jogadores
 	2 - O jogador digita um nome
@@ -26,34 +18,30 @@
 	7 - O jogador clica em "Jogar"
 	8 - O sistema verifica o num de jogadores
 
-		5.a - Atingiu o maximo de jogadores para a partida
-			1 - O sistema informa "Voce não pode mais adicionar jogadores"
+		5.a - Atingiu o máximo de jogadores para a partida
+			1 - O sistema desabilita o botão "Adicionar jogador"
 			2- Avança ao passo 7
 
 		6.a - O jogador não digita um nome
 			1 - O sistema exibe uma mensagem "Digite o seu nome"
-			2 - Volta ao passo 1
+			2 - Volta ao passo 2
 
 		6.b - O jogador não escolhe uma casa
 			1 - O sistema exibe uma mensagem "Selecione a casa que deseja representar"
 			2 - Volta ao passo 3
 
 		7.a - O jogador deseja adicionar outro jogador
-			1 - O jogador clica em "Novo Jogador"
-			2 - Volta ao passo 1
-
-		8.a - Há poucos jogadores para o começo do jogo
-			1 - O sistema informa "Há poucos jogadores para iniciar o jogo"   
-			2 - O sistema volta para a tela de adição de jogadores
-			3 - O jogador clica em "Novo Jogador"
-			4 - Volta ao passo 1
-
-
-- O sistema dará os exércitos do jogador da vez.
-- O jogador que ataca deverá escolher se continuará atacando ou se terminará sua rodada.
-- O sistema deverá finalizar o jogo quando algum jogador atingir seu objetivo.
+			1 - O jogador clica em "Adicionar Jogador"
+			2 - Volta ao passo 2
 
 	
+	UCX - Acessar opções de jogo
+
+	UCX - Acessar créditos do jogo
+
+	UCX - Sair do jogo
+
+
 	UC3 - Participar da rodada
 
 	1 - O jogador recebe os exércitos a que tem direito do sistema
@@ -77,23 +65,20 @@
 			2 - Fim de jogo
 
 
-- O jogador da vez deverá escolher o território que irá atacar, o que irá defender e a quantidade de exército para atacar.
-- O jogador atacado deverá escolher a quantidade de exército para se defender.
+	UC4 - Atacar
 
-
-	UC4 - Atacar o território
-
-	1 - No menu, o jogador clica em "Atacar"
+	1 - O jogador clica em "Atacar"
+	2 - O sistema mostra os territórios que podem ser selecionado para realizar o ataque 
 	2 - O jogador seleciona um territorio de sua posse no mapa
 	3 - O jogador seleciona um território que quer atacar
-	4 - O jogador digita o numero de exercitos para o ataque no campo "Número de exercitos para ataque"
-	5 - O jogador atacado digita o numero de exercitos para o ataque no campo "Número de exercitos para a defesa"
-	6 - No menu, o jogador clica em "Atacar"
+	4 - O jogador digita o número de exércitos para o ataque no campo "Número de exércitos para ataque"
+	5 - O jogador atacado digita o número de exércitos para defender no campo "Número de exércitos para a defesa"
+	6 - O jogador clica em "OK"
 	7 - O sistema executa o sorteio dos dados
 	8 - O sistema avalia quem venceu a batalha
 	9 - O sistema remove os exércitos perdedores
 
-		2.a - O jogador tem apenas um exercito no territorio selecionado
+		2.a - O jogador tem apenas um exército no território selecionado
 			1 - O sistema informa "Voce não pode atacar apenas com o exercito de ocupação"
 
 		3.a - O jogador escolhe um território não vizinho ao territorio atacante
@@ -110,9 +95,6 @@
 	
 		5.b - O jogador digita um numero maior que 3
 			1 - O sistema informa "Você só pode defender com no máximo 3 exercitos"
-
-
-- O jogador da vez deverá distribuir os exércitos em seus territórios.
 
 
 	UC5 - Distribuir exércitos pelos territorios
@@ -162,12 +144,6 @@
 			2 - Volta ao passo 1
 
 
-
-- O sistema deverá fazer o sorteio das cartas de territórios.
-- O sistema deverá fazer o sorteio das missões para cada jogador.
-- O sistema deverá fazer o sorteio da ordem do jogo.
-
-
 	UC9 - Definir início de jogo
 
 	1 - O sistema sorteia a ordem do jogo
@@ -184,4 +160,3 @@
 
 		11.a - O jogador não tem exércitos suficientes
 			1 - O sistema informa "Você não tem exercitos suficientes para colocar neste território"
-
