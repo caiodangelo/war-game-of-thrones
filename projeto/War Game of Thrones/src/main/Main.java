@@ -35,7 +35,7 @@ public class Main extends NiftyStateBasedGame{
     public static void main(String[] args) throws SlickException {
         Main m = getInstance();
         AppGameContainer app = new AppGameContainer(m);
-        boolean fullscreen = true;
+        boolean fullscreen = false;
         app.setDisplayMode((int)windowW, (int)windowH, fullscreen);
         app.setTargetFrameRate(60);
         app.start();
