@@ -104,7 +104,6 @@ public class AddPlayerController implements ScreenController{
         
         for(HouseData house : availableHouses)
             housesDropdown.addItem(house);
-        
         for(int i = 0; i < 6; i++){
             Element icon = playerIcons[i];
             Label name = playerNames[i];
@@ -170,6 +169,7 @@ public class AddPlayerController implements ScreenController{
         }
         if(createdPlayers.size() == 6){
             addButton.disable();
+            addButton.setText("Máximo de jogadores");
         }
     }
     
@@ -177,14 +177,17 @@ public class AddPlayerController implements ScreenController{
         PlayerData removedPlayer = createdPlayers.remove(currentEditingIndex);
         if(currentEditingIndex >= createdPlayers.size())
             currentEditingIndex--;
-        if(currentEditingIndex < 0){
-            availableHouses.remove(removedPlayer.house);
-            addBlankPlayerData();
-            playButton.disable();
+        if(currentEditingIndex < 0)
+            resetController();
+        else {
+            editPlayer(currentEditingIndex + "", false);
+            addButton.enable();
+            addButton.setText("+Adicionar Jogador");
+            if(createdPlayers.size() == 1)
+                playButton.disable();
+            resetDisplay();
+            
         }
-        editPlayer(currentEditingIndex + "", false);
-        addButton.enable();
-        resetDisplay();
     }
     
     public void playButtonPressed() {

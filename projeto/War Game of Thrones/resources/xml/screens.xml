@@ -94,16 +94,17 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 								<interact onClick="addPlayer()"/>
 							</control>
 						</panel>
-						
 					</panel>
 					<panel style="nifty-panel" valign="top" align="center" width="80%" height="50%" childLayout="vertical" padding="15px">
 						<control id="RadioGroup-1" name="radioButtonGroup"/>
 						<panel childLayout="horizontal" width="100%" height="33%">
 							<control valign="center" name="label" text="Nome: "/>
 							<control valign="center" id="nameTextField" name="textfield" width="85%" text="PlayerName"/>
-							<image valign="center" filename="resources/images/close_button.png" height="20px" width="20px">
-								<interact onClick="excludePlayer()"/>
-							</image>
+							<panel childLayout="absolute-inside">
+								<image valign="center" align="right" filename="resources/images/close_button.png" height="20px" width="20px">
+									<interact onClick="excludePlayer()"/>
+								</image>
+							</panel>
 						</panel>
 						<panel valign="center" align="center" childLayout="horizontal" width="100%"  height="25%">
 								<control name="radioButton" id="humanRadioBtn" group="RadioGroup-1"/>
