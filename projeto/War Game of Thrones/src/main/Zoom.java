@@ -19,7 +19,9 @@ public class Zoom extends ImageMovementsComponent {
     @Override
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
         float scale = owner.getScale();
-        int mouseWheel = Mouse.getDWheel();
+//        int mouseWheel = Mouse.getDWheel();
+        int mouseWheel = GameScene.getMouseWheel();
+        
         
         if (mouseWheel > 0) {
             zoomIn(scale, delta, owner.getPosition());
