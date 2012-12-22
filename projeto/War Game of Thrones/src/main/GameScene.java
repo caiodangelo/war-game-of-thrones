@@ -9,12 +9,12 @@ import util.Scene;
 public class GameScene extends Scene{
     
     @Override
-    public void initGameAndGUI(GameContainer container, StateBasedGame game) throws SlickException {
-        super.initGameAndGUI(container, game);
+    public void enterState(GameContainer container, StateBasedGame game) throws SlickException { 
+        super.enterState(container, game);
         Image mapImage = new Image("resources/images/mapa.jpg");
-        Map map = new Map(mapImage);
-        map.addComponent(new Zoom("zoom", map));
-        map.addComponent(new Scroll("scroll", map));
+        Map map = new Map();
+        map.addComponent(new Zoom("zoom", mapImage));
+        map.addComponent(new Scroll("scroll", mapImage));
         addEntity(map);
     }
 

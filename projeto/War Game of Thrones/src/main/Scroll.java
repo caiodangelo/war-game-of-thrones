@@ -2,6 +2,7 @@ package main;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
@@ -12,9 +13,11 @@ public class Scroll extends ImageMovementsComponent {
     
     //float viewX = 0.5f, viewY = 0.5f;
     //public static final float MOVE_OFFSET = 0.05f;
+    private int previousMouseX, previousMouseY;
+    private boolean mouseSet = false;
 
-    public Scroll(String id, Entity owner) {
-        super(id, owner);
+    public Scroll(String id, Image img) {
+        super(id, img);
     }
 
     @Override
@@ -22,8 +25,17 @@ public class Scroll extends ImageMovementsComponent {
         float positionX = owner.getPosition().getX();
         float positionY = owner.getPosition().getY();
         Input input = gc.getInput();
-        int mouseX = Mouse.getDX();
-        int mouseY = Mouse.getDY();
+        int mouseX = 0;
+        int mouseY = 0;
+        int newMouseX = input.getMouseX();
+        int newMouseY = (int)Main.windowH-input.getMouseY();
+        if(mouseSet){
+            mouseX = newMouseX - previousMouseX;
+            mouseY = newMouseY - previousMouseY;
+        }
+        previousMouseX = newMouseX;
+        previousMouseY = newMouseY;
+        mouseSet = true;
         if (input.isMouseButtonDown(input.MOUSE_RIGHT_BUTTON))
             Mouse.setGrabbed(true);
         else
@@ -53,6 +65,7 @@ public class Scroll extends ImageMovementsComponent {
             //viewY += MOVE_OFFSET;
             setUpdates(owner.getScale(), new Vector2f(positionX, positionY));
         }
+        System.out.println("parent scale " + owner.getScale());
     }
 
 }

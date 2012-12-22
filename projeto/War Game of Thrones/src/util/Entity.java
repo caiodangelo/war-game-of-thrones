@@ -14,7 +14,6 @@ public class Entity {
     private float scale;
     private float rotation;
     private Scene scene;
-    protected Image image;
  
     private RenderComponent renderComponent = null;
      
@@ -87,10 +86,6 @@ public class Entity {
  
     public void setScale(float scale) {
         this.scale = scale;
-    }
-    
-    public Image getImage() {
-        return image;
     }
      
     public void update(GameContainer gc, StateBasedGame sb, float delta)

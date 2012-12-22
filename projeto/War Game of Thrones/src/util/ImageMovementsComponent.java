@@ -2,6 +2,7 @@ package util;
 
 import main.Main;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -10,8 +11,8 @@ public class ImageMovementsComponent extends ImageRenderComponent {
     //float viewX = 0.5f, viewY = 0.5f;
     //public static final float MOVE_OFFSET = 0.05f;
 
-    public ImageMovementsComponent(String id, Entity owner) {
-        super(id, owner);
+    public ImageMovementsComponent(String id, Image img) {
+        super(id, img);
     }
     
     protected void zoom(float scale, float delta, int multiplier, Vector2f position) {

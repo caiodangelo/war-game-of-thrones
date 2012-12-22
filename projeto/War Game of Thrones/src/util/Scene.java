@@ -3,16 +3,18 @@ package util;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.slick2d.NiftyOverlayBasicGameState;
 import de.lessvoid.nifty.slick2d.input.SlickSlickInputSystem;
+import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import java.util.HashSet;
+import java.util.List;
 
 public abstract class Scene extends NiftyOverlayBasicGameState{
     
-    private HashSet<Entity> entities;
+    private List<Entity> entities;
     private GameContainer container;
     protected float screenWidth = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth();
     protected float screenHeight = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight();
@@ -23,7 +25,8 @@ public abstract class Scene extends NiftyOverlayBasicGameState{
         Scene oldScene = e.getScene();
         if(oldScene != null)
             oldScene.removeEntity(e);
-        if(entities.add(e)){
+        if(!entities.contains(e)){
+            entities.add(e);
             e.setScene(this);
             e.onAdded();
         }
@@ -42,6 +45,7 @@ public abstract class Scene extends NiftyOverlayBasicGameState{
     
     @Override
     public void enterState(GameContainer container, StateBasedGame game) throws SlickException { 
+        entities = new ArrayList<Entity>();
         setupNifty(getNifty());
     }
 
@@ -58,7 +62,6 @@ public abstract class Scene extends NiftyOverlayBasicGameState{
     @Override
     public void initGameAndGUI(GameContainer container, StateBasedGame game) throws SlickException{
         initNifty(container, game);
-        entities = new HashSet<Entity>();
     }
 
     @Override

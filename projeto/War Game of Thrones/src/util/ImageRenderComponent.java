@@ -10,10 +10,10 @@ public class ImageRenderComponent extends RenderComponent {
  
     protected Image image;
      
-    public ImageRenderComponent(String id, Entity owner)
+    public ImageRenderComponent(String id, Image img)
     {
         super(id);
-        image = owner.getImage();
+        image = img;
     }
      
     @Override
@@ -21,6 +21,7 @@ public class ImageRenderComponent extends RenderComponent {
         Vector2f pos = owner.position;
         float scale = owner.getScale();
         image.draw(pos.x, pos.y, scale);
+//        System.out.println("rendering " + (main.MainScene.id++));
     }
  
     @Override

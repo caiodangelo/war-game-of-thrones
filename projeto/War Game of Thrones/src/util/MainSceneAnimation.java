@@ -17,8 +17,8 @@ public class MainSceneAnimation extends ImageRenderComponent {
     private boolean movingDown;
     private final int animationSpeed = 180;
 
-    public MainSceneAnimation(String id, Entity owner) {
-        super(id, owner);
+    public MainSceneAnimation(String id, Image img) {
+        super(id, img);
         DisplayMode dm = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
         screenWidth = dm.getWidth();
         screenHeight = dm.getHeight();
