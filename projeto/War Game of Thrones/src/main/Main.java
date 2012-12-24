@@ -1,10 +1,10 @@
 package main;
 
+import de.lessvoid.nifty.slick2d.NiftyStateBasedGame;
 import java.awt.DisplayMode;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
-import de.lessvoid.nifty.slick2d.NiftyStateBasedGame;
 
 public class Main extends NiftyStateBasedGame{
     

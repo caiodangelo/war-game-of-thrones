@@ -1,5 +1,6 @@
 annotation.processing.enabled=true
 annotation.processing.enabled.in.editor=false
+annotation.processing.processors.list=
 annotation.processing.run.all.processors=true
 annotation.processing.source.output=${build.generated.sources.dir}/ap-source-output
 application.title=War Game of Thrones
@@ -30,6 +31,7 @@ file.reference.eventbus-1.4.jar=lib\\nifty\\jar\\eventbus-1.4.jar
 file.reference.jinput.jar=lib\\lwjgl-2.8.5\\jar\\jinput.jar
 file.reference.lwjgl.jar=lib\\lwjgl-2.8.5\\jar\\lwjgl.jar
 file.reference.lwjgl_util.jar=lib\\lwjgl-2.8.5\\jar\\lwjgl_util.jar
+file.reference.mockito-all-1.9.5.jar=lib/mockito-1.9.5/mockito-all-1.9.5.jar
 file.reference.nifty-1.3.2.jar=lib\\nifty\\jar\\nifty-1.3.2.jar
 file.reference.nifty-default-controls-1.3.2.jar=lib\\nifty\\jar\\nifty-default-controls-1.3.2.jar
 file.reference.nifty-examples-1.3.2.jar=lib\\nifty\\jar\\nifty-examples-1.3.2.jar
@@ -38,6 +40,7 @@ file.reference.nifty-lwjgl-renderer-1.3.2.jar=lib\\nifty\\jar\\nifty-lwjgl-rende
 file.reference.nifty-slick-renderer-1.3.2.jar=lib\\nifty\\jar\\nifty-slick-renderer-1.3.2.jar
 file.reference.nifty-style-black-1.3.2.jar=lib\\nifty\\jar\\nifty-style-black-1.3.2.jar
 file.reference.slick.jar=lib/slick/lib/slick.jar
+file.reference.testng-6.8.jar=lib/testng-6.8/testng-6.8.jar
 file.reference.xpp3-1.1.4c.jar=lib\\nifty\\jar\\xpp3-1.1.4c.jar
 includes=**
 jar.archive.disabled=${jnlp.enabled}
@@ -56,7 +59,9 @@ javac.classpath=\
     ${file.reference.nifty-lwjgl-renderer-1.3.2.jar}:\
     ${file.reference.nifty-examples-slick2d-1.3.2.jar}:\
     ${file.reference.nifty-examples-1.3.2.jar}:\
-    ${file.reference.nifty-style-black-1.3.2.jar}
+    ${file.reference.nifty-style-black-1.3.2.jar}:\
+    ${file.reference.testng-6.8.jar}:\
+    ${file.reference.mockito-all-1.9.5.jar}
 # Space-separated list of extra javac options
 javac.compilerargs=
 javac.deprecation=false
@@ -66,7 +71,8 @@ javac.source=1.6
 javac.target=1.6
 javac.test.classpath=\
     ${javac.classpath}:\
-    ${build.classes.dir}
+    ${build.classes.dir}:\
+    ${libs.TestNG-6.0.1.classpath}
 javac.test.processorpath=\
     ${javac.test.classpath}
 javadoc.additionalparam=
@@ -76,11 +82,13 @@ javadoc.noindex=false
 javadoc.nonavbar=false
 javadoc.notree=false
 javadoc.private=false
+javadoc.reference.mockito-all-1.9.5.jar=lib/mockito-1.9.5/javadoc
 javadoc.reference.nifty-1.3.2.jar=lib/nifty/javadoc/nifty-1.3.2-javadoc.jar
 javadoc.reference.nifty-default-controls-1.3.2.jar=lib/nifty/javadoc/nifty-default-controls-1.3.2-javadoc.jar
 javadoc.reference.nifty-lwjgl-renderer-1.3.2.jar=lib/nifty/javadoc/nifty-lwjgl-renderer-1.3.2-javadoc.jar
 javadoc.reference.nifty-slick-renderer-1.3.2.jar=lib/nifty/javadoc/nifty-slick-renderer-1.3.2-javadoc.jar
 javadoc.reference.slick.jar=lib/slick/javadoc
+javadoc.reference.testng-6.8.jar=lib/testng-6.8/javadocs
 javadoc.splitindex=true
 javadoc.use=true
 javadoc.version=false
@@ -110,6 +118,7 @@ run.test.classpath=\
     ${javac.test.classpath}:\
     ${build.test.classes.dir}
 source.encoding=UTF-8
+source.reference.mockito-all-1.9.5.jar=lib/mockito-1.9.5/sources/mockito-all-1.9.5-sources.jar
 source.reference.nifty-1.3.2.jar=lib/nifty/sources/nifty-1.3.2-sources.jar
 source.reference.nifty-default-controls-1.3.2.jar=lib/nifty/sources/nifty-default-controls-1.3.2-sources.jar
 source.reference.nifty-examples-1.3.2.jar=lib/nifty/sources/nifty-examples-1.3.2-sources.jar
@@ -118,5 +127,6 @@ source.reference.nifty-lwjgl-renderer-1.3.2.jar=lib/nifty/sources/nifty-lwjgl-re
 source.reference.nifty-slick-renderer-1.3.2.jar=lib/nifty/sources/nifty-slick-renderer-1.3.2-sources.jar
 source.reference.nifty-style-black-1.3.2.jar=lib/nifty/sources/nifty-style-black-1.3.2-sources.jar
 source.reference.slick.jar=lib/slick/src
+source.reference.testng-6.8.jar=lib/testng-6.8/src\\main\\java\\
 src.dir=src
 test.src.dir=test

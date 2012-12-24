@@ -16,7 +16,7 @@ import util.ImageMovementsComponent;
 public class Scroll extends ImageMovementsComponent {
     
     float viewX = 0.5f, viewY = 0.5f;
-    public static final float MOVE_OFFSET = 0.01f;
+    public static final float MOVE_OFFSET = 0.005f;
     private int previousMouseX, previousMouseY;
     private boolean mouseSet = false;
 
@@ -53,25 +53,25 @@ public class Scroll extends ImageMovementsComponent {
 
         if (scrolledLeft(isGrabbed, mouseX)) {
 //            positionX += mouseX;
-            viewX += MOVE_OFFSET;
+            viewX -= MOVE_OFFSET;
 //            setUpdates(owner.getScale(), new Vector2f(positionX, positionY));
         }
 
         if (scrolledRight(isGrabbed, mouseX)) {
 //            positionX += mouseX;
-            viewX -= MOVE_OFFSET;
+            viewX += MOVE_OFFSET;
 //            setUpdates(owner.getScale(), new Vector2f(positionX, positionY));
         }
 
         if (scrolledUp(isGrabbed, mouseY)) {
 //            positionY -= mouseY;
-            viewY -= MOVE_OFFSET;
+            viewY += MOVE_OFFSET;
 //            setUpdates(owner.getScale(), new Vector2f(positionX, positionY));
         }
 
         if (scrolledDown(isGrabbed, mouseY)) {
 //            positionY -= mouseY;
-            viewY += MOVE_OFFSET;
+            viewY -= MOVE_OFFSET;
 //            setUpdates(owner.getScale(), new Vector2f(positionX, positionY));
         }
         
