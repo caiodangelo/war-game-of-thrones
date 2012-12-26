@@ -46,6 +46,7 @@ public class Main extends NiftyStateBasedGame{
         addState(new MainScene());
         addState(new GameScene());
         enterState(WarScenes.STARTING_SCENE);
+//        addState(new GUITest());
 //        enterState(WarScenes.GAME_SCENE);
     }
 }
