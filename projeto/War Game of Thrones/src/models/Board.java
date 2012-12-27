@@ -12,12 +12,10 @@ public class Board {
 
     public static final int AI_PLAYER = 1;
     public static final int HUMAN_PLAYER = 2;
+    protected LinkedList<Player> players;
+    protected static Board instance;
 
-    private LinkedList<Player> players;
-
-    private static Board instance;
-
-    private Board() {
+    protected Board() {
         players = new LinkedList<Player>();
     }
 
@@ -29,33 +27,9 @@ public class Board {
     }
 
     public boolean addPlayer(Player player, int playingOrder, int type) {
-        if (players.size() < 6){
-            switch (type) {
-                case AI_PLAYER:
-                    addAIPlayer((AIPlayer) player, playingOrder);
-                    break;
-                case HUMAN_PLAYER:
-                    addHumanPlayer((HumanPlayer) player, playingOrder);
-                    break;
-            }
-        }
-        return false;
-    }
-
-    public boolean addAIPlayer(AIPlayer aiPlayer, int playingOrder) {
         if (players.size() < 6) {
-            if (!players.contains(aiPlayer)) {
-                players.addLast(aiPlayer);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean addHumanPlayer(HumanPlayer human, int playingOrder) {
-        if (players.size() < 6) {
-            if (!players.contains(human)) {
-                players.addLast(human);
+            if (!players.contains(player)) {
+                players.addLast(player);
                 return true;
             }
         }
@@ -76,16 +50,13 @@ public class Board {
 
     public List<House> getHouses() {
         List<House> houses = new ArrayList<House>();
-        for (Player player : players) {
+        for (Player player : getPlayers()) {
             houses.add(player.getHouse());
         }
         return houses;
     }
 
-    public boolean managePlayers() {
-        if (players.size() >= 2 && players.size() <= 6)
-            return true;
-        return false;
-    }   
-   
+    public boolean isPlayerCountValid() {
+        return (players.size() >= 2 && players.size() <= 6);
+    }
 }

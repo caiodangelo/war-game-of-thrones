@@ -12,13 +12,13 @@ public class Mission {
     public static final int TYPE_TERRITORY = 1;
     public static final int TYPE_REGION = 2;
     public static final int TYPE_HOUSE = 3;
-    private String name;
-    private String description;
-    private List<Territory> territories;
-    private List<Region> regions;
-    private List<House> houses;
-    private Player player;
-    private int type;
+    protected String name;
+    protected String description;
+    protected List<Territory> territories;
+    protected List<Region> regions;
+    protected List<House> houses;
+    protected Player player;
+    protected int type;
 
     public Mission(String name, String description, int type) {
         this.type = type;
@@ -64,21 +64,21 @@ public class Mission {
 
     public boolean addHouse(House house) {
         if (type == TYPE_HOUSE && !houses.contains(house)) {
-            houses.add(house);
+            return houses.add(house);
         }
         return false;
     }
 
     public boolean addTerritory(Territory territory) {
         if (type == TYPE_TERRITORY && !territories.contains(territory)) {
-            territories.add(territory);
+            return territories.add(territory);
         }
         return false;
     }
 
     public boolean addRegion(Region region) {
         if (type == TYPE_REGION && !regions.contains(region)) {
-            regions.add(region);
+            return regions.add(region);
         }
         return false;
     }
