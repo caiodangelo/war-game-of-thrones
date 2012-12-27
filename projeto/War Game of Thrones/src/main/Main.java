@@ -1,10 +1,12 @@
 package main;
 
+import de.lessvoid.nifty.slick2d.NiftyStateBasedGame;
 import java.awt.DisplayMode;
 import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
-import de.lessvoid.nifty.slick2d.NiftyStateBasedGame;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class Main extends NiftyStateBasedGame{
     
@@ -23,7 +25,10 @@ public class Main extends NiftyStateBasedGame{
     }
     
     public void enterState(WarScenes scene) {
-        enterState(scene.ordinal());
+        if (scene.ordinal() > 0)
+            enterState(scene.ordinal(), new FadeOutTransition(Color.white, 1000), null);
+        else
+            enterState(scene.ordinal());
     }
     
     public static Main getInstance(){

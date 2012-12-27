@@ -5,12 +5,10 @@ import java.util.logging.Logger;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
-import util.Entity;
 import util.ImageMovementsComponent;
 
 public class Scroll extends ImageMovementsComponent {
@@ -31,8 +29,6 @@ public class Scroll extends ImageMovementsComponent {
 
     @Override
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
-        float positionX = owner.getPosition().getX();
-        float positionY = owner.getPosition().getY();
         Input input = gc.getInput();
         int mouseX = 0;
         int mouseY = 0;
@@ -107,8 +103,6 @@ public class Scroll extends ImageMovementsComponent {
         position.x = (main.Main.windowW / 2f) - viewX * getImageWidth(owner.getScale());
         position.y = (main.Main.windowH / 2f) - viewY * getImageHeight(owner.getScale());
         setUpdates(owner.getScale(), position);
-        
-//        setUpdates(owner.getScale(), position);
     }
     
     private float getMinViewX(){
