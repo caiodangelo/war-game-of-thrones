@@ -122,9 +122,8 @@ public class Map extends Entity{
         
         try {
             Image mapImage = new Image("resources/images/mapa.jpg");
-            s = new Scroll("", mapImage);
+            s = new Scroll("scroll", mapImage);
             addComponent(s);
-//            addComponent(new Zoom("zoom", mapImage));
         } catch (SlickException ex) {
             Logger.getLogger(Map.class.getName()).log(Level.SEVERE, null, ex);
         }

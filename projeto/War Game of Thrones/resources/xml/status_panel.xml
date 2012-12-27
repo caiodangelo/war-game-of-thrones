@@ -1,0 +1,13 @@
+<nifty-controls>
+	<controlDefinition	style="nifty-button"
+						name="statusPanel" 
+						controller="gui.StatusPanelControlImpl"
+						inputMapping="de.lessvoid.nifty.input.mapping.MenuInputMapping">
+		<panel id="#playerStatus" style="nifty-panel" width="100%" height="100%" childLayout="vertical">
+			<control align="left" id="#playerStatusName" name="label" text="PlayerName"/>
+			<control align="left" id="#playerStatusCards" name="label" text="Cartas"/>
+			<control align="left" id="#playerStatusUnits" name="label" text="Exercitos"/>
+			<control align="left" id="#playerStatusTerritories" name="label" text="Territorios"/>
+		</panel>
+	</controlDefinition>
+</nifty-controls>
