@@ -1,6 +1,8 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -89,5 +91,31 @@ public class Mission {
 
     public List<Territory> getTerritories() {
         return territories;
+    }
+    
+    public void shuffleMissions (LinkedList<Mission> mission){
+        Collections.shuffle(mission);
+    }
+
+    public void raffleMission (Board board, LinkedList<Mission> allMissions, LinkedList<House> presentHouses){
+        int size = board.getPlayers().size();
+
+        if (size != 6){
+            ArrayList<House> absentHouses = null; // TO DO: pegar as casas que não participam do jogo
+            for (Mission mission : allMissions) {
+                for (House house : absentHouses) {
+                    if (mission.getHouses().contains(house)){
+                        allMissions.remove(mission);
+                    }
+                }
+            }
+        }
+
+        shuffleMissions(allMissions);
+
+        for (int i = 0; i < size; i++) {
+            Player p = board.getPlayer(size);
+            p.setMission(allMissions.removeFirst());
+        }
     }
 }
