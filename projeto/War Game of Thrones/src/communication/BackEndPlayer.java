@@ -7,4 +7,5 @@ public interface BackEndPlayer {
     public int getUnitsCount();
     public int getTerritoriesCount();
     public String getName();
+    public Mission getMission();
 }

@@ -2,7 +2,6 @@ package main;
 
 import de.lessvoid.nifty.Nifty;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import util.Scene;
@@ -15,10 +14,10 @@ public class GameScene extends Scene{
         return mouseWheel;
     }
     
-//    @Override
-//    public void setupNifty(Nifty n) {
-//        n.gotoScreen("inGameScreen");
-//    }
+    @Override
+    public void setupNifty(Nifty n) {
+        n.gotoScreen("inGameScreen");
+    }
     
     @Override
     public void enterState(GameContainer container, StateBasedGame game) throws SlickException { 

@@ -35,4 +35,16 @@ public class BEPImpl implements BackEndPlayer{
         return "Nome";
     }
 
+    @Override
+    public Mission getMission() {
+        
+        //STUB::
+        return new Mission() {
+            @Override
+            public String getDescription() {
+                return "Sua missão é conquistar 24 territórios.";
+            }
+        };
+    }
+
 }
