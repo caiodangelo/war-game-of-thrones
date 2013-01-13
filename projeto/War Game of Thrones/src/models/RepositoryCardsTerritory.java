@@ -13,8 +13,8 @@ import java.util.LinkedList;
  */
 public class RepositoryCardsTerritory {
 
-    protected LinkedList<CardTerritory> deck;
-    protected LinkedList<CardTerritory> repository;
+    protected LinkedList<CardTerritory> deck; //São as cartas que estão no jogo e q não foram escolhidas pelos jogadores
+    protected LinkedList<CardTerritory> repository; // Cartas no limbo
     protected static RepositoryCardsTerritory instance;
 
     protected RepositoryCardsTerritory() {

@@ -40,6 +40,9 @@ public class Mission {
         }
     }
 
+    public Mission() {
+    }
+
     public String getDescription() {
         return description;
     }
@@ -92,30 +95,37 @@ public class Mission {
     public List<Territory> getTerritories() {
         return territories;
     }
-    
-    public void shuffleMissions (LinkedList<Mission> mission){
+
+    public void shuffleMissions(LinkedList<Mission> mission) {
         Collections.shuffle(mission);
     }
 
-    public void raffleMission (Board board, LinkedList<Mission> allMissions, LinkedList<House> presentHouses){
+    public LinkedList<Mission> raffleMission(Board board, LinkedList<Mission> allMissions, LinkedList<House> allHouses) {
         int size = board.getPlayers().size();
 
-        if (size != 6){
-            ArrayList<House> absentHouses = null; // TO DO: pegar as casas que não participam do jogo
-            for (Mission mission : allMissions) {
-                for (House house : absentHouses) {
-                    if (mission.getHouses().contains(house)){
-                        allMissions.remove(mission);
-                    }
+        LinkedList<Mission> r = removeMissions(board, allMissions, allHouses);
+        shuffleMissions(r);
+
+        for (int i = 0; i < size; i++) {
+            Player p = board.getPlayer(i);
+            p.setMission(r.removeFirst());
+        }
+        return r;
+    }
+
+    public LinkedList<Mission> removeMissions(Board board, LinkedList<Mission> allMissions, LinkedList<House> allHouses) {
+        List<House> absentHouses = board.getAbsentHouses(allHouses);
+        LinkedList<Mission> answer = (LinkedList<Mission>) allMissions.clone();
+
+        for (int i = 0; i < answer.size(); i++) {
+            Mission mission = answer.get(i);
+            for (House house : absentHouses) {
+                if ((mission.getType() == Mission.TYPE_HOUSE) && (mission.getHouses().contains(house))) {
+                    answer.remove(answer.get(i));
+                    i--;
                 }
             }
         }
-
-        shuffleMissions(allMissions);
-
-        for (int i = 0; i < size; i++) {
-            Player p = board.getPlayer(size);
-            p.setMission(allMissions.removeFirst());
-        }
+        return answer;
     }
 }

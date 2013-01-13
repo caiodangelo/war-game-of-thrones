@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -58,5 +59,22 @@ public class Board {
 
     public boolean isPlayerCountValid() {
         return (players.size() >= 2 && players.size() <= 6);
+    }
+
+    public List<House> getAbsentHouses(LinkedList<House> allHouses) {
+        List<House> absentHouses = new ArrayList<House>();
+        List<House> presentHouses = getHouses();
+
+        if (players.size() != 6) {
+            for (House house : allHouses) {
+                if (!presentHouses.contains(house)) {
+                    absentHouses.add(house);
+                }
+            }
+            return absentHouses;
+        } else {
+            return null;
+        }
+
     }
 }

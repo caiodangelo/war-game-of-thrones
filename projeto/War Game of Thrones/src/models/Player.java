@@ -20,6 +20,7 @@ public abstract class Player {
     public Player(String name) {
         this.name = name;
         this.pendingArmies = 0;
+        this.mission = new Mission();
         this.territories = new ArrayList<Territory>();
         this.armies = new ArrayList<Army>();
         this.cards = new ArrayList<CardTerritory>();
@@ -105,5 +106,4 @@ public abstract class Player {
     public void removeCard(CardTerritory card) {
         cards.remove(card);
     }
-
 }
