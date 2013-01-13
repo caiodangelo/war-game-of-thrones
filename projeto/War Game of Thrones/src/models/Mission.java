@@ -100,6 +100,10 @@ public class Mission {
         Collections.shuffle(mission);
     }
 
+    public boolean hasSameHouse(Player player) {
+        return ((this.getType() == Mission.TYPE_HOUSE) && (this.getHouses().contains(player.getHouse())));
+    }
+
     public LinkedList<Mission> raffleMission(Board board, LinkedList<Mission> allMissions, LinkedList<House> allHouses) {
         int size = board.getPlayers().size();
 
@@ -108,6 +112,11 @@ public class Mission {
 
         for (int i = 0; i < size; i++) {
             Player p = board.getPlayer(i);
+            Mission mission = r.peekFirst();
+            while (mission.hasSameHouse(p)) {
+                shuffleMissions(r);
+                mission = r.peekFirst();
+            }
             p.setMission(r.removeFirst());
         }
         return r;

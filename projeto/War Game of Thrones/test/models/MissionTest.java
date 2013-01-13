@@ -96,26 +96,27 @@ public class MissionTest {
     @Test
     public void removeMissionsDeveRemoverAsMissoesDasCasasAusentesDoJogo() {
         Board board = new Board();
-        
+        mission = new Mission();
+
         House stark = mock(House.class);
         House lannister = mock(House.class);
         House baratheon = mock(House.class);
         House targaryen = mock(House.class);
         House freeFolk = mock(House.class);
         House greyjoy = mock(House.class);
-        
+
         Player playerStark = mock(Player.class);
         Player playerLannister = mock(Player.class);
         Player playerTargaryen = mock(Player.class);
-        
+
         board.addPlayer(playerStark, 0, Board.HUMAN_PLAYER);
         board.addPlayer(playerLannister, 1, Board.HUMAN_PLAYER);
         board.addPlayer(playerTargaryen, 2, Board.HUMAN_PLAYER);
         when(playerStark.getHouse()).thenReturn(stark);
         when(playerLannister.getHouse()).thenReturn(lannister);
         when(playerTargaryen.getHouse()).thenReturn(targaryen);
-        
-        
+
+
         LinkedList<House> allHouses = new LinkedList<House>();
         allHouses.add(stark);
         allHouses.add(lannister);
@@ -123,31 +124,32 @@ public class MissionTest {
         allHouses.add(baratheon);
         allHouses.add(freeFolk);
         allHouses.add(greyjoy);
-        
+
         Mission missionStark = new Mission(null, null, Mission.TYPE_HOUSE);
         Mission missionLannister = new Mission(null, null, Mission.TYPE_HOUSE);
         Mission missionBaratheon = new Mission(null, null, Mission.TYPE_HOUSE);
         Mission missionRegion = new Mission(null, null, Mission.TYPE_REGION);
-        Mission missionTerritory = new Mission (null, null, Mission.TYPE_TERRITORY);      
-        
+        Mission missionTerritory = new Mission(null, null, Mission.TYPE_TERRITORY);
+
         missionStark.getHouses().add(stark);
         missionLannister.getHouses().add(lannister);
         missionBaratheon.getHouses().add(baratheon);
-                
+
         LinkedList<Mission> allMissions = new LinkedList<Mission>();
         allMissions.add(missionStark);
         allMissions.add(missionLannister);
         allMissions.add(missionBaratheon);
         allMissions.add(missionRegion);
         allMissions.add(missionTerritory);
-        
-        LinkedList<Mission> r =  mission.removeMissions(board, allMissions, allHouses);
-        
+
+        LinkedList<Mission> r = mission.removeMissions(board, allMissions, allHouses);
+
         assertEquals(missionStark, r.get(0));
         assertEquals(missionLannister, r.get(1));
         assertEquals(missionRegion, r.get(2));
         assertEquals(missionTerritory, r.get(3));
     }
+
     @Test
     public void CadaJogadorDeveReceberUmaMissao() {
         Board board = new Board();
@@ -178,17 +180,20 @@ public class MissionTest {
         Mission missionStark = new Mission(null, null, Mission.TYPE_HOUSE);
         Mission missionLannister = new Mission(null, null, Mission.TYPE_HOUSE);
         Mission missionBaratheon = new Mission(null, null, Mission.TYPE_HOUSE);
+        Mission missionT = new Mission(null, null, Mission.TYPE_HOUSE);
         Mission missionRegion = new Mission(null, null, Mission.TYPE_REGION);
         Mission missionTerritory = new Mission(null, null, Mission.TYPE_TERRITORY);
-        
+
         missionStark.getHouses().add(stark);
         missionLannister.getHouses().add(lannister);
-        missionBaratheon.getHouses().add(baratheon);  
-       
+        missionBaratheon.getHouses().add(baratheon);
+        missionT.getHouses().add(targaryen);
+
         LinkedList<Mission> allMissions = new LinkedList<Mission>();
         allMissions.add(missionStark);
         allMissions.add(missionLannister);
         allMissions.add(missionBaratheon);
+        allMissions.add(missionT);
         allMissions.add(missionRegion);
         allMissions.add(missionTerritory);
 
@@ -198,6 +203,21 @@ public class MissionTest {
         assertNotNull(playerStark.getMission());
         assertNotNull(playerLannister.getMission());
         assertNotNull(playerTargaryen.getMission());
+//        assertNotEquals(playerStark.getMission(), missionStark);
+//        assertNotEquals(playerLannister.getMission(), missionLannister);
+//        assertNotEquals(playerTargaryen.getMission(), missionT);
+    }
+
+    @Test
+    public void hasSameHouseDeveRetornarTrueQuandoOJogadorTemAMesmaCasaDaMissao() {
+        Player playerStark = mock(Player.class);
+        Mission m = new Mission(null, null, Mission.TYPE_HOUSE);
+        House stark = mock(House.class);
+
+        when(playerStark.getHouse()).thenReturn(stark);     
+        m.getHouses().add(stark);
+        
+        assertTrue(m.hasSameHouse(playerStark));
     }
 
     @AfterClass
