@@ -137,4 +137,35 @@ public class Mission {
         }
         return answer;
     }
+
+    public void isMissionCompleted(Player player) {
+        switch (this.getType()) {
+            case TYPE_REGION:
+                compareRegionMission(player);
+                break;
+            case TYPE_TERRITORY:
+                compareTerritoryMission();
+                break;
+            case TYPE_HOUSE:
+                compareHouseMission();
+                break;
+        }
+    }
+
+    private void compareRegionMission(Player player) {
+        List<Region> regions = player.getMission().getRegions();
+        for (Region region : regions) {
+            for (Territory territory : player.getTerritories()) {
+               
+            }
+        }
+    }
+
+    private void compareTerritoryMission() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    private void compareHouseMission() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
 }
