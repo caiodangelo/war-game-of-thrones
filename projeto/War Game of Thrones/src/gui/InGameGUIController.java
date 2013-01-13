@@ -4,6 +4,7 @@ import communication.BEPImpl;
 import communication.BackEndPlayer;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.Label;
+import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 
@@ -12,7 +13,9 @@ public class InGameGUIController implements ScreenController{
     private StatusPanelControl [] statusPanels;
     private Label playerStatusName, playerStatusCards, playerStatusUnits, playerStatusTerritories;
     private Screen screen;
+    private Nifty n;
     public static BackEndPlayer [] players;
+    private Element objectivePopup;
     
     public InGameGUIController(){
         //DEBUG ONLY
@@ -26,10 +29,12 @@ public class InGameGUIController implements ScreenController{
     @Override
     public void bind(Nifty nifty, Screen screen) {
         this.screen = screen;
+        n = nifty;
         playerStatusName = screen.findNiftyControl("playerStatusName", Label.class);
         playerStatusCards = screen.findNiftyControl("playerStatusCards", Label.class);
         playerStatusUnits = screen.findNiftyControl("playerStatusUnits", Label.class);
         playerStatusTerritories = screen.findNiftyControl("playerStatusTerritories", Label.class);
+        objectivePopup = n.createPopup("objectivePopup");
     }
     
     @Override
@@ -63,15 +68,27 @@ public class InGameGUIController implements ScreenController{
         updateCurrentPlayersData();
     }
     
+    //TODO: check who really is the next player
+    private BackEndPlayer getCurrentPlayer(){
+        return players[0];
+    }
+    
     private void updateCurrentPlayersData(){
-        int currentPlayerIndex = 0;
-        BackEndPlayer currPlayer = players[currentPlayerIndex];
+        BackEndPlayer currPlayer = getCurrentPlayer();
         playerStatusName.setText(currPlayer.getName());
         playerStatusCards.setText(currPlayer.getCardsCount() + " Cartas");
         playerStatusUnits.setText(currPlayer.getUnitsCount() + " Exércitos");
         playerStatusTerritories.setText(currPlayer.getTerritoriesCount() + " Territórios");
     }
     
+    public void showPlayerObjective(){
+        n.showPopup(screen, objectivePopup.getId(), null);
+        Label description = objectivePopup.findNiftyControl("objectiveDescLabel", Label.class);
+        String objectiveStr = getCurrentPlayer().getMission().getDescription();
+        description.setText(objectiveStr);
+    }
     
-
+    public void dismissPlayerObjective(){
+        n.closePopup(objectivePopup.getId());
+    }
 }
