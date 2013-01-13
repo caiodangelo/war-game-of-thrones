@@ -15,6 +15,7 @@ public class MainSceneAnimation extends ImageMovementsComponent {
     float viewX = 0.5f, viewY = 0.5f;
     private int zoomSpeedRegulator = 2;
     private int zoomCount = 0;
+    private int timer = 0;
 
     public MainSceneAnimation(String id, Image img) {
         super(id, img);
@@ -34,29 +35,29 @@ public class MainSceneAnimation extends ImageMovementsComponent {
             zoomSpeedRegulator += 0.5;
             owner.setScale(scale);
         } else {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MainSceneAnimation.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            zoomSpeedRegulator = 3;
-            owner.setScale(4);
-            if (zoomCount == 0) {
-                viewX = 0.25f;
-                viewY = 0.21f;
-                zoomCount++;
-            } else if (zoomCount == 1) {
-                viewX = 0.7f;
-                viewY = 0.7f;
-                zoomCount++;
-            } else if (zoomCount == 2) {
-                viewX = 0.25f;
-                viewY = 0.71f;
-                zoomCount++;
-            } else {
-                viewX = 0.5f;
-                viewY = 0.5f;
-                zoomCount = 0;
+            if (timer < 500)
+                timer++;
+            else {
+                timer = 0;    
+                zoomSpeedRegulator = 3;
+                owner.setScale(4);
+                if (zoomCount == 0) {
+                    viewX = 0.25f;
+                    viewY = 0.21f;
+                    zoomCount++;
+                } else if (zoomCount == 1) {
+                    viewX = 0.7f;
+                    viewY = 0.7f;
+                    zoomCount++;
+                } else if (zoomCount == 2) {
+                    viewX = 0.25f;
+                    viewY = 0.71f;
+                    zoomCount++;
+                } else {
+                    viewX = 0.5f;
+                    viewY = 0.5f;
+                    zoomCount = 0;
+                }
             }
         }
         Vector2f position = new Vector2f();
