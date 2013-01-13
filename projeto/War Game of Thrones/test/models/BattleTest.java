@@ -26,7 +26,9 @@ public class BattleTest {
         Player defenderPlayer = mock(Player.class);
         when(attacker.getOwner()).thenReturn(attackerPlayer);
         when(attacker.getNumArmies()).thenReturn(3);
+        when(defender.getNumArmies()).thenReturn(3);
         when(defender.getOwner()).thenReturn(defenderPlayer);
+        when(attacker.isNeighbour(defender)).thenReturn(true);
     }
 
     @Test
@@ -82,7 +84,7 @@ public class BattleTest {
 
     @Test
     public void attackDeveMatarUmDefensorEUmAtacante() {
-        battle = new Battle(attacker, defender, 2, 3);
+        battle = mock (Battle.class);
         when(battle.rollDices(2)).thenReturn(new Integer[] { 5, 6 });
         when(battle.rollDices(3)).thenReturn(new Integer[] { 5, 5, 3 });
         battle.attack();
