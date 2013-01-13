@@ -47,7 +47,7 @@ public class Battle {
                 attackerDeaths++; // Defesa ganha
             }
         }
-    }
+}
 
     public void concludeAttack() {
         if (attackerDeaths > 0 || defenderDeaths > 0) {
