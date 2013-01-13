@@ -10,6 +10,7 @@ public class Territory extends Entity{
     
     private Map map;
     private TerritoryPositionSync syncer;
+    private Scroll s;
     
     public Territory(Map m, Vector2f relativePos, String imagePath){
         super();
@@ -18,9 +19,12 @@ public class Territory extends Entity{
         addComponent(syncer);
         try{
             Image img = new Image(imagePath);
+            Image highlightedImg = new Image(imagePath+"-h");
             addComponent(new ImageRenderComponent("renderer", img));
+            //addComponent(new TerritoryHoverImage("hover", highlightedImg));
         }catch(SlickException e){
             e.printStackTrace();
         }
     }
+    
 }

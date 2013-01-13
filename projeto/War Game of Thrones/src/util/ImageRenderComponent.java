@@ -21,7 +21,6 @@ public class ImageRenderComponent extends RenderComponent {
         Vector2f pos = owner.position;
         float scale = owner.getScale();
         image.draw(pos.x, pos.y, scale);
-//        System.out.println("rendering " + (main.MainScene.id++));
     }
  
     @Override

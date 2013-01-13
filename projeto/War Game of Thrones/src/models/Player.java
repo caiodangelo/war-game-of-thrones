@@ -14,7 +14,6 @@ public abstract class Player {
     private House house;
     private Mission mission;
     private List<Territory> territories;
-    private List<Army> armies;
     private List<CardTerritory> cards;
 
     public Player(String name) {
@@ -22,7 +21,6 @@ public abstract class Player {
         this.pendingArmies = 0;
         this.mission = new Mission();
         this.territories = new ArrayList<Territory>();
-        this.armies = new ArrayList<Army>();
         this.cards = new ArrayList<CardTerritory>();
     }
 
@@ -71,20 +69,12 @@ public abstract class Player {
         this.pendingArmies -= amount;
     }
 
-    public List<Army> getArmies() {
-        return armies;
-    }
-
     public List<Territory> getTerritories() {
         return territories;
     }
 
     public List<CardTerritory> getCards() {
         return cards;
-    }
-
-    public void addArmy(Army army) {
-        armies.add(army);
     }
 
     public void addTerritory(Territory territory) {
@@ -95,15 +85,31 @@ public abstract class Player {
         cards.add(card);
     }
 
-    public void removeArmy(Army army) {
-        armies.remove(army);
-    }
-
     public void removeTerritory(Territory territory) {
         territories.remove(territory);
     }
 
     public void removeCard(CardTerritory card) {
         cards.remove(card);
+    }
+
+    public boolean moveArmies(Territory origin, Territory target, int amount) {
+        if (origin.getOwner() == this && target.getOwner() == this && origin.isNeighbour(target)) {
+            return origin.transferArmies(target, amount);
+        }
+        return false;
+    }
+
+    /**
+     * Distribui os exércitos pendentes para um território, desde que tenha exércitos suficientes
+     * e que o território escolhido seja do jogador.
+     */
+    public boolean distributeArmies(Territory target, int amount) {
+        if (pendingArmies >= amount && target.getOwner() == this) {
+            target.increaseArmies(amount);
+            pendingArmies -= amount;
+            return true;
+        }
+        return false;
     }
 }
