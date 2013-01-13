@@ -30,7 +30,7 @@ public abstract class Player {
         this(name);
         this.house = house;
     }
-    
+
     public House getHouse() {
         return house;
     }
