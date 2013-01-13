@@ -60,6 +60,13 @@ public class Battle {
         }
     }
 
+    public void moveArmiesAfterConquest(int numberArmies) {
+        int remainingArmies = numberAttackers - attackerDeaths;
+        if (concluded && conquested && numberArmies >= 1 && numberArmies <= remainingArmies) {
+            attacker.transferArmies(defender, numberArmies);
+        }
+    }
+
     public Territory getAttacker() {
         return attacker;
     }
@@ -116,7 +123,7 @@ public class Battle {
         return attacker > defender;
     }
 
-    protected boolean isArmiesCountValid() {
+    protected final boolean isArmiesCountValid() {
         return numberAttackers >= 1 && numberAttackers <= 3 && numberDefenders >= 1 && numberDefenders <= 3;
     }
 }
