@@ -53,7 +53,6 @@ public class TerritoryHoverImage extends ImageRenderComponent {
     }
     
     private boolean imagePixelColorIsTransparent(int x, int y, float scale) {
-        System.out.println(y);
         return image.getScaledCopy(scale).getColor(x, y).a == 0f;
     }
     

@@ -14,8 +14,6 @@ import util.ImageRenderComponent;
 
 public class ArmyRenderComponent extends ImageRenderComponent {
     
-    private float territoryWidth;
-    private float territoryHeight;
     private int movingQty = 0;
     private Image imageCopy;
     private Vector2f origin;
@@ -47,10 +45,6 @@ public class ArmyRenderComponent extends ImageRenderComponent {
     
     @Override
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
-        updateTerritoryValues();
-        float x = ((Army) owner).getTerritory().position.x + territoryWidth/2;
-        float y = ((Army) owner).getTerritory().position.y + territoryHeight/2;
-        owner.setPosition(new Vector2f(x, y));
         if (movingQty > 0) {
             if (xSpeed == 0 && ySpeed == 0) {
                 movingPos = origin;
@@ -66,11 +60,6 @@ public class ArmyRenderComponent extends ImageRenderComponent {
                 ySpeed = 0;
             }
         }
-    }
-    
-    private void updateTerritoryValues() {
-        territoryWidth = ((Army) owner).getTerritory().getScaledWidth();
-        territoryHeight = ((Army) owner).getTerritory().getScaledHeight();
     }
     
     public void setMovingQuantity(int q) {

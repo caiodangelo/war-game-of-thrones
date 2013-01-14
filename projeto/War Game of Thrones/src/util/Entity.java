@@ -65,7 +65,7 @@ public class Entity {
     public Component getComponent(String id)
     {
         for(Component comp : components)
-            if ( comp.getId().equalsIgnoreCase(id) )
+            if ( comp.getId() != null && comp.getId().equalsIgnoreCase(id) )
                 return comp;
         return null;
     }

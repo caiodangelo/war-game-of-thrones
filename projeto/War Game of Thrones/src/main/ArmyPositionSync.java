@@ -5,12 +5,12 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import util.Component;
 
-public class TerritoryPositionSync extends Component{
-
+public class ArmyPositionSync extends Component {
+    
     private Map map;
     private Vector2f relativePos;
     
-    public TerritoryPositionSync(Map map, Vector2f relativePos){
+    public ArmyPositionSync(Map map, Vector2f relativePos){
         super();
         this.map = map;
         this.relativePos = relativePos;
@@ -24,5 +24,4 @@ public class TerritoryPositionSync extends Component{
         owner.setPosition(newPos);
         owner.setScale(map.getScale());
     }
-    
 }

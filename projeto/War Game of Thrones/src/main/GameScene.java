@@ -24,6 +24,8 @@ public class GameScene extends Scene{
         super.enterState(container, game);
         Map map = new Map();
         addEntity(map);
+        //Left button was pressed to play but this record must be erased.
+        container.getInput().clearMousePressedRecord();
     }
 
     @Override

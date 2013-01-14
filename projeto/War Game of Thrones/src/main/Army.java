@@ -21,11 +21,12 @@ public class Army extends Entity {
     private int family;
     private Territory territory;
     
-    public Army(Territory territory, int qty, int family) {
+    public Army(Map m, Territory territory, Vector2f relativePos, int qty, int family) {
         super();
         this.qty = qty;
         this.family = family;
         this.territory = territory;
+        addComponent(new ArmyPositionSync(m, relativePos));
         try {
             Image armyImg = new Image("resources/images/army-temp.png");
             addComponent(new ArmyRenderComponent("army-renderer", armyImg));
