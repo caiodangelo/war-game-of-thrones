@@ -10,7 +10,8 @@ public class Territory extends Entity{
     
     private Map map;
     private TerritoryPositionSync syncer;
-    private Scroll s;
+    private ImageRenderComponent irc;
+    private Army army;
     
     public Territory(Map m, Vector2f relativePos, String imagePath){
         super();
@@ -18,13 +19,30 @@ public class Territory extends Entity{
         syncer = new TerritoryPositionSync(map, relativePos);
         addComponent(syncer);
         try{
-            Image img = new Image(imagePath);
-            Image highlightedImg = new Image(imagePath+"-h");
-            addComponent(new ImageRenderComponent("renderer", img));
-            //addComponent(new TerritoryHoverImage("hover", highlightedImg));
+            Image territoryImg = new Image(imagePath);
+            Image highlightedImg = new Image(imagePath.replace(".png", "")+"-h.png");
+            irc = new ImageRenderComponent("territory-renderer", territoryImg);
+            addComponent(irc);
+            addComponent(new TerritoryHoverImage("hover", highlightedImg));
         }catch(SlickException e){
             e.printStackTrace();
         }
+    }
+    
+    public float getScaledWidth(){
+        return irc.getImageWidth(getScale());
+    }
+    
+    public float getScaledHeight(){
+        return irc.getImageHeight(getScale());
+    }
+    
+    public Army getArmy() {
+        return this.army;
+    }
+    
+    public void setArmy(Army a) {
+        this.army = a;
     }
     
 }

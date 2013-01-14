@@ -11,6 +11,8 @@ import util.Scene;
 public class Map extends Entity{
     
     private Scroll s;
+    public static Territory selectedTerritory;
+    //public static Territory selectedTerritory2;
     
     private static final String [] imgs = {
         //além da muralha
@@ -26,7 +28,7 @@ public class Map extends Entity{
         "resources/images/territorios/cidades-livres/campos-dourados.png",
         "resources/images/territorios/cidades-livres/colinas-de-norvos.png",
         "resources/images/territorios/cidades-livres/costa-bravosiana.png",
-        "resources/images/territorios/cidades-livres/florestade-de-qohor.png",
+        "resources/images/territorios/cidades-livres/floresta-de-qohor.png",
         "resources/images/territorios/cidades-livres/sem-nome-ainda.png",
         "resources/images/territorios/cidades-livres/the-flatlands.png",
         
@@ -64,7 +66,7 @@ public class Map extends Entity{
         "resources/images/territorios/o-mar-dothraki/the-footprint.png",
     };
     
-    private static final Vector2f [] pos = {
+    private static final Vector2f [] territoryPositions = {
         //além da muralha
         new Vector2f(0.091004f,-0.000744f),
         new Vector2f(0.163180f,-0.000744f),
@@ -116,6 +118,12 @@ public class Map extends Entity{
         new Vector2f(0.7306485f,0.31473213f),
     };
     
+    public final static Vector2f [] armyPositions = {
+        
+    };
+    
+    //public static Territory[] territories = new Territory[territoryPositions.length];
+    
     public Map() {
         setScale((Main.windowW * Main.windowH) / (1280 * 768));
         setPosition(new Vector2f(0, 0));
@@ -140,9 +148,13 @@ public class Map extends Entity{
     @Override
     public void onAdded() {
         Scene scene = getScene();
-        for(int i = 0; i < imgs.length; i++){
-            Territory t = new Territory(this, pos[i], imgs[i]);
+        for(int i = 0; i < territoryPositions.length; i++){
+            Territory t = new Territory(this, territoryPositions[i], imgs[i]);
             scene.addEntity(t);
+            //territories[i] = t;
+            Army a = new Army(t, ((int) (Math.random()*5)+1), Army.FAMILY_BARATHEON);
+            scene.addEntity(a);
+            t.setArmy(a);
         }
     }
 }

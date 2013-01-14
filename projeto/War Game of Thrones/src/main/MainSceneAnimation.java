@@ -13,33 +13,24 @@ import util.ImageMovementsComponent;
 public class MainSceneAnimation extends ImageMovementsComponent {
     
     float viewX = 0.5f, viewY = 0.5f;
-    private int zoomSpeedRegulator = 2;
     private int zoomCount = 0;
     private int timer = 0;
 
     public MainSceneAnimation(String id, Image img) {
         super(id, img);
-        try {
-            Mouse.create();
-        } catch (LWJGLException ex) {
-            Logger.getLogger(Scroll.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
-
 
     @Override
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
         float scale = owner.getScale();
-        scale -= delta/zoomSpeedRegulator;
+        scale -= delta;
         if (scale > 2) {
-            zoomSpeedRegulator += 0.5;
             owner.setScale(scale);
         } else {
-            if (timer < 500)
+            if (timer < 200)
                 timer++;
             else {
-                timer = 0;    
-                zoomSpeedRegulator = 3;
+                timer = 0;
                 owner.setScale(4);
                 if (zoomCount == 0) {
                     viewX = 0.25f;
