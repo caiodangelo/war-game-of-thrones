@@ -33,9 +33,6 @@ public class TerritoryHoverImage extends ImageRenderComponent {
         Input input = gc.getInput();
         float x = input.getAbsoluteMouseX();
         float y = input.getAbsoluteMouseY();
-        System.out.println(y);
-        System.out.println(owner.position.y);
-        System.out.println("");
         if (x >= owner.position.x && x <= (owner.position.x + getImageWidth(owner.getScale())) && y >= owner.position.y && y <= (owner.position.y + getImageHeight(owner.getScale())) && !imagePixelColorIsTransparent((int) (x - owner.position.x), (int) (y - owner.position.y), owner.getScale())) {
             highlightedImage = true;
             if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {

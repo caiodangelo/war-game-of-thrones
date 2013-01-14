@@ -42,10 +42,6 @@ public class ArmyRenderComponent extends ImageRenderComponent {
         if (movingQty > 0) {
             imageCopy.draw(movingPos.x, movingPos.y, scale);
             gr.drawString(movingQty+"", movingPos.x, movingPos.y);
-//            System.out.println(origin.x+" "+origin.y);
-//            System.out.println(destiny.x+" "+destiny.y);
-            System.out.println(xSpeed+" "+ySpeed);
-//            System.out.println("");
         }
     }
     
