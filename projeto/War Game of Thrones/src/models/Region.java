@@ -10,13 +10,16 @@ import java.util.List;
 public class Region {
 
     private List<Territory> territories;
-    
-    public Region (){
+
+    public Region() {
         this.territories = new ArrayList<Territory>();
     }
-    
-    public boolean addTerritory(Territory territory){
+
+    public boolean addTerritory(Territory territory) {
         return territories.add(territory);
     }
 
+    public List<Territory> getTerritories() {
+        return territories;
+    }
 }

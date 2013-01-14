@@ -138,34 +138,44 @@ public class Mission {
         return answer;
     }
 
-    public void isMissionCompleted(Player player) {
+    public boolean isCompletedMission() {
         switch (this.getType()) {
             case TYPE_REGION:
-                compareRegionMission(player);
-                break;
+                return isRegionMissionCompleted();
+
             case TYPE_TERRITORY:
-                compareTerritoryMission();
-                break;
+                return isTerritoryMissionCompleted();
+
             case TYPE_HOUSE:
-                compareHouseMission();
-                break;
+                return isHouseMissionCompleted();
         }
+        return false;
     }
 
-    private void compareRegionMission(Player player) {
-        List<Region> regions = player.getMission().getRegions();
-        for (Region region : regions) {
-            for (Territory territory : player.getTerritories()) {
-               
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public boolean isRegionMissionCompleted() {
+        boolean answer = false;
+        List<Region> regionsMission = this.player.getMission().getRegions();
+        List<Territory> territoriesPlayer = player.getTerritories();
+
+        for (Region region : regionsMission) {
+            if (territoriesPlayer.containsAll(region.getTerritories())) {
+                answer = true;
+            } else {
+                return false;
             }
         }
+        return answer;
     }
 
-    private void compareTerritoryMission() {
+    public boolean isTerritoryMissionCompleted() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    private void compareHouseMission() {
+    public boolean isHouseMissionCompleted() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }

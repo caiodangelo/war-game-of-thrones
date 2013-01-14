@@ -214,12 +214,120 @@ public class MissionTest {
         Mission m = new Mission(null, null, Mission.TYPE_HOUSE);
         House stark = mock(House.class);
 
-        when(playerStark.getHouse()).thenReturn(stark);     
+        when(playerStark.getHouse()).thenReturn(stark);
         m.getHouses().add(stark);
-        
+
         assertTrue(m.hasSameHouse(playerStark));
     }
 
+    @Test
+    public void isRegionMissionCompletedDeveRetornarTrueCasoAMissaoDeRegionEstiverCompleta() {
+        Region theNorth = new Region();
+        Region theSouth = new Region();
+        Territory winterfell = new Territory(null, theNorth);
+        Territory portoBranco = new Territory(null, theNorth);
+        Territory bosqueProfundo = new Territory(null, theNorth);
+        Territory forteDoPavor = new Territory(null, theNorth);
+        Territory pracaDeTorrhen = new Territory(null, theNorth);
+        Territory karhold = new Territory(null, theNorth);
+        Territory portoReal = new Territory(null, theNorth);
+        Territory correrio = new Territory(null, theNorth);
+        Territory pontaTempestade = new Territory(null, theSouth);
+        Territory jardimDeCima = new Territory(null, theSouth);
+        Territory monteChifre = new Territory(null, theSouth);
+        Territory dorne = new Territory(null, theSouth);
+        Territory tarth = new Territory(null, theSouth);
+
+        theNorth.addTerritory(winterfell);
+        theNorth.addTerritory(portoBranco);
+        theNorth.addTerritory(bosqueProfundo);
+        theNorth.addTerritory(forteDoPavor);
+        theNorth.addTerritory(pracaDeTorrhen);
+        theNorth.addTerritory(karhold);
+        theSouth.addTerritory(pontaTempestade);
+        theSouth.addTerritory(jardimDeCima);
+        theSouth.addTerritory(monteChifre);
+        theSouth.addTerritory(dorne);
+        theSouth.addTerritory(tarth);
+
+        Mission missionRegion1 = new Mission(null, null, Mission.TYPE_REGION);        
+        missionRegion1.addRegion(theNorth);
+        missionRegion1.addRegion(theSouth);
+        
+        Player playerStark = new HumanPlayer(null);
+        playerStark.setMission(missionRegion1);
+        missionRegion1.setPlayer(playerStark);
+        
+        playerStark.addTerritory(winterfell);
+        playerStark.addTerritory(portoBranco);
+        playerStark.addTerritory(bosqueProfundo);
+        playerStark.addTerritory(forteDoPavor);
+        playerStark.addTerritory(pracaDeTorrhen);
+        playerStark.addTerritory(karhold);
+        playerStark.addTerritory(portoReal);
+        playerStark.addTerritory(correrio);
+        playerStark.addTerritory(pontaTempestade);
+        playerStark.addTerritory(jardimDeCima);
+        playerStark.addTerritory(monteChifre);
+        playerStark.addTerritory(dorne);
+        playerStark.addTerritory(tarth);
+
+        assertTrue(missionRegion1.isRegionMissionCompleted());
+    }
+    
+    @Test
+    public void isRegionMissionCompletedDeveRetornarFalseCasoAMissaoDeRegionNaoEstiverCompleta() {
+        Region theNorth = new Region();
+        Region theSouth = new Region();
+        Territory winterfell = new Territory(null, theNorth);
+        Territory portoBranco = new Territory(null, theNorth);
+        Territory bosqueProfundo = new Territory(null, theNorth);
+        Territory forteDoPavor = new Territory(null, theNorth);
+        Territory pracaDeTorrhen = new Territory(null, theNorth);
+        Territory karhold = new Territory(null, theNorth);
+        Territory portoReal = new Territory(null, theNorth);
+        Territory correrio = new Territory(null, theNorth);
+        Territory pontaTempestade = new Territory(null, theSouth);
+        Territory jardimDeCima = new Territory(null, theSouth);
+        Territory monteChifre = new Territory(null, theSouth);
+        Territory dorne = new Territory(null, theSouth);
+        Territory tarth = new Territory(null, theSouth);
+
+        theNorth.addTerritory(winterfell);
+        theNorth.addTerritory(portoBranco);
+        theNorth.addTerritory(bosqueProfundo);
+        theNorth.addTerritory(forteDoPavor);
+        theNorth.addTerritory(pracaDeTorrhen);
+        theNorth.addTerritory(karhold);
+        theSouth.addTerritory(pontaTempestade);
+        theSouth.addTerritory(jardimDeCima);
+        theSouth.addTerritory(monteChifre);
+        theSouth.addTerritory(dorne);
+        theSouth.addTerritory(tarth);
+
+        Mission missionRegion1 = new Mission(null, null, Mission.TYPE_REGION);        
+        missionRegion1.addRegion(theNorth);
+        missionRegion1.addRegion(theSouth);
+        
+        Player playerStark = new HumanPlayer(null);
+        playerStark.setMission(missionRegion1);
+        missionRegion1.setPlayer(playerStark);
+        
+        playerStark.addTerritory(winterfell);
+        playerStark.addTerritory(portoBranco);
+        playerStark.addTerritory(bosqueProfundo);
+        playerStark.addTerritory(pracaDeTorrhen);
+        playerStark.addTerritory(karhold);
+        playerStark.addTerritory(portoReal);
+        playerStark.addTerritory(correrio);
+        playerStark.addTerritory(pontaTempestade);
+        playerStark.addTerritory(jardimDeCima);
+        playerStark.addTerritory(monteChifre);
+        playerStark.addTerritory(tarth);
+
+        assertFalse(missionRegion1.isRegionMissionCompleted());
+    }
+    
     @AfterClass
     public void cleanUp() {
         // code that will be invoked after this test ends
