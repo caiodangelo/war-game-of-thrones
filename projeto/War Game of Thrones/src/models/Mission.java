@@ -18,7 +18,7 @@ public class Mission {
     protected String description;
     protected List<Territory> territories;
     protected List<Region> regions;
-    protected List<House> houses;
+    protected House house;
     protected Player player;
     protected int type;
 
@@ -35,7 +35,7 @@ public class Mission {
                 regions = new ArrayList<Region>();
                 break;
             case TYPE_HOUSE:
-                houses = new ArrayList<House>();
+                house = new House();
                 break;
         }
     }
@@ -63,15 +63,12 @@ public class Mission {
         return type;
     }
 
-    public List<House> getHouses() {
-        return houses;
+    public House getHouse() {
+        return house;
     }
 
-    public boolean addHouse(House house) {
-        if (type == TYPE_HOUSE && !houses.contains(house)) {
-            return houses.add(house);
-        }
-        return false;
+    public void setHouse(House house) {
+        this.house = house;
     }
 
     public boolean addTerritory(Territory territory) {
@@ -96,12 +93,20 @@ public class Mission {
         return territories;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
     public void shuffleMissions(LinkedList<Mission> mission) {
         Collections.shuffle(mission);
     }
 
     public boolean hasSameHouse(Player player) {
-        return ((this.getType() == Mission.TYPE_HOUSE) && (this.getHouses().contains(player.getHouse())));
+        return ((this.getType() == Mission.TYPE_HOUSE) && (this.getHouse().equals(player.getHouse())));
     }
 
     public LinkedList<Mission> raffleMission(Board board, LinkedList<Mission> allMissions, LinkedList<House> allHouses) {
@@ -128,8 +133,8 @@ public class Mission {
 
         for (int i = 0; i < answer.size(); i++) {
             Mission mission = answer.get(i);
-            for (House house : absentHouses) {
-                if ((mission.getType() == Mission.TYPE_HOUSE) && (mission.getHouses().contains(house))) {
+            for (House h : absentHouses) {
+                if ((mission.getType() == Mission.TYPE_HOUSE) && (mission.getHouse().equals(h))) {
                     answer.remove(answer.get(i));
                     i--;
                 }
@@ -138,44 +143,73 @@ public class Mission {
         return answer;
     }
 
-    public boolean isCompletedMission() {
+    public boolean isCompletedMission(Board board, ArrayList<Region> allRegions) {
         switch (this.getType()) {
             case TYPE_REGION:
-                return isRegionMissionCompleted();
+                return isRegionMissionCompleted(allRegions);
 
             case TYPE_TERRITORY:
                 return isTerritoryMissionCompleted();
 
             case TYPE_HOUSE:
-                return isHouseMissionCompleted();
+                return isHouseMissionCompleted(board);
         }
         return false;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    public boolean isRegionMissionCompleted() {
+    public boolean isRegionMissionCompleted(ArrayList<Region> allRegions) {
         boolean answer = false;
-        List<Region> regionsMission = this.player.getMission().getRegions();
+        Region aux = new Region("");
+        List<Region> conqueredRegions = new ArrayList<Region>(); //Regioes que foram conquistadas pelo jogador      
         List<Territory> territoriesPlayer = player.getTerritories();
 
-        for (Region region : regionsMission) {
+        for (Region region : allRegions) {
             if (territoriesPlayer.containsAll(region.getTerritories())) {
-                answer = true;
+                conqueredRegions.add(region);
+            }
+        }
+
+        for (Region regionMission : this.getRegions()) {
+            if (regionMission.getName() != null) {
+                if (conqueredRegions.contains(regionMission)) {
+                    conqueredRegions.remove(regionMission);
+                    answer = true;
+                } else {
+                    return false;
+                }
             } else {
-                return false;
+                aux = regionMission;
+            }
+        }
+        if ((aux.getName() == null) && (conqueredRegions.isEmpty())) {
+            answer = false;
+        }
+
+        return answer;
+    }
+
+    public boolean isTerritoryMissionCompleted() {
+        boolean answer;
+        List<Territory> playerTerritories = this.getPlayer().getTerritories();
+        answer = (this.getTerritories().size() == playerTerritories.size());
+        
+        if((this.getTerritories().size() == 18) &&(answer)){
+            for (Territory territory : playerTerritories) {
+                if(!(territory.getNumArmies() >= 2)) {
+                    return false;
+                }
             }
         }
         return answer;
     }
 
-    public boolean isTerritoryMissionCompleted() {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    public boolean isHouseMissionCompleted() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public boolean isHouseMissionCompleted(Board board) {
+        Player defeated = null;
+        for (int i = 0; i < board.getPlayers().size(); i++) {
+            if (board.getPlayer(i).getHouse().equals(this.getHouse())) {
+                defeated = board.getPlayer(i);
+            }
+        }
+        return (defeated.getTerritories().isEmpty());
     }
 }

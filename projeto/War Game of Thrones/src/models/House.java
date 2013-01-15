@@ -8,7 +8,6 @@ public class House {
 
     // Exemplo:                                 AARRGGBB
     public static final int COLOR_LANNISTER = 0x00F21F0C;
-
     private String name;
     /*
      * A cor vai ficar em formato ARGB hexadecimal, e terá algumas cores padrões./
@@ -18,6 +17,9 @@ public class House {
     private int color;
     private String symbol;
     private Player player;
+
+    public House() {
+    }
 
     public House(String name, int color, String symbol) {
         this.name = name;
