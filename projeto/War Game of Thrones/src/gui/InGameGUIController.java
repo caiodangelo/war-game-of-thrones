@@ -91,4 +91,18 @@ public class InGameGUIController implements ScreenController{
     public void dismissPlayerObjective(){
         n.closePopup(objectivePopup.getId());
     }
+    
+    //Top Menu event handling
+    public void theGameMenuClicked(){
+        System.out.println("THE GAME");
+    }
+    public void optionsMenuClicked(){
+        System.out.println("OPTIONS");
+    }
+    public void helpMenuClicked(){
+        System.out.println("HELP");
+    }
+    public void exitMenuClicked(){
+        System.out.println("EXIT");
+    }
 }

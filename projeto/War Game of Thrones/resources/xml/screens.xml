@@ -132,43 +132,59 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 	</screen>
 	
 	<screen id="inGameScreen" controller="gui.InGameGUIController">		
-		<layer id="emptyLayer" childLayout="center">
-			<control style="nifty-listbox" id="scrollbarPanelId" valign="top" align="left" name="scrollPanel" horizontal="false" height="70%" width="20%">
-				<panel id="myScrollStuff" width="100%" height="150%" childLayout="vertical">
-					<control id="player0Status" name="statusPanel" width="100%" height="15%"/>
-					<control id="player1Status" name="statusPanel" width="100%" height="15%"/>
-					<control id="player2Status" name="statusPanel" width="100%" height="15%"/>
-					<control id="player3Status" name="statusPanel" width="100%" height="15%"/>
-					<control id="player4Status" name="statusPanel" width="100%" height="15%"/>
-					<control id="player5Status" name="statusPanel" width="100%" height="15%"/>					
-				</panel>
-			</control>
-			
-			<panel style="nifty-panel" valign="bottom" align="center" width="101%" height="30%" childLayout="horizontal">
-				<panel align="left" id="playerStatusPanel" childLayout="vertical" width="20%" height="100%">
-					<control align="left" id="playerStatusName" name="label" text="Marcelle Guine"/>
-					<panel childLayout="horizontal" width="100%">
-						<control align="left" id="playerStatusCards" name="label" text="2 cartas" width="33%"/>
-						<control align="left" id="playerStatusUnits" name="label" text="59 exércitos" width="33%"/>
-						<control align="left" id="playerStatusTerritories" name="label" text="7 territórios" width="33%"/>
+		<layer id="emptyLayer" childLayout="vertical">
+			<panel valign="bottom" align="center" width="100%" height="3%" backgroundColor="#666666ff" childLayout="horizontal" padding="10px">
+				<control valign="center" textVAlign="center" textHAlign="left" name="label" text="O Jogo" width="5%" height="100px">
+					<interact onClick="theGameMenuClicked()"/>
+				</control>
+				<control valign="center" textHAlign="left" name="label" text="Opções" width="5%" height="100px">
+					<interact onClick="optionsMenuClicked()"/>
+				</control>
+				<control valign="center" textHAlign="left" name="label" text="Ajuda" width="5%" height="100px">
+					<interact onClick="helpMenuClicked()"/>
+				</control>
+				<control valign="center" textHAlign="left" name="label" text="Sair" width="5%" height="100px">
+					<interact onClick="exitMenuClicked()"/>
+				</control>
+			</panel>
+			<panel childLayout="vertical" height="97%">
+				<control style="nifty-listbox" id="scrollbarPanelId" valign="top" align="left" name="scrollPanel" horizontal="false" height="70%" width="20%">
+					<panel id="myScrollStuff" width="100%" height="150%" childLayout="vertical">
+						<control id="player0Status" name="statusPanel" width="100%" height="15%"/>
+						<control id="player1Status" name="statusPanel" width="100%" height="15%"/>
+						<control id="player2Status" name="statusPanel" width="100%" height="15%"/>
+						<control id="player3Status" name="statusPanel" width="100%" height="15%"/>
+						<control id="player4Status" name="statusPanel" width="100%" height="15%"/>
+						<control id="player5Status" name="statusPanel" width="100%" height="15%"/>					
 					</panel>
-					<control id="seeObjectiveButton" name="button" label="Ver objetivo">
-						<interact onClick="showPlayerObjective()"/>
-					</control>
-					<control textHAlign="left" align="left" name="label" text="Acoes" height="30%" width="100%"/>
-					
-					<panel childLayout="horizontal" width="100%">
-						<control align="left" name="button" label="Passar a vez" width="50%"/>
-						<control align="right" name="button" label="Atacar" width="50%"/>
+				</control>
+				
+				<panel style="nifty-panel" valign="bottom" align="center" width="101%" height="33%" childLayout="horizontal">
+					<panel align="left" id="playerStatusPanel" childLayout="vertical" width="20%" height="100%">
+						<control align="left" id="playerStatusName" name="label" text="Marcelle Guine"/>
+						<panel childLayout="horizontal" width="100%">
+							<control align="left" id="playerStatusCards" name="label" text="2 cartas" width="33%"/>
+							<control align="left" id="playerStatusUnits" name="label" text="59 exércitos" width="33%"/>
+							<control align="left" id="playerStatusTerritories" name="label" text="7 territórios" width="33%"/>
+						</panel>
+						<control id="seeObjectiveButton" name="button" label="Ver objetivo">
+							<interact onClick="showPlayerObjective()"/>
+						</control>
+						<control textHAlign="left" align="left" name="label" text="Acoes" height="30%" width="100%"/>
+						
+						<panel childLayout="horizontal" width="100%">
+							<control align="left" name="button" label="Passar a vez" width="50%"/>
+							<control align="right" name="button" label="Atacar" width="50%"/>
+						</panel>
+						<panel childLayout="horizontal" width="100%">
+							<control align="left" name="button" label="Trocar cartas" width="50%"/>
+							<control align="right" name="button" label="Rearrumar exércitos" width="50%"/>
+						</panel>
 					</panel>
-					<panel childLayout="horizontal" width="100%">
-						<control align="left" name="button" label="Trocar cartas" width="50%"/>
-						<control align="right" name="button" label="Rearrumar exércitos" width="50%"/>
+					<panel id="tablesPanel" childLayout="vertical" width="80%" height="100%">
+						<image valign="center" align="right" filename="resources/images/tabela1.jpg" width="63%" height="45%"/>
+						<image valign="center" align="right" filename="resources/images/tabela2.jpg" width="55%" height="55%"/>
 					</panel>
-				</panel>
-				<panel id="tablesPanel" childLayout="vertical" width="80%" height="100%">
-					<image valign="center" align="right" filename="resources/images/tabela1.jpg" width="63%" height="45%"/>
-					<image valign="center" align="right" filename="resources/images/tabela2.jpg" width="55%" height="55%"/>
 				</panel>
 			</panel>
 		</layer>
