@@ -1,0 +1,5 @@
+<popup id="mainScreenLayer" childLayout="center">
+		<panel style="nifty-panel-bright" height="50%" width="30%" align="center" childLayout="center">
+			<text width="50%" height="50%" backgroundColor="#33af" font="calibri.fnt" wrap="true" text="Nenhum jogador foi adicionado!"/>
+		</panel>
+	</popup>

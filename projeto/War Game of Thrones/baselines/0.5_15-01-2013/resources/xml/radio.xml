@@ -1,0 +1,8 @@
+<control id="RadioGroup-1" name="radioButtonGroup"/>
+					<control valign="center" id="input" name="textfield" width="50%" text="PlayerName"/>
+					<panel valign="center" childLayout="horizontal" width="100%" align="center">
+						<control name="radioButton" id="radioBtn0" group="RadioGroup-1"/>
+						<control name="label" text="Humano"/>
+						<control name="radioButton" id="radioBtn1" group="RadioGroup-1"/>
+						<control name="label" text="Computador"/>
+					</panel>
