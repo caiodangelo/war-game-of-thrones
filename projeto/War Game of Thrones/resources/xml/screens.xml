@@ -133,7 +133,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 	
 	<screen id="inGameScreen" controller="gui.InGameGUIController">		
 		<layer id="emptyLayer" childLayout="vertical">
-			<panel valign="bottom" align="center" width="100%" height="3%" backgroundColor="#666666ff" childLayout="horizontal" padding="10px">
+			<panel valign="bottom" align="center" width="100%" height="3%" backgroundColor="#333333ff" childLayout="horizontal" padding="10px">
 				<control valign="center" textVAlign="center" textHAlign="left" name="label" text="O Jogo" width="5%" height="100px">
 					<interact onClick="theGameMenuClicked()"/>
 				</control>
@@ -147,19 +147,19 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 					<interact onClick="exitMenuClicked()"/>
 				</control>
 			</panel>
-			<panel childLayout="vertical" height="97%">
-				<control style="nifty-listbox" id="scrollbarPanelId" valign="top" align="left" name="scrollPanel" horizontal="false" height="70%" width="20%">
+			<panel childLayout="horizontal" height="97%">
+				<control style="nifty-listbox" id="scrollbarPanelId" valign="top" align="left" name="scrollPanel" horizontal="false" height="100%" width="10%">
 					<panel id="myScrollStuff" width="100%" height="150%" childLayout="vertical">
-						<control id="player0Status" name="statusPanel" width="100%" height="15%"/>
-						<control id="player1Status" name="statusPanel" width="100%" height="15%"/>
-						<control id="player2Status" name="statusPanel" width="100%" height="15%"/>
-						<control id="player3Status" name="statusPanel" width="100%" height="15%"/>
-						<control id="player4Status" name="statusPanel" width="100%" height="15%"/>
-						<control id="player5Status" name="statusPanel" width="100%" height="15%"/>					
+						<control id="player0Status" name="statusPanel" width="100%" height="10%"/>
+						<control id="player1Status" name="statusPanel" width="100%" height="10%"/>
+						<control id="player2Status" name="statusPanel" width="100%" height="10%"/>
+						<control id="player3Status" name="statusPanel" width="100%" height="10%"/>
+						<control id="player4Status" name="statusPanel" width="100%" height="10%"/>
+						<control id="player5Status" name="statusPanel" width="100%" height="10%"/>					
 					</panel>
 				</control>
 				
-				<panel style="nifty-panel" valign="bottom" align="center" width="101%" height="33%" childLayout="horizontal">
+				<panel style="nifty-panel" valign="bottom" align="right" width="91%" height="34%" childLayout="horizontal">
 					<panel align="left" id="playerStatusPanel" childLayout="vertical" width="20%" height="100%">
 						<control align="left" id="playerStatusName" name="label" text="Marcelle Guine"/>
 						<panel childLayout="horizontal" width="100%">
@@ -197,6 +197,20 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 			<control name="button" label="OK" width="100%">
 				<interact onClick="dismissPlayerObjective()"/>
 			</control>
+		</panel>
+	</popup>
+
+	<popup id="quitConfirmationPopup" childLayout="center" backgroundColor="#000a">
+		<panel padding="10%" style="nifty-panel" width="20%" height="15%" childLayout="vertical">
+			<control height="50%" align="center" name="label" text="Deseja mesmo sair?"/>
+			<panel width="100%" height="50%" valign="bottom" childLayout="horizontal">
+				<control align="left" width="50%" name="button" label="Sim">
+					<interact onClick="exitGame()"/>
+				</control>
+				<control align="right" width="50%" name="button" label="Nao">
+					<interact onClick="dismissExitConfirmation()"/>
+				</control>
+			</panel>
 		</panel>
 	</popup>
 </nifty>

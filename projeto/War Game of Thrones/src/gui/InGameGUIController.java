@@ -7,6 +7,7 @@ import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import de.lessvoid.nifty.tools.Color;
 
 public class InGameGUIController implements ScreenController{
 
@@ -15,14 +16,30 @@ public class InGameGUIController implements ScreenController{
     private Screen screen;
     private Nifty n;
     public static BackEndPlayer [] players;
-    private Element objectivePopup;
+    private static Color [] playerNameColors;
+    private Element objectivePopup, exitConfirmPopup;
     
     public InGameGUIController(){
         //DEBUG ONLY
         if(players == null){
             players = new BackEndPlayer[6];
-            for(int i = 0; i < players.length; i++)
+            playerNameColors = new Color[6];
+            for(int i = 0; i < players.length; i++){
                 players[i] = new BEPImpl();
+                float r = (float)Math.random();
+                float g = (float)Math.random();
+                float b = (float)Math.random();
+                
+                //check if it`s not too bright
+                final float MAX_BRIGHTNESS = 2.0f;
+                if(r + g + b > MAX_BRIGHTNESS){
+                    r /= 2;
+                    g /= 2;
+                    b /= 2;
+                }
+                
+                playerNameColors[i] = new Color(r, g, b, 1f);
+            }
         }
     }
     
@@ -35,6 +52,7 @@ public class InGameGUIController implements ScreenController{
         playerStatusUnits = screen.findNiftyControl("playerStatusUnits", Label.class);
         playerStatusTerritories = screen.findNiftyControl("playerStatusTerritories", Label.class);
         objectivePopup = n.createPopup("objectivePopup");
+        exitConfirmPopup = n.createPopup("quitConfirmationPopup");
     }
     
     @Override
@@ -64,6 +82,7 @@ public class InGameGUIController implements ScreenController{
             StatusPanelControl spc = statusPanels[i];
             BackEndPlayer current = players[i];
             spc.updateData(current.getName(), current.getCardsCount(), current.getUnitsCount(), current.getTerritoriesCount());
+            spc.setNameColor(playerNameColors[i]);
         }
         updateCurrentPlayersData();
     }
@@ -103,6 +122,14 @@ public class InGameGUIController implements ScreenController{
         System.out.println("HELP");
     }
     public void exitMenuClicked(){
-        System.out.println("EXIT");
+        n.showPopup(screen, exitConfirmPopup.getId(), null);
+    }
+    
+    public void exitGame(){
+        main.Main.getInstance().getGameContainer().exit();
+    }
+    
+    public void dismissExitConfirmation(){
+        n.closePopup(exitConfirmPopup.getId());
     }
 }

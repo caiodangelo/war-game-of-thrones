@@ -22,6 +22,10 @@ public class Main extends NiftyStateBasedGame{
         windowH = h;
     }
     
+    public AppGameContainer getGameContainer(){
+        return container;
+    }
+    
     public void enterState(WarScenes scene) {
         enterState(scene.ordinal());
     }
@@ -35,6 +39,7 @@ public class Main extends NiftyStateBasedGame{
     public static void main(String[] args) throws SlickException {
         Main m = getInstance();
         AppGameContainer app = new AppGameContainer(m);
+        m.container = app;
         boolean fullscreen = false;
         app.setDisplayMode((int)windowW, (int)windowH, fullscreen);
         app.setTargetFrameRate(60);
