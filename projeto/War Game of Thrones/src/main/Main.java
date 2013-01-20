@@ -43,8 +43,8 @@ public class Main extends NiftyStateBasedGame{
         Main m = getInstance();
         
         AppGameContainer app = new AppGameContainer(m);
+        boolean fullscreen = true;
         m.container = app;
-        boolean fullscreen = false;
         app.setDisplayMode((int)windowW, (int)windowH, fullscreen);
         app.setTargetFrameRate(60);
         app.start();
