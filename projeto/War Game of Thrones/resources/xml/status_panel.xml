@@ -5,7 +5,7 @@
 						inputMapping="de.lessvoid.nifty.input.mapping.MenuInputMapping">
 		<panel childLayout="center" widht="100%" height="100%" backgroundColor="#000000ff" padding="1px">
 			<panel id="#playerStatus" backgroundColor="#f0f0f0ff" width="100%" height="100%" childLayout="vertical" padding="3px">
-				<control font="calibri_bold.fnt" color="#333333ff" align="left" id="#playerStatusName" name="label" text="PlayerName"/>
+				<control font="calibri_bold.fnt" align="left" id="#playerStatusName" name="label" text="PlayerName"/>
 				<control color="#333333ff" align="center" textHAlign="left" width="100%" id="#playerStatusCards" name="label" text="Cartas"/>
 				<control color="#333333ff" align="center" textHAlign="left" width="100%" id="#playerStatusUnits" name="label" text="Exercitos"/>
 				<control color="#333333ff" align="center" textHAlign="left" width="100%" id="#playerStatusTerritories" name="label" text="Territorios"/>

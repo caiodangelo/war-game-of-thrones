@@ -148,42 +148,41 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 				</control>
 			</panel>
 			<panel childLayout="horizontal" height="97%">
-				<control style="nifty-listbox" id="scrollbarPanelId" valign="top" align="left" name="scrollPanel" horizontal="false" height="100%" width="10%">
-					<panel id="myScrollStuff" width="100%" height="150%" childLayout="vertical">
-						<control id="player0Status" name="statusPanel" width="100%" height="10%"/>
-						<control id="player1Status" name="statusPanel" width="100%" height="10%"/>
-						<control id="player2Status" name="statusPanel" width="100%" height="10%"/>
-						<control id="player3Status" name="statusPanel" width="100%" height="10%"/>
-						<control id="player4Status" name="statusPanel" width="100%" height="10%"/>
-						<control id="player5Status" name="statusPanel" width="100%" height="10%"/>					
+				<panel backgroundColor="#333333ff" id="myScrollStuff" width="10%" height="100%" childLayout="vertical" padding="1px">
+					<panel backgroundColor="#f0f0f0ff" childLayout="vertical">
+						<control id="player0Status" name="statusPanel" width="100%" height="14%"/>
+						<control id="player1Status" name="statusPanel" width="100%" height="14%"/>
+						<control id="player2Status" name="statusPanel" width="100%" height="14%"/>
+						<control id="player3Status" name="statusPanel" width="100%" height="14%"/>
+						<control id="player4Status" name="statusPanel" width="100%" height="14%"/>
+						<control id="player5Status" name="statusPanel" width="100%" height="14%"/>					
 					</panel>
-				</control>
+				</panel>
 				
-				<panel style="nifty-panel" valign="bottom" align="right" width="91%" height="34%" childLayout="horizontal">
-					<panel align="left" id="playerStatusPanel" childLayout="vertical" width="20%" height="100%">
-						<control align="left" id="playerStatusName" name="label" text="Marcelle Guine"/>
-						<panel childLayout="horizontal" width="100%">
-							<control align="left" id="playerStatusCards" name="label" text="2 cartas" width="33%"/>
-							<control align="left" id="playerStatusUnits" name="label" text="59 exércitos" width="33%"/>
-							<control align="left" id="playerStatusTerritories" name="label" text="7 territórios" width="33%"/>
+				<panel backgroundColor="#f0f0f0ff" valign="bottom" align="right" width="91%" height="18%" childLayout="horizontal">
+					<panel childLayout="vertical" width="15%">
+						<control height="20%" font="calibri_bold.fnt" color="#333333ff" id="playerStatusName" name="label" text="Marcelle Guine"/>
+						<panel  height="70%" childLayout="horizontal" padding="5px">
+							<image filename="resources/images/logo_stark.png" height="100%" width="50%"/>
+							<control textHAlign="center" color="#333333ff" name="label" text="Casa" height="100%" width="50%"/>
 						</panel>
-						<control id="seeObjectiveButton" name="button" label="Ver objetivo">
-							<interact onClick="showPlayerObjective()"/>
-						</control>
-						<control textHAlign="left" align="left" name="label" text="Acoes" height="30%" width="100%"/>
+					</panel>
+					<panel align="left" id="playerStatusPanel" childLayout="vertical" width="20%" height="100%">
 						
 						<panel childLayout="horizontal" width="100%">
-							<control align="left" name="button" label="Passar a vez" width="50%"/>
-							<control align="right" name="button" label="Atacar" width="50%"/>
+							<control color="#333333ff" align="left" id="playerStatusCards" name="label" text="2 cartas" width="33%"/>
+							<control color="#333333ff" align="left" id="playerStatusUnits" name="label" text="59 exércitos" width="33%"/>
+							<control color="#333333ff" align="left" id="playerStatusTerritories" name="label" text="7 territórios" width="33%"/>
 						</panel>
+						<control textHAlign="left" width="100%" color="#1464f6ff" id="seeObjectiveButton" name="label" text="Ver objetivo">
+							<interact onClick="showPlayerObjective()"/>
+						</control>
+						<control color="#333333ff" textHAlign="left" align="left" name="label" text="Acoes" height="30%" width="100%"/>
+						
 						<panel childLayout="horizontal" width="100%">
 							<control align="left" name="button" label="Trocar cartas" width="50%"/>
-							<control align="right" name="button" label="Rearrumar exércitos" width="50%"/>
+							<control align="left" name="button" label="Passar a vez" width="50%"/>
 						</panel>
-					</panel>
-					<panel id="tablesPanel" childLayout="vertical" width="80%" height="100%">
-						<image valign="center" align="right" filename="resources/images/tabela1.jpg" width="63%" height="45%"/>
-						<image valign="center" align="right" filename="resources/images/tabela2.jpg" width="55%" height="55%"/>
 					</panel>
 				</panel>
 			</panel>
