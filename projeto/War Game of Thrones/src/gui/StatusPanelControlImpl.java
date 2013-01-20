@@ -8,8 +8,8 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.input.NiftyInputEvent;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.xml.xpp3.Attributes;
-import java.util.Properties;
 import de.lessvoid.nifty.tools.Color;
+import java.util.Properties;
 
 public class StatusPanelControlImpl extends AbstractController implements Controller, StatusPanelControl{
 
@@ -52,5 +52,4 @@ public class StatusPanelControlImpl extends AbstractController implements Contro
     public void setNameColor(Color c){
         nameLabel.setColor(c);
     }
-
 }

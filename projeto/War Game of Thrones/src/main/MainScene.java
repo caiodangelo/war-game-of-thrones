@@ -10,6 +10,7 @@ import util.Scene;
 
 public class MainScene extends Scene{
 
+    private static Nifty n;
     
     @Override
     public int getID() {
@@ -18,16 +19,22 @@ public class MainScene extends Scene{
 
     @Override
     public void setupNifty(Nifty n) {
-        n.gotoScreen("startingScreen");
-            
+        this.n = n;
         try {
             Image mapImage = new Image("resources/images/mapa-nomes.jpg");
+            Image logoWarImage = new Image("resources/images/logo-war.png");
+            Image logoOfThronesImage = new Image("resources/images/logo-of-thrones.png");
+            Image instructionImage = new Image("resources/images/instruction.png");
             Entity map = new Entity();
             map.setScale(4);
-            map.addComponent(new MainSceneAnimation("animation", mapImage));
+            map.addComponent(new MainSceneAnimation("animation", mapImage, logoWarImage, logoOfThronesImage, instructionImage));
             addEntity(map);
         } catch (SlickException ex) {
             Logger.getLogger(MainScene.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public static void showButtons() {
+        n.gotoScreen("startingScreen");
     }
 }

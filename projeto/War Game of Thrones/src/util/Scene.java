@@ -16,8 +16,6 @@ public abstract class Scene extends NiftyOverlayBasicGameState{
     
     private List<Entity> entities;
     private GameContainer container;
-    protected float screenWidth = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth();
-    protected float screenHeight = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight();
     private static boolean inited = false;
     
     public void addEntity(Entity e){

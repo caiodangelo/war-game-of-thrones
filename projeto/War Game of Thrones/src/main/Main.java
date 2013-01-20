@@ -22,6 +22,10 @@ public class Main extends NiftyStateBasedGame{
         windowH = h;
     }
     
+    public AppGameContainer getGameContainer(){
+        return container;
+    }
+    
     public void enterState(WarScenes scene) {
         enterState(scene.ordinal());
     }
@@ -36,6 +40,7 @@ public class Main extends NiftyStateBasedGame{
         Main m = getInstance();
         AppGameContainer app = new AppGameContainer(m);
         boolean fullscreen = true;
+        m.container = app;
         app.setDisplayMode((int)windowW, (int)windowH, fullscreen);
         app.setTargetFrameRate(60);
         app.start();
