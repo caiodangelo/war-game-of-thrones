@@ -33,7 +33,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 		<layer id="popUpAddPlayer" childLayout="center">
 			<panel style="nifty-panel-bright" height="50%" width="50%" align="center" childLayout="horizontal">
 				<panel style="nifty-panel" id="playerIconsPanel" width="20%" childLayout="vertical" height="100%">
-					<image id="player0Icon" align="center" height="10%" width="60%" filename="resources/images/logo_stark.png" padding="100px">
+					<image id="player0Icon" align="center" height="10%" width="60%" filename="resources/images/house_logos/stark.png" padding="100px">
 						<interact onClick="editPlayer(0)"/>
 						<effect>
 							<onCustom name="border" border="2px" color="#f00f" timeType="infinite"/>
@@ -42,7 +42,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 					</image>
 					<control id="player0Name" name="label" text="" width="100%"/>
 					<panel childLayout="center" height="0.5%" width="1%"/>
-					<image id="player1Icon" align="center" height="10%" width="60%" filename="resources/images/logo_stark.png">
+					<image id="player1Icon" align="center" height="10%" width="60%" filename="resources/images/house_logos/stark.png">
 						<interact onClick="editPlayer(1)"/>
 						<effect>
 							<onCustom name="border" border="2px" color="#f00f" timeType="infinite"/>
@@ -51,7 +51,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 					</image>
 					<control id="player1Name" name="label" text="" width="100%"/>
 					<panel childLayout="center" height="0.5%" width="1%"/>
-					<image id="player2Icon" align="center" height="10%" width="60%" filename="resources/images/logo_stark.png">
+					<image id="player2Icon" align="center" height="10%" width="60%" filename="resources/images/house_logos/stark.png">
 						<interact onClick="editPlayer(2)"/>
 						<effect>
 							<onCustom name="border" border="2px" color="#f00f" timeType="infinite"/>
@@ -60,7 +60,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 					</image>
 					<control id="player2Name" name="label" text="" width="100%"/>
 					<panel childLayout="center" height="0.5%" width="1%"/>
-					<image id="player3Icon" align="center" height="10%" width="60%" filename="resources/images/logo_stark.png">
+					<image id="player3Icon" align="center" height="10%" width="60%" filename="resources/images/house_logos/stark.png">
 						<interact onClick="editPlayer(3)"/>
 						<effect>
 							<onCustom name="border" border="2px" color="#f00f" timeType="infinite"/>
@@ -69,7 +69,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 					</image>
 					<control id="player3Name" name="label" text="" width="100%"/>
 					<panel childLayout="center" height="0.5%" width="1%"/>
-					<image id="player4Icon" align="center" height="10%" width="60%" filename="resources/images/logo_stark.png">
+					<image id="player4Icon" align="center" height="10%" width="60%" filename="resources/images/house_logos/stark.png">
 						<interact onClick="editPlayer(4)"/>
 						<effect>
 							<onCustom name="border" border="2px" color="#f00f" timeType="infinite"/>
@@ -78,7 +78,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 					</image>
 					<control id="player4Name" name="label" text="" width="100%"/>
 					<panel childLayout="center" height="0.5%" width="1%"/>
-					<image id="player5Icon" align="center" height="10%" width="60%" filename="resources/images/logo_stark.png">
+					<image id="player5Icon" align="center" height="10%" width="60%" filename="resources/images/house_logos/stark.png">
 						<interact onClick="editPlayer(5)"/>
 						<effect>
 							<onCustom name="border" border="2px" color="#f00f" timeType="infinite"/>
@@ -148,7 +148,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 				</control>
 			</panel>
 			<panel childLayout="horizontal" height="97%">
-				<panel backgroundColor="#333333ff" id="myScrollStuff" width="10%" height="100%" childLayout="vertical" padding="1px">
+				<panel backgroundColor="#333333ff" id="myScrollStuff" width="12%" height="100%" childLayout="vertical" padding="1px">
 					<panel backgroundColor="#f0f0f0ff" childLayout="vertical">
 						<control id="player0Status" name="statusPanel" width="100%" height="14%"/>
 						<control id="player1Status" name="statusPanel" width="100%" height="14%"/>
@@ -158,31 +158,33 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 						<control id="player5Status" name="statusPanel" width="100%" height="14%"/>					
 					</panel>
 				</panel>
-				<panel childLayout="vertical" width="90%" height="100%">
+				<panel childLayout="vertical" width="88%" height="100%">
 					<panel childLayout="vertical" width="100%" height="82%" padding="20px">
-						<image align="right" valign="top" filename="resources/images/tables_icon.png" width="55px" height="49px">
+						<image align="right" valign="top" filename="resources/images/icons/tabelas.png" width="26px" height="26px">
 							<interact onClick="showTables()"/>
 						</image>
 					</panel>
 					<panel backgroundColor="#f0f0f0ff" valign="bottom" align="right" width="100%" height="18%" childLayout="horizontal">
 						<panel childLayout="vertical" width="15%">
-							<control height="20%" font="calibri_bold.fnt" color="#333333ff" id="playerStatusName" name="label" text="Marcelle Guine"/>
-							<panel  height="70%" childLayout="horizontal" padding="5px">
-								<image filename="resources/images/logo_stark.png" height="100%" width="50%"/>
-								<control textHAlign="center" color="#333333ff" name="label" text="Casa" height="100%" width="50%"/>
+							<control height="20%" width="100%" font="calibri_bold.fnt" color="#333333ff" id="playerStatusName" name="label" text="Marcelle Guine"/>
+							<panel  height="70%" childLayout="vertical" padding="5px">
+								<image align="center" filename="resources/images/house_logos/stark.png" height="80%" width="40%"/>
+								<control textHAlign="center" color="#333333ff" name="label" text="Stark" height="20%" width="50%"/>
 							</panel>
 						</panel>
 						<panel align="left" id="playerStatusPanel" childLayout="vertical" width="20%" height="100%">
 							
-							<panel childLayout="horizontal" width="100%">
-								<control color="#333333ff" align="left" id="playerStatusCards" name="label" text="2 cartas" width="33%"/>
-								<control color="#333333ff" align="left" id="playerStatusUnits" name="label" text="59 exércitos" width="33%"/>
-								<control color="#333333ff" align="left" id="playerStatusTerritories" name="label" text="7 territórios" width="33%"/>
+							<panel childLayout="horizontal" width="100%" height="29%">
+								<image valign="center" filename="resources/images/icons/cartas.png" width="11%" height="70%"/>
+								<control valign="center" color="#333333ff" align="left"  id="playerStatusCards" name="label" text="2 cartas" width="33%"/>
+								<image valign="center" filename="resources/images/icons/exercitos.png" width="11%" height="70%"/>
+								<control valign="center" color="#333333ff" align="left" id="playerStatusUnits" name="label" text="59 exércitos" width="33%"/>
+								<image valign="center" filename="resources/images/icons/mapa.png" width="11%" height="70%"/>
+								<control valign="center" color="#333333ff" align="left" id="playerStatusTerritories" name="label" text="7 territórios" width="33%"/>
 							</panel>
 							<control textHAlign="left" width="100%" color="#1464f6ff" id="seeObjectiveButton" name="label" text="Ver objetivo">
 								<interact onClick="showPlayerObjective()"/>
 							</control>
-							<control color="#333333ff" textHAlign="left" align="left" name="label" text="Acoes" height="30%" width="100%"/>
 							
 							<panel childLayout="horizontal" width="100%">
 								<control align="left" name="button" label="Trocar cartas" width="35%"/>
@@ -225,7 +227,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 	<popup id="tablesPopup" childLayout="center" backgroundColor="#000a">
 		<panel style="nifty-panel" width="800px" height="350px" childLayout="vertical">
 			<panel align="center" childLayout="center" height="95px">
-				<image  width="761px" height="85px" filename="resources/images/tabela1.jpg"/>
+				<image  width="765px" height="85px" filename="resources/images/tabela1.png"/>
 			</panel>
 			<panel align="center" childLayout="center" height="171px">
 				<image  width="609px" height="161px" filename="resources/images/tabela2.jpg"/>

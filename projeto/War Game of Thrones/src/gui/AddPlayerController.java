@@ -66,12 +66,12 @@ public class AddPlayerController implements ScreenController{
         playButton.disable();
         for(int i = 1; i < playerIcons.length; i++)
             playerIcons[i].hide();
-        HouseData houses[] = {  new HouseData("Stark", "resources/images/logo_stark.png"),
-                                new HouseData("Targaryen", "resources/images/logo_targaryen.png"),  
-                                new HouseData("Greyjoy", "resources/images/logo_greyjoy.png"),  
-                                new HouseData("Baratheon", "resources/images/logo_baratheon.png"),  
-                                new HouseData("Free Folk", "resources/images/logo_free_folk.png"),  
-                                new HouseData("Lannister", "resources/images/logo_Lannister.png")
+        HouseData houses[] = {  new HouseData("Stark", "resources/images/house_logos/stark.png"),
+                                new HouseData("Targaryen", "resources/images/house_logos/targaryen.png"),  
+                                new HouseData("Greyjoy", "resources/images/house_logos/greyjoy.png"),  
+                                new HouseData("Baratheon", "resources/images/house_logos/baratheon.png"),  
+                                new HouseData("Free Folk", "resources/images/house_logos/free_folk.png"),  
+                                new HouseData("Lannister", "resources/images/house_logos/Lannister.png")
         };
         createdPlayers = new ArrayList<PlayerData>();
         availableHouses = new ArrayList<HouseData>();
@@ -311,12 +311,12 @@ public class AddPlayerController implements ScreenController{
 //        playButton.disable();
 //        for(int i = 1; i < playerIcons.length; i++)
 //            playerIcons[i].hide();
-//        HouseData houses[] = {  new HouseData("Stark", "resources/images/logo_stark.png"),
-//                                new HouseData("Targaryen", "resources/images/logo_targaryen.png"),  
-//                                new HouseData("Greyjoy", "resources/images/logo_greyjoy.png"),  
-//                                new HouseData("Baratheon", "resources/images/logo_baratheon.png"),  
-//                                new HouseData("Free Folk", "resources/images/logo_free_folk.png"),  
-//                                new HouseData("Lannister", "resources/images/logo_Lannister.png")
+//        HouseData houses[] = {  new HouseData("Stark", "resources/images/house_logos/stark.png"),
+//                                new HouseData("Targaryen", "resources/images/house_logos/targaryen.png"),  
+//                                new HouseData("Greyjoy", "resources/images/house_logos/greyjoy.png"),  
+//                                new HouseData("Baratheon", "resources/images/house_logos/baratheon.png"),  
+//                                new HouseData("Free Folk", "resources/images/house_logos/free_folk.png"),  
+//                                new HouseData("Lannister", "resources/images/house_logos/Lannister.png")
 //        };
 //        createdPlayers = new ArrayList<PlayerData>();
 //        availableHouses = new ArrayList<HouseData>();

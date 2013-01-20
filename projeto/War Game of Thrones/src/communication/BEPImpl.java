@@ -3,8 +3,10 @@ package communication;
 public class BEPImpl implements BackEndPlayer{
     
     private int cards, units, territories;
+    private String name;
     
-    public BEPImpl(){
+    public BEPImpl(String name){
+        this.name = name;
         cards = (int)(Math.random() * 100);
         units = (int)(Math.random() * 100);
         territories = (int)(Math.random() * 100);
@@ -32,7 +34,7 @@ public class BEPImpl implements BackEndPlayer{
 
     @Override
     public String getName() {
-        return "Nome";
+        return name;
     }
 
     @Override

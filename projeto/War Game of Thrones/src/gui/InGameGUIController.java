@@ -22,24 +22,22 @@ public class InGameGUIController implements ScreenController{
     public InGameGUIController(){
         //DEBUG ONLY
         if(players == null){
-            players = new BackEndPlayer[6];
-            playerNameColors = new Color[6];
-            for(int i = 0; i < players.length; i++){
-                players[i] = new BEPImpl();
-                float r = (float)Math.random();
-                float g = (float)Math.random();
-                float b = (float)Math.random();
-                
-                //check if it`s not too bright
-                final float MAX_BRIGHTNESS = 2.0f;
-                if(r + g + b > MAX_BRIGHTNESS){
-                    r /= 2;
-                    g /= 2;
-                    b /= 2;
-                }
-                
-                playerNameColors[i] = new Color(r, g, b, 1f);
-            }
+            playerNameColors = new Color[]{
+                new Color("#465DC0"),
+                new Color("#41BA47"),
+                new Color("#B50A95"),
+                new Color("#F4AB0C"),
+                new Color("#4ACACE"),
+                new Color("#9110B5")
+            };
+            players = new BackEndPlayer[]{
+                new BEPImpl("Anderson Busto"),
+                new BEPImpl("Lucas Nadalutti"),
+                new BEPImpl("Mario Henrique"),
+                new BEPImpl("Marcelle Guiné"),
+                new BEPImpl("Mateus Azis"),
+                new BEPImpl("Rodrigo Castro")
+            };
         }
     }
     
@@ -93,9 +91,16 @@ public class InGameGUIController implements ScreenController{
         return players[0];
     }
     
+    //TODO: check who really is the next player
+    private Color getCurrentPlayerColor(){
+        return playerNameColors[0];
+    }
+    
     private void updateCurrentPlayersData(){
         BackEndPlayer currPlayer = getCurrentPlayer();
+        Color currentPlayerColor = getCurrentPlayerColor();
         playerStatusName.setText(currPlayer.getName());
+        playerStatusName.setColor(currentPlayerColor);
         playerStatusCards.setText(currPlayer.getCardsCount() + " Cartas");
         playerStatusUnits.setText(currPlayer.getUnitsCount() + " Exércitos");
         playerStatusTerritories.setText(currPlayer.getTerritoriesCount() + " Territórios");
