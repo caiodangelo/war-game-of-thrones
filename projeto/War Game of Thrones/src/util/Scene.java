@@ -9,7 +9,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import java.util.HashSet;
 import java.util.List;
 
 public abstract class Scene extends NiftyOverlayBasicGameState{

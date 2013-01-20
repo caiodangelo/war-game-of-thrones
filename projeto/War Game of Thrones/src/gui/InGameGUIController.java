@@ -17,7 +17,7 @@ public class InGameGUIController implements ScreenController{
     private Nifty n;
     public static BackEndPlayer [] players;
     private static Color [] playerNameColors;
-    private Element objectivePopup, exitConfirmPopup;
+    private Element objectivePopup, exitConfirmPopup, tablesPopup;
     
     public InGameGUIController(){
         //DEBUG ONLY
@@ -53,6 +53,7 @@ public class InGameGUIController implements ScreenController{
         playerStatusTerritories = screen.findNiftyControl("playerStatusTerritories", Label.class);
         objectivePopup = n.createPopup("objectivePopup");
         exitConfirmPopup = n.createPopup("quitConfirmationPopup");
+        tablesPopup = n.createPopup("tablesPopup");
     }
     
     @Override
@@ -129,7 +130,15 @@ public class InGameGUIController implements ScreenController{
         main.Main.getInstance().getGameContainer().exit();
     }
     
+    public void showTables(){
+        n.showPopup(screen, tablesPopup.getId(), null);
+    }
+    
     public void dismissExitConfirmation(){
         n.closePopup(exitConfirmPopup.getId());
+    }
+    
+    public void dismissTablesPopup(){
+        n.closePopup(tablesPopup.getId());
     }
 }

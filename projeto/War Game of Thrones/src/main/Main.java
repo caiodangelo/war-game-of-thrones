@@ -2,6 +2,8 @@ package main;
 
 import de.lessvoid.nifty.slick2d.NiftyStateBasedGame;
 import java.awt.DisplayMode;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -37,7 +39,9 @@ public class Main extends NiftyStateBasedGame{
     }
 
     public static void main(String[] args) throws SlickException {
+        disableNiftyWarnings();
         Main m = getInstance();
+        
         AppGameContainer app = new AppGameContainer(m);
         boolean fullscreen = true;
         m.container = app;
@@ -52,5 +56,9 @@ public class Main extends NiftyStateBasedGame{
         addState(new GameScene());
         enterState(WarScenes.STARTING_SCENE);
 //        enterState(WarScenes.GAME_SCENE);
+    }
+    
+    private static void disableNiftyWarnings(){
+        Logger.getLogger("").setLevel(Level.SEVERE);
     }
 }
