@@ -8,13 +8,14 @@ public class MainScreenController implements ScreenController{
 
     private Nifty n;
     private Screen s;
-    private Element exitConfirmPopup;
+    private Element exitConfirmPopup, helpPopup;
     
     @Override
     public void bind(Nifty nifty, Screen screen) {
         this.n = nifty;
         this.s = screen;
         exitConfirmPopup = n.createPopup("quitConfirmationPopup");
+        helpPopup = n.createPopup("helpPopup");
     }
 
     @Override
@@ -29,7 +30,13 @@ public class MainScreenController implements ScreenController{
     }
     
     public void showOptions(){}
-    public void showCredits(){}
+    public void showHelp(){
+        n.showPopup(s, helpPopup.getId(), null);
+    }
+    
+    public void closeHelpPopup(){
+        n.closePopup(helpPopup.getId());
+    }
     
     public void exit(){
         n.showPopup(s, exitConfirmPopup.getId(), null);
