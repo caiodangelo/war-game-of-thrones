@@ -21,7 +21,7 @@ public class MainScene extends Scene{
     public void setupNifty(Nifty n) {
         this.n = n;
         try {
-            Image mapImage = new Image("resources/images/mapa-nomes.jpg");
+            Image mapImage = new Image("resources/images/mapa-nomes.png");
             Image logoWarImage = new Image("resources/images/logo-war.png");
             Image logoOfThronesImage = new Image("resources/images/logo-of-thrones.png");
             Image instructionImage = new Image("resources/images/instruction.png");

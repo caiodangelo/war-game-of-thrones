@@ -16,8 +16,8 @@ public class MainSceneAnimation extends ImageMovementsComponent {
     
     private final int TIME_TO_CHANGE_CONTINENT = 100;
     private final int TIME_TO_SHOW_LOGO = 500;
-    private final int TIME_TO_TOGGLE_BUTTON_INSTRUCTION = 60;
-    private final float LOGO_SPEED = 3;
+    private final int TIME_TO_TOGGLE_BUTTON_INSTRUCTION = 100;
+    private final float LOGO_SPEED = 4;
     
     private float viewX = 0.5f, viewY = 0.5f;
     private int zoomCount;
@@ -51,7 +51,7 @@ public class MainSceneAnimation extends ImageMovementsComponent {
         this.logoOfThronesFinalX = Main.windowW/2 - logoOfThronesImage.getWidth()/2;
         this.instructionX = Main.windowW/2 - instructionImage.getWidth()/2;
         this.instructionY = logoOfThronesY + logoOfThrones.getHeight();
-        this.instructionTimer = -250;
+        this.instructionTimer = -100;
     }
 
     @Override
@@ -109,25 +109,28 @@ public class MainSceneAnimation extends ImageMovementsComponent {
             buttonsDisplayed = true;
         }
         else if (logoTimer >= TIME_TO_SHOW_LOGO) {
-            if (logoWarX <= logoWarFinalX)
+            if (logoWarX < logoWarFinalX)
                 logoWarX += LOGO_SPEED;
-            else if (logoOfThronesX >= logoOfThronesFinalX)
+            else if (logoOfThronesX > logoOfThronesFinalX)
                 logoOfThronesX -= LOGO_SPEED;
         }
+        
         else
             logoTimer++;
-        if (instructionTimer >= TIME_TO_TOGGLE_BUTTON_INSTRUCTION) {
-            toggleInstruction();
-            instructionTimer = 0;
+        instructionTimer++;
+        if (showingInstruction) {
+            if (instructionTimer >= TIME_TO_TOGGLE_BUTTON_INSTRUCTION) {
+                toggleInstruction();
+                instructionTimer = 0;
+            }
         }
-        else
-            instructionTimer++;
+        else {
+            if (instructionTimer >= TIME_TO_TOGGLE_BUTTON_INSTRUCTION / 2) {
+                toggleInstruction();
+                instructionTimer = 0;
+            }
+        }
     }
-    
-//    private boolean anyKeyDown(Input input) {
-//        input.
-//        return false;
-//    }
     
     private void toggleInstruction() {
         showingInstruction = !showingInstruction;
