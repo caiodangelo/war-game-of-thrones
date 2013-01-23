@@ -244,14 +244,86 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 		<panel margin="30px" style="nifty-panel" width="50%" height="50%" childLayout="vertical">
 			<control height="10%" width="100%" textHAlign="left" name="label" text="Ajuda"/>
 			<control style="nifty-listbox" width="100%" height="80%" name="scrollPanel" horizontal="false">
-				<panel height="80%" width="100%" childLayout="center">
-					<!-- aqui fica o conteúdo todo da ajuda -->
-					<control textHAlign="left" wrap="true" width="100%" name="label" text="texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto texto "/>
-				</panel>
-			</control>
-			<control height="10%" align="center" name="button" label="OK" width="50px">
-				<interact onClick="closeHelpPopup()"/>
-			</control>
+				<control textHAlign="left" textVAlign="top" wrap="true" width="90%" height="100%" name="label" text="&#10;
+\#FCDC3B#EXÉRCITOS\#FCDC3B#&#10;
+Cada jogador escolhe a casa que lhe agrada dentro das 6 possíveis (Baratheon, Greyjoy, Lannister, Stark, Targaryen ou Free Folk).&#10;
+&#10;
+\#FCDC3B#OBJETIVOS\#FCDC3B#&#10;
+Cada jogador recebrá 1 objetivo, tomando conhecimento do seu teor e evitando revelá-lo aos seus adversários.&#10;
+&#10;
+\#FCDC3B#O JOGO\#FCDC3B#&#10;
+Cada jogador passa na sua vez, tanto na primeira como em todas as outras rodadas, pelas seguintes etapas, nesta ordem:&#10;
+a) receber novos exércitos e os colocar de acordo com a sua estratégia;&#10;
+b) se desejar, atacar os seus adversários;&#10;
+c) desloca seus exércitos se houver conveniência; e&#10;
+d) receber uma carta se fizer jus a isto.&#10;
+&#10;
+\#FCDC3B#COLOCAÇÃO DE EXÉRCITOS\#FCDC3B#&#10;
+O jogador, no início de sua jogada, recebe exércitos da seguinte forma: soma-se o número total de seus territórios e divide-se por 2, só se considerando a parte inteira do resultado.&#10;
+Exemplo: se o jogador possuir 8 territórios, então ele receberá 4 exércitos. Se possuir 11 territórios, receberá 5 exércitos.&#10;
+O jogador deverá colocar neste momento todos os exércitos recebidos, em um ou mais de seus territórios, conforme seja a sua estratégia. Em seguida pode-se ou não atacar algum adversário, tentando conquistar mais territórios.&#10;
+Se no início da sua vez de jogar o jogador possuir por inteiro um continente, então ele receberá, além dos exércitos a que fizer jus, outros exércitos de acordo com os valores da Tabela de Exércitos por Continentes. Os exércitos recebidos pela posse de um continente deverão ser distribuídos obrigatoriamente nos territórios do próprio continente.&#10;
+&#10;
+Exemplo: supondo-se que o jogador possua 19 territórios, sendo 14 espalhados por vários continentes e o Norte inteiro (5 territórios). Ele receberá no início de sua jogada:&#10;
+número de territórios possuídos: 14 + 5 = 19&#10;
+número de exércitos a receber: 9 + 4 = 11&#10;
+sendo que os 4 correspondentes ao Norte devem ser colocados neste continente.&#10;
+Obs. 1: o número mínimo de exércitos a receber é sempre 3, mesmo no caso do jogador possuir menos de 6 territórios.&#10;
+Obs. 2: no início da jogada, o participante deve receber exércitos a partir do número de territórios possuídos, e conforme for o caso receber mais exércitos se possuir um continente por inteiro, ou se puder trocar as cartas (explicações na seção conquista de cartas).&#10;
+&#10;
+\#FCDC3B#ATAQUES\#FCDC3B#&#10;
+É necessário que haja pelo menos 1 exército em cada território ocupado. Assim, para atacar a partir de um território, são necessários ao menos 2 exércitos neste mesmo território.&#10;
+O exército de ocupação não tem o direito de atacar.&#10;
+&#10;
+\#FCDC3B#REGRAS\#FCDC3B#&#10;
+1) O ataque, a partir de um território qualquer possuído, só pode ser dirigido a um território adversário que tenha fronteiras em comum (território contíguo) ou ligado através de um pontilhado.&#10;
+2) O número de exércitos que poderá participar de um ataque será igual ao número de exércitos situados no território atacante menos um, que é o exército de ocupação.&#10;
+3) O número máximo de exércitos participantes em cada ataque é de 3, mesmo que o número de exércitos possuídos no território seja superior a 4.&#10;
+4) Um jogador pode atacar tantas vezes quantas quiser para conquistar um território adversário, até ficar só um exército no seu território ou, ainda, até quando achar conveniente não atacar.&#10;
+5) Na sua vez de jogar, cada participante pode realizar ataques partindo de um ou vários territórios, de acordo com a sua estratégia. Se ele quiser atacar de mais de um território, ele deve indicar antes de qual território vai partir o ataque e contra qual território será feito. Uma vez finalizado o 1o. ataque, poderá iniciar outro ataque a partir do mesmo ou outro território que lhe pertença.&#10;
+6) O número de exércitos que a defesa pode usar, em cada batalha, é de no máximo 3 e no mínimo 1 (podendo utilizar inclusive o exército de ocupação).&#10;
+7) O jogador atacante jogará com tantos dados quantos forem os seus exércitos participantes da batalha, o mesmo ocorrendo com o jogador da defesa. Assim, se o atacante usar 3 exércitos contra um da defesa, ele jogará 3 dados contra um do defensor.&#10;
+&#10;
+\#FCDC3B#CONTAGEM DOS DADOS\#FCDC3B#&#10;
+Após uma batalha, a decisão de quem ganha e quem perde exércitos é feita da seguinte forma: compara-se o maior ponto do dado atacante (vermelho) com o maior ponto do dado defensor (amarelo) e o maior deles ganha, sendo que o empate é sempre da defesa. Em seguida compara-se o 2o. maior ponto atacante com o 2o. maior do defensor, e a decisão de vitória é como no caso anterior. Por fim, comparam os menores valores, baseando-se na mesma regra.&#10;
+&#10;
+\#FCDC3B#CONQUISTA DE TERRITÓRIOS\#FCDC3B#&#10;
+Se após a batalha o atacante destruir todos os exércitos do território do defensor, terá então conquistado o território e deverá, após a conquista, deslocar seus exércitos atacantes para o território conquistado. Este deslocamento obedece à seguinte regra: o número de exércitos a ser deslocado neste instante é igual, no máximo, ao número de exércitos que participaram do último ataque.&#10;
+Se após conquistar um território o atacante quiser, ele poderá deslocar seus exércitos para o território conquistado, respeitando a regra anterior, e a partir do território conquistado realizar novo ataque.&#10;
+&#10;
+\#FCDC3B#REMANEJAMENTOS\#FCDC3B#&#10;
+Ao finalizar seus ataques o jogador poderá, de acordo com a sua estratégia, efetuar deslocamentos de exércitos entre os seus territórios contíguos.&#10;
+Estes deslocamentos deverão obedecer às seguintes regras:&#10;
+1) em cada território deve permanecer sempre pelo menos um exército (de ocupação) que nunca pode ser deslocado;&#10;
+2) um exército pode ser deslocado uma única vez, isto é, não se pode deslocar um exército para um território contíguo e deste para outro, também contíguo, numa mesma jogada.&#10;
+&#10;
+CONQUISTA DE CARTAS&#10;
+Se durante a sua jogada o jogador conseguir conquistar um ou mais territórios, terá o direito de receber uma carta ao final da jogada, após ter realizado os deslocamentos. É importante notar que, por jogada, só se recebe uma única carta-território. O conteúdo desta carta deve ser mantido em segredo até o momento apropriado de sua troca.&#10;
+As cartas-territórios quando devidamente combinadas dão direito, no início da jogada, a receber um certo número de exércitos de acordo com a Tabela de Troca de Cartas. As trocas de cartas por exércitos não se referem às trocas do jogador mais sim às trocas do jogo.&#10;
+Para se trocar cartas por exércitos, é necessário que o jogador possua no mínimo 3 cartas que obedeçam à seguinte regra de combinação: possuir 3 figuras geométricas distintas ou então 3 figuras geométricas iguais. No entanto, o jogador não é obrigado a fazer a troca quando tiver feito uma das combinações descritas: isto vai depender do seu interesse no momento. No caso, porém, do jogador possuir 5 cartas, ele será obrigado, na sua vez de jogar, a trocar cartas por exércitos.&#10;
+Finalmente, se ao trocar as cartas o jogador possuir o território indicado na carta, então receberá mais 2 exércitos obrigatoriamente colocados naquele território.&#10;
+&#10;
+Notas:&#10;
+1) É importante a conquista de uma carta a cada jogada, pois as cartas dão direito ao recebimento de mais exércitos.&#10;
+2) As cartas trocadas são colocadas à parte do jogo. Quando todas as cartas tiverem sido distribuídas, elas serão recolocadas em jogo, constituindo-se um novo “monte”.&#10;
+&#10;
+\#FCDC3B#ELIMINAÇÃO DE UM CONCORRENTE\#FCDC3B#&#10;
+Se durante o transcurso do jogo, um participante destruir por completo um outro, não sendo este o seu objetivo (caso em que teria ganho o jogo), ele recebe as cartas do jogador que foi destruído e pode usá-las para troca, combinando ou não com as suas ao final da sua jogada. Se não o fizer, poderá guardar as caras e usá-las em outra oportunidade, desde que não guarde mais de 5 cartas.&#10;
+&#10;
+\#FCDC3B#FINAL DO JOGO\#FCDC3B#&#10;
+O jogo termina quando um jogador atinge o seu objetivo.&#10;
+&#10;
+\#FCDC3B#RESUMO DAS FASES DO JOGO\#FCDC3B#&#10;
+Em cada vez de jogar, o participante pode:&#10;
+1o. RECEBER NOVOS EXÉRCITOS em função dos territórios possuídos;&#10;
+2o. COLOCAR ESTES EXÉRCITOS, de acordo com a sua estratégia;&#10;
+3o. EFETUAR OS SEUS ATAQUES;&#10;
+4o. DESLOCAR SEUS EXÉRCITOS, se desejar;&#10;
+5o. RECEBER UMA CARTA-TERRITÓRIO, se conseguir conquistar ao menos um território."/>
+		</control>
+		<control height="10%" align="center" name="button" label="OK" width="50px">
+			<interact onClick="closeHelpPopup()"/>
+		</control>
 		</panel>
 	</popup>
 </nifty>

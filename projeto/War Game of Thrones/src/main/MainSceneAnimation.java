@@ -1,5 +1,6 @@
 package main;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -14,7 +15,8 @@ public class MainSceneAnimation extends ImageMovementsComponent {
     private final int TIME_TO_SHOW_LOGO = 500;
     private final int DELAY_TO_SHOW_BUTTON_INSTRUCTION = -100;
     private final int TIME_TO_TOGGLE_BUTTON_INSTRUCTION = 100;
-    private final float LOGO_SPEED = 4;
+    //private final float LOGO_SPEED = 4;
+    private final float GRADIENT_CHANGING_SPEED = 0.5f;
     
     private float viewX = 0.5f, viewY = 0.5f;
     private int zoomCount;
@@ -25,13 +27,16 @@ public class MainSceneAnimation extends ImageMovementsComponent {
     private Image logoOfImage;
     private Image logoThronesImage;
     private Image instructionImage;
-    private float logoWarX;
+    private Color gradientWar;
+    private Color gradientOf;
+    private Color gradientThrones;
+    //private float logoWarX;
     private float logoWarY;
     private float logoWarFinalX;
-    private float logoOfX;
+    //private float logoOfX;
     private float logoOfY;
     private float logoOfFinalX;
-    private float logoThronesX;
+    //private float logoThronesX;
     private float logoThronesY;
     private float logoThronesFinalX;
     private float instructionX;
@@ -45,14 +50,17 @@ public class MainSceneAnimation extends ImageMovementsComponent {
         this.logoOfImage = logoOf;
         this.logoThronesImage = logoThrones;
         this.instructionImage = instruction;
-        this.logoWarX = -1 * logoWarImage.getWidth();
-        this.logoWarY = Main.windowH/2 - logoWarImage.getHeight();
+        this.gradientWar = new Color(1f, 1f, 1f, 0);
+        this.gradientOf = new Color(1f, 1f, 1f, 0);
+        this.gradientThrones = new Color(1f, 1f, 1f, 0);
+        //this.logoWarX = -1 * logoWarImage.getWidth();
+        this.logoWarY = Main.windowH/3 - logoWarImage.getHeight();
         this.logoWarFinalX = Main.windowW/2 - logoWarImage.getWidth()/2;
-        this.logoOfX = Main.windowW;
-        this.logoOfY = Main.windowH/2 - logoOfImage.getHeight() + logoWarImage.getHeight()/1.5f; //dividing for 1.5f is an estimation to ignore transparent pixels in image height
+        //this.logoOfX = Main.windowW;
+        this.logoOfY = Main.windowH/3 - logoOfImage.getHeight() + logoWarImage.getHeight()/1.5f; //dividing for 1.5f is an estimation to ignore transparent pixels in image height
         this.logoOfFinalX = Main.windowW/2 - logoOfImage.getWidth()/2;
-        this.logoThronesX = Main.windowW;
-        this.logoThronesY = Main.windowH/2 - logoThrones.getHeight() + logoWarImage.getHeight()/1.5f + logoOfImage.getHeight()/1.5f; //dividing for 1.5f is an estimation to ignore transparent pixels in image height
+        //this.logoThronesX = Main.windowW;
+        this.logoThronesY = Main.windowH/3 - logoThrones.getHeight() + logoWarImage.getHeight()/1.5f + logoOfImage.getHeight()/1.5f; //dividing for 1.5f is an estimation to ignore transparent pixels in image height
         this.logoThronesFinalX = Main.windowW/2 - logoThronesImage.getWidth()/2;
         this.instructionX = Main.windowW/2 - instructionImage.getWidth()/2;
         this.instructionY = logoThronesY + logoThrones.getHeight();
@@ -64,9 +72,9 @@ public class MainSceneAnimation extends ImageMovementsComponent {
         Vector2f pos = owner.position;
         float scale = owner.getScale();
         image.draw(pos.x, pos.y, scale);
-        logoWarImage.draw(logoWarX, logoWarY);
-        logoOfImage.draw(logoOfX, logoOfY);
-        logoThronesImage.draw(logoThronesX, logoThronesY);
+        logoWarImage.draw(logoWarFinalX, logoWarY, gradientWar);
+        logoOfImage.draw(logoOfFinalX, logoOfY, gradientOf);
+        logoThronesImage.draw(logoThronesFinalX, logoThronesY, gradientThrones);
         if (showingInstruction && !buttonsDisplayed)
             instructionImage.draw(instructionX, instructionY);
             //gr.drawString("Pressione qualquer tecla para iniciar", logoWarFinalX, logoWarY);
@@ -108,22 +116,32 @@ public class MainSceneAnimation extends ImageMovementsComponent {
         position.x = (main.Main.windowW / 2f) - viewX * getImageWidth(owner.getScale());
         position.y = (main.Main.windowH / 2f) - viewY * getImageHeight(owner.getScale());
         owner.setPosition(position);
+        gc.setMouseGrabbed(!buttonsDisplayed);
         if (input.isKeyDown(Input.KEY_ENTER) || input.isKeyDown(Input.KEY_SPACE)) {
-            logoWarX = logoWarFinalX;
-            logoOfX = logoOfFinalX;
-            logoThronesX = logoThronesFinalX;
+//            logoWarX = logoWarFinalX;
+//            logoOfX = logoOfFinalX;
+//            logoThronesX = logoThronesFinalX;
+            gradientWar.a = 1;
+            gradientOf.a = 1;
+            gradientThrones.a = 1;
             MainScene.showButtons();
             buttonsDisplayed = true;
         }
         else if (logoTimer >= TIME_TO_SHOW_LOGO) {
-            if (logoWarX < logoWarFinalX)
-                logoWarX = updateLogoPosition(logoWarX, logoWarFinalX, true);
-            else if (logoThronesX > logoThronesFinalX) {
-                if (logoOfX > logoOfFinalX)
-                    logoOfX = updateLogoPosition(logoOfX, logoOfFinalX, false);
-                if (logoOfX < Main.windowW * 0.8)
-                    logoThronesX = updateLogoPosition(logoThronesX, logoThronesFinalX, false);
-            }
+            if (gradientWar.a < 1)
+                gradientWar.a += delta * GRADIENT_CHANGING_SPEED;
+            else if (gradientOf.a < 1)
+                gradientOf.a += delta * GRADIENT_CHANGING_SPEED;
+            else if (gradientThrones.a < 1)
+                gradientThrones.a += delta * GRADIENT_CHANGING_SPEED;
+//            if (logoWarX < logoWarFinalX)
+//                logoWarX = updateLogoPosition(logoWarX, logoWarFinalX, true);
+//            else if (logoThronesX > logoThronesFinalX) {
+//                if (logoOfX > logoOfFinalX)
+//                    logoOfX = updateLogoPosition(logoOfX, logoOfFinalX, false);
+//                if (logoOfX < Main.windowW * 0.8)
+//                    logoThronesX = updateLogoPosition(logoThronesX, logoThronesFinalX, false);
+//            }
         }
         
         else
@@ -148,20 +166,20 @@ public class MainSceneAnimation extends ImageMovementsComponent {
     }
     
     //preventing logo images stop after their final position
-    private float updateLogoPosition(float logoX, float logoFinalX, boolean comingFromLeft) {
-        if (comingFromLeft) {
-            if (logoX + LOGO_SPEED > logoFinalX)
-                logoX = logoFinalX;
-            else
-                logoX += LOGO_SPEED;
-        }
-        else {
-            if (logoX - LOGO_SPEED < logoFinalX)
-                logoX = logoFinalX;
-            else
-                logoX -= LOGO_SPEED;
-        }
-        return logoX;
-    }
+//    private float updateLogoPosition(float logoX, float logoFinalX, boolean comingFromLeft) {
+//        if (comingFromLeft) {
+//            if (logoX + LOGO_SPEED > logoFinalX)
+//                logoX = logoFinalX;
+//            else
+//                logoX += LOGO_SPEED;
+//        }
+//        else {
+//            if (logoX - LOGO_SPEED < logoFinalX)
+//                logoX = logoFinalX;
+//            else
+//                logoX -= LOGO_SPEED;
+//        }
+//        return logoX;
+//    }
 
 }
