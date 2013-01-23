@@ -23,11 +23,12 @@ public class MainScene extends Scene{
         try {
             Image mapImage = new Image("resources/images/mapa-nomes.png");
             Image logoWarImage = new Image("resources/images/logo-war.png");
-            Image logoOfThronesImage = new Image("resources/images/logo-of-thrones.png");
+            Image logoOfImage = new Image("resources/images/logo-of.png");
+            Image logoThronesImage = new Image("resources/images/logo-thrones.png");
             Image instructionImage = new Image("resources/images/instruction.png");
             Entity map = new Entity();
-            map.setScale(4);
-            map.addComponent(new MainSceneAnimation("animation", mapImage, logoWarImage, logoOfThronesImage, instructionImage));
+            map.setScale(3.5f);
+            map.addComponent(new MainSceneAnimation("animation", mapImage, logoWarImage, logoOfImage, logoThronesImage, instructionImage));
             addEntity(map);
         } catch (SlickException ex) {
             Logger.getLogger(MainScene.class.getName()).log(Level.SEVERE, null, ex);
