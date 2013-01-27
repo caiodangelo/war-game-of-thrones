@@ -7,7 +7,13 @@ package models;
 public class House {
 
     // Exemplo:                                 AARRGGBB
+    //TODO: trocar cores
     public static final int COLOR_LANNISTER = 0x00F21F0C;
+    public static final int COLOR_STARK = 0x00000001;
+    public static final int COLOR_GREYJOY = 0x00000002;
+    public static final int COLOR_FREE_FOLK = 0x00000003;
+    public static final int COLOR_BARATHEON = 0x00000004;
+    public static final int COLOR_TARGARYEN = 0x00000005;
     private String name;
     /*
      * A cor vai ficar em formato ARGB hexadecimal, e terá algumas cores padrões./

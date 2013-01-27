@@ -1,13 +1,15 @@
 package gui;
 
-import communication.BEPImpl;
-import communication.BackEndPlayer;
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.NiftyInputConsumer;
 import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.Color;
+import java.util.List;
+import models.Board;
+import models.Player;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -18,7 +20,7 @@ public class InGameGUIController implements ScreenController{
     private Label playerStatusName, playerStatusCards, playerStatusUnits, playerStatusTerritories;
     private Screen screen;
     private Nifty n;
-    public static BackEndPlayer [] players;
+    public static Player [] players;
     private static Color [] playerNameColors;
     private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, helpPopup;
     private boolean mouseOverObjective = false;
@@ -34,15 +36,17 @@ public class InGameGUIController implements ScreenController{
                 new Color("#04AAF7"),
                 new Color("#9110B5")
             };
-            players = new BackEndPlayer[]{
-                new BEPImpl("Anderson Busto"),
-                new BEPImpl("Lucas Nadalutti"),
-                new BEPImpl("Mario Henrique"),
-                new BEPImpl("Marcelle Guiné"),
-                new BEPImpl("Mateus Azis"),
-                new BEPImpl("Rodrigo Castro")
-            };
+            
+//            players = new BackEndPlayer[]{
+//                new BEPImpl("Anderson Busto"),
+//                new BEPImpl("Lucas Nadalutti"),
+//                new BEPImpl("Mario Henrique"),
+//                new BEPImpl("Marcelle Guiné"),
+//                new BEPImpl("Mateus Azis"),
+//                new BEPImpl("Rodrigo Castro")
+//            };
         }
+        
     }
     
     @Override
@@ -58,10 +62,15 @@ public class InGameGUIController implements ScreenController{
         tablesPopup = n.createPopup("tablesPopup");
         objectiveLabel = screen.findElementByName("seeObjectiveButton");
         helpPopup = n.createPopup("helpPopup");
+        NiftyInputConsumer i;
+        
     }
     
     @Override
     public void onStartScreen() {  
+        List<Player> playersList = Board.getInstance().getPlayers();
+        players = playersList.toArray(new Player[0]);
+        
         retrieveStatusPanels(screen);
         updatePlayersData();
     }
@@ -76,24 +85,23 @@ public class InGameGUIController implements ScreenController{
             StatusPanelControl spc = s.findNiftyControl("player" + i + "Status", StatusPanelControl.class);
             if(i >= playersCount)
                 spc.getElement().setVisible(false);
-            else{
+            else
                 statusPanels[i] = spc;
-            }
         }
     }
     
     private void updatePlayersData(){
         for(int i = 0; i < players.length; i++){
             StatusPanelControl spc = statusPanels[i];
-            BackEndPlayer current = players[i];
-            spc.updateData(current.getName(), current.getCardsCount(), current.getUnitsCount(), current.getTerritoriesCount());
+            Player current = players[i];
+            spc.updateData(current.getName(), current.numCards(), current.numArmies(), current.numTerritories());
             spc.setNameColor(playerNameColors[i]);
         }
         updateCurrentPlayersData();
     }
     
     //TODO: check who really is the next player
-    private BackEndPlayer getCurrentPlayer(){
+    private Player getCurrentPlayer(){
         return players[0];
     }
     
@@ -103,13 +111,13 @@ public class InGameGUIController implements ScreenController{
     }
     
     private void updateCurrentPlayersData(){
-        BackEndPlayer currPlayer = getCurrentPlayer();
+        Player currPlayer = getCurrentPlayer();
         Color currentPlayerColor = getCurrentPlayerColor();
         playerStatusName.setText(currPlayer.getName());
         playerStatusName.setColor(currentPlayerColor);
-        StatusPanelControlImpl.setLabel(playerStatusCards, currPlayer.getCardsCount(), "Carta");
-        StatusPanelControlImpl.setLabel(playerStatusUnits, currPlayer.getUnitsCount(), "Exército");
-        StatusPanelControlImpl.setLabel(playerStatusTerritories, currPlayer.getTerritoriesCount(), "Território");
+        StatusPanelControlImpl.setLabel(playerStatusCards, currPlayer.numCards(), "Carta");
+        StatusPanelControlImpl.setLabel(playerStatusUnits, currPlayer.numArmies(), "Exército");
+        StatusPanelControlImpl.setLabel(playerStatusTerritories, currPlayer.numTerritories(), "Território");
     }
     
     public void showPlayerObjective(){
@@ -139,14 +147,16 @@ public class InGameGUIController implements ScreenController{
         n.showPopup(screen, helpPopup.getId(), null);
     }
     
+    public void exitMenuClicked(){
+        n.showPopup(screen, exitConfirmPopup.getId(), null);
+    }
+    //Top Menu event end
+    
     public void closeHelpPopup(){
         n.closePopup(helpPopup.getId());
     }
     
-    public void exitMenuClicked(){
-        n.showPopup(screen, exitConfirmPopup.getId(), null);
-    }
-    
+    //Popups event handling
     public void exitGame(){
         main.Main.getInstance().getGameContainer().exit();
     }
@@ -162,6 +172,7 @@ public class InGameGUIController implements ScreenController{
     public void dismissTablesPopup(){
         n.closePopup(tablesPopup.getId());
     }
+    //Popups event handling end
     
     private void resetMouseCursor(){
         GameContainer c = main.Main.getInstance().getContainer();

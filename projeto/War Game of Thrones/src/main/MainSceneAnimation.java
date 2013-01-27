@@ -121,9 +121,8 @@ public class MainSceneAnimation extends ImageMovementsComponent {
         position.y = (main.Main.windowH / 2f) - viewY * getImageHeight(owner.getScale());
         owner.setPosition(position);
         gc.setMouseGrabbed(!buttonsDisplayed);
-        if (input.isKeyDown(Input.KEY_ENTER) || input.isKeyDown(Input.KEY_SPACE)) {
-            if (!buttonsDisplayed)
-                AudioManager.getInstance().playSound(AudioManager.START_GAME);
+        if (!buttonsDisplayed && (input.isKeyDown(Input.KEY_ENTER) || input.isKeyDown(Input.KEY_SPACE))) {
+            AudioManager.getInstance().playSound(AudioManager.START_GAME);
             gradientWar.a = 1;
             gradientOf.a = 1;
             gradientThrones.a = 1;
