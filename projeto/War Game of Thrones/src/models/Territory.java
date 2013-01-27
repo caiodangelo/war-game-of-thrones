@@ -12,7 +12,8 @@ public class Territory {
     private String name;
     private Region region;
     private Player owner;
-    private int numArmies;
+    protected int numArmies;
+    protected int numArmiesCanMoveThisRound;
 
     public Territory(String name, Region region) {
         this.name = name;
@@ -55,6 +56,29 @@ public class Territory {
 
     protected void decreaseArmies(int amount) {
         numArmies -= amount;
+    }
+
+    /**
+     * Diz que X exércitos já foram movidos naquela jogada. Retorna false se o
+     * número resultante for menor que zero, e não permite a movimentação.
+     *
+     * @param amount
+     */
+    protected boolean setMovedArmies(int amount) {
+        int remaining = numArmiesCanMoveThisRound - amount;
+        if (remaining >= 0) {
+            numArmiesCanMoveThisRound = remaining;
+            return true;
+        }
+        return false;
+    }
+    
+    protected void resetMovedArmies() {
+        numArmiesCanMoveThisRound = numArmies - 1;
+    }
+    
+    public int getNumArmiesCanMoveThisRound() {
+        return numArmiesCanMoveThisRound;
     }
 
     /**

@@ -6,6 +6,8 @@ package models;
  */
 public class AIPlayer extends Player {
 
+    Difficulty difficulty;
+    
     public AIPlayer(String name) {
         super(name);
     }
@@ -18,5 +20,4 @@ public class AIPlayer extends Player {
     public boolean isAIPlayer() {
         return true;
     }
-        
 }
