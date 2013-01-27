@@ -58,7 +58,7 @@ public class RepositoryCardsTerritoryTest {
     public void sorteioInicialCom6JogadoresDeveSortearTodasAsCartas() {
         Board board = new Board();
         for (int i = 0; i < 6; i++) {
-            Player p = new Player(null) {};
+            HumanPlayer p = new HumanPlayer(null) {};
             board.addPlayer(p, i, Board.HUMAN_PLAYER);
         }
         
@@ -75,7 +75,7 @@ public class RepositoryCardsTerritoryTest {
     public void sorteioInicialCom2JogadoresDeveSortearTodasAsCartas() {
         Board board = new Board();
         for (int i = 0; i < 2; i++) {
-            Player p = new Player(null) {};
+            HumanPlayer p = new HumanPlayer(null) {};
             board.addPlayer(p, i, Board.HUMAN_PLAYER);
         }
         
@@ -92,7 +92,7 @@ public class RepositoryCardsTerritoryTest {
     public void sorteioInicialCom5JogadoresDeveSortearTodasAsCartas() {
         Board board = new Board();
         for (int i = 0; i < 5; i++) {
-            Player p = new Player(null) {};
+            HumanPlayer p = new HumanPlayer(null) {};
             board.addPlayer(p, i, Board.HUMAN_PLAYER);
         }
         
@@ -110,7 +110,7 @@ public class RepositoryCardsTerritoryTest {
     public void RepositorioDeveEstarVazioAoFimDoSorteio(){
         Board board = new Board();
         for (int i = 0; i < 5; i++) {
-            Player p = new Player(null) {};
+            HumanPlayer p = new HumanPlayer(null) {};
             board.addPlayer(p, i, Board.HUMAN_PLAYER);
         }
         
@@ -123,7 +123,7 @@ public class RepositoryCardsTerritoryTest {
     public void DequeDeveEstarCheioAoFimDoSorteio(){
         Board board = new Board();
         for (int i = 0; i < 6; i++) {
-            Player p = new Player(null) {};
+            HumanPlayer p = new HumanPlayer(null) {};
             board.addPlayer(p, i, Board.HUMAN_PLAYER);
         }
          for (int i = 0; i < 42; i++) {

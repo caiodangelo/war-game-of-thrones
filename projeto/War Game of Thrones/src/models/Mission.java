@@ -168,8 +168,10 @@ public class Mission {
                 conqueredRegions.add(region);
             }
         }
-
-        for (Region regionMission : this.getRegions()) {
+        
+        for (Region regionMission : this.getRegions()) {   
+            //Para as missões do tipo que tenham que conquistar uma região a sua escolha
+            //é definido o nome da região como null
             if (regionMission.getName() != null) {
                 if (conqueredRegions.contains(regionMission)) {
                     conqueredRegions.remove(regionMission);
@@ -181,6 +183,7 @@ public class Mission {
                 aux = regionMission;
             }
         }
+        // Para as missões que tenham que conquistar uma região a sua escolha
         if ((aux.getName() == null) && (conqueredRegions.isEmpty())) {
             answer = false;
         }
@@ -192,10 +195,10 @@ public class Mission {
         boolean answer;
         List<Territory> playerTerritories = this.getPlayer().getTerritories();
         answer = (this.getTerritories().size() == playerTerritories.size());
-        
-        if((this.getTerritories().size() == 18) &&(answer)){
+
+        if ((this.getTerritories().size() == 18) && (answer)) {
             for (Territory territory : playerTerritories) {
-                if(!(territory.getNumArmies() >= 2)) {
+                if (!(territory.getNumArmies() >= 2)) {
                     return false;
                 }
             }
