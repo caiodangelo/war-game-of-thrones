@@ -8,6 +8,9 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 
 public class InGameGUIController implements ScreenController{
 
@@ -17,7 +20,8 @@ public class InGameGUIController implements ScreenController{
     private Nifty n;
     public static BackEndPlayer [] players;
     private static Color [] playerNameColors;
-    private Element objectivePopup, exitConfirmPopup, tablesPopup;
+    private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, helpPopup;
+    private boolean mouseOverObjective = false;
     
     public InGameGUIController(){
         //DEBUG ONLY
@@ -25,9 +29,9 @@ public class InGameGUIController implements ScreenController{
             playerNameColors = new Color[]{
                 new Color("#465DC0"),
                 new Color("#41BA47"),
-                new Color("#B50A95"),
+                new Color("#DB27AE"),
                 new Color("#F4AB0C"),
-                new Color("#4ACACE"),
+                new Color("#04AAF7"),
                 new Color("#9110B5")
             };
             players = new BackEndPlayer[]{
@@ -52,6 +56,8 @@ public class InGameGUIController implements ScreenController{
         objectivePopup = n.createPopup("objectivePopup");
         exitConfirmPopup = n.createPopup("quitConfirmationPopup");
         tablesPopup = n.createPopup("tablesPopup");
+        objectiveLabel = screen.findElementByName("seeObjectiveButton");
+        helpPopup = n.createPopup("helpPopup");
     }
     
     @Override
@@ -101,12 +107,13 @@ public class InGameGUIController implements ScreenController{
         Color currentPlayerColor = getCurrentPlayerColor();
         playerStatusName.setText(currPlayer.getName());
         playerStatusName.setColor(currentPlayerColor);
-        playerStatusCards.setText(currPlayer.getCardsCount() + " Cartas");
-        playerStatusUnits.setText(currPlayer.getUnitsCount() + " Exércitos");
-        playerStatusTerritories.setText(currPlayer.getTerritoriesCount() + " Territórios");
+        StatusPanelControlImpl.setLabel(playerStatusCards, currPlayer.getCardsCount(), "Carta");
+        StatusPanelControlImpl.setLabel(playerStatusUnits, currPlayer.getUnitsCount(), "Exército");
+        StatusPanelControlImpl.setLabel(playerStatusTerritories, currPlayer.getTerritoriesCount(), "Território");
     }
     
     public void showPlayerObjective(){
+        resetMouseCursor();
         n.showPopup(screen, objectivePopup.getId(), null);
         Label description = objectivePopup.findNiftyControl("objectiveDescLabel", Label.class);
         String objectiveStr = getCurrentPlayer().getMission().getDescription();
@@ -125,8 +132,13 @@ public class InGameGUIController implements ScreenController{
         System.out.println("OPTIONS");
     }
     public void helpMenuClicked(){
-        System.out.println("HELP");
+        n.showPopup(screen, helpPopup.getId(), null);
     }
+    
+    public void closeHelpPopup(){
+        n.closePopup(helpPopup.getId());
+    }
+    
     public void exitMenuClicked(){
         n.showPopup(screen, exitConfirmPopup.getId(), null);
     }
@@ -145,5 +157,28 @@ public class InGameGUIController implements ScreenController{
     
     public void dismissTablesPopup(){
         n.closePopup(tablesPopup.getId());
+    }
+    
+    private void resetMouseCursor(){
+        GameContainer c = main.Main.getInstance().getContainer();
+        c.setDefaultMouseCursor();
+    }
+    
+    public void mouseMovedOverBottomPanel(){
+        Input in = main.Main.getInstance().getContainer().getInput();
+        boolean inside = objectiveLabel.isMouseInsideElement(in.getMouseX(), in.getMouseY());
+        if(inside != mouseOverObjective){
+            mouseOverObjective = inside;
+            if(!inside)
+                resetMouseCursor();
+            else{
+                GameContainer c = main.Main.getInstance().getContainer();
+                try {
+                    c.setMouseCursor("resources/cursors/aero_link.png", 8, 1);
+                } catch (SlickException ex) {
+                        System.out.println("error setting cursor");
+                }
+            }
+        }
     }
 }

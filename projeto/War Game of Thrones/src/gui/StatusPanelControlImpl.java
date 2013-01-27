@@ -43,9 +43,13 @@ public class StatusPanelControlImpl extends AbstractController implements Contro
     @Override
     public void updateData(String playerName, int cards, int units, int territories){
         nameLabel.setText(playerName);
-        cardsLabel.setText(cards + " Cartas");
-        unitsLabel.setText(units + " Exércitos");
-        territoriesLabel.setText(territories + " Territórios");
+        setLabel(cardsLabel, cards, "Carta");
+        setLabel(unitsLabel, units, "Exército");
+        setLabel(territoriesLabel, territories, "Território");
+    }
+    
+    public static void setLabel(Label l, int count, String unitName){
+        l.setText(count + " " + unitName + (count > 1 ? "s" : ""));
     }
     
     @Override

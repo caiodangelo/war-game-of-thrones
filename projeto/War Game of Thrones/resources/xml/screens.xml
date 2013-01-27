@@ -160,11 +160,12 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 				</panel>
 				<panel childLayout="vertical" width="88%" height="100%">
 					<panel childLayout="vertical" width="100%" height="82%" padding="20px">
-						<image align="right" valign="top" filename="resources/images/icons/tabelas.png" width="26px" height="26px">
+						<image align="right" valign="top" filename="resources/images/icons/tables.png" width="55px" height="49px">
 							<interact onClick="showTables()"/>
 						</image>
 					</panel>
 					<panel backgroundColor="#f0f0f0ff" valign="bottom" align="right" width="100%" height="18%" childLayout="horizontal">
+						<interact onMouseOver="mouseMovedOverBottomPanel()"/>
 						<panel childLayout="vertical" width="15%">
 							<control height="20%" width="100%" font="resources/fonts/calibri_bold.fnt" color="#333333ff" id="playerStatusName" name="label" text="Marcelle Guine"/>
 							<panel  height="70%" childLayout="vertical" padding="5px">
@@ -173,7 +174,6 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 							</panel>
 						</panel>
 						<panel align="left" id="playerStatusPanel" childLayout="vertical" width="20%" height="100%">
-							
 							<panel childLayout="horizontal" width="100%" height="29%">
 								<image valign="center" filename="resources/images/icons/cartas.png" width="11%" height="70%"/>
 								<control valign="center" color="#333333ff" align="left"  id="playerStatusCards" name="label" text="2 cartas" width="33%"/>
@@ -182,7 +182,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 								<image valign="center" filename="resources/images/icons/mapa.png" width="11%" height="70%"/>
 								<control valign="center" color="#333333ff" align="left" id="playerStatusTerritories" name="label" text="7 territórios" width="33%"/>
 							</panel>
-							<control textHAlign="left" width="100%" color="#1464f6ff" id="seeObjectiveButton" name="label" text="Ver objetivo">
+							<control align="left" textHAlign="left" width="30%" color="#1464f6ff" id="seeObjectiveButton" name="label" text="Ver objetivo" visibleToMouse="true">
 								<interact onClick="showPlayerObjective()"/>
 							</control>
 							
@@ -199,10 +199,10 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 		</layer>
 	</screen>
 	<popup id="objectivePopup" childLayout="center" backgroundColor="#000a">
-		<panel padding="10%" style="nifty-panel" width="30%" height="30%" childLayout="vertical">
-			<control align="left" textHAlign="left" name="label" text="Seu objetivo" width="100%"/>
+		<panel padding="10%" style="nifty-panel-custom" width="30%" height="30%" childLayout="vertical">
+			<control color="#333333ff" font="resources/fonts/calibri_bold.fnt" align="left" textHAlign="left" name="label" text="Seu objetivo" width="100%"/>
 			<panel  width="100%" height="3px" childLayout="vertical" backgroundColor="#000"/>
-			<control align="left" textHAlign="left" id="objectiveDescLabel" name="label" text="descrição do objetivo" height="60%" width="100%"/>
+			<control color="#333333ff" align="left" textHAlign="left" id="objectiveDescLabel" name="label" text="descrição do objetivo" height="60%" width="100%"/>
 			<control name="button" label="OK" width="100%">
 				<interact onClick="dismissPlayerObjective()"/>
 			</control>
@@ -210,14 +210,14 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 	</popup>
 
 	<popup id="quitConfirmationPopup" childLayout="center" backgroundColor="#000a">
-		<panel padding="10%" style="nifty-panel" width="20%" height="15%" childLayout="vertical">
-			<control height="50%" align="center" name="label" text="Você realmente deseja sair do jogo?"/>
+		<panel padding="10%" style="nifty-panel-custom" width="18%" height="15%" childLayout="vertical">
+			<control color="#333333ff" width="100%" height="50%" align="center" name="label" text="Você realmente deseja sair do jogo?"/>
 			<panel width="100%" height="50%" valign="bottom" childLayout="horizontal">
-				<control align="right" width="40%" name="button" label="Cancelar">
+				<control align="left" width="40%" name="button" label="Cancelar">
 					<interact onClick="dismissExitConfirmation()"/>
 				</control>
-				<panel childLayout="center" width="10%"/>
-				<control align="left" width="40%" name="button" label="Sim">
+				<panel childLayout="center" width="20%"/>
+				<control align="right" width="40%" name="button" label="Sim">
 					<interact onClick="exitGame()"/>
 				</control>
 			</panel>
@@ -225,7 +225,9 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 	</popup>
 	
 	<popup id="tablesPopup" childLayout="center" backgroundColor="#000a">
-		<panel style="nifty-panel" width="800px" height="350px" childLayout="vertical">
+		<panel style="nifty-panel-custom" width="800px" height="370px" childLayout="vertical">
+			<control font="resources/fonts/calibri_bold.fnt" color="#333333ff" align="left" textHAlign="left" name="label" text="Tabelas" width="100%"/>
+			<panel  width="100%" height="3px" childLayout="vertical" backgroundColor="#000"/>
 			<panel align="center" childLayout="center" height="95px">
 				<image  width="765px" height="85px" filename="resources/images/tabela1.png"/>
 			</panel>
@@ -233,7 +235,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 				<image  width="609px" height="161px" filename="resources/images/tabela2.jpg"/>
 			</panel>
 			<panel align="center" childLayout="center" height="55px">
-				<control name="button" label="OK" width="50px">
+				<control name="button" label="OK" width="100px">
 					<interact onClick="dismissTablesPopup()"/>
 				</control>
 			</panel>
@@ -241,9 +243,8 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 	</popup>
 	
 	<popup id="helpPopup" childLayout="center">
-		<panel margin="30px" style="nifty-panel" width="50%" height="50%" childLayout="vertical">
-			<text text="opções teste" font="resources/fonts/calibri.fnt"/>
-			<control height="10%" width="100%" textHAlign="left" name="label" text="Ajuda"/>
+		<panel margin="30px" style="nifty-panel-custom" width="50%" height="50%" childLayout="vertical">
+			<control font="resources/fonts/calibri_bold.fnt" color="#333333ff" height="10%" width="100%" textHAlign="left" name="label" text="Ajuda"/>
 			<control style="nifty-listbox" width="100%" height="80%" name="scrollPanel" horizontal="false">
 				<control textHAlign="left" textVAlign="top" wrap="true" width="90%" height="100%" name="label" text="&#10;
 \#FCDC3B#EXÉRCITOS\#FCDC3B#&#10;
