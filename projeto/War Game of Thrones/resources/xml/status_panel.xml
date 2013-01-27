@@ -7,17 +7,17 @@
 			<panel id="#playerStatus" backgroundColor="#f0f0f0ff" width="100%" height="100%" childLayout="vertical" padding="3px">
 				<control font="resources/fonts/calibri_bold.fnt" align="left" id="#playerStatusName" name="label" text="PlayerName" width="100%"/>
 				<panel childLayout="horizontal">
-					<image filename="resources/images/icons/cartas.png" width="18%" height="100%"/>
+					<image valign="center" filename="resources/images/icons/cartas.png" width="13px" height="13px"/>
 					<panel childLayout="center" width="10px"/>
 					<control color="#333333ff" align="center" textHAlign="left" width="100%" id="#playerStatusCards" name="label" text="Cartas"/>
 				</panel>
 				<panel childLayout="horizontal">
-					<image filename="resources/images/icons/exercitos.png" width="18%" height="100%"/>
+					<image valign="center" filename="resources/images/icons/exercitos.png" width="13px" height="13px"/>
 					<panel childLayout="center" width="10px"/>
 					<control color="#333333ff" align="center" textHAlign="left" width="100%" id="#playerStatusUnits" name="label" text="Exercitos"/>
 				</panel>
 				<panel childLayout="horizontal">
-					<image filename="resources/images/icons/mapa.png" width="18%" height="100%"/>
+					<image valign="center" filename="resources/images/icons/mapa.png" width="13px" height="13px"/>
 					<panel childLayout="center" width="10px"/>
 					<control color="#333333ff" align="center" textHAlign="left" width="100%" id="#playerStatusTerritories" name="label" text="Territorios"/>
 				</panel>

@@ -28,6 +28,8 @@ public abstract class Player {
         this(name);
         this.house = house;
     }
+    
+    public abstract boolean isAIPlayer ();
 
     public House getHouse() {
         return house;
@@ -76,7 +78,23 @@ public abstract class Player {
     public List<CardTerritory> getCards() {
         return cards;
     }
-
+    
+    public int numArmies() {
+        int count = 0;
+        for (Territory territory : this.getTerritories()) {
+            count += territory.getNumArmies();
+        }
+        return count;
+    }
+    
+    public int numCards() {
+        return this.getCards().size();
+    }
+    
+    public int numTerritories() {
+        return this.getTerritories().size();
+    }
+            
     public void addTerritory(Territory territory) {
         territories.add(territory);
     }

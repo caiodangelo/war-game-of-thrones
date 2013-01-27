@@ -14,4 +14,9 @@ public class HumanPlayer extends Player {
         super(name, house);
     }
 
+    @Override
+    public boolean isAIPlayer() {
+        return false;
+    }
+
 }

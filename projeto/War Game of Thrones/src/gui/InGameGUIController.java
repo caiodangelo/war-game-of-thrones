@@ -120,6 +120,10 @@ public class InGameGUIController implements ScreenController{
         description.setText(objectiveStr);
     }
     
+    public void showPlayerCards(){
+        System.out.println("SHOW CARDS");
+    }
+    
     public void dismissPlayerObjective(){
         n.closePopup(objectivePopup.getId());
     }
