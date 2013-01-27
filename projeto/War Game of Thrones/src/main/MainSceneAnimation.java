@@ -5,6 +5,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import util.ImageMovementsComponent;
@@ -13,7 +14,7 @@ public class MainSceneAnimation extends ImageMovementsComponent {
     
     private final int TIME_TO_CHANGE_CONTINENT = 100;
     private final int TIME_TO_SHOW_LOGO = 500;
-    private final int DELAY_TO_SHOW_BUTTON_INSTRUCTION = -100;
+    private final int DELAY_TO_SHOW_BUTTON_INSTRUCTION = -20;
     private final int TIME_TO_TOGGLE_BUTTON_INSTRUCTION = 100;
     //private final float LOGO_SPEED = 4;
     private final float GRADIENT_CHANGING_SPEED = 0.5f;
@@ -30,6 +31,7 @@ public class MainSceneAnimation extends ImageMovementsComponent {
     private Color gradientWar;
     private Color gradientOf;
     private Color gradientThrones;
+    private Color mapOpacity;
     //private float logoWarX;
     private float logoWarY;
     private float logoWarFinalX;
@@ -53,6 +55,7 @@ public class MainSceneAnimation extends ImageMovementsComponent {
         this.gradientWar = new Color(1f, 1f, 1f, 0);
         this.gradientOf = new Color(1f, 1f, 1f, 0);
         this.gradientThrones = new Color(1f, 1f, 1f, 0);
+        //this.mapOpacity = new Color(1f, 1f, 1f, 1);
         //this.logoWarX = -1 * logoWarImage.getWidth();
         this.logoWarY = Main.windowH/3 - logoWarImage.getHeight();
         this.logoWarFinalX = Main.windowW/2 - logoWarImage.getWidth()/2;
@@ -71,6 +74,7 @@ public class MainSceneAnimation extends ImageMovementsComponent {
     public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
         Vector2f pos = owner.position;
         float scale = owner.getScale();
+        gr.setBackground(Color.white);
         image.draw(pos.x, pos.y, scale);
         logoWarImage.draw(logoWarFinalX, logoWarY, gradientWar);
         logoOfImage.draw(logoOfFinalX, logoOfY, gradientOf);
