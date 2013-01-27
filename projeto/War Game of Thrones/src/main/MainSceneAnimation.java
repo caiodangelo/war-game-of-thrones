@@ -122,9 +122,8 @@ public class MainSceneAnimation extends ImageMovementsComponent {
         owner.setPosition(position);
         gc.setMouseGrabbed(!buttonsDisplayed);
         if (input.isKeyDown(Input.KEY_ENTER) || input.isKeyDown(Input.KEY_SPACE)) {
-//            logoWarX = logoWarFinalX;
-//            logoOfX = logoOfFinalX;
-//            logoThronesX = logoThronesFinalX;
+            if (!buttonsDisplayed)
+                AudioManager.getInstance().playSound(AudioManager.START_GAME);
             gradientWar.a = 1;
             gradientOf.a = 1;
             gradientThrones.a = 1;

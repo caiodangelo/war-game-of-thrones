@@ -4,7 +4,9 @@ import de.lessvoid.nifty.Nifty;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Vector2f;
 import util.Entity;
 import util.Scene;
@@ -27,6 +29,8 @@ public class MainScene extends Scene{
             Image logoOfImage = new Image("resources/images/logo-of.png");
             Image logoThronesImage = new Image("resources/images/logo-thrones.png");
             Image instructionImage = new Image("resources/images/instruction.png");
+            AudioManager am = AudioManager.getInstance();
+            am.playMusic(AudioManager.OPENING);
             Entity map = new Entity();
             map.setScale(3.5f);
             map.addComponent(new MainSceneAnimation("animation", mapImage, logoWarImage, logoOfImage, logoThronesImage, instructionImage));
