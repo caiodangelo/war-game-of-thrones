@@ -7,19 +7,27 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 	<screen id="startingScreen" controller="gui.MainScreenController">
 		<layer id="mainScreenLayer" childLayout="center">
 			<panel align="center" childLayout="Vertical">
-				<panel align="center" height="80%"/>
-				<control align="center" id="mainPlayButton" name="button" label="Jogar" focusable="false">
-					<interact onClick="showAddPlayerMenu()"/>
-				</control>
-				<control align="center" id="mainOptionsButton" name="button" label="Opções" focusable="false">
-					<interact onClick="showOptions()"/>
-				</control>
-				<control align="center" id="mainCreditsButton" name="button" label="Ajuda" focusable="false">
-					<interact onClick="showHelp()"/>
-				</control>
-				<control align="center" id="mainExitButton" name="button" label="Sair" focusable="false">
-					<interact onClick="exit()"/>
-				</control>
+				<panel align="center" height="65%"/>
+				<panel align="center" paddingBottom="10px" height="7%" width="20%" childLayout="center">
+					<control id="mainPlayButton" name="button" height="100%" width="100%" label="JOGAR" focusable="false">
+						<interact onClick="showAddPlayerMenu()"/>
+					</control>
+				</panel>
+				<panel align="center" paddingBottom="10px" height="7%" width="20%" childLayout="center">
+					<control id="mainOptionsButton" name="button" height="100%" width="100%" label="OPÇÕES" focusable="false">
+						<interact onClick="showOptions()"/>
+					</control>
+				</panel>
+				<panel align="center" paddingBottom="10px" height="7%" width="20%" childLayout="center">
+					<control id="mainCreditsButton" name="button" height="100%" width="100%" label="AJUDA" focusable="false">
+						<interact onClick="showHelp()"/>
+					</control>
+				</panel>	
+				<panel align="center" paddingBottom="10px" height="7%" width="20%" childLayout="center">
+					<control id="mainExitButton" name="button" height="100%" width="100%" label="SAIR" focusable="false">
+						<interact onClick="exit()"/>
+					</control>
+				</panel>	
 			</panel>
 		</layer>
 	</screen>
@@ -246,7 +254,8 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 		<panel margin="30px" style="nifty-panel-custom" width="50%" height="50%" childLayout="vertical">
 			<control font="resources/fonts/calibri_bold.fnt" color="#333333ff" height="10%" width="100%" textHAlign="left" name="label" text="Ajuda"/>
 			<control style="nifty-listbox" width="100%" height="80%" name="scrollPanel" horizontal="false">
-				<control textHAlign="left" textVAlign="top" wrap="true" width="90%" height="100%" name="label" text="&#10;
+				<panel margin="10px" width="100%" height="850%" childLayout="vertical">
+					<control textHAlign="left" textVAlign="top" wrap="true" width="90%" height="100%" name="label" text="&#10;
 \#FCDC3B#EXÉRCITOS\#FCDC3B#&#10;
 Cada jogador escolhe a casa que lhe agrada dentro das 6 possíveis (Baratheon, Greyjoy, Lannister, Stark, Targaryen ou Free Folk).&#10;
 &#10;
@@ -322,6 +331,7 @@ Em cada vez de jogar, o participante pode:&#10;
 3o. EFETUAR OS SEUS ATAQUES;&#10;
 4o. DESLOCAR SEUS EXÉRCITOS, se desejar;&#10;
 5o. RECEBER UMA CARTA-TERRITÓRIO, se conseguir conquistar ao menos um território."/>
+			</panel>
 		</control>
 		<control height="10%" align="center" name="button" label="OK" width="50px">
 			<interact onClick="closeHelpPopup()"/>
