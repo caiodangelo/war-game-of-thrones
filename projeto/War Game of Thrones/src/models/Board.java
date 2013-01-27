@@ -14,9 +14,11 @@ public class Board {
     public static final int HUMAN_PLAYER = 2;
     protected LinkedList<Player> players;
     protected static Board instance;
+    protected int currentPlayer;
 
     protected Board() {
         players = new LinkedList<Player>();
+        currentPlayer = 0;
     }
 
     public static Board getInstance() {
@@ -74,6 +76,32 @@ public class Board {
         } else {
             return null;
         }
-
     }
+    
+    public Player nextPlayer(Player player) {
+        int i;
+        for (i = 0; i < this.getPlayers().size(); i++) {
+            if (player == this.getPlayer(i))
+                break;            
+        }
+        if (i == this.getPlayers().size()) 
+            i = 0;
+        else
+            i++;
+        return this.getPlayer(i);
+    }
+    
+    public int changePlayer () {
+        int newPlayer;
+        int oldPlayer = this.currentPlayer;
+        if (oldPlayer == this.getPlayers().size()) {
+            currentPlayer = 0;
+            newPlayer = 0;
+        } else {
+            currentPlayer++;
+            newPlayer = oldPlayer + 1;
+        }
+        return newPlayer;
+    }
+    
 }
