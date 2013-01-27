@@ -176,20 +176,25 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 						<panel align="left" id="playerStatusPanel" childLayout="vertical" width="20%" height="100%">
 							<panel childLayout="horizontal" width="100%" height="29%">
 								<image valign="center" filename="resources/images/icons/cartas.png" width="11%" height="70%"/>
-								<control valign="center" color="#333333ff" align="left"  id="playerStatusCards" name="label" text="2 cartas" width="33%"/>
+								<control marginLeft="5px" textHAlign="left" valign="center" color="#333333ff" align="left"  id="playerStatusCards" name="label" text="2 cartas" width="33%"/>
 								<image valign="center" filename="resources/images/icons/exercitos.png" width="11%" height="70%"/>
-								<control valign="center" color="#333333ff" align="left" id="playerStatusUnits" name="label" text="59 exércitos" width="33%"/>
+								<control marginLeft="5px" textHAlign="left" valign="center" color="#333333ff" align="left" id="playerStatusUnits" name="label" text="59 exércitos" width="33%"/>
 								<image valign="center" filename="resources/images/icons/mapa.png" width="11%" height="70%"/>
-								<control valign="center" color="#333333ff" align="left" id="playerStatusTerritories" name="label" text="7 territórios" width="33%"/>
+								<control marginLeft="5px" textHAlign="left" valign="center" color="#333333ff" align="left" id="playerStatusTerritories" name="label" text="7 territórios" width="33%"/>
 							</panel>
-							<control align="left" textHAlign="left" width="30%" color="#1464f6ff" id="seeObjectiveButton" name="label" text="Ver objetivo" visibleToMouse="true">
-								<interact onClick="showPlayerObjective()"/>
-							</control>
-							
+							<panel width="100%" height="30%" childLayout="horizontal">
+								<control align="left" textHAlign="left" width="30%" color="#1464f6ff" id="seeObjectiveButton" name="label" text="Ver objetivo" visibleToMouse="true">
+									<interact onClick="showPlayerObjective()"/>
+								</control>
+								<panel childLayout="center" width="5%"/>
+								<control align="left" textHAlign="left" width="30%" color="#1464f6ff" id="seeCardsButton" name="label" text="Ver cartas" visibleToMouse="true">
+									<interact onClick="showPlayerCards()"/>
+								</control>
+							</panel>
 							<panel childLayout="horizontal" width="100%">
-								<control align="left" name="button" label="Trocar cartas" width="35%"/>
+								<control align="left" name="button" label="Trocar cartas" width="35%" focusable="false"/>
 								<panel childLayout="center" width="10%"/>
-								<control align="right" name="button" label="Passar a vez" width="35%"/>
+								<control align="right" name="button" label="Passar a vez" width="35%" focusable="false"/>
 							</panel>
 						</panel>
 					</panel>
@@ -202,8 +207,8 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 		<panel padding="10%" style="nifty-panel-custom" width="30%" height="30%" childLayout="vertical">
 			<control color="#333333ff" font="resources/fonts/calibri_bold.fnt" align="left" textHAlign="left" name="label" text="Seu objetivo" width="100%"/>
 			<panel  width="100%" height="3px" childLayout="vertical" backgroundColor="#000"/>
-			<control color="#333333ff" align="left" textHAlign="left" id="objectiveDescLabel" name="label" text="descrição do objetivo" height="60%" width="100%"/>
-			<control name="button" label="OK" width="100%">
+			<control font="resources/fonts/calibri_18.fnt" color="#333333ff" align="left" textHAlign="left" id="objectiveDescLabel" name="label" text="descrição do objetivo" height="60%" width="100%"/>
+			<control align="center" name="button" label="OK" focusable="false">
 				<interact onClick="dismissPlayerObjective()"/>
 			</control>
 		</panel>
@@ -213,11 +218,11 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 		<panel padding="10%" style="nifty-panel-custom" width="18%" height="15%" childLayout="vertical">
 			<control color="#333333ff" width="100%" height="50%" align="center" name="label" text="Você realmente deseja sair do jogo?"/>
 			<panel width="100%" height="50%" valign="bottom" childLayout="horizontal">
-				<control align="left" width="40%" name="button" label="Cancelar">
+				<control align="left" width="40%" name="button" label="Cancelar" focusable="false">
 					<interact onClick="dismissExitConfirmation()"/>
 				</control>
 				<panel childLayout="center" width="20%"/>
-				<control align="right" width="40%" name="button" label="Sim">
+				<control align="right" width="40%" name="button" label="Sim" focusable="false">
 					<interact onClick="exitGame()"/>
 				</control>
 			</panel>
@@ -235,7 +240,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 				<image  width="609px" height="161px" filename="resources/images/tabela2.jpg"/>
 			</panel>
 			<panel align="center" childLayout="center" height="55px">
-				<control name="button" label="OK" width="100px">
+				<control align="center" name="button" label="OK" focusable="false">
 					<interact onClick="dismissTablesPopup()"/>
 				</control>
 			</panel>
@@ -323,7 +328,7 @@ Em cada vez de jogar, o participante pode:&#10;
 4o. DESLOCAR SEUS EXÉRCITOS, se desejar;&#10;
 5o. RECEBER UMA CARTA-TERRITÓRIO, se conseguir conquistar ao menos um território."/>
 		</control>
-		<control height="10%" align="center" name="button" label="OK" width="50px">
+		<control align="center" name="button" label="OK" focusable="false">
 			<interact onClick="closeHelpPopup()"/>
 		</control>
 		</panel>
