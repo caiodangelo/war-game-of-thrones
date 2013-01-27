@@ -121,7 +121,7 @@ public class MainSceneAnimation extends ImageMovementsComponent {
         position.y = (main.Main.windowH / 2f) - viewY * getImageHeight(owner.getScale());
         owner.setPosition(position);
         gc.setMouseGrabbed(!buttonsDisplayed);
-        if (input.isKeyDown(Input.KEY_ENTER) || input.isKeyDown(Input.KEY_SPACE)) {
+        if (!buttonsDisplayed && (input.isKeyDown(Input.KEY_ENTER) || input.isKeyDown(Input.KEY_SPACE))) {
 //            logoWarX = logoWarFinalX;
 //            logoOfX = logoOfFinalX;
 //            logoThronesX = logoThronesFinalX;

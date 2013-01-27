@@ -49,7 +49,7 @@ public class StatusPanelControlImpl extends AbstractController implements Contro
     }
     
     public static void setLabel(Label l, int count, String unitName){
-        l.setText(count + " " + unitName + (count > 1 ? "s" : ""));
+        l.setText(count + " " + unitName + (count != 1 ? "s" : ""));
     }
     
     @Override
