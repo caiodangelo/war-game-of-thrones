@@ -22,7 +22,7 @@ public class InGameGUIController implements ScreenController{
     private Nifty n;
     public static Player [] players;
     private static Color [] playerNameColors;
-    private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, helpPopup;
+    private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, helpPopup, cardsPopup;
     private boolean mouseOverObjective = false;
     
     public InGameGUIController(){
@@ -62,6 +62,7 @@ public class InGameGUIController implements ScreenController{
         tablesPopup = n.createPopup("tablesPopup");
         objectiveLabel = screen.findElementByName("seeObjectiveButton");
         helpPopup = n.createPopup("helpPopup");
+        cardsPopup = n.createPopup("cardsPopup");
         NiftyInputConsumer i;
         
     }
@@ -129,11 +130,15 @@ public class InGameGUIController implements ScreenController{
     }
     
     public void showPlayerCards(){
-        System.out.println("SHOW CARDS");
+        n.showPopup(screen, cardsPopup.getId(), null);
     }
     
     public void dismissPlayerObjective(){
         n.closePopup(objectivePopup.getId());
+    }
+    
+    public void dismissPlayerCards(){
+        n.closePopup(cardsPopup.getId());
     }
     
     //Top Menu event handling

@@ -184,7 +184,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 						<panel align="left" id="playerStatusPanel" childLayout="vertical" width="20%" height="100%">
 							<panel childLayout="horizontal" width="100%" height="29%">
 								<image valign="center" filename="resources/images/icons/cartas.png" width="11%" height="70%"/>
-								<control marginLeft="5px" textHAlign="left" valign="center" color="#333333ff" align="left"  id="playerStatusCards" name="label" text="2 cartas" width="33%"/>
+								<control marginLeft="5px" textHAlign="left" valign="center" color="#333333ff" align="left" id="playerStatusCards" name="label" text="2 cartas" width="33%"/>
 								<image valign="center" filename="resources/images/icons/exercitos.png" width="11%" height="70%"/>
 								<control marginLeft="5px" textHAlign="left" valign="center" color="#333333ff" align="left" id="playerStatusUnits" name="label" text="59 exércitos" width="33%"/>
 								<image valign="center" filename="resources/images/icons/mapa.png" width="11%" height="70%"/>
@@ -218,6 +218,33 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 			<control font="resources/fonts/calibri_18.fnt" color="#333333ff" align="left" textHAlign="left" id="objectiveDescLabel" name="label" text="descrição do objetivo" height="60%" width="100%"/>
 			<control align="center" name="button" label="OK" focusable="false">
 				<interact onClick="dismissPlayerObjective()"/>
+			</control>
+		</panel>
+	</popup>
+	
+	<popup id="cardsPopup" childLayout="center" backgroundColor="#000a">
+		<panel padding="10%" style="nifty-panel-custom" width="60%" height="50%" childLayout="vertical">
+			<control color="#333333ff" font="resources/fonts/calibri_bold.fnt" align="left" textHAlign="left" name="label" text="Suas cartas" width="100%"/>
+			<panel width="100%" height="3px" childLayout="vertical" backgroundColor="#000"/>
+			<panel width="100%" height="80%" childLayout="horizontal">
+				<panel padding="10%,0,0,10%" width="20%" height="80%" childLayout="center">
+					<image filename="resources/images/cartas/circulo/a-costa-gelada.png" width="100%" height="100%"/>
+				</panel>
+				<panel padding="10%,0,0,10%" width="20%" height="80%" childLayout="center">
+					<image filename="resources/images/cartas/circulo/cape-kraken.png" width="100%" height="100%"/>
+				</panel>
+				<panel padding="10%,0,0,10%" width="20%" height="80%" childLayout="center">
+					<image filename="resources/images/cartas/quadrado/a-costa-laranja.png" width="100%" height="100%"/>
+				</panel>
+				<panel padding="10%,0,0,10%" width="20%" height="80%" childLayout="center">
+					<image filename="resources/images/cartas/quadrado/a-floresta-assombrada.png" width="100%" height="100%"/>
+				</panel>
+				<panel padding="10%,0,0,10%" width="20%" height="80%" childLayout="center">
+					<image filename="resources/images/cartas/triangulo/a-arvore.png" width="100%" height="100%"/>
+				</panel>
+			</panel>
+			<control align="center" name="button" label="OK" focusable="false">
+				<interact onClick="dismissPlayerCards()"/>
 			</control>
 		</panel>
 	</popup>
