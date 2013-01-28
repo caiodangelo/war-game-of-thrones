@@ -215,4 +215,16 @@ public class Mission {
         }
         return (defeated.getTerritories().isEmpty());
     }
+
+    public boolean isTerritoryInMission(Territory territory) {
+        switch (type) {
+            case TYPE_HOUSE:
+                return territory.getOwner() == house.getPlayer();
+            case TYPE_REGION:
+                return regions.contains(territory.getRegion());
+            case TYPE_TERRITORY:
+                return territories.contains(territory);
+        }
+        return false;
+    }
 }
