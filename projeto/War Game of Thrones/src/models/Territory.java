@@ -1,6 +1,5 @@
 package models;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -59,6 +58,13 @@ public class Territory {
     }
 
     /**
+     * Pega o número de exércitos - 1
+     */
+    protected int getSurplusArmies() {
+       return numArmies - 1;
+    }
+
+    /**
      * Diz que X exércitos já foram movidos naquela jogada. Retorna false se o
      * número resultante for menor que zero, e não permite a movimentação.
      *
@@ -107,5 +113,9 @@ public class Territory {
      */
     public boolean isNeighbour(Territory another) {
         return true;
+    }
+
+    public List<Territory> getNeighbours() {
+        return null;
     }
 }
