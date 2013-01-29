@@ -9,22 +9,22 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 			<panel align="center" childLayout="Vertical">
 				<panel align="center" height="65%"/>
 				<panel align="center" paddingBottom="10px" height="7%" width="20%" childLayout="center">
-					<control id="mainPlayButton" name="button" height="100%" width="100%" label="JOGAR" focusable="false">
+					<control style="nifty-button-larger" id="mainPlayButton" name="button" height="100%" width="100%" label="JOGAR" focusable="false">
 						<interact onClick="showAddPlayerMenu()"/>
 					</control>
 				</panel>
 				<panel align="center" paddingBottom="10px" height="7%" width="20%" childLayout="center">
-					<control id="mainOptionsButton" name="button" height="100%" width="100%" label="OPÇÕES" focusable="false">
+					<control style="nifty-button-larger" id="mainOptionsButton" name="button" height="100%" width="100%" label="OPÇÕES" focusable="false">
 						<interact onClick="showOptions()"/>
 					</control>
 				</panel>
 				<panel align="center" paddingBottom="10px" height="7%" width="20%" childLayout="center">
-					<control id="mainCreditsButton" name="button" height="100%" width="100%" label="AJUDA" focusable="false">
+					<control style="nifty-button-larger" id="mainCreditsButton" name="button" height="100%" width="100%" label="AJUDA" focusable="false">
 						<interact onClick="showHelp()"/>
 					</control>
 				</panel>	
 				<panel align="center" paddingBottom="10px" height="7%" width="20%" childLayout="center">
-					<control id="mainExitButton" name="button" height="100%" width="100%" label="SAIR" focusable="false">
+					<control style="nifty-button-larger" id="mainExitButton" name="button" height="100%" width="100%" label="SAIR" focusable="false">
 						<interact onClick="exit()"/>
 					</control>
 				</panel>	
