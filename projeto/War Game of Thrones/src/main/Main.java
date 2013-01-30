@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import util.LibraryLoader;
 
 public class Main extends NiftyStateBasedGame{
     
@@ -38,7 +39,10 @@ public class Main extends NiftyStateBasedGame{
         return instance;
     }
 
-    public static void main(String[] args) throws SlickException {
+    
+    public static void main(String[] args) throws Exception {
+        LibraryLoader.loadLibryary();
+        
         disableNiftyWarnings();
         Main m = getInstance();
         
