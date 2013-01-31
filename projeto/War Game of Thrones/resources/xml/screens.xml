@@ -370,4 +370,15 @@ Em cada vez de jogar, o participante pode:&#10;
 		</control>
 		</panel>
 	</popup>
+
+	<popup id="emptyNamePopup" childLayout="center" backgroundColor="#000a">
+		<panel padding="10%" style="nifty-panel-custom" width="25%" height="15%" childLayout="vertical">
+			<control color="#333333ff" width="100%" height="50%" align="center" name="label" text="Por favor, especifique um nome para o jogador."/>
+			<panel width="100%" height="35%" valign="bottom" childLayout="center">
+				<control align="center" width="40%" name="button" label="OK" focusable="false">
+					<interact onClick="dismissEmptyNamePopup()"/>
+				</control>
+			</panel>
+		</panel>
+	</popup>
 </nifty>

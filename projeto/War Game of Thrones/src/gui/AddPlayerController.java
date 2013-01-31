@@ -29,12 +29,13 @@ public class AddPlayerController implements ScreenController{
 
     private TextField nameField;
     private Nifty n;
+    private Screen s;
     private DropDown housesDropdown;
     private List<HouseData> availableHouses;
     private List<PlayerData> createdPlayers;
     private RadioButton humanButton, cpuButton;
     private Button addButton, playButton;
-    private Element iconsPanel, cancelAddPlayerButton;
+    private Element iconsPanel, emptyNamePopup;
     private Element [] playerIcons;
     private Label [] playerNames;
     private int currentEditingIndex = -1;
@@ -44,6 +45,7 @@ public class AddPlayerController implements ScreenController{
     @Override
     public void bind(Nifty nifty, Screen screen) {
         n = nifty;
+        s = screen;
         playerIcons = new Element[6];
         for(int i = 0; i < 6; i++)
             playerIcons[i] = screen.findElementByName("player" + i + "Icon");
@@ -57,8 +59,7 @@ public class AddPlayerController implements ScreenController{
         housesDropdown = screen.findNiftyControl("dropDown2", DropDown.class);
         humanButton = screen.findNiftyControl("humanRadioBtn", RadioButton.class);
         cpuButton = screen.findNiftyControl("cpuRadioBtn", RadioButton.class);
-        cancelAddPlayerButton = screen.findElementByName("cancelButton");
-        cancelAddPlayerButton.setIgnoreKeyboardEvents(false);
+        emptyNamePopup = nifty.createPopup("emptyNamePopup");
     }
     
     @Override
@@ -166,14 +167,18 @@ public class AddPlayerController implements ScreenController{
     
     public void addPlayer(){
         if(nameField != null && createdPlayers.size() < 6){
-            updatePlayerImage();
-            saveCurrentPlayerData();
-            addBlankPlayerData();
-            
-            resetDisplay();
-            playButton.enable();
-            playerIcons[currentEditingIndex].show();
-            updatePlayerImage();
+            if(nameField.getDisplayedText().isEmpty()){
+                n.showPopup(s, emptyNamePopup.getId(), null);
+            } else {
+                updatePlayerImage();
+                saveCurrentPlayerData();
+                addBlankPlayerData();
+
+                resetDisplay();
+                playButton.enable();
+                playerIcons[currentEditingIndex].show();
+                updatePlayerImage();
+            }
         }
         if(createdPlayers.size() == 6){
             addButton.disable();
@@ -240,6 +245,10 @@ public class AddPlayerController implements ScreenController{
     
     public void closePopup(){
         n.gotoScreen("startingScreen");
+    }
+    
+    public void dismissEmptyNamePopup(){
+        n.closePopup(emptyNamePopup.getId());
     }
     
     //Auxiliary classes
