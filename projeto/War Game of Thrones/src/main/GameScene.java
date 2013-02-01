@@ -26,6 +26,8 @@ public class GameScene extends Scene{
         addEntity(map);
         //Left button was pressed to play but this record must be erased.
         container.getInput().clearMousePressedRecord();
+        AudioManager am = AudioManager.getInstance();
+        am.stopMusic(AudioManager.OPENING);
     }
 
     @Override

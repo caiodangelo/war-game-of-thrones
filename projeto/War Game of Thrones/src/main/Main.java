@@ -57,7 +57,7 @@ public class Main extends NiftyStateBasedGame{
     @Override
     public void initStatesList(GameContainer container) throws SlickException {
         addState(new MainScene());
-//        addState(new GameScene());
+        addState(new GameScene());
 //        enterState(WarScenes.STARTING_SCENE);
 //        enterState(WarScenes.GAME_SCENE);
     }
