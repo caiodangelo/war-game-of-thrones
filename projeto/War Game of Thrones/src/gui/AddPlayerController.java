@@ -167,8 +167,8 @@ public class AddPlayerController implements ScreenController{
     
     public void addPlayer(){
         if(nameField != null && createdPlayers.size() < 6){
-            if(nameField.getDisplayedText().isEmpty()){
-                n.showPopup(s, emptyNamePopup.getId(), null);
+            if(nameFieldIsEmpty()){
+                showEmptyNameWarning();
             } else {
                 updatePlayerImage();
                 saveCurrentPlayerData();
@@ -184,6 +184,14 @@ public class AddPlayerController implements ScreenController{
             addButton.disable();
             addButton.setText("Máximo de jogadores");
         }
+    }
+    
+    private boolean nameFieldIsEmpty(){
+        return nameField.getDisplayedText().isEmpty();
+    }
+    
+    private void showEmptyNameWarning(){
+        n.showPopup(s, emptyNamePopup.getId(), null);
     }
     
     public void excludePlayer(){
@@ -214,21 +222,25 @@ public class AddPlayerController implements ScreenController{
     }
     
     public void playButtonPressed() {
-        saveCurrentPlayerData();
-        
-        Board b = Board.getInstance();
-        int playersCount = createdPlayers.size();
-        for(int i = 0; i < playersCount; i++){
-            int randomPos = (int)(Math.random()*createdPlayers.size());
-            PlayerData playerData = createdPlayers.remove(randomPos);
-            
-            House h = createBackEndHouse(playerData.house);
-            Player p = createBackEndPlayer(playerData, h);
-            int type = playerData.isHuman ? Board.HUMAN_PLAYER : Board.AI_PLAYER;
-            
-            b.addPlayer(p, i, type);
+        if(nameFieldIsEmpty())
+            showEmptyNameWarning();
+        else{
+            saveCurrentPlayerData();
+
+            Board b = Board.getInstance();
+            int playersCount = createdPlayers.size();
+            for(int i = 0; i < playersCount; i++){
+                int randomPos = (int)(Math.random()*createdPlayers.size());
+                PlayerData playerData = createdPlayers.remove(randomPos);
+
+                House h = createBackEndHouse(playerData.house);
+                Player p = createBackEndPlayer(playerData, h);
+                int type = playerData.isHuman ? Board.HUMAN_PLAYER : Board.AI_PLAYER;
+
+                b.addPlayer(p, i, type);
+            }
+            Main.getInstance().enterState(main.WarScenes.GAME_SCENE);
         }
-        Main.getInstance().enterState(main.WarScenes.GAME_SCENE);
     }
     
     @NiftyEventSubscriber(id="dropDown2")

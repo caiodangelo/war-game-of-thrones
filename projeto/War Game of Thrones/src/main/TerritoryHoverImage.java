@@ -1,5 +1,6 @@
 package main;
 
+import gui.InGameGUIController;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.GameContainer;
@@ -48,6 +49,8 @@ public class TerritoryHoverImage extends ImageRenderComponent {
                     comp.setDestiny(((Territory) owner).getArmy().getPosition());
                     Map.selectedTerritory = null;
                 }
+            } else if(input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)){
+                InGameGUIController.openTerritoryMenu((Territory) owner);
             }
         }
         else

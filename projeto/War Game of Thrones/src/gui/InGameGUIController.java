@@ -1,13 +1,18 @@
 package gui;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.NiftyInputConsumer;
 import de.lessvoid.nifty.controls.Label;
+import de.lessvoid.nifty.controls.Menu;
+import de.lessvoid.nifty.controls.MenuItemActivatedEvent;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.Color;
+import de.lessvoid.nifty.tools.SizeValue;
 import java.util.List;
+import main.Territory;
 import models.Board;
 import models.Player;
 import org.newdawn.slick.GameContainer;
@@ -22,8 +27,12 @@ public class InGameGUIController implements ScreenController{
     private Nifty n;
     public static Player [] players;
     private static Color [] playerNameColors;
-    private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, helpPopup, cardsPopup;
+    private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, helpPopup, cardsPopup, contextMenu;
     private boolean mouseOverObjective = false;
+    
+    
+    private static InGameGUIController instance;
+    private static final byte MENU_ATACK = 0, MENU_DISTRIBUTE = 1;
     
     public InGameGUIController(){
         //DEBUG ONLY
@@ -46,6 +55,7 @@ public class InGameGUIController implements ScreenController{
 //                new BEPImpl("Rodrigo Castro")
 //            };
         }
+        instance = this;
         
     }
     
@@ -63,9 +73,17 @@ public class InGameGUIController implements ScreenController{
         objectiveLabel = screen.findElementByName("seeObjectiveButton");
         helpPopup = n.createPopup("helpPopup");
         cardsPopup = n.createPopup("cardsPopup");
-        NiftyInputConsumer i;
         
+        //create context menu
+        contextMenu = n.createPopup("niftyPopupMenu");
+        Menu<Byte> popupMenu = contextMenu.findNiftyControl("#menu", Menu.class);
+        popupMenu.setWidth(new SizeValue("15%"));
+        popupMenu.addMenuItem("Atacar daqui", MENU_ATACK);
+        popupMenu.addMenuItem("Distribuir exércitos", MENU_DISTRIBUTE);
+        popupMenu.setId("menuItemid");
     }
+    
+    
     
     @Override
     public void onStartScreen() {  
@@ -78,6 +96,14 @@ public class InGameGUIController implements ScreenController{
     
     @Override
     public void onEndScreen() {    }
+    
+    public static void openTerritoryMenu(Territory t){
+        instance._openTerritoryMenu(t);
+    }
+    
+    public void _openTerritoryMenu(Territory t){
+        n.showPopup(screen, contextMenu.getId(), null);
+    }
     
     private void retrieveStatusPanels(Screen s){
         int playersCount = players.length;
@@ -200,5 +226,16 @@ public class InGameGUIController implements ScreenController{
                 }
             }
         }
+    }
+    
+    //territory context menu event handling
+    @NiftyEventSubscriber(id = "menuItemid")
+    public void MenuItemClicked(final String id, final MenuItemActivatedEvent event) {
+        byte option = (byte) event.getItem();
+        if(option == MENU_ATACK)
+            System.out.println("atack");
+        else if(option == MENU_DISTRIBUTE)
+            System.out.println("distribute");
+        n.closePopup(contextMenu.getId()); 
     }
 }
