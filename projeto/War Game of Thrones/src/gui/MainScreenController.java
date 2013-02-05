@@ -9,7 +9,7 @@ import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import java.util.HashMap;
 import main.AudioManager;
-public class MainScreenController implements ScreenController{
+public class MainScreenController implements ScreenController {
 
     private Nifty n;
     private Screen s;

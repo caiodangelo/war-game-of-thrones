@@ -58,8 +58,10 @@ public class Main extends NiftyStateBasedGame{
     public void initStatesList(GameContainer container) throws SlickException {
         addState(new MainScene());
         addState(new GameScene());
+        addState(new StatisticsScene());
         enterState(WarScenes.STARTING_SCENE);
-//        enterState(WarScenes.GAME_SCENE);
+        //enterState(WarScenes.GAME_SCENE);
+        //enterState(WarScenes.STATISTICS_SCENE);
     }
     
     private static void disableNiftyWarnings(){
