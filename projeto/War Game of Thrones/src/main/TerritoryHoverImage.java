@@ -38,9 +38,10 @@ public class TerritoryHoverImage extends ImageRenderComponent {
         if (mouseOver(mouseX, mouseY) && !imagePixelColorIsTransparent((int) (mouseX - owner.position.x), (int) (mouseY - owner.position.y), owner.getScale())){
             highlightedImage = true;
             if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-                if (Map.selectedTerritory == null)
+                if (Map.selectedTerritory == null){
                     Map.selectedTerritory = (Territory) owner;
-                else if (Map.selectedTerritory == owner)
+                    InGameGUIController.openTerritoryMenu((Territory) owner);
+                } else if (Map.selectedTerritory == owner)
                     Map.selectedTerritory = null;
                 else {
                     ArmyRenderComponent comp = ((ArmyRenderComponent) ((Territory) owner).getArmy().getComponent("army-renderer"));
@@ -49,8 +50,6 @@ public class TerritoryHoverImage extends ImageRenderComponent {
                     comp.setDestiny(((Territory) owner).getArmy().getPosition());
                     Map.selectedTerritory = null;
                 }
-            } else if(input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)){
-                InGameGUIController.openTerritoryMenu((Territory) owner);
             }
         }
         else

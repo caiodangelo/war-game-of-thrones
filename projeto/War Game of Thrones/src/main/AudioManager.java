@@ -24,8 +24,8 @@ public class AudioManager {
     
     public AudioManager() {
         try {
-            opening = new Music("resources/got-opening.ogg");
-            startGame = new Sound("resources/start-game.ogg");
+            opening = new Music("resources/sounds/got-opening.ogg");
+            startGame = new Sound("resources/sounds/start-game.ogg");
         } catch (SlickException ex) {
             Logger.getLogger(AudioManager.class.getName()).log(Level.SEVERE, null, ex);
         }

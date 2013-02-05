@@ -3,6 +3,7 @@ package gui;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.NiftyInputConsumer;
+import de.lessvoid.nifty.controls.DropDown;
 import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.controls.Menu;
 import de.lessvoid.nifty.controls.MenuItemActivatedEvent;
@@ -27,12 +28,11 @@ public class InGameGUIController implements ScreenController{
     private Nifty n;
     public static Player [] players;
     private static Color [] playerNameColors;
-    private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, helpPopup, cardsPopup, contextMenu;
+    private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, helpPopup, cardsPopup;
     private boolean mouseOverObjective = false;
     
-    
+    private ContextMenuController ctxMenuCtrl;
     private static InGameGUIController instance;
-    private static final byte MENU_ATACK = 0, MENU_DISTRIBUTE = 1;
     
     public InGameGUIController(){
         //DEBUG ONLY
@@ -56,7 +56,6 @@ public class InGameGUIController implements ScreenController{
 //            };
         }
         instance = this;
-        
     }
     
     @Override
@@ -73,17 +72,8 @@ public class InGameGUIController implements ScreenController{
         objectiveLabel = screen.findElementByName("seeObjectiveButton");
         helpPopup = n.createPopup("helpPopup");
         cardsPopup = n.createPopup("cardsPopup");
-        
-        //create context menu
-        contextMenu = n.createPopup("niftyPopupMenu");
-        Menu<Byte> popupMenu = contextMenu.findNiftyControl("#menu", Menu.class);
-        popupMenu.setWidth(new SizeValue("15%"));
-        popupMenu.addMenuItem("Atacar daqui", MENU_ATACK);
-        popupMenu.addMenuItem("Distribuir exércitos", MENU_DISTRIBUTE);
-        popupMenu.setId("menuItemid");
+        ctxMenuCtrl = new ContextMenuController(n);
     }
-    
-    
     
     @Override
     public void onStartScreen() {  
@@ -98,11 +88,7 @@ public class InGameGUIController implements ScreenController{
     public void onEndScreen() {    }
     
     public static void openTerritoryMenu(Territory t){
-        instance._openTerritoryMenu(t);
-    }
-    
-    public void _openTerritoryMenu(Territory t){
-        n.showPopup(screen, contextMenu.getId(), null);
+        instance.ctxMenuCtrl._openTerritoryMenu(instance.screen, t);
     }
     
     private void retrieveStatusPanels(Screen s){
@@ -228,14 +214,17 @@ public class InGameGUIController implements ScreenController{
         }
     }
     
-    //territory context menu event handling
+    public void dismissRearrangePopup(){
+        ctxMenuCtrl.dismissRearrangePopup();
+    }
+    
+    public void rearrangePopupOK(){
+        ctxMenuCtrl.dismissRearrangePopup();
+    }
+            
+            
     @NiftyEventSubscriber(id = "menuItemid")
     public void MenuItemClicked(final String id, final MenuItemActivatedEvent event) {
-        byte option = (byte) event.getItem();
-        if(option == MENU_ATACK)
-            System.out.println("atack");
-        else if(option == MENU_DISTRIBUTE)
-            System.out.println("distribute");
-        n.closePopup(contextMenu.getId()); 
+        ctxMenuCtrl.MenuItemClicked(id, event, screen);
     }
 }

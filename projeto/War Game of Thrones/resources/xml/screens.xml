@@ -1137,4 +1137,24 @@ Em cada vez de jogar, o participante pode:&#10;
 			</panel>
 		</panel>
 	</popup>
+
+	<popup id="rearrangePopup" childLayout="center" backgroundColor="#000a">
+		<panel padding="10%" style="nifty-panel-custom" width="30%" height="30%" childLayout="vertical">
+			<control color="#333333ff" font="resources/fonts/calibri_bold.fnt" align="left" textHAlign="left" name="label" text="Rearrumar exércitos" width="100%"/>
+			<panel  width="100%" height="3px" childLayout="vertical" backgroundColor="#000"/>
+			<control font="resources/fonts/calibri_18.fnt" color="#333333ff" align="left" textHAlign="left" name="label" text="Selecione o número de unidades que deseja mover:" height="20%" width="100%"/>
+			<panel childLayout="center" height="45%">
+				<control valign="center" id="dropDownSelectArmies" name="dropDown" textColor="#ffff" color="#ffff"/>
+			</panel>
+			<panel width="100%" height="50%" valign="bottom" childLayout="horizontal">
+				<control align="left" width="40%" name="button" label="Cancelar" focusable="false">
+					<interact onClick="dismissRearrangePopup()"/>
+				</control>
+				<panel childLayout="center" width="20%"/>
+				<control align="right" width="40%" name="button" label="OK" focusable="false">
+					<interact onClick="rearrangePopupOK()"/>
+				</control>
+			</panel>
+		</panel>
+	</popup>
 </nifty>
