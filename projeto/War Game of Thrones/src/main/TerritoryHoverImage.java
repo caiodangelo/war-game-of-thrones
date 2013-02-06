@@ -40,7 +40,7 @@ public class TerritoryHoverImage extends ImageRenderComponent {
             if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 if (Map.selectedTerritory == null){
                     Map.selectedTerritory = (Territory) owner;
-                    InGameGUIController.openTerritoryMenu((Territory) owner);
+                    InGameGUIController.handleTerritoryClick((Territory) owner);
                 } else if (Map.selectedTerritory == owner)
                     Map.selectedTerritory = null;
                 else {

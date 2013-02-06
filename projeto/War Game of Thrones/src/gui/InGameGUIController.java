@@ -2,16 +2,12 @@ package gui;
 
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyEventSubscriber;
-import de.lessvoid.nifty.NiftyInputConsumer;
-import de.lessvoid.nifty.controls.DropDown;
 import de.lessvoid.nifty.controls.Label;
-import de.lessvoid.nifty.controls.Menu;
 import de.lessvoid.nifty.controls.MenuItemActivatedEvent;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.Color;
-import de.lessvoid.nifty.tools.SizeValue;
 import java.util.List;
 import main.Territory;
 import models.Board;
@@ -28,7 +24,7 @@ public class InGameGUIController implements ScreenController{
     private Nifty n;
     public static Player [] players;
     private static Color [] playerNameColors;
-    private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, helpPopup, cardsPopup;
+    private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, helpPopup, cardsPopup, infoPanel;
     private boolean mouseOverObjective = false;
     
     private ContextMenuController ctxMenuCtrl;
@@ -72,7 +68,9 @@ public class InGameGUIController implements ScreenController{
         objectiveLabel = screen.findElementByName("seeObjectiveButton");
         helpPopup = n.createPopup("helpPopup");
         cardsPopup = n.createPopup("cardsPopup");
-        ctxMenuCtrl = new ContextMenuController(n);
+        ctxMenuCtrl = new ContextMenuController(n, this);
+
+        infoPanel = screen.findElementByName("infoPanel");
     }
     
     @Override
@@ -87,8 +85,8 @@ public class InGameGUIController implements ScreenController{
     @Override
     public void onEndScreen() {    }
     
-    public static void openTerritoryMenu(Territory t){
-        instance.ctxMenuCtrl._openTerritoryMenu(instance.screen, t);
+    public static void handleTerritoryClick(Territory t){
+        instance.ctxMenuCtrl.handleTerritoryClick(instance.screen, t);
     }
     
     private void retrieveStatusPanels(Screen s){
@@ -189,6 +187,19 @@ public class InGameGUIController implements ScreenController{
     public void dismissTablesPopup(){
         n.closePopup(tablesPopup.getId());
     }
+    
+    /**
+     * Use null to hide the panel.
+     */
+    protected void setInfoLabelText(String text){
+        Label infoLabel = screen.findNiftyControl("infoLabel", Label.class);
+        if(text != null){
+            infoLabel.setText(text);
+            infoPanel.setVisible(true);
+        } else
+            infoPanel.setVisible(false);
+    }
+    
     //Popups event handling end
     
     private void resetMouseCursor(){
@@ -219,7 +230,7 @@ public class InGameGUIController implements ScreenController{
     }
     
     public void rearrangePopupOK(){
-        ctxMenuCtrl.dismissRearrangePopup();
+        ctxMenuCtrl.rearrangeOK();
     }
             
             
