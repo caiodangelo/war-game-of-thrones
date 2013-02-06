@@ -15,6 +15,7 @@ public abstract class Player {
     private Mission mission;
     private List<Territory> territories;
     private List<CardTerritory> cards;
+    private StatisticPlayerManager statistic;
 
     public Player(String name) {
         this.name = name;
@@ -22,6 +23,7 @@ public abstract class Player {
         this.mission = new Mission();
         this.territories = new ArrayList<Territory>();
         this.cards = new ArrayList<CardTerritory>();
+        this.statistic = new StatisticPlayerManager();
     }
 
     public Player(String name, House house) {
@@ -77,6 +79,10 @@ public abstract class Player {
 
     public List<CardTerritory> getCards() {
         return cards;
+    }
+    
+    public StatisticPlayerManager getStatisticPlayerManager () {
+        return statistic;
     }
     
     public int numArmies() {
