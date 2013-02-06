@@ -59,7 +59,7 @@ public class ContextMenuController {
     }
             
     protected void MenuItemClicked(final String id, final MenuItemActivatedEvent event, final Screen s) {
-        byte option = (byte) event.getItem();
+        byte option = (Byte) event.getItem();
         if(option == MENU_ATACK)
             System.out.println("atack");
         else if(option == MENU_DISTRIBUTE)
