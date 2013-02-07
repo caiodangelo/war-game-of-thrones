@@ -1,5 +1,6 @@
 package main;
 
+import gui.InGameGUIController;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.GameContainer;
@@ -37,9 +38,10 @@ public class TerritoryHoverImage extends ImageRenderComponent {
         if (mouseOver(mouseX, mouseY) && !imagePixelColorIsTransparent((int) (mouseX - owner.position.x), (int) (mouseY - owner.position.y), owner.getScale())){
             highlightedImage = true;
             if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-                if (Map.selectedTerritory == null)
+                if (Map.selectedTerritory == null){
                     Map.selectedTerritory = (Territory) owner;
-                else if (Map.selectedTerritory == owner)
+                    InGameGUIController.handleTerritoryClick((Territory) owner);
+                } else if (Map.selectedTerritory == owner)
                     Map.selectedTerritory = null;
                 else {
                     ArmyRenderComponent comp = ((ArmyRenderComponent) ((Territory) owner).getArmy().getComponent("army-renderer"));

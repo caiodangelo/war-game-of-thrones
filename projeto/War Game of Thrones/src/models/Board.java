@@ -15,10 +15,12 @@ public class Board {
     protected LinkedList<Player> players;
     protected static Board instance;
     protected int currentPlayer;
+    protected StatisticGameManager statistic;
 
     protected Board() {
         players = new LinkedList<Player>();
         currentPlayer = 0;
+        statistic = new StatisticGameManager();
     }
 
     public static Board getInstance() {
@@ -81,13 +83,16 @@ public class Board {
     public Player nextPlayer(Player player) {
         int i;
         for (i = 0; i < this.getPlayers().size(); i++) {
-            if (player == this.getPlayer(i))
-                break;            
+            if (player == this.getPlayer(i)) {
+                break;
+            }            
         }
-        if (i == this.getPlayers().size()) 
+        if (i == this.getPlayers().size()) { 
             i = 0;
-        else
+        }
+        else {
             i++;
+        }
         return this.getPlayer(i);
     }
     
@@ -103,5 +108,8 @@ public class Board {
         }
         return newPlayer;
     }
-    
+
+    public StatisticGameManager getStatistic() {
+        return statistic;
+    }    
 }

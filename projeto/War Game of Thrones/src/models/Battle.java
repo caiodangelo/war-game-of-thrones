@@ -34,18 +34,55 @@ public class Battle {
     }
 
     public void attack() {
+        //Estatisticas
+        defender.increaseNumAttacks();
+        Board.getInstance().getStatistic().setTerritoryMoreAttacked(null);       
+        
+        Player attackerPlayer = this.getAttackerPlayerFromTerritory();
+        Player defenderPlayer = this.getDefenderPlayerFromTerritory();
+        
+        attackerPlayer.getStatisticPlayerManager().increaseNumberOfAttacks();
+        defenderPlayer.getStatisticPlayerManager().increaseNumberOfDefences();
+        
+        attackerPlayer.getStatisticPlayerManager().updateAttackTable(defenderPlayer);
+        attackerPlayer.getStatisticPlayerManager().setYouAttackedMore();
+        defenderPlayer.getStatisticPlayerManager().updateDefenceTable(attackerPlayer);
+        defenderPlayer.getStatisticPlayerManager().setMoreEnemy();
+        //Fim Estatisticas
+        
         attackersDices = rollDices(numberAttackers);
         defendersDices = rollDices(numberDefenders);
+        
+        //Estatisticas        
+        attackerPlayer.getStatisticPlayerManager().averageAttackDices(attackersDices);
+        defenderPlayer.getStatisticPlayerManager().averageDefenceDices(defendersDices);
+        //Fim Estatisticas
+        
         Arrays.sort(attackersDices, Collections.reverseOrder());
         Arrays.sort(defendersDices, Collections.reverseOrder());
         int smallerPart = Math.min(numberAttackers, numberDefenders);
         for (int i = 0; i < smallerPart; i++) {
             if (compareDices(attackersDices[i], defendersDices[i])) {
                 defenderDeaths++; // Ataque ganha
+                //Estatisticas
+                attackerPlayer.getStatisticPlayerManager().increaseNumberOfAttackWins();
+                attackerPlayer.getStatisticPlayerManager().successfulAttackPercentage();
+                attackerPlayer.getStatisticPlayerManager().increaseLostArmies();
+                Board.getInstance().getStatistic().setMostWinnerAttacks();
+                //Fim estatisticas
             }
             else {
                 attackerDeaths++; // Defesa ganha
+                //Estatisticas
+                defenderPlayer.getStatisticPlayerManager().increaseNumberOfDefenceWins();
+                defenderPlayer.getStatisticPlayerManager().successfulDefencePercentage();
+                defenderPlayer.getStatisticPlayerManager().increaseLostArmies();
+                Board.getInstance().getStatistic().setMostWinnerDefences();
+                //Fim estatisticas
             }
+            
+            Board.getInstance().getStatistic().setMoreAttacker();
+            Board.getInstance().getStatistic().setMoreDefender();
         }
 }
 
@@ -54,8 +91,13 @@ public class Battle {
             conquested = defenderDeaths >= defender.getNumArmies();
             attacker.decreaseArmies(attackerDeaths);
             defender.decreaseArmies(attackerDeaths);
-            if (conquested)
+            if (conquested) {
                 defender.setOwner(attacker.getOwner());
+                //Estatistica
+                defender.increaseNumConquests();
+                Board.getInstance().getStatistic().setTerritoryMoreConquested(null);
+                //Fim estatistica
+            }
             concluded = true;
         }
     }
@@ -110,11 +152,20 @@ public class Battle {
     public Integer[] getDefendersDices() {
         return defendersDices;
     }
+    
+    public Player getAttackerPlayerFromTerritory() {
+        return attacker.getOwner();
+    }
+    
+    public Player getDefenderPlayerFromTerritory() {
+        return defender.getOwner();
+    }
 
     protected final Integer[] rollDices(int number) {
         Integer[] dices = new Integer[number];
         for (int i = 0; i < dices.length; i++) {
             dices[i] = new Random().nextInt(5) + 1;
+            
         }
         return dices;
     }

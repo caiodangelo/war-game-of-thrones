@@ -29,12 +29,13 @@ public class AddPlayerController implements ScreenController{
 
     private TextField nameField;
     private Nifty n;
+    private Screen s;
     private DropDown housesDropdown;
     private List<HouseData> availableHouses;
     private List<PlayerData> createdPlayers;
     private RadioButton humanButton, cpuButton;
     private Button addButton, playButton;
-    private Element iconsPanel, cancelAddPlayerButton;
+    private Element iconsPanel, emptyNamePopup;
     private Element [] playerIcons;
     private Label [] playerNames;
     private int currentEditingIndex = -1;
@@ -44,6 +45,7 @@ public class AddPlayerController implements ScreenController{
     @Override
     public void bind(Nifty nifty, Screen screen) {
         n = nifty;
+        s = screen;
         playerIcons = new Element[6];
         for(int i = 0; i < 6; i++)
             playerIcons[i] = screen.findElementByName("player" + i + "Icon");
@@ -57,8 +59,7 @@ public class AddPlayerController implements ScreenController{
         housesDropdown = screen.findNiftyControl("dropDown2", DropDown.class);
         humanButton = screen.findNiftyControl("humanRadioBtn", RadioButton.class);
         cpuButton = screen.findNiftyControl("cpuRadioBtn", RadioButton.class);
-        cancelAddPlayerButton = screen.findElementByName("cancelButton");
-        cancelAddPlayerButton.setIgnoreKeyboardEvents(false);
+        emptyNamePopup = nifty.createPopup("emptyNamePopup");
     }
     
     @Override
@@ -166,19 +167,31 @@ public class AddPlayerController implements ScreenController{
     
     public void addPlayer(){
         if(nameField != null && createdPlayers.size() < 6){
-            updatePlayerImage();
-            saveCurrentPlayerData();
-            addBlankPlayerData();
-            
-            resetDisplay();
-            playButton.enable();
-            playerIcons[currentEditingIndex].show();
-            updatePlayerImage();
+            if(nameFieldIsEmpty()){
+                showEmptyNameWarning();
+            } else {
+                updatePlayerImage();
+                saveCurrentPlayerData();
+                addBlankPlayerData();
+
+                resetDisplay();
+                playButton.enable();
+                playerIcons[currentEditingIndex].show();
+                updatePlayerImage();
+            }
         }
         if(createdPlayers.size() == 6){
             addButton.disable();
             addButton.setText("Máximo de jogadores");
         }
+    }
+    
+    private boolean nameFieldIsEmpty(){
+        return nameField.getDisplayedText().isEmpty();
+    }
+    
+    private void showEmptyNameWarning(){
+        n.showPopup(s, emptyNamePopup.getId(), null);
     }
     
     public void excludePlayer(){
@@ -209,21 +222,25 @@ public class AddPlayerController implements ScreenController{
     }
     
     public void playButtonPressed() {
-        saveCurrentPlayerData();
-        
-        Board b = Board.getInstance();
-        int playersCount = createdPlayers.size();
-        for(int i = 0; i < playersCount; i++){
-            int randomPos = (int)(Math.random()*createdPlayers.size());
-            PlayerData playerData = createdPlayers.remove(randomPos);
-            
-            House h = createBackEndHouse(playerData.house);
-            Player p = createBackEndPlayer(playerData, h);
-            int type = playerData.isHuman ? Board.HUMAN_PLAYER : Board.AI_PLAYER;
-            
-            b.addPlayer(p, i, type);
+        if(nameFieldIsEmpty())
+            showEmptyNameWarning();
+        else{
+            saveCurrentPlayerData();
+
+            Board b = Board.getInstance();
+            int playersCount = createdPlayers.size();
+            for(int i = 0; i < playersCount; i++){
+                int randomPos = (int)(Math.random()*createdPlayers.size());
+                PlayerData playerData = createdPlayers.remove(randomPos);
+
+                House h = createBackEndHouse(playerData.house);
+                Player p = createBackEndPlayer(playerData, h);
+                int type = playerData.isHuman ? Board.HUMAN_PLAYER : Board.AI_PLAYER;
+
+                b.addPlayer(p, i, type);
+            }
+            Main.getInstance().enterState(main.WarScenes.GAME_SCENE);
         }
-        Main.getInstance().enterState(main.WarScenes.GAME_SCENE);
     }
     
     @NiftyEventSubscriber(id="dropDown2")
@@ -240,6 +257,10 @@ public class AddPlayerController implements ScreenController{
     
     public void closePopup(){
         n.gotoScreen("startingScreen");
+    }
+    
+    public void dismissEmptyNamePopup(){
+        n.closePopup(emptyNamePopup.getId());
     }
     
     //Auxiliary classes

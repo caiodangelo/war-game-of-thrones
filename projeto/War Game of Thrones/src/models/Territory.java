@@ -13,6 +13,8 @@ public class Territory {
     private Player owner;
     protected int numArmies;
     protected int numArmiesCanMoveThisRound;
+    protected int numAttacks;  //Num de vezes que o territorio foi atacado
+    protected int numConquests;  //Num de vezes que o territorio foi conquistado
 
     public Territory(String name, Region region) {
         this.name = name;
@@ -49,12 +51,28 @@ public class Territory {
         this.numArmies = numArmies;
     }
 
+    public int getNumAttacks() {
+        return numAttacks;
+    }
+
+    public int getNumConquests() {
+        return numConquests;
+    }
+
     protected void increaseArmies(int amount) {
         numArmies += amount;
     }
 
     protected void decreaseArmies(int amount) {
         numArmies -= amount;
+    }
+    
+    public void increaseNumConquests() {
+        numConquests++;
+    }
+    
+    public void increaseNumAttacks() {
+        numAttacks++;
     }
 
     /**

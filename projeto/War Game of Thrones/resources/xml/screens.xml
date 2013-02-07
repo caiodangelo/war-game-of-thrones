@@ -41,7 +41,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 		<layer id="popUpAddPlayer" childLayout="center">
 			<panel style="nifty-panel-bright" height="50%" width="50%" align="center" childLayout="horizontal">
 				<panel style="nifty-panel" id="playerIconsPanel" width="20%" childLayout="vertical" height="100%">
-					<image id="player0Icon" align="center" height="10%" width="60%" filename="resources/images/house_logos/stark.png" padding="100px">
+					<image id="player0Icon" align="center" height="35px" width="35px" filename="resources/images/house_logos/stark.png" padding="100px">
 						<interact onClick="editPlayer(0)"/>
 						<effect>
 							<onCustom name="border" border="2px" color="#f00f" timeType="infinite"/>
@@ -50,7 +50,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 					</image>
 					<control id="player0Name" name="label" text="" width="100%"/>
 					<panel childLayout="center" height="0.5%" width="1%"/>
-					<image id="player1Icon" align="center" height="10%" width="60%" filename="resources/images/house_logos/stark.png">
+					<image id="player1Icon" align="center" height="35px" width="35px" filename="resources/images/house_logos/stark.png">
 						<interact onClick="editPlayer(1)"/>
 						<effect>
 							<onCustom name="border" border="2px" color="#f00f" timeType="infinite"/>
@@ -59,7 +59,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 					</image>
 					<control id="player1Name" name="label" text="" width="100%"/>
 					<panel childLayout="center" height="0.5%" width="1%"/>
-					<image id="player2Icon" align="center" height="10%" width="60%" filename="resources/images/house_logos/stark.png">
+					<image id="player2Icon" align="center" height="35px" width="35px" filename="resources/images/house_logos/stark.png">
 						<interact onClick="editPlayer(2)"/>
 						<effect>
 							<onCustom name="border" border="2px" color="#f00f" timeType="infinite"/>
@@ -68,7 +68,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 					</image>
 					<control id="player2Name" name="label" text="" width="100%"/>
 					<panel childLayout="center" height="0.5%" width="1%"/>
-					<image id="player3Icon" align="center" height="10%" width="60%" filename="resources/images/house_logos/stark.png">
+					<image id="player3Icon" align="center" height="35px" width="35px" filename="resources/images/house_logos/stark.png">
 						<interact onClick="editPlayer(3)"/>
 						<effect>
 							<onCustom name="border" border="2px" color="#f00f" timeType="infinite"/>
@@ -77,7 +77,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 					</image>
 					<control id="player3Name" name="label" text="" width="100%"/>
 					<panel childLayout="center" height="0.5%" width="1%"/>
-					<image id="player4Icon" align="center" height="10%" width="60%" filename="resources/images/house_logos/stark.png">
+					<image id="player4Icon" align="center" height="35px" width="35px" filename="resources/images/house_logos/stark.png">
 						<interact onClick="editPlayer(4)"/>
 						<effect>
 							<onCustom name="border" border="2px" color="#f00f" timeType="infinite"/>
@@ -86,7 +86,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 					</image>
 					<control id="player4Name" name="label" text="" width="100%"/>
 					<panel childLayout="center" height="0.5%" width="1%"/>
-					<image id="player5Icon" align="center" height="10%" width="60%" filename="resources/images/house_logos/stark.png">
+					<image id="player5Icon" align="center" height="35px" width="35px" filename="resources/images/house_logos/stark.png">
 						<interact onClick="editPlayer(5)"/>
 						<effect>
 							<onCustom name="border" border="2px" color="#f00f" timeType="infinite"/>
@@ -167,10 +167,16 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 					</panel>
 				</panel>
 				<panel childLayout="vertical" width="88%" height="100%">
-					<panel childLayout="vertical" width="100%" height="82%" padding="20px">
-						<image align="right" valign="top" filename="resources/images/icons/tables.png" width="55px" height="49px">
-							<interact onClick="showTables()"/>
-						</image>
+					<panel childLayout="vertical" width="100%" height="82%" >
+						<panel id="infoPanel" valign="bottom" align="center" width="100%" height="3%" backgroundColor="#00000080" childLayout="horizontal" padding="10px" visible="false">
+							<control valign="center" textVAlign="center" textHAlign="left" id="infoLabel" name="label" text="Info auxiliar" width="100%" height="100px">
+							</control>
+						</panel>
+						<panel childLayout="vertical" width="100%" height="97%" padding="0px,20px,0px,0px">
+							<image align="right" valign="top" filename="resources/images/icons/tables.png" width="55px" height="49px">
+								<interact onClick="showTables()"/>
+							</image>
+						</panel>
 					</panel>
 					<panel backgroundColor="#f0f0f0ff" valign="bottom" align="right" width="100%" height="18%" childLayout="horizontal">
 						<interact onMouseOver="mouseMovedOverBottomPanel()"/>
@@ -211,6 +217,716 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 			</panel>
 		</layer>
 	</screen>
+	
+	<screen id="statisticsScreen" controller="gui.StatisticsScreenController">
+		<layer id="emptyLayer" childLayout="vertical">
+			<panel style="nifty-panel-custom" width="100%" height="100%" childLayout="vertical">
+				<control color="#333333ff" font="resources/fonts/calibri_bold.fnt" align="left" textHAlign="left" name="label" text="Estatísticas" width="100%"/>
+				<panel width="100%" height="3px" childLayout="vertical" backgroundColor="#000"/>
+				<panel width="100%" height="80%" childLayout="horizontal">
+					<panel width="50%" height="100%" childLayout="vertical">
+						<control color="#333333ff" font="resources/fonts/calibri_bold.fnt" marginLeft="10%" marginTop="20%" align="left" textHAlign="left" name="label" text="Geral" width="100%" height="10%"/>
+						<panel marginTop="5%" width="100%" height="7%" childLayout="horizontal">
+							<panel marginLeft="5%" width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+								<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Tempo de duração do jogo"/>
+							</panel>
+							<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+								<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="1h53min"/>
+							</panel>
+						</panel>
+						<panel width="100%" height="7%" childLayout="horizontal">
+							<panel marginLeft="5%" width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+								<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Maior número de ataques"/>
+							</panel>
+							<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+								<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Lucas Nadalutti"/>
+							</panel>
+						</panel>
+						<panel width="100%" height="7%" childLayout="horizontal">
+							<panel marginLeft="5%" width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+								<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Maior número de defesas"/>
+							</panel>
+							<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+								<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Marcelle Guiné"/>
+							</panel>
+						</panel>
+						<panel width="100%" height="7%" childLayout="horizontal">
+							<panel marginLeft="5%" width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+								<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Maior sucesso em ataques"/>
+							</panel>
+							<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+								<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Marcelle Guiné"/>
+							</panel>
+						</panel>
+						<panel width="100%" height="7%" childLayout="horizontal">
+							<panel marginLeft="5%" width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+								<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Maior sucesso em defesas"/>
+							</panel>
+							<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+								<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Mateus Azis"/>
+							</panel>
+						</panel>
+						<panel width="100%" height="7%" childLayout="horizontal">
+							<panel marginLeft="5%" width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+								<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Território mais atacado"/>
+							</panel>
+							<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+								<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Dorne"/>
+							</panel>
+						</panel>
+						<panel width="100%" height="7%" childLayout="horizontal">
+							<panel marginLeft="5%" width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+								<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Território mais conquistado"/>
+							</panel>
+							<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+								<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="O Gargalo"/>
+							</panel>
+						</panel>
+					</panel>
+					<panel width="50%" height="100%" childLayout="vertical">
+						<control color="#333333ff" font="resources/fonts/calibri_bold.fnt" marginLeft="10%" marginTop="20%" align="left" textHAlign="left" name="label" text="Por jogador" width="100%" height="10%"/>
+						<control valign="bottom" id="statisticOptionsDropDown" name="dropDown" displayItems="9" width="75%" textColor="#ffff" color="#ffff"/>
+						<panel marginTop="5%" width="100%" height="100%" childLayout="center">
+						
+							<!--Número de ataques e porcentagem de sucesso-->
+							
+							<panel id="numeroDeAtaquesEPorcentagemDeSucesso" visible="false" width="100%" height="100%" childLayout="vertical">
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Jogador"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Ataques"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Sucesso"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Marcelle Guiné"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="34"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="70%"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Lucas Nadalutti"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="58"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="65%"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Mateus Azis"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="42"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="23%"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Anderson Araujo"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="32"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="86%"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Rodrigo Castro"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="44"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="71%"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Mário Henrique"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="60"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="58%"/>
+									</panel>
+								</panel>
+							</panel>
+							
+							<!--Número de defesas e porcentagem de sucesso-->
+							
+							<panel id="numeroDeDefesasEPorcentagemDeSucesso" visible="false" width="100%" height="100%" childLayout="vertical">
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Jogador"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Defesas"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Sucesso"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Marcelle Guiné"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="52"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="62%"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Lucas Nadalutti"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="18"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="97%"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Mateus Azis"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="33"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="67%"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Anderson Araujo"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="46"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="55%"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Rodrigo Castro"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="72"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="43%"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Mário Henrique"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="21"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="84%"/>
+									</panel>
+								</panel>
+							</panel>
+							
+							<!--Média nos dados de ataque-->
+							
+							<panel id="mediaNosDadosDeAtaque" visible="false" width="100%" height="100%" childLayout="vertical">
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Jogador"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Média"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Marcelle Guiné"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="3,56"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Lucas Nadalutti"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="1,01"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Mateus Azis"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="4,24"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Anderson Araujo"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="4,07"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Rodrigo Castro"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="3,96"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Mário Henrique"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="4,78"/>
+									</panel>
+								</panel>
+							</panel>
+							
+							<!--Média nos dados de defesa-->
+							
+							<panel id="mediaNosDadosDeDefesa" visible="false" width="100%" height="100%" childLayout="vertical">
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Jogador"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Média"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Marcelle Guiné"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="4,73"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Lucas Nadalutti"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="1,01"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Mateus Azis"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="5,21"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Anderson Araujo"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="3,59"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Rodrigo Castro"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="3,80"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Mário Henrique"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="3,07"/>
+									</panel>
+								</panel>
+							</panel>
+							
+							<!--Número de trocas de cartas-->
+							
+							<panel id="numeroDeTrocasDeCartas" visible="false" width="100%" height="100%" childLayout="vertical">
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Jogador"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Trocas"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Marcelle Guiné"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="17"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Lucas Nadalutti"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="12"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Mateus Azis"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="21"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Anderson Araujo"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="15"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Rodrigo Castro"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="9"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Mário Henrique"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="19"/>
+									</panel>
+								</panel>
+							</panel>
+							
+							<!--Exércitos recebidos-->
+							
+							<panel id="exercitosRecebidos" visible="false" width="100%" height="100%" childLayout="vertical">
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Jogador"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Exércitos"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Marcelle Guiné"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="41"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Lucas Nadalutti"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="49"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Mateus Azis"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="38"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Anderson Araujo"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="57"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Rodrigo Castro"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="32"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Mário Henrique"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="40"/>
+									</panel>
+								</panel>
+							</panel>
+							
+							<!--Exércitos perdidos-->
+							
+							<panel id="exercitosPerdidos" visible="false" width="100%" height="100%" childLayout="vertical">
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Jogador"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Exércitos"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Marcelle Guiné"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="29"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Lucas Nadalutti"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="87"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Mateus Azis"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="50"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Anderson Araujo"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="43"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Rodrigo Castro"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="39"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Mário Henrique"/>
+									</panel>
+									<panel width="35%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="52"/>
+									</panel>
+								</panel>
+							</panel>
+							
+							<!--Jogador que mais atacou-->
+							
+							<panel id="jogadorQueMaisAtacou" visible="false" width="100%" height="100%" childLayout="vertical">
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Jogador"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Vítima"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Ataques"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Marcelle Guiné"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Mateus Azis"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="62"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Lucas Nadalutti"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Anderson Araujo"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="51"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Mateus Azis"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Marcelle Guiné"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="41"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Anderson Araujo"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Mário Henrique"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="65"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Rodrigo Castro"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Lucas Nadalutti"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="49"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Mário Henrique"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Lucas Nadalutti"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="52"/>
+									</panel>
+								</panel>
+							</panel>
+							
+							<!--Jogador por quem mais foi atacado-->
+							
+							<panel id="jogadorPorQuemMaisFoiAtacado" visible="false" width="100%" height="100%" childLayout="vertical">
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Jogador"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Atacante"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Ataques"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Marcelle Guiné"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Lucas Nadalutti"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="30"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Lucas Nadalutti"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Mateus Azis"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="34"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Mateus Azis"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Mário Henrique"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="27"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Anderson Araujo"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Rodrigo Castro"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="39"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Rodrigo Castro"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Mário Henrique"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="23"/>
+									</panel>
+								</panel>
+								<panel width="100%" height="7%" childLayout="horizontal">
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" name="label" text="Mário Henrique"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Lucas Nadalutti"/>
+									</panel>
+									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
+										<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="29"/>
+									</panel>
+								</panel>
+							</panel>
+						</panel>
+					</panel>
+				</panel>
+			</panel>
+		</layer>
+	</screen>
+	
 	<popup id="objectivePopup" childLayout="center" backgroundColor="#000a">
 		<panel padding="10%" style="nifty-panel-custom" width="30%" height="30%" childLayout="vertical">
 			<control color="#333333ff" font="resources/fonts/calibri_bold.fnt" align="left" textHAlign="left" name="label" text="Seu objetivo" width="100%"/>
@@ -363,11 +1079,88 @@ Em cada vez de jogar, o participante pode:&#10;
 3o. EFETUAR OS SEUS ATAQUES;&#10;
 4o. DESLOCAR SEUS EXÉRCITOS, se desejar;&#10;
 5o. RECEBER UMA CARTA-TERRITÓRIO, se conseguir conquistar ao menos um território."/>
+				</panel>
+			</control>
+			<control align="center" name="button" label="OK" focusable="false">
+				<interact onClick="closeHelpPopup()"/>
+			</control>
+		</panel>
+	</popup>
+	
+	<popup id="optionsPopup" childLayout="center">
+		<panel margin="30px" style="nifty-panel-custom" width="50%" height="50%" childLayout="vertical">
+			<control font="resources/fonts/calibri_bold.fnt" color="#333333ff" height="10%" width="100%" textHAlign="left" name="label" text="Opções"/>
+			<panel height="80%" width="100%" childLayout="horizontal">
+				<panel width="30%" height="80%" childLayout="vertical">
+					<control color="#333333ff" height="20%" width="100%" name="label" text="Música"/>
+					<control id="musicSlider" name="verticalSlider" height="80%" min ="0.0" max="1.0" initial="0.0" stepSize="0.01" buttonStepSize="0.1"/>
+					<control id="musicVolumeValue" color="#333333ff" height="10%" width="100%" name="label" text="100"/>
+				</panel>
+				<panel width="30%" height="80%" childLayout="vertical">
+					<control color="#333333ff" height="20%" width="100%" name="label" text="Som"/>
+					<control align="center" id="soundSlider" name="verticalSlider" height="80%" min ="0.0" max="1.0" initial="0.0" stepSize="0.01" buttonStepSize="0.1"/>
+					<control id="soundVolumeValue" color="#333333ff" height="10%" width="100%" name="label" text="100"/>
+				</panel>
+				<panel width="30%" height="80%" childLayout="vertical">
+					<control color="#333333ff" height="20%" width="100%" name="label" text="Dificuldade dos jogadores&#10;não humanos"/>
+					<control id="sliderCPUdifficulty" name="verticalSlider" height="80%" min ="1.0" max="3.0" initial="1.0" stepSize="1.0" buttonStepSize="1.0"/>
+					<control id="CPUdifficultyValue" color="#333333ff" height="10%" width="100%" name="label" text="Fácil"/>
+					<!--<control id="radioCPUdifficulty" name="radioButtonGroup"/>
+					<panel childLayout="horizontal">
+					  <panel childLayout="vertical" backgroundColor="#8001" paddingLeft="7px" paddingRight="7px" paddingTop="4px" paddingBottom="4px" width="105px">
+						<effect>
+						  <onActive name="border" color="#0008" />
+						</effect>
+						<panel childLayout="horizontal">
+						  <control name="label" text="Option 1" width="60px" />
+						  <control name="radioButton" id="option-1" group="radioCPUdifficulty" />
+						</panel>
+						<panel childLayout="horizontal">
+						  <control name="label" text="Option 2" width="60px" />
+						  <control name="radioButton" id="option-2" group="radioCPUdifficulty" />
+						</panel>
+						<panel childLayout="horizontal">
+						  <control name="label" text="Option 3" width="60px" />
+						  <control name="radioButton" id="option-3" group="radioCPUdifficulty" />
+						</panel>
+					  </panel>
+					</panel>-->
+				</panel>
 			</panel>
-		</control>
-		<control align="center" name="button" label="OK" focusable="false">
-			<interact onClick="closeHelpPopup()"/>
-		</control>
+			<control align="center" name="button" label="OK" focusable="false">
+				<interact onClick="closeOptions()"/>
+			</control>
+		</panel>
+	</popup>
+
+	<popup id="emptyNamePopup" childLayout="center" backgroundColor="#000a">
+		<panel padding="10%" style="nifty-panel-custom" width="25%" height="15%" childLayout="vertical">
+			<control color="#333333ff" width="100%" height="50%" align="center" name="label" text="Por favor, especifique um nome para o jogador."/>
+			<panel width="100%" height="35%" valign="bottom" childLayout="center">
+				<control align="center" width="40%" name="button" label="OK" focusable="false">
+					<interact onClick="dismissEmptyNamePopup()"/>
+				</control>
+			</panel>
+		</panel>
+	</popup>
+
+	<popup id="rearrangePopup" childLayout="center" backgroundColor="#000a">
+		<panel padding="10%" style="nifty-panel-custom" width="30%" height="30%" childLayout="vertical">
+			<control color="#333333ff" font="resources/fonts/calibri_bold.fnt" align="left" textHAlign="left" name="label" text="Rearrumar exércitos" width="100%"/>
+			<panel  width="100%" height="3px" childLayout="vertical" backgroundColor="#000"/>
+			<control font="resources/fonts/calibri_18.fnt" color="#333333ff" align="left" textHAlign="left" name="label" text="Selecione o número de unidades que deseja mover:" height="20%" width="100%"/>
+			<panel childLayout="center" height="45%">
+				<control valign="center" id="dropDownSelectArmies" name="dropDown" textColor="#ffff" color="#ffff"/>
+			</panel>
+			<panel width="100%" height="50%" valign="bottom" childLayout="horizontal">
+				<control align="left" width="40%" name="button" label="Cancelar" focusable="false">
+					<interact onClick="dismissRearrangePopup()"/>
+				</control>
+				<panel childLayout="center" width="20%"/>
+				<control align="right" width="40%" name="button" label="OK" focusable="false">
+					<interact onClick="rearrangePopupOK()"/>
+				</control>
+			</panel>
 		</panel>
 	</popup>
 </nifty>

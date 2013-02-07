@@ -6,8 +6,6 @@ import java.util.Random;
 
 public class EasyAI extends Difficulty {
 
-    public AIPlayer player;
-
     /**
      * Faz a IA distribuir os exércitos pendentes para os territórios que ela
      * possui.
@@ -55,23 +53,23 @@ public class EasyAI extends Difficulty {
                     case Mission.TYPE_HOUSE: // Pega o primeiro território do adversário que eu posso atacar
                         for (Territory territory : player.getMission().getHouse().getPlayer().getTerritories()) {
                             List<Territory> origins = new ArrayList<Territory>();
-                                for (Territory neighbour : territory.getNeighbours()) {
-                                    if (neighbour.getOwner() == player && origin.getSurplusArmies() >= 1)
-                                        origins.add(neighbour);
-                                }
+                            for (Territory neighbour : territory.getNeighbours()) {
+                                if (neighbour.getOwner() == player && origin.getSurplusArmies() >= 1)
+                                    origins.add(neighbour);
+                            }
                             if (origins.size() > 0) {
-                                    // Escolhe o território de origem com o maior número de exércitos
-                                    int maxArmies = 0;
-                                    for (Territory possibleOrigin: origins) {
-                                        if (possibleOrigin.getSurplusArmies() > maxArmies) {
-                                            maxArmies = possibleOrigin.getSurplusArmies();
-                                            origin = possibleOrigin;
-                                        }
+                                // Escolhe o território de origem com o maior número de exércitos
+                                int maxArmies = 0;
+                                for (Territory possibleOrigin : origins) {
+                                    if (possibleOrigin.getSurplusArmies() > maxArmies) {
+                                        maxArmies = possibleOrigin.getSurplusArmies();
+                                        origin = possibleOrigin;
                                     }
-                                    destiny = territory;
-                                    int numArmies = origin.getSurplusArmies() > 3 ? 3 : origin.getSurplusArmies();
-                                    return new TerritoryTransaction(origin, destiny, numArmies);
                                 }
+                                destiny = territory;
+                                int numArmies = origin.getSurplusArmies() > 3 ? 3 : origin.getSurplusArmies();
+                                return new TerritoryTransaction(origin, destiny, numArmies);
+                            }
                         }
                         break;
                     case Mission.TYPE_REGION: // Pega o primeiro território do continente objetivo que eu posso atacar
@@ -85,7 +83,7 @@ public class EasyAI extends Difficulty {
                                 if (origins.size() > 0) {
                                     // Escolhe o território de origem com o maior número de exércitos
                                     int maxArmies = 0;
-                                    for (Territory possibleOrigin: origins) {
+                                    for (Territory possibleOrigin : origins) {
                                         if (possibleOrigin.getSurplusArmies() > maxArmies) {
                                             maxArmies = possibleOrigin.getSurplusArmies();
                                             origin = possibleOrigin;
@@ -174,5 +172,58 @@ public class EasyAI extends Difficulty {
         }
         int index = new Random().nextInt(defenders.size());
         return defenders.get(index);
+    }
+
+    @Override
+    public List<CardTerritory> tradeCards() {
+        if (player.numCards() >= 3) {
+            List<CardTerritory> cards = new ArrayList<CardTerritory>();
+            int triangleCards = 0, circleCards = 0, squareCards = 0, jokerCards = 0;
+            for (CardTerritory card : player.getCards()) {
+                switch (card.getType()) {
+                    case CardTerritory.CIRCLE:
+                        circleCards++;
+                        break;
+                    case CardTerritory.TRIANGLE:
+                        triangleCards++;
+                        break;
+                    case CardTerritory.SQUARE:
+                        squareCards++;
+                        break;
+                    case CardTerritory.JOKER:
+                        jokerCards++;
+                        break;
+                }
+            }
+            int selectedType = getCardSelectedType(triangleCards, circleCards, squareCards, jokerCards);
+            switch (selectedType) {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    for (CardTerritory card : player.getCards()) {
+                        if (card.getType() == selectedType) {
+                            cards.add(card);
+                        }
+                    }
+                    if (cards.size() >= 3)
+                        return cards;
+                    break;
+                case 5:
+                    boolean[] chosenTypes = new boolean[4];
+                    for (int i = 0; i < chosenTypes.length; i++)
+                        chosenTypes[i] = false;
+                    for (CardTerritory card : player.getCards()) {
+                        if (!chosenTypes[card.getType() - 1]) {
+                            cards.add(card);
+                            chosenTypes[card.getType() - 1] = true;
+                        }
+                    }
+                    if (cards.size() >= 3)
+                        return cards;
+                    break;
+            }
+        }
+        return null; // Não conseguiu arranjar nenhum esquema de troca
     }
 }

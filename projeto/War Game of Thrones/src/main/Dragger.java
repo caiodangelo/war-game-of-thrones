@@ -1,8 +1,9 @@
-package util;
+package main;
 
 import main.Main;
 import main.Map;
 import main.Scroll;
+import util.ImageMovementsComponent;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;

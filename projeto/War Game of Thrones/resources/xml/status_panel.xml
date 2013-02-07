@@ -9,17 +9,17 @@
 				<panel childLayout="horizontal">
 					<image valign="center" filename="resources/images/icons/cartas.png" width="13px" height="13px"/>
 					<panel childLayout="center" width="10px"/>
-					<control color="#333333ff" align="center" textHAlign="left" width="100%" id="#playerStatusCards" name="label" text="Cartas"/>
+					<control color="#333333ff" align="center" textHAlign="left" textVAlign="center" width="100%" id="#playerStatusCards" name="label" text="Cartas"/>
 				</panel>
 				<panel childLayout="horizontal">
 					<image valign="center" filename="resources/images/icons/exercitos.png" width="13px" height="13px"/>
 					<panel childLayout="center" width="10px"/>
-					<control color="#333333ff" align="center" textHAlign="left" width="100%" id="#playerStatusUnits" name="label" text="Exercitos"/>
+					<control color="#333333ff" align="center" textHAlign="left" textVAlign="center" width="100%" id="#playerStatusUnits" name="label" text="Exercitos"/>
 				</panel>
 				<panel childLayout="horizontal">
 					<image valign="center" filename="resources/images/icons/mapa.png" width="13px" height="13px"/>
 					<panel childLayout="center" width="10px"/>
-					<control color="#333333ff" align="center" textHAlign="left" width="100%" id="#playerStatusTerritories" name="label" text="Territorios"/>
+					<control color="#333333ff" align="center" textHAlign="left" textVAlign="center" width="100%" id="#playerStatusTerritories" name="label" text="Territorios"/>
 				</panel>
 			</panel>
 		</panel>		
