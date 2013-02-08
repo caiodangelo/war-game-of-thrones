@@ -146,7 +146,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 					<interact onClick="theGameMenuClicked()"/>
 				</control>
 				<control valign="center" textHAlign="left" name="label" text="Opções" width="5%" height="100px">
-					<interact onClick="optionsMenuClicked()"/>
+					<interact onClick="showOptions()"/>
 				</control>
 				<control valign="center" textHAlign="left" name="label" text="Ajuda" width="5%" height="100px">
 					<interact onClick="helpMenuClicked()"/>
@@ -208,7 +208,9 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 							<panel childLayout="horizontal" width="100%">
 								<control align="left" name="button" label="Trocar cartas" width="35%" focusable="false"/>
 								<panel childLayout="center" width="10%"/>
-								<control align="right" name="button" label="Passar a vez" width="35%" focusable="false"/>
+								<control align="right" name="button" label="Passar a vez" width="35%" focusable="false">
+									<interact onClick="nextPlayerTurnConfirm()"/>
+								</control>
 							</panel>
 						</panel>
 					</panel>
@@ -964,9 +966,24 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 			</control>
 		</panel>
 	</popup>
+	
+	<popup id="nextTurnConfirmationPopup" childLayout="center" backgroundColor="#000a">
+		<panel padding="10%" style="nifty-panel-custom" width="25%" height="15%" childLayout="vertical">
+			<control color="#333333ff" width="100%" height="50%" align="center" name="label" text="Você realmente deseja encerrar seu turno?"/>
+			<panel width="100%" height="50%" valign="bottom" childLayout="horizontal">
+				<control align="left" width="40%" name="button" label="Cancelar" focusable="false">
+					<interact onClick="dismissNextTurnConfirmation()"/>
+				</control>
+				<panel childLayout="center" width="20%"/>
+				<control align="right" width="40%" name="button" label="Sim" focusable="false">
+					<interact onClick="nextPlayerTurn()"/>
+				</control>
+			</panel>
+		</panel>
+	</popup>
 
 	<popup id="quitConfirmationPopup" childLayout="center" backgroundColor="#000a">
-		<panel padding="10%" style="nifty-panel-custom" width="18%" height="15%" childLayout="vertical">
+		<panel padding="10%" style="nifty-panel-custom" width="25%" height="15%" childLayout="vertical">
 			<control color="#333333ff" width="100%" height="50%" align="center" name="label" text="Você realmente deseja sair do jogo?"/>
 			<panel width="100%" height="50%" valign="bottom" childLayout="horizontal">
 				<control align="left" width="40%" name="button" label="Cancelar" focusable="false">
@@ -1078,7 +1095,9 @@ Em cada vez de jogar, o participante pode:&#10;
 2o. COLOCAR ESTES EXÉRCITOS, de acordo com a sua estratégia;&#10;
 3o. EFETUAR OS SEUS ATAQUES;&#10;
 4o. DESLOCAR SEUS EXÉRCITOS, se desejar;&#10;
-5o. RECEBER UMA CARTA-TERRITÓRIO, se conseguir conquistar ao menos um território."/>
+5o. RECEBER UMA CARTA-TERRITÓRIO, se conseguir conquistar ao menos um território.&#10;
+&#10;
+\#FCDC3B#DIVIRTA-SE!!\#FCDC3B#&#10;"/>
 				</panel>
 			</control>
 			<control align="center" name="button" label="OK" focusable="false">
@@ -1088,22 +1107,30 @@ Em cada vez de jogar, o participante pode:&#10;
 	</popup>
 	
 	<popup id="optionsPopup" childLayout="center">
-		<panel margin="30px" style="nifty-panel-custom" width="50%" height="50%" childLayout="vertical">
+		<panel margin="30px" style="nifty-panel-custom" width="40%" height="45%" childLayout="vertical">
 			<control font="resources/fonts/calibri_bold.fnt" color="#333333ff" height="10%" width="100%" textHAlign="left" name="label" text="Opções"/>
 			<panel height="80%" width="100%" childLayout="horizontal">
-				<panel width="30%" height="80%" childLayout="vertical">
+				<panel width="33%" height="80%" childLayout="vertical">
 					<control color="#333333ff" height="20%" width="100%" name="label" text="Música"/>
-					<control id="musicSlider" name="verticalSlider" height="80%" min ="0.0" max="1.0" initial="0.0" stepSize="0.01" buttonStepSize="0.1"/>
+					<control id="musicSlider" name="verticalSlider" height="65%" min ="0.0" max="1.0" initial="0.0" stepSize="0.01" buttonStepSize="0.1"/>
 					<control id="musicVolumeValue" color="#333333ff" height="10%" width="100%" name="label" text="100"/>
+					<panel marginLeft="35%" marginTop="5%" width="100%" height="25%" childLayout="horizontal">
+						<control id="musicMute" name="checkbox" height="30%" width="10%"/>
+						<control color="#333333ff" name="label" text="Mudo" height="30%" width="30%"/>
+					</panel>
 				</panel>
-				<panel width="30%" height="80%" childLayout="vertical">
+				<panel width="33%" height="80%" childLayout="vertical">
 					<control color="#333333ff" height="20%" width="100%" name="label" text="Som"/>
-					<control align="center" id="soundSlider" name="verticalSlider" height="80%" min ="0.0" max="1.0" initial="0.0" stepSize="0.01" buttonStepSize="0.1"/>
+					<control id="soundSlider" name="verticalSlider" height="65%" min ="0.0" max="1.0" initial="0.0" stepSize="0.01" buttonStepSize="0.1"/>
 					<control id="soundVolumeValue" color="#333333ff" height="10%" width="100%" name="label" text="100"/>
+					<panel marginLeft="35%" marginTop="5%" width="100%" height="25%" childLayout="horizontal">
+						<control id="soundMute" name="checkbox" height="30%" width="10%"/>
+						<control color="#333333ff" name="label" text="Mudo" height="30%" width="30%"/>
+					</panel>
 				</panel>
-				<panel width="30%" height="80%" childLayout="vertical">
+				<panel width="33%" height="80%" childLayout="vertical">
 					<control color="#333333ff" height="20%" width="100%" name="label" text="Dificuldade dos jogadores&#10;não humanos"/>
-					<control id="sliderCPUdifficulty" name="verticalSlider" height="80%" min ="1.0" max="3.0" initial="1.0" stepSize="1.0" buttonStepSize="1.0"/>
+					<control id="sliderCPUdifficulty" name="verticalSlider" height="65%" min ="1.0" max="3.0" initial="1.0" stepSize="1.0" buttonStepSize="1.0"/>
 					<control id="CPUdifficultyValue" color="#333333ff" height="10%" width="100%" name="label" text="Fácil"/>
 					<!--<control id="radioCPUdifficulty" name="radioButtonGroup"/>
 					<panel childLayout="horizontal">

@@ -2,6 +2,7 @@ package gui;
 
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyEventSubscriber;
+import de.lessvoid.nifty.controls.CheckBoxStateChangedEvent;
 import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.controls.SliderChangedEvent;
 import de.lessvoid.nifty.elements.Element;
@@ -59,8 +60,7 @@ public class MainScreenController implements ScreenController {
     @NiftyEventSubscriber(id="musicSlider")
     public void onMusicSliderChange(final String id, final SliderChangedEvent event) {
         float newVolume = 1 - event.getValue(); //Nifty uses inverted sliders
-        AudioManager am = AudioManager.getInstance();
-        am.changeMusicVolume(newVolume);
+        AudioManager.getInstance().changeMusicVolume(newVolume);
         Label musicVolumeValue = optionsPopup.findNiftyControl("musicVolumeValue", Label.class);
         musicVolumeValue.setText(((int) (newVolume*100))+"");
     }
@@ -68,8 +68,7 @@ public class MainScreenController implements ScreenController {
     @NiftyEventSubscriber(id="soundSlider")
     public void onSoundSliderChange(final String id, final SliderChangedEvent event) {
         float newVolume = 1 - event.getValue(); //Nifty uses inverted sliders
-        AudioManager am = AudioManager.getInstance();
-        am.changeSoundVolume(newVolume);
+        AudioManager.getInstance().changeSoundVolume(newVolume);
         Label soundVolumeValue = optionsPopup.findNiftyControl("soundVolumeValue", Label.class);
         soundVolumeValue.setText(((int) (newVolume*100))+"");
     }
@@ -79,6 +78,24 @@ public class MainScreenController implements ScreenController {
         event.getValue();
         Label CPUDifficultyValue = optionsPopup.findNiftyControl("CPUdifficultyValue", Label.class);
         CPUDifficultyValue.setText(difficulties.get((int) event.getValue()));
+    }
+    
+    @NiftyEventSubscriber(id="musicMute")
+    public void onMusicMuteChange(final String id, final CheckBoxStateChangedEvent event) {
+        AudioManager am = AudioManager.getInstance();
+        if (event.isChecked())
+            am.muteMusic();
+        else
+            am.unmuteMusic();
+    }
+    
+    @NiftyEventSubscriber(id="soundMute")
+    public void onSoundMuteChange(final String id, final CheckBoxStateChangedEvent event) {
+        AudioManager am = AudioManager.getInstance();
+        if (event.isChecked())
+            am.muteSound();
+        else
+            am.unmuteSound();
     }
     
     public void exit(){

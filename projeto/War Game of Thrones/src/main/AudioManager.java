@@ -15,7 +15,9 @@ public class AudioManager {
     private static Sound startGame;
     private static Sound attack;
     private float musicVolume;
+    private boolean musicMuted;
     private float soundVolume;
+    private boolean soundMuted;
     private Music currentMusic;
     
     public static final int OPENING = 0;
@@ -27,7 +29,7 @@ public class AudioManager {
             opening = new Music("resources/sounds/got-opening.ogg");
             startGame = new Sound("resources/sounds/start-game.ogg");
         } catch (SlickException ex) {
-            Logger.getLogger(AudioManager.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
         this.musicVolume = 1;
         this.soundVolume = 1;
@@ -42,17 +44,21 @@ public class AudioManager {
         return instance;
     }
     
-    public void playSound(int key) {
-        Sound s = (Sound) audioMap.get(key);
-        s.play(1, soundVolume);
-    }
-    
     public void playMusic(int key) {
         Music m = (Music) audioMap.get(key);
         if (currentMusic != null)
             currentMusic.stop();
-        m.loop(1, musicVolume);
+        if (musicMuted)
+            m.loop(1, 0);
+        else
+            m.loop(1, musicVolume);
         currentMusic = m;
+    }
+    
+    public void playSound(int key) {
+        Sound s = (Sound) audioMap.get(key);
+        if(!soundMuted)
+            s.play(1, soundVolume);
     }
     
     public void stopMusic(int key) {
@@ -61,13 +67,49 @@ public class AudioManager {
         currentMusic = null;
     }
     
+    public float getMusicVolume() {
+        return this.musicVolume;
+    }
+    
+    public float getSoundVolume() {
+        return this.soundVolume;
+    }
+    
     public void changeMusicVolume(float vol) {
-        currentMusic.setVolume(vol);
+        if (currentMusic != null)
+            currentMusic.setVolume(vol);
         this.musicVolume = vol;
     }
     
     public void changeSoundVolume(float vol) {
         this.soundVolume = vol;
+    }
+    
+    public void muteMusic() {
+        musicMuted = true;
+        if (currentMusic != null)
+            currentMusic.setVolume(0);
+    }
+    
+    public void muteSound() {
+        soundMuted = true;
+    }
+    
+    public void unmuteMusic() {
+        musicMuted = false;
+        currentMusic.setVolume(musicVolume);
+    }
+    
+    public void unmuteSound() {
+        soundMuted = false;
+    }
+    
+    public boolean musicIsMuted() {
+        return musicMuted;
+    }
+    
+    public boolean soundIsMuted() {
+        return soundMuted;
     }
     
 }
