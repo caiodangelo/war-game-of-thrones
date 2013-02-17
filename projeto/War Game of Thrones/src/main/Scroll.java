@@ -19,9 +19,13 @@ public class Scroll extends ImageMovementsComponent {
     public static final float MOVE_OFFSET = 0.005f;
     private int previousMouseX, previousMouseY;
     private boolean mouseSet = false;
+    
+    private Vector2f mapPos, mapSize;
 
     public Scroll(String id, Image img) {
         super(id, img);
+        mapPos = main.Main.getMapPos();
+        mapSize = main.Main.getMapSize();
         try {
             Mouse.create();
         } catch (LWJGLException ex) {
@@ -37,7 +41,7 @@ public class Scroll extends ImageMovementsComponent {
         int mouseX = 0;
         int mouseY = 0;
         int newMouseX = input.getMouseX();
-        int newMouseY = (int)Main.windowH-input.getMouseY();
+        int newMouseY = (int)mapSize.y-input.getMouseY();
         if(mouseSet){
             mouseX = newMouseX - previousMouseX;
             mouseY = newMouseY - previousMouseY;
@@ -82,8 +86,8 @@ public class Scroll extends ImageMovementsComponent {
         int mouseWheel = GameScene.getMouseWheel();
         
 //        Vector2f position = new Vector2f();
-//        position.x = (main.Main.windowW / 2f) - viewX * getImageWidth(scale);
-//        position.y = (main.Main.windowH / 2f) - viewY * getImageHeight(scale);
+//        position.x = (main.mapSize.x / 2f) - viewX * getImageWidth(scale);
+//        position.y = (main.mapSize.y / 2f) - viewY * getImageHeight(scale);
 //        System.out.printf("updating to view x %f and view y %f\n", viewX, viewY);
         
         if (mouseWheel > 0) {
@@ -99,36 +103,38 @@ public class Scroll extends ImageMovementsComponent {
 //            System.out.println("later scale " + owner.getScale());
             zoomOut(scale, delta, owner.getPosition());
 //            Vector2f position = new Vector2f();
-//            position.x = (main.Main.windowW / 2f) - viewX * getImageWidth(owner.getScale());
-//            position.y = (main.Main.windowH / 2f) - viewY * getImageHeight(owner.getScale());
+//            position.x = (main.mapSize.x / 2f) - viewX * getImageWidth(owner.getScale());
+//            position.y = (main.mapSize.y / 2f) - viewY * getImageHeight(owner.getScale());
 //            setUpdates(owner.getScale(), position);
         }
         Vector2f position = new Vector2f();
-        Vector2f mapPos = main.Main.getMapPos(), mapSize = main.Main.getMapSize();
-        position.x = (main.Main.windowW / 2f) - viewX * getImageWidth(owner.getScale());
-        position.y = (main.Main.windowH / 2f) - viewY * getImageHeight(owner.getScale());
+        
+        
+        
+        position.x = mapPos.x + (mapSize.x / 2f) - viewX * getImageWidth(owner.getScale());
+        position.y = mapPos.y + (mapSize.y / 2f) - viewY * getImageHeight(owner.getScale());
         setUpdates(owner.getScale(), position);
         
 //        setUpdates(owner.getScale(), position);
     }
     
     private float getMinViewX(){
-        float resp = (Main.windowW/2f) / (getImageWidth(owner.getScale()));
+        float resp = (mapSize.x/2f) / (getImageWidth(owner.getScale()));
         return resp;
     }
     
     private float getMaxViewX(){
-        float resp = 1-((Main.windowW/2f) / (getImageWidth(owner.getScale())));
+        float resp = 1-((mapSize.x/2f) / (getImageWidth(owner.getScale())));
         return resp;
     }
     
     private float getMinViewY(){
-        float resp = (Main.windowH/2f) / (getImageHeight(owner.getScale()));
+        float resp = (mapSize.y/2f) / (getImageHeight(owner.getScale()));
         return resp;
     }
     
     private float getMaxViewY(){
-        float resp = 1-((Main.windowH/2f) / (getImageHeight(owner.getScale())));
+        float resp = 1-((mapSize.y/2f) / (getImageHeight(owner.getScale())));
         return resp;
     }
     

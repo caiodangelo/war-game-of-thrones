@@ -145,13 +145,15 @@ public class InGameGUIController implements ScreenController{
     }
     
     private void updateCurrentPlayersData(){
-        Player currPlayer = getCurrentPlayer();
-        Color currentPlayerColor = getCurrentPlayerColor();
-        playerStatusName.setText(currPlayer.getName());
-        playerStatusName.setColor(currentPlayerColor);
-        StatusPanelControlImpl.setLabel(playerStatusCards, currPlayer.numCards(), "Carta");
-        StatusPanelControlImpl.setLabel(playerStatusUnits, currPlayer.numArmies(), "Exército");
-        StatusPanelControlImpl.setLabel(playerStatusTerritories, currPlayer.numTerritories(), "Território");
+        if(!main.Main.JUMP_TO_GAME){
+            Player currPlayer = getCurrentPlayer();
+            Color currentPlayerColor = getCurrentPlayerColor();
+            playerStatusName.setText(currPlayer.getName());
+            playerStatusName.setColor(currentPlayerColor);
+            StatusPanelControlImpl.setLabel(playerStatusCards, currPlayer.numCards(), "Carta");
+            StatusPanelControlImpl.setLabel(playerStatusUnits, currPlayer.numArmies(), "Exército");
+            StatusPanelControlImpl.setLabel(playerStatusTerritories, currPlayer.numTerritories(), "Território");
+        }
     }
     
     public void showPlayerObjective(){

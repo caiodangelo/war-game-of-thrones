@@ -174,8 +174,9 @@ public class Map extends Entity{
     };
     
     public Map() {
-        setScale((Main.windowW * Main.windowH) / (1280 * 768));
-        setPosition(new Vector2f(0, 0));
+        Vector2f mapSize = Main.getMapSize();
+        setScale((mapSize.x * mapSize.y) / (1280 * 768));
+        setPosition(Main.getMapPos());
         
         try {
             Image mapImage = new Image("resources/images/mapa.jpg");

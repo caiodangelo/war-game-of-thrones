@@ -12,22 +12,31 @@ import util.LibraryLoader;
 
 public class Main extends NiftyStateBasedGame{
     
+    public static final boolean JUMP_TO_GAME = false;
     private static Main instance;
     
     public static float windowW, windowH;
     
+    private static Vector2f mapPos, mapSize;
+    
     public static Vector2f getMapPos(){
-        float x, y;
-        x = windowW * 0.12f;
-        y = windowH * 0.03f;
-        return new Vector2f(x, y);
+        if(mapPos == null){
+            float x, y;
+            x = windowW * 0.12f;
+            y = windowH * 0.03f;
+            mapPos = new Vector2f(x, y);
+        }
+        return mapPos;
     }
     
     public static Vector2f getMapSize(){
-        float width, height;
-        width = windowW * 0.88f;
-        height = windowH * 0.97f * (1-0.18f);
-        return new Vector2f(width, height);
+        if(mapSize == null){
+            float width, height;
+            width = windowW * 0.88f;
+            height = windowH * 0.97f * (1-0.18f);
+            mapSize = new Vector2f(width, height);
+        }
+        return mapSize;
     }
     
     private AppGameContainer container;
@@ -74,9 +83,11 @@ public class Main extends NiftyStateBasedGame{
         addState(new MainScene());
         addState(new GameScene());
         addState(new StatisticsScene());
-        enterState(WarScenes.STARTING_SCENE);
-        //enterState(WarScenes.GAME_SCENE);
-        //enterState(WarScenes.STATISTICS_SCENE);
+        if(!JUMP_TO_GAME){
+            enterState(WarScenes.STARTING_SCENE);
+            //enterState(WarScenes.STATISTICS_SCENE);
+        } else
+            enterState(WarScenes.GAME_SCENE);
     }
     
     private static void disableNiftyWarnings(){

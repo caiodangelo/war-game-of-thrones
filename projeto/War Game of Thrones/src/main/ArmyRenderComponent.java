@@ -3,6 +3,7 @@ package main;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -38,6 +39,7 @@ public class ArmyRenderComponent extends ImageRenderComponent {
         image.draw(pos.x, pos.y, scale);
         gr.drawString(((Army) owner).getQuantity()+"", pos.x, pos.y);
         if (movingQty > 0) {
+            gr.setColor(Color.white);
             imageCopy.draw(movingPos.x, movingPos.y, scale);
             gr.drawString(movingQty+"", movingPos.x, movingPos.y);
         }

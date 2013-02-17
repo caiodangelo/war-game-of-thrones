@@ -15,6 +15,14 @@ public class MainScene extends Scene{
 
     private static Nifty n;
     
+    private MainSceneAnimation anim;
+
+    @Override
+    public void keyPressed(int key, char c) {
+        super.keyPressed(key, c);
+        anim.onAnyKeyPressed();
+    }
+    
     @Override
     public int getID() {
         return WarScenes.STARTING_SCENE.ordinal();
@@ -33,7 +41,8 @@ public class MainScene extends Scene{
             am.playMusic(AudioManager.OPENING);
             Entity map = new Entity();
             map.setScale(3.5f);
-            map.addComponent(new MainSceneAnimation("animation", mapImage, logoWarImage, logoOfImage, logoThronesImage, instructionImage));
+            anim = new MainSceneAnimation("animation", mapImage, logoWarImage, logoOfImage, logoThronesImage, instructionImage);
+            map.addComponent(anim);
             addEntity(map);
         } catch (SlickException ex) {
             Logger.getLogger(MainScene.class.getName()).log(Level.SEVERE, null, ex);

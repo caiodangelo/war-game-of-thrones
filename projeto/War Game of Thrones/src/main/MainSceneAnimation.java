@@ -84,11 +84,21 @@ public class MainSceneAnimation extends ImageMovementsComponent {
             //gr.drawString("Pressione qualquer tecla para iniciar", logoWarFinalX, logoWarY);
     }
     
+    public void onAnyKeyPressed(){
+        if(!buttonsDisplayed){
+            AudioManager.getInstance().playSound(AudioManager.START_GAME);
+            gradientWar.a = 1;
+            gradientOf.a = 1;
+            gradientThrones.a = 1;
+            MainScene.showButtons();
+            buttonsDisplayed = true;
+        }
+    }
+    
     @Override
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
         float scale = owner.getScale();
         scale -= delta / 3f;
-        Input input = gc.getInput();
         if (scale > 1.7f) {
             owner.setScale(scale);
         } else {
@@ -121,33 +131,27 @@ public class MainSceneAnimation extends ImageMovementsComponent {
         position.y = (main.Main.windowH / 2f) - viewY * getImageHeight(owner.getScale());
         owner.setPosition(position);
         gc.setMouseGrabbed(!buttonsDisplayed);
-        if (!buttonsDisplayed && (input.isKeyDown(Input.KEY_ENTER) || input.isKeyDown(Input.KEY_SPACE))) {
-            AudioManager.getInstance().playSound(AudioManager.START_GAME);
-            gradientWar.a = 1;
-            gradientOf.a = 1;
-            gradientThrones.a = 1;
-            MainScene.showButtons();
-            buttonsDisplayed = true;
-        }
-        else if (logoTimer >= TIME_TO_SHOW_LOGO) {
-            if (gradientWar.a < 1)
-                gradientWar.a += delta * GRADIENT_CHANGING_SPEED;
-            else if (gradientOf.a < 1)
-                gradientOf.a += delta * GRADIENT_CHANGING_SPEED;
-            else if (gradientThrones.a < 1)
-                gradientThrones.a += delta * GRADIENT_CHANGING_SPEED;
-//            if (logoWarX < logoWarFinalX)
-//                logoWarX = updateLogoPosition(logoWarX, logoWarFinalX, true);
-//            else if (logoThronesX > logoThronesFinalX) {
-//                if (logoOfX > logoOfFinalX)
-//                    logoOfX = updateLogoPosition(logoOfX, logoOfFinalX, false);
-//                if (logoOfX < Main.windowW * 0.8)
-//                    logoThronesX = updateLogoPosition(logoThronesX, logoThronesFinalX, false);
-//            }
+//        if (!buttonsDisplayed && (input.isKeyDown(Input.KEY_ENTER) || input.isKeyDown(Input.KEY_SPACE))) {
+//            AudioManager.getInstance().playSound(AudioManager.START_GAME);
+//            gradientWar.a = 1;
+//            gradientOf.a = 1;
+//            gradientThrones.a = 1;
+//            MainScene.showButtons();
+//            buttonsDisplayed = true;
+//        }
+        if(buttonsDisplayed){
+            if (logoTimer >= TIME_TO_SHOW_LOGO) {
+                if (gradientWar.a < 1)
+                    gradientWar.a += delta * GRADIENT_CHANGING_SPEED;
+                else if (gradientOf.a < 1)
+                    gradientOf.a += delta * GRADIENT_CHANGING_SPEED;
+                else if (gradientThrones.a < 1)
+                    gradientThrones.a += delta * GRADIENT_CHANGING_SPEED;
+            }
+            else
+                logoTimer++;
         }
         
-        else
-            logoTimer++;
         instructionTimer++;
         if (showingInstruction) {
             if (instructionTimer >= TIME_TO_TOGGLE_BUTTON_INSTRUCTION) {

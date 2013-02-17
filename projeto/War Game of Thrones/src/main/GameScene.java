@@ -31,9 +31,6 @@ public class GameScene extends Scene{
         AudioManager am = AudioManager.getInstance();
         am.stopMusic(AudioManager.OPENING);
         
-//        Entity e = new Entity();
-//        e.addComponent(new MapAreaRenderer());
-//        addEntity(e);
     }
 
     @Override

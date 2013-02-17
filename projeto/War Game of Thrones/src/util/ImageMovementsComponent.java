@@ -40,9 +40,25 @@ public class ImageMovementsComponent extends ImageRenderComponent {
     }
     
     protected void setUpdates(float scale, Vector2f position) {
-        if (scale < 3 && position.x <= 0 && position.y <= 0 && position.x + getImageWidth(scale) >= Main.windowW && position.y + getImageHeight(scale) >= Main.windowH) {
-            owner.setScale(scale);
-            owner.setPosition(position);
+//        if (scale < 3 && position.x <= 0 && position.y <= 0 && position.x + getImageWidth(scale) >= Main.windowW && position.y + getImageHeight(scale) >= Main.windowH) {
+        Vector2f mapPos = Main.getMapPos();
+        Vector2f mapSize = Main.getMapSize();
+//        if (scale < 2.5f && position.x <= mapPos.x && position.y <= mapPos.y && position.x + getImageWidth(scale) >= mapSize.x + mapPos.x && position.y + getImageHeight(scale) >= mapSize.y + mapPos.y) {
+//            owner.setScale(scale);
+//            owner.setPosition(position);
+//        }
+        if (scale < 2.5f){
+                owner.setScale(scale);
+            if(position.x <= mapPos.x && position.x + getImageWidth(scale) >= mapSize.x + mapPos.x){
+                Vector2f newPos = owner.getPosition();
+                newPos = new Vector2f(position.x, newPos.y);
+                owner.setPosition(newPos);
+            }
+            if(position.y <= mapPos.y && position.y + getImageHeight(scale) >= mapSize.y + mapPos.y){
+                Vector2f newPos = owner.getPosition();
+                newPos = new Vector2f(newPos.x, position.y);
+                owner.setPosition(newPos);
+            }
         }
     }
 }
