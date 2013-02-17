@@ -27,7 +27,7 @@ public class AudioManager {
     public AudioManager() {
         try {
             opening = new Music("resources/sounds/got-opening.ogg");
-            startGame = new Sound("resources/sounds/start-game.ogg");
+            startGame = new Sound("resources/sounds/raio-start.ogg");
         } catch (SlickException ex) {
             System.out.println(ex.getMessage());
         }
