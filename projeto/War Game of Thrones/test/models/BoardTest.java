@@ -55,12 +55,8 @@ public class BoardTest {
     }
 
     @Test
-    public void getHousesDeveRetornarAsCasasDosJogadores() {
-        for (int i = 0; i < board.getPlayers().size(); i++) {        
-            board.removePlayer(board.getPlayer(i));
-            i--;
-        }        
-        
+    public void getHousesDeveRetornarAsCasasDosJogadores() {        
+        board.getPlayers().clear();          
         Player playerStark = mock(Player.class);
         Player playerTully = mock(Player.class);
         House stark = mock(House.class);
@@ -72,7 +68,7 @@ public class BoardTest {
         board.addPlayer(playerStark, 0, Board.HUMAN_PLAYER);
         board.addPlayer(playerTully, 1, Board.HUMAN_PLAYER);
         List<House> houses = board.getHouses();
-        //      assertEquals(board.getPlayers().size(), 2);
+    //          assertEquals(board.getPlayers().size(), 2);
         assertEquals(stark, houses.get(0));
         assertEquals(tully, houses.get(1));
     }
@@ -99,7 +95,8 @@ public class BoardTest {
     }
 
     @Test
-    public void getAbsentHousesDeveRetornarTodasAsCasasAusentesDoJogo() {
+    public void getAbsentHousesDeveRetornarTodasAsCasasAusentesDoJogo() {        
+        board.getPlayers().clear();
         Player playerStark = mock(Player.class);
         Player playerLannister = mock(Player.class);
         Player playerTargaryen = mock(Player.class);
@@ -114,13 +111,6 @@ public class BoardTest {
         House freeFolk = mock(House.class);
         House greyjoy = mock(House.class);
 
-        when(stark.getName()).thenReturn("Stark");
-        when(lannister.getName()).thenReturn("Lannister");
-        when(targaryen.getName()).thenReturn("Targaryen");
-        when(baratheon.getName()).thenReturn("Baratheon");
-        when(freeFolk.getName()).thenReturn("Rayder");
-        when(greyjoy.getName()).thenReturn("Greyjoy");
-
         when(playerStark.getHouse()).thenReturn(stark);
         when(playerLannister.getHouse()).thenReturn(lannister);
         when(playerTargaryen.getHouse()).thenReturn(targaryen);
@@ -128,10 +118,10 @@ public class BoardTest {
         when(playerFreeFolk.getHouse()).thenReturn(freeFolk);
         when(playerGreyjoy.getHouse()).thenReturn(lannister);
 
-        board.addPlayer(playerStark, 0, Board.HUMAN_PLAYER);
-        board.addPlayer(playerLannister, 1, Board.HUMAN_PLAYER);
-//        board.addPlayer(playerTargaryen, 2, Board.HUMAN_PLAYER);
-//        board.addPlayer(playerBaratheon, 3, Board.HUMAN_PLAYER);
+        board.addPlayer(playerTargaryen, 0, Board.HUMAN_PLAYER);
+        board.addPlayer(playerBaratheon, 1, Board.HUMAN_PLAYER);
+//        board.addPlayer(playerStark, 0, Board.HUMAN_PLAYER);
+//        board.addPlayer(playerLannister, 1, Board.HUMAN_PLAYER);
 //        board.addPlayer(playerFreeFolk, 4, Board.HUMAN_PLAYER);
 //        board.addPlayer(playerGreyjoy, 5, Board.HUMAN_PLAYER);
 
@@ -142,13 +132,47 @@ public class BoardTest {
         allHouses.add(baratheon);
         allHouses.add(freeFolk);
         allHouses.add(greyjoy);
-
+       
         List<House> absentHouses = board.getAbsentHouses(allHouses);
-        assertEquals(targaryen, absentHouses.get(0));
-        assertEquals(baratheon, absentHouses.get(1));
+        assertEquals(stark, absentHouses.get(0));
+        assertEquals(lannister, absentHouses.get(1));
         assertEquals(freeFolk, absentHouses.get(2));
         assertEquals(greyjoy, absentHouses.get(3));
-        //         assertNull(absentHouses);
+    }
+
+    @Test
+    public void playerDeveTerTodosOsTerritoriosDeAcordoComAsCartasDeTerritorioNoInicioDoJogo() {
+        board = new Board();
+        Player playerStark = mock(Player.class);
+        Player playerLannister = mock(Player.class);
+        board.addPlayer(playerStark, 0, Board.HUMAN_PLAYER);
+        board.addPlayer(playerLannister, 1, Board.HUMAN_PLAYER);
+        Territory winterfell = mock(Territory.class);
+        Territory rochedoCasterly = mock(Territory.class);
+        Territory harrenhal = mock(Territory.class);
+        Territory dorne = mock(Territory.class);
+        CardTerritory cardWinterfell = mock(CardTerritory.class);
+        CardTerritory cardRochedoCasterly = mock(CardTerritory.class);
+        CardTerritory cardHarrenhal = mock(CardTerritory.class);
+        CardTerritory cardDorne = mock(CardTerritory.class);
+
+        when(cardWinterfell.getTerritory()).thenReturn(winterfell);
+        when(cardRochedoCasterly.getTerritory()).thenReturn(rochedoCasterly);
+        when(cardHarrenhal.getTerritory()).thenReturn(harrenhal);
+        when(cardDorne.getTerritory()).thenReturn(dorne);
+
+        playerStark.addCard(cardDorne);
+        playerStark.addCard(cardWinterfell);
+        playerLannister.addCard(cardRochedoCasterly);
+        playerLannister.addCard(cardHarrenhal);
+        
+        board.distributeInitialTerritory();
+
+        for (Player player : board.getPlayers()) {
+            for (int i = 0; i < player.getCards().size(); i++) {
+                assertEquals(player.getCards().get(i).getTerritory(), player.getTerritories().get(i));
+            }
+        }
     }
 
     @AfterClass
