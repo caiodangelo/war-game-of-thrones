@@ -1,9 +1,11 @@
 package main;
 
+import util.MapAreaRenderer;
 import de.lessvoid.nifty.Nifty;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import util.Entity;
 import util.Scene;
 
 public class GameScene extends Scene{
@@ -28,6 +30,10 @@ public class GameScene extends Scene{
         container.getInput().clearMousePressedRecord();
         AudioManager am = AudioManager.getInstance();
         am.stopMusic(AudioManager.OPENING);
+        
+//        Entity e = new Entity();
+//        e.addComponent(new MapAreaRenderer());
+//        addEntity(e);
     }
 
     @Override

@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Vector2f;
 import util.LibraryLoader;
 
 public class Main extends NiftyStateBasedGame{
@@ -14,6 +15,20 @@ public class Main extends NiftyStateBasedGame{
     private static Main instance;
     
     public static float windowW, windowH;
+    
+    public static Vector2f getMapPos(){
+        float x, y;
+        x = windowW * 0.12f;
+        y = windowH * 0.03f;
+        return new Vector2f(x, y);
+    }
+    
+    public static Vector2f getMapSize(){
+        float width, height;
+        width = windowW * 0.88f;
+        height = windowH * 0.97f * (1-0.18f);
+        return new Vector2f(width, height);
+    }
     
     private AppGameContainer container;
     

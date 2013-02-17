@@ -27,6 +27,10 @@ import models.Player;
 
 public class AddPlayerController implements ScreenController{
 
+    //DEBUG ONLY
+    private static final boolean ACCEPT_EMPTY_NAMES = true;
+    
+    
     private TextField nameField;
     private Nifty n;
     private Screen s;
@@ -167,7 +171,7 @@ public class AddPlayerController implements ScreenController{
     
     public void addPlayer(){
         if(nameField != null && createdPlayers.size() < 6){
-            if(nameFieldIsEmpty()){
+            if(nameFieldIsEmpty() && !ACCEPT_EMPTY_NAMES){
                 showEmptyNameWarning();
             } else {
                 updatePlayerImage();
@@ -222,7 +226,7 @@ public class AddPlayerController implements ScreenController{
     }
     
     public void playButtonPressed() {
-        if(nameFieldIsEmpty())
+        if(nameFieldIsEmpty() && !ACCEPT_EMPTY_NAMES)
             showEmptyNameWarning();
         else{
             saveCurrentPlayerData();

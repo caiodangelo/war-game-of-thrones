@@ -104,6 +104,7 @@ public class Scroll extends ImageMovementsComponent {
 //            setUpdates(owner.getScale(), position);
         }
         Vector2f position = new Vector2f();
+        Vector2f mapPos = main.Main.getMapPos(), mapSize = main.Main.getMapSize();
         position.x = (main.Main.windowW / 2f) - viewX * getImageWidth(owner.getScale());
         position.y = (main.Main.windowH / 2f) - viewY * getImageHeight(owner.getScale());
         setUpdates(owner.getScale(), position);
