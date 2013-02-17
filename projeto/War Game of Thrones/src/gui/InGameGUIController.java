@@ -20,6 +20,7 @@ import models.Player;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import util.PopupManager;
 
 public class InGameGUIController implements ScreenController{
 
@@ -29,7 +30,8 @@ public class InGameGUIController implements ScreenController{
     private Nifty n;
     public static Player [] players;
     private static Color [] playerNameColors;
-    private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup;
+    private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel, 
+            optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon;
     private boolean mouseOverObjective = false;
     
     private ContextMenuController ctxMenuCtrl;
@@ -71,6 +73,8 @@ public class InGameGUIController implements ScreenController{
         exitConfirmPopup = n.createPopup("quitConfirmationPopup");
         tablesPopup = n.createPopup("tablesPopup");
         objectiveLabel = screen.findElementByName("seeObjectiveButton");
+        viewCardsLabel = screen.findElementByName("seeCardsButton");
+        tablesIcon = screen.findElementByName("tablesIcon");
         optionsPopup = n.createPopup("optionsPopup");
         helpPopup = n.createPopup("helpPopup");
         cardsPopup = n.createPopup("cardsPopup");
@@ -158,35 +162,36 @@ public class InGameGUIController implements ScreenController{
     
     public void showPlayerObjective(){
         resetMouseCursor();
-        n.showPopup(s, objectivePopup.getId(), null);
+        PopupManager.showPopup(n, s, objectivePopup);
         Label description = objectivePopup.findNiftyControl("objectiveDescLabel", Label.class);
         String objectiveStr = getCurrentPlayer().getMission().getDescription();
         description.setText(objectiveStr);
     }
     
     public void showPlayerCards(){
-        n.showPopup(s, cardsPopup.getId(), null);
+        resetMouseCursor();
+        PopupManager.showPopup(n, s, cardsPopup);
     }
     
     public void dismissPlayerObjective(){
-        n.closePopup(objectivePopup.getId());
+        PopupManager.closePopup(n, objectivePopup);
     }
     
     public void dismissPlayerCards(){
-        n.closePopup(cardsPopup.getId());
+        PopupManager.closePopup(n, cardsPopup);
     }
     
     public void nextPlayerTurnConfirm() {
-        n.showPopup(s, nextTurnConfirmPopup.getId(), null);
+        PopupManager.showPopup(n, s, nextTurnConfirmPopup);
     }
     
     public void nextPlayerTurn() {
         //back-end move to next player
-        n.closePopup(nextTurnConfirmPopup.getId());
+        PopupManager.closePopup(n, nextTurnConfirmPopup);
     }
     
     public void dismissNextTurnConfirmation(){
-        n.closePopup(nextTurnConfirmPopup.getId());
+        PopupManager.closePopup(n, nextTurnConfirmPopup);
     }
     
     //Top Menu event handling
@@ -195,24 +200,24 @@ public class InGameGUIController implements ScreenController{
     }
     
     public void showOptions(){
-        n.showPopup(s, optionsPopup.getId(), null);
+        PopupManager.showPopup(n, s, optionsPopup);
     }
     
     public void helpMenuClicked(){
-        n.showPopup(s, helpPopup.getId(), null);
+        PopupManager.showPopup(n, s, helpPopup);
     }
     
     public void exitMenuClicked(){
-        n.showPopup(s, exitConfirmPopup.getId(), null);
+        PopupManager.showPopup(n, s, exitConfirmPopup);
     }
     //Top Menu event end
    
     public void closeOptions(){
-        n.closePopup(optionsPopup.getId());
+        PopupManager.closePopup(n, optionsPopup);
     }
     
     public void closeHelpPopup(){
-        n.closePopup(helpPopup.getId());
+        PopupManager.closePopup(n, helpPopup);
     }
     
     //Popups event handling
@@ -221,15 +226,16 @@ public class InGameGUIController implements ScreenController{
     }
     
     public void showTables(){
-        n.showPopup(s, tablesPopup.getId(), null);
+        resetMouseCursor();
+        PopupManager.showPopup(n, s, tablesPopup);
     }
     
     public void dismissExitConfirmation(){
-        n.closePopup(exitConfirmPopup.getId());
+        PopupManager.closePopup(n, exitConfirmPopup);
     }
     
     public void dismissTablesPopup(){
-        n.closePopup(tablesPopup.getId());
+        PopupManager.closePopup(n, tablesPopup);
     }
     
     /**
@@ -251,9 +257,15 @@ public class InGameGUIController implements ScreenController{
         c.setDefaultMouseCursor();
     }
     
+    private boolean mouseOverLink(int mouseX, int mouseY){
+        return objectiveLabel.isMouseInsideElement(mouseX, mouseY)
+                || viewCardsLabel.isMouseInsideElement(mouseX, mouseY)
+                || tablesIcon.isMouseInsideElement(mouseX, mouseY);
+    }
+    
     public void mouseMovedOverBottomPanel(){
         Input in = main.Main.getInstance().getContainer().getInput();
-        boolean inside = objectiveLabel.isMouseInsideElement(in.getMouseX(), in.getMouseY());
+        boolean inside = mouseOverLink(in.getMouseX(), in.getMouseY());
         if(inside != mouseOverObjective){
             mouseOverObjective = inside;
             if(!inside)
@@ -269,12 +281,28 @@ public class InGameGUIController implements ScreenController{
         }
     }
     
+    public void dismissFewArmiesPopup(){
+        ctxMenuCtrl.dismissFewArmiesPopup();
+    }
+    
     public void dismissRearrangePopup(){
         ctxMenuCtrl.dismissRearrangePopup();
     }
     
     public void rearrangePopupOK(){
         ctxMenuCtrl.rearrangeOK();
+    }
+    
+    public void confirmAtkUnits(){
+        ctxMenuCtrl.confirmAtkUnits();
+    }
+    
+    public void confirmDefUnits(){
+        ctxMenuCtrl.confirmDefUnits();
+    }
+    
+    public void cancelAttackPopup(){
+        ctxMenuCtrl.cancelAttackPopup();
     }
             
             

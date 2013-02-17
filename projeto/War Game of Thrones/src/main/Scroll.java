@@ -12,6 +12,7 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import util.Entity;
 import util.ImageMovementsComponent;
+import util.PopupManager;
 
 public class Scroll extends ImageMovementsComponent {
     
@@ -35,87 +36,90 @@ public class Scroll extends ImageMovementsComponent {
 
     @Override
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
-        float positionX = owner.getPosition().getX();
-        float positionY = owner.getPosition().getY();
-        Input input = gc.getInput();
-        int mouseX = 0;
-        int mouseY = 0;
-        int newMouseX = input.getMouseX();
-        int newMouseY = (int)mapSize.y-input.getMouseY();
-        if(mouseSet){
-            mouseX = newMouseX - previousMouseX;
-            mouseY = newMouseY - previousMouseY;
-        }
-        previousMouseX = newMouseX;
-        previousMouseY = newMouseY;
-        mouseSet = true;
-        if (input.isMouseButtonDown(input.MOUSE_RIGHT_BUTTON))
-            Mouse.setGrabbed(true);
-        else
-            Mouse.setGrabbed(false);
-        boolean isGrabbed = Mouse.isGrabbed();
+        if(!PopupManager.isAnyPopupOpen()){
+            float positionX = owner.getPosition().getX();
+            float positionY = owner.getPosition().getY();
+            Input input = gc.getInput();
+            int mouseX = 0;
+            int mouseY = 0;
+            int newMouseX = input.getMouseX();
+            int newMouseY = (int)mapSize.y-input.getMouseY();
+            if(mouseSet){
+                mouseX = newMouseX - previousMouseX;
+                mouseY = newMouseY - previousMouseY;
+            }
+            previousMouseX = newMouseX;
+            previousMouseY = newMouseY;
+            mouseSet = true;
+            if (input.isMouseButtonDown(input.MOUSE_RIGHT_BUTTON))
+                Mouse.setGrabbed(true);
+            else
+                Mouse.setGrabbed(false);
+            boolean isGrabbed = Mouse.isGrabbed();
 
-        if (scrolledLeft(isGrabbed, mouseX)) {
-//            positionX += mouseX;
-            viewX += MOVE_OFFSET;
-//            setUpdates(owner.getScale(), new Vector2f(positionX, positionY));
-        }
+            if (scrolledLeft(isGrabbed, mouseX)) {
+    //            positionX += mouseX;
+                viewX += MOVE_OFFSET;
+    //            setUpdates(owner.getScale(), new Vector2f(positionX, positionY));
+            }
 
-        if (scrolledRight(isGrabbed, mouseX)) {
-//            positionX += mouseX;
-            viewX -= MOVE_OFFSET;
-//            setUpdates(owner.getScale(), new Vector2f(positionX, positionY));
-        }
+            if (scrolledRight(isGrabbed, mouseX)) {
+    //            positionX += mouseX;
+                viewX -= MOVE_OFFSET;
+    //            setUpdates(owner.getScale(), new Vector2f(positionX, positionY));
+            }
 
-        if (scrolledUp(isGrabbed, mouseY)) {
-//            positionY -= mouseY;
-            viewY -= MOVE_OFFSET;
-//            setUpdates(owner.getScale(), new Vector2f(positionX, positionY));
-        }
+            if (scrolledUp(isGrabbed, mouseY)) {
+    //            positionY -= mouseY;
+                viewY -= MOVE_OFFSET;
+    //            setUpdates(owner.getScale(), new Vector2f(positionX, positionY));
+            }
 
-        if (scrolledDown(isGrabbed, mouseY)) {
-//            positionY -= mouseY;
-            viewY += MOVE_OFFSET;
-//            setUpdates(owner.getScale(), new Vector2f(positionX, positionY));
-        }
-        
-        checkView();
-        
-        //zoom checking
-        float scale = owner.getScale();
-        int mouseWheel = GameScene.getMouseWheel();
-        
-//        Vector2f position = new Vector2f();
-//        position.x = (main.mapSize.x / 2f) - viewX * getImageWidth(scale);
-//        position.y = (main.mapSize.y / 2f) - viewY * getImageHeight(scale);
-//        System.out.printf("updating to view x %f and view y %f\n", viewX, viewY);
-        
-        if (mouseWheel > 0) {
-//            System.out.println("previous scale " + scale);
-//            zoomIn(scale, delta, position);
-//            System.out.println("later scale " + owner.getScale());
-            zoomIn(scale, delta, owner.getPosition());
-        }
+            if (scrolledDown(isGrabbed, mouseY)) {
+    //            positionY -= mouseY;
+                viewY += MOVE_OFFSET;
+    //            setUpdates(owner.getScale(), new Vector2f(positionX, positionY));
+            }
 
-        if (mouseWheel < 0) {
-//            System.out.println("previous scale " + scale);
-//            zoomOut(scale, delta, position);
-//            System.out.println("later scale " + owner.getScale());
-            zoomOut(scale, delta, owner.getPosition());
-//            Vector2f position = new Vector2f();
-//            position.x = (main.mapSize.x / 2f) - viewX * getImageWidth(owner.getScale());
-//            position.y = (main.mapSize.y / 2f) - viewY * getImageHeight(owner.getScale());
-//            setUpdates(owner.getScale(), position);
+            checkView();
+
+            //zoom checking
+            float scale = owner.getScale();
+            int mouseWheel = GameScene.getMouseWheel();
+
+    //        Vector2f position = new Vector2f();
+    //        position.x = (main.mapSize.x / 2f) - viewX * getImageWidth(scale);
+    //        position.y = (main.mapSize.y / 2f) - viewY * getImageHeight(scale);
+    //        System.out.printf("updating to view x %f and view y %f\n", viewX, viewY);
+
+            if (mouseWheel > 0) {
+    //            System.out.println("previous scale " + scale);
+    //            zoomIn(scale, delta, position);
+    //            System.out.println("later scale " + owner.getScale());
+                zoomIn(scale, delta, owner.getPosition());
+            }
+
+            if (mouseWheel < 0) {
+    //            System.out.println("previous scale " + scale);
+    //            zoomOut(scale, delta, position);
+    //            System.out.println("later scale " + owner.getScale());
+                zoomOut(scale, delta, owner.getPosition());
+    //            Vector2f position = new Vector2f();
+    //            position.x = (main.mapSize.x / 2f) - viewX * getImageWidth(owner.getScale());
+    //            position.y = (main.mapSize.y / 2f) - viewY * getImageHeight(owner.getScale());
+    //            setUpdates(owner.getScale(), position);
+            }
+            Vector2f position = new Vector2f();
+
+
+
+            position.x = mapPos.x + (mapSize.x / 2f) - viewX * getImageWidth(owner.getScale());
+            position.y = mapPos.y + (mapSize.y / 2f) - viewY * getImageHeight(owner.getScale());
+            setUpdates(owner.getScale(), position);
+
+    //        setUpdates(owner.getScale(), position);
+            
         }
-        Vector2f position = new Vector2f();
-        
-        
-        
-        position.x = mapPos.x + (mapSize.x / 2f) - viewX * getImageWidth(owner.getScale());
-        position.y = mapPos.y + (mapSize.y / 2f) - viewY * getImageHeight(owner.getScale());
-        setUpdates(owner.getScale(), position);
-        
-//        setUpdates(owner.getScale(), position);
     }
     
     private float getMinViewX(){

@@ -10,6 +10,7 @@ import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import java.util.HashMap;
 import main.AudioManager;
+import util.PopupManager;
 public class MainScreenController implements ScreenController {
 
     private Nifty n;
@@ -42,19 +43,23 @@ public class MainScreenController implements ScreenController {
     }
     
     public void showOptions(){
-        n.showPopup(s, optionsPopup.getId(), null);
+        PopupManager.showPopup(n, s, optionsPopup);
+//        n.showPopup(s, optionsPopup.getId(), null);
     }
     
     public void closeOptions(){
-        n.closePopup(optionsPopup.getId());
+        PopupManager.closePopup(n, optionsPopup);
+//        n.closePopup(optionsPopup.getId());
     }
     
     public void showHelp(){
-        n.showPopup(s, helpPopup.getId(), null);
+        PopupManager.showPopup(n, s, helpPopup);
+//        n.showPopup(s, helpPopup.getId(), null);
     }
     
     public void closeHelpPopup(){
-        n.closePopup(helpPopup.getId());
+        PopupManager.closePopup(n, helpPopup);
+//        n.closePopup(helpPopup.getId());
     }
     
     @NiftyEventSubscriber(id="musicSlider")
@@ -99,7 +104,8 @@ public class MainScreenController implements ScreenController {
     }
     
     public void exit(){
-        n.showPopup(s, exitConfirmPopup.getId(), null);
+        PopupManager.showPopup(n, s, exitConfirmPopup);
+//        n.showPopup(s, exitConfirmPopup.getId(), null);
     }
     
     public void exitGame(){
@@ -107,6 +113,7 @@ public class MainScreenController implements ScreenController {
     }
     
     public void dismissExitConfirmation(){
-        n.closePopup(exitConfirmPopup.getId());
+        PopupManager.closePopup(n, exitConfirmPopup);
+//        n.closePopup(exitConfirmPopup.getId());
     }
 }

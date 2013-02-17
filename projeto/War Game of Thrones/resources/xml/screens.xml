@@ -173,7 +173,8 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 							</control>
 						</panel>
 						<panel childLayout="vertical" width="100%" height="97%" padding="0px,20px,0px,0px">
-							<image align="right" valign="top" filename="resources/images/icons/tables.png" width="55px" height="49px">
+							<interact onMouseOver="mouseMovedOverBottomPanel()"/>
+							<image id="tablesIcon" align="right" valign="top" filename="resources/images/icons/tables.png" width="55px" height="49px">
 								<interact onClick="showTables()"/>
 							</image>
 						</panel>
@@ -1186,6 +1187,47 @@ Em cada vez de jogar, o participante pode:&#10;
 				<panel childLayout="center" width="20%"/>
 				<control align="right" width="40%" name="button" label="OK" focusable="false">
 					<interact onClick="rearrangePopupOK()"/>
+				</control>
+			</panel>
+		</panel>
+	</popup>
+
+	<popup id="attackPopup" childLayout="center" backgroundColor="#000a">
+		<panel padding="10%" style="nifty-panel-custom" width="35%" height="40%" childLayout="vertical">
+			<control color="#333333ff" font="resources/fonts/calibri_bold.fnt" align="left" textHAlign="left" name="label" text="Atacar" width="100%"/>
+			<panel  width="100%" height="3px" childLayout="vertical" backgroundColor="#000" margin="0px,0px,10px,0px"/>
+			<panel childLayout="horizontal" height="75%">
+				<panel childLayout="vertical" height="100%" width="50%" padding="5%">
+					<control id="atkPlayerName" font="resources/fonts/calibri_bold.fnt" align="left" textHAlign="left" name="label" text="Marcelle Guiné" width="100%"/>
+					<control color="#030303" align="left" textHAlign="left" name="label" text="Exércitos para ataque:" width="100%"/>
+					<control valign="center" id="atkDropDown" name="dropDown" textColor="#ffff" color="#ffff" width="75%" margin="5px,0px,5px,0px"/>
+					<control id="confirmAtkArmiesBtn" align="left" width="60%" name="button" label="Confirmar" focusable="false">
+						<interact onClick="confirmAtkUnits()"/>
+					</control>
+				</panel>
+				<panel  width="3px" height="90%" childLayout="center" backgroundColor="#000"/>
+				<panel childLayout="vertical" height="100%" width="50%" padding="5%">
+					<control id="defPlayerName" font="resources/fonts/calibri_bold.fnt" align="left" textHAlign="left" name="label" text="Mateus Azis" width="100%"/>
+					<control color="#030303" align="left" textHAlign="left" name="label" text="Exércitos para defesa:" width="100%"/>
+					<control valign="center" id="defDropDown" name="dropDown" textColor="#ffff" color="#ffff" width="75%" margin="5px,0px,5px,0px"/>
+					<control id="confirmDefArmiesBtn" align="left" width="60%" name="button" label="Confirmar" focusable="false">
+						<interact onClick="confirmDefUnits()"/>
+					</control>
+				</panel>
+
+			</panel>
+			<control align="center" width="20%" name="button" label="Cancelar" focusable="false">
+				<interact onClick="cancelAttackPopup()"/>
+			</control>
+		</panel>
+	</popup>
+
+	<popup id="fewArmiesPopup" childLayout="center" backgroundColor="#000a">
+		<panel padding="10%" style="nifty-panel-custom" width="32%" height="15%" childLayout="vertical">
+			<control color="#333333ff" width="100%" height="50%" align="center" name="label" text="Este território não possui unidades suficientes para atacar."/>
+			<panel width="100%" height="35%" valign="bottom" childLayout="center">
+				<control align="center" width="40%" name="button" label="OK" focusable="false">
+					<interact onClick="dismissFewArmiesPopup()"/>
 				</control>
 			</panel>
 		</panel>

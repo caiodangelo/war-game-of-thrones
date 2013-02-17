@@ -14,9 +14,7 @@ public class Main extends NiftyStateBasedGame{
     
     public static final boolean JUMP_TO_GAME = true;
     private static Main instance;
-    
     public static float windowW, windowH;
-    
     private static Vector2f mapPos, mapSize;
     
     public static Vector2f getMapPos(){

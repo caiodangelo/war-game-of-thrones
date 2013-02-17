@@ -6,6 +6,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 import util.Entity;
 import util.ImageMovementsComponent;
+import util.PopupManager;
 
 public class Zoom extends ImageMovementsComponent {
     
@@ -18,20 +19,22 @@ public class Zoom extends ImageMovementsComponent {
 
     @Override
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
-        float scale = owner.getScale() * 2;
-//        int mouseWheel = Mouse.getDWheel();
-        int mouseWheel = GameScene.getMouseWheel();
-        
-        
-        if (mouseWheel > 0) {
-            zoomIn(scale, delta, owner.getPosition());
-        }
+        if(!PopupManager.isAnyPopupOpen()){
+            float scale = owner.getScale() * 2;
+    //        int mouseWheel = Mouse.getDWheel();
+            int mouseWheel = GameScene.getMouseWheel();
 
-        if (mouseWheel < 0) {
-            zoomOut(scale, delta, owner.getPosition());
+
+            if (mouseWheel > 0) {
+                zoomIn(scale, delta, owner.getPosition());
+            }
+
+            if (mouseWheel < 0) {
+                zoomOut(scale, delta, owner.getPosition());
+            }
+    //        position.x = (main.Main.windowW / 2f) - viewX * getImageWidth(scale);
+    //        position.y = (main.Main.windowH / 2f) - viewY * getImageHeight(scale);
         }
-//        position.x = (main.Main.windowW / 2f) - viewX * getImageWidth(scale);
-//        position.y = (main.Main.windowH / 2f) - viewY * getImageHeight(scale);
     }
 
 }

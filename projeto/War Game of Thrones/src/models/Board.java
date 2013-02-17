@@ -12,6 +12,7 @@ public class Board {
 
     public static final int AI_PLAYER = 1;
     public static final int HUMAN_PLAYER = 2;
+    
     protected LinkedList<Player> players;
     protected static Board instance;
     protected int currentPlayer;
@@ -111,5 +112,13 @@ public class Board {
 
     public StatisticGameManager getStatistic() {
         return statistic;
-    }    
+    }
+    
+    public void distributeInitialTerritory() {
+        for (Player player : players) {
+            for (CardTerritory card : player.getCards()) {
+                player.addTerritory(card.getTerritory());                
+            }
+        }
+    }
 }

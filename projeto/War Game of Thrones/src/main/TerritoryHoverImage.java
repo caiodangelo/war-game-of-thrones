@@ -1,16 +1,14 @@
 package main;
 
 import gui.InGameGUIController;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import util.ImageRenderComponent;
+import util.PopupManager;
 
 public class TerritoryHoverImage extends ImageRenderComponent {
     
@@ -35,7 +33,7 @@ public class TerritoryHoverImage extends ImageRenderComponent {
         float mouseX = input.getAbsoluteMouseX();
         float mouseY = input.getAbsoluteMouseY();
         
-        if (mouseOver(mouseX, mouseY) && !imagePixelColorIsTransparent((int) (mouseX - owner.position.x), (int) (mouseY - owner.position.y), owner.getScale())){
+        if (!PopupManager.isAnyPopupOpen() && mouseOver(mouseX, mouseY) && !imagePixelColorIsTransparent((int) (mouseX - owner.position.x), (int) (mouseY - owner.position.y), owner.getScale())){
             highlightedImage = true;
             if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 if (Map.selectedTerritory == null){
@@ -60,12 +58,20 @@ public class TerritoryHoverImage extends ImageRenderComponent {
         float ownerX = owner.position.x;
         float ownerY = owner.position.y;
         float ownerScale = owner.getScale();
-        return x >= ownerX && x <= (ownerX + getImageWidth(ownerScale)) && y >= ownerY && y <= (ownerY + getImageHeight(ownerScale));
+        return x >= ownerX && x <= (ownerX + getImageWidth(ownerScale))
+                && y >= ownerY && y <= (ownerY + getImageHeight(ownerScale))
+                && mouseInsideMapArea(x,y);
     }
     
     private boolean imagePixelColorIsTransparent(int x, int y, float scale) {
         int scaleX = (int)(x / scale);
         int scaleY = (int)(y / scale);
         return image.getColor(scaleX, scaleY).a == 0f;
+    }
+
+    private static boolean mouseInsideMapArea(float x, float y) {
+        Vector2f mapPos = Main.getMapPos(), mapSize = Main.getMapSize();
+        return x >= mapPos.x && x <= mapPos.x + mapSize.x 
+                && y >= mapPos.y && y <= mapSize.y;
     }
 }
