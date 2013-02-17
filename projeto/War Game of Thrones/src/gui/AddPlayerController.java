@@ -24,6 +24,7 @@ import models.Board;
 import models.House;
 import models.HumanPlayer;
 import models.Player;
+import util.PopupManager;
 
 public class AddPlayerController implements ScreenController{
 
@@ -195,7 +196,7 @@ public class AddPlayerController implements ScreenController{
     }
     
     private void showEmptyNameWarning(){
-        n.showPopup(s, emptyNamePopup.getId(), null);
+        PopupManager.showPopup(n, s, emptyNamePopup);
     }
     
     public void excludePlayer(){
@@ -264,7 +265,7 @@ public class AddPlayerController implements ScreenController{
     }
     
     public void dismissEmptyNamePopup(){
-        n.closePopup(emptyNamePopup.getId());
+        PopupManager.closePopup(n, emptyNamePopup);
     }
     
     //Auxiliary classes

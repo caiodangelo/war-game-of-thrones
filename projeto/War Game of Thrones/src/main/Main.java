@@ -12,6 +12,7 @@ import util.LibraryLoader;
 
 public class Main extends NiftyStateBasedGame{
     
+    //skips the intro scene
     public static final boolean JUMP_TO_GAME = false;
     private static Main instance;
     
