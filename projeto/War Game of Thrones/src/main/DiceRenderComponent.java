@@ -63,12 +63,6 @@ public class DiceRenderComponent extends RenderComponent {
             anim.setCurrentFrame(numbers.indexOf(rand));
             anim.stop();
         }
-        GameScene gs = new GameScene();
-        Input i = gc.getInput();
-        if (i.isKeyDown(Input.KEY_0))
-            dm.showDices(3, 3);
-        else if (i.isKeyDown(Input.KEY_1))
-            dm.removeDices();
     }
     
 }
