@@ -14,6 +14,7 @@ public class Dice extends Entity {
     public static final int HEIGHT = 74;
     
     private boolean atkDice;
+    private int result = -1;
     private boolean rolling = true;
     
     public Dice(Vector2f pos, boolean atk) {
@@ -43,5 +44,13 @@ public class Dice extends Entity {
     
     public boolean isRolling() {
         return rolling;
+    }
+    
+    public void setResult(int r) {
+        result = r;
+    }
+    
+    public int getResult() {
+        return result;
     }
 }

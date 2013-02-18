@@ -32,8 +32,9 @@ public class TerritoryHoverImage extends ImageRenderComponent {
         Input input = gc.getInput();
         float mouseX = input.getAbsoluteMouseX();
         float mouseY = input.getAbsoluteMouseY();
+        DiceManager dm = DiceManager.getInstance();
         
-        if (!PopupManager.isAnyPopupOpen() && mouseOver(mouseX, mouseY) && !imagePixelColorIsTransparent((int) (mouseX - owner.position.x), (int) (mouseY - owner.position.y), owner.getScale())){
+        if (!dm.dicesOnScreen() && !PopupManager.isAnyPopupOpen() && mouseOver(mouseX, mouseY) && !imagePixelColorIsTransparent((int) (mouseX - owner.position.x), (int) (mouseY - owner.position.y), owner.getScale())){
             highlightedImage = true;
             if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 if (Map.selectedTerritory == null){

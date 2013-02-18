@@ -90,9 +90,14 @@ public class Entity {
      
     public void update(GameContainer gc, StateBasedGame sb, float delta)
     {
-        for(Component component : components)
-        {
-            component.update(gc, sb, delta);
+        try {
+            for(Component component : components)
+            {
+                component.update(gc, sb, delta);
+            }
+        }
+        catch(Exception e) {
+            //concurrent modification - no problem
         }
     }
  

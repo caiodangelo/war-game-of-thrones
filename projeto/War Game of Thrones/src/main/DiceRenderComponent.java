@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Vector2f;
@@ -21,7 +22,6 @@ public class DiceRenderComponent extends RenderComponent {
     private SpriteSheet sheet;
     private Animation anim;
     List<Integer> numbers;
-    private boolean resultSet;
     
     public DiceRenderComponent(String id, SpriteSheet ss) {
         super(id);
@@ -54,12 +54,21 @@ public class DiceRenderComponent extends RenderComponent {
 
     @Override
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
-        if (!((Dice) owner).isRolling() && !resultSet) {
+        Dice dice = ((Dice) owner);
+        DiceManager dm = DiceManager.getInstance();
+        if (!dice.isRolling() && dice.getResult() < 0) {
             int rand = (int) (Math.random()*6);
+            dice.setResult(rand);
+            dm.checkIfAllDicesAreSet();
             anim.setCurrentFrame(numbers.indexOf(rand));
             anim.stop();
-            resultSet = true;
         }
+        GameScene gs = new GameScene();
+        Input i = gc.getInput();
+        if (i.isKeyDown(Input.KEY_0))
+            dm.showDices(3, 3);
+        else if (i.isKeyDown(Input.KEY_1))
+            dm.removeDices();
     }
     
 }
