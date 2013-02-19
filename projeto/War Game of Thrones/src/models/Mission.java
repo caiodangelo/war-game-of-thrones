@@ -13,17 +13,33 @@ public class Mission {
     public static final int TYPE_REGION = 2;
     public static final int TYPE_HOUSE = 3;
     protected String name;
-    protected String description;
     protected int territories;
     protected List<Region> regions;
     protected House house;
     protected Player player;
     protected int type;
 
+    public Mission(String name, int type) {
+        this.name = name;
+        this.type = type;
+        // Inicializa apenas a lista dos objetivos em questão
+        switch (type) {
+            case TYPE_TERRITORY:
+                break;
+            case TYPE_REGION:
+                regions = new ArrayList<Region>();
+                break;
+            case TYPE_HOUSE:
+                house = new House();
+                break;
+        }
+    }
+
+    @Deprecated
     public Mission(String name, String description, int type) {
         this.name = name;
         this.type = type;
-        this.description = description;
+//        this.description = description;
         // Inicializa apenas a lista dos objetivos em questão
         switch (type) {
             case TYPE_TERRITORY:
@@ -38,11 +54,26 @@ public class Mission {
     }
 
     public String getDescription() {
-        return description;
+        switch (type) {
+            case TYPE_TERRITORY:
+                return "Seu objetivo é conquistar " + territories + " territórios à sua escolha";
+            case TYPE_HOUSE:
+                return "Seu objetivo é destruir todos os exércitos da casa " + house.getName();
+            case TYPE_REGION:
+                String objective = "Seu objetivo é conquistar completamente os seguintes continentes: ";
+                for (Region region : regions) {
+                    objective += region.getName() + ", ";
+                }
+                return objective.substring(0, objective.length() - 1);
+        }
+        return "Seu objetivo ainda não foi definido";
     }
 
+    @Deprecated
+    /**
+     * A descrição agora é criada dinamicamente no getDescription()
+     */
     public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getName() {
