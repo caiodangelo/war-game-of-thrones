@@ -66,7 +66,7 @@ public class Battle {
                 defenderDeaths++; // Ataque ganha
                 //Estatisticas
                 attackerPlayer.getStatisticPlayerManager().increaseNumberOfAttackWins();
-                attackerPlayer.getStatisticPlayerManager().successfulAttackPercentage();
+                attackerPlayer.getStatisticPlayerManager().setSuccessfulAttackPercentage();
                 attackerPlayer.getStatisticPlayerManager().increaseLostArmies();
                 Board.getInstance().getStatistic().setMostWinnerAttacks();
                 //Fim estatisticas
@@ -75,7 +75,7 @@ public class Battle {
                 attackerDeaths++; // Defesa ganha
                 //Estatisticas
                 defenderPlayer.getStatisticPlayerManager().increaseNumberOfDefenceWins();
-                defenderPlayer.getStatisticPlayerManager().successfulDefencePercentage();
+                defenderPlayer.getStatisticPlayerManager().setSuccessfulDefencePercentage();
                 defenderPlayer.getStatisticPlayerManager().increaseLostArmies();
                 Board.getInstance().getStatistic().setMostWinnerDefences();
                 //Fim estatisticas

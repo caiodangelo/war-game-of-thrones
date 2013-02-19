@@ -20,7 +20,6 @@ public abstract class Player {
     public Player(String name) {
         this.name = name;
         this.pendingArmies = 0;
-        this.mission = new Mission();
         this.territories = new ArrayList<Territory>();
         this.cards = new ArrayList<CardTerritory>();
         this.statistic = new StatisticPlayerManager();
@@ -67,6 +66,7 @@ public abstract class Player {
 
     public void addPendingArmies(int amount) {
         this.pendingArmies += amount;
+        this.statistic.increaseReceivedArmies(pendingArmies);
     }
 
     public void removePendingArmies(int amount) {
