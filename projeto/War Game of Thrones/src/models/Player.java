@@ -66,6 +66,7 @@ public abstract class Player {
 
     public void addPendingArmies(int amount) {
         this.pendingArmies += amount;
+        this.statistic.increaseReceivedArmies(pendingArmies);
     }
 
     public void removePendingArmies(int amount) {

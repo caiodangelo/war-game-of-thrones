@@ -21,7 +21,7 @@ public class StatisticPlayerManager {
     private float dicesOfDefenceAverage;//DONE
     private int numberOfDefenceDicesPlayed; // Numero de dados jogados pelo jogador de defesa
     private int numberOfCardsSwapped; //TODO:Falta colocar no metodo de troca de cartas
-    private int receivedArmies;//TODO:Falta colocar no metodo de recebimento de exercitos
+    private int receivedArmies;//DONE
     private int lostArmies;//DONE
     private int[] attackTable; //vetor que indica o num de ataques feitos a cada jogador; Player descoberto pelo indice do vetor
     private Player youAttackMore;//DONE
@@ -143,11 +143,11 @@ public class StatisticPlayerManager {
         }
     }
 
-    public void successfulAttackPercentage() {
+    public void setSuccessfulAttackPercentage() {
         this.successfulAttackPercentage = (this.numberOfAttackWins / this.numberOfAttacks) * 100;
     }
 
-    public void successfulDefencePercentage() {
+    public void setSuccessfulDefencePercentage() {
         this.successfulDefencePercentage = (this.numberOfDefenceWins / this.numberOfDefences) * 100;
     }
     
