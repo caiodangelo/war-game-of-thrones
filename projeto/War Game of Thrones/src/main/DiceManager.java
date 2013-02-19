@@ -107,14 +107,11 @@ public class DiceManager {
     }
     
     public void removeDices() {
-        System.out.println(atkDices.size());
-        for(Dice ad : atkDices) {
-            gameScene.removeEntity(ad);
+        atkDices.addAll(defDices); //concatennating
+        for(Dice d : atkDices) {
+            gameScene.removeEntity(d);
         }
         atkDices.clear();
-        for(Dice dd : defDices) {
-            gameScene.removeEntity(dd);
-        }
         defDices.clear();
         dicesOnScreen = false;
     }

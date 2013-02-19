@@ -5,12 +5,10 @@ import java.util.logging.Logger;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
-import util.Entity;
 import util.ImageMovementsComponent;
 import util.PopupManager;
 
@@ -37,8 +35,6 @@ public class Scroll extends ImageMovementsComponent {
     @Override
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
         if(!PopupManager.isAnyPopupOpen()){
-            float positionX = owner.getPosition().getX();
-            float positionY = owner.getPosition().getY();
             Input input = gc.getInput();
             int mouseX = 0;
             int mouseY = 0;
@@ -57,29 +53,17 @@ public class Scroll extends ImageMovementsComponent {
                 Mouse.setGrabbed(false);
             boolean isGrabbed = Mouse.isGrabbed();
 
-            if (scrolledLeft(isGrabbed, mouseX)) {
-    //            positionX += mouseX;
+            if (scrolledLeft(isGrabbed, mouseX))
                 viewX += MOVE_OFFSET;
-    //            setUpdates(owner.getScale(), new Vector2f(positionX, positionY));
-            }
 
-            if (scrolledRight(isGrabbed, mouseX)) {
-    //            positionX += mouseX;
+            if (scrolledRight(isGrabbed, mouseX))
                 viewX -= MOVE_OFFSET;
-    //            setUpdates(owner.getScale(), new Vector2f(positionX, positionY));
-            }
 
-            if (scrolledUp(isGrabbed, mouseY)) {
-    //            positionY -= mouseY;
+            if (scrolledUp(isGrabbed, mouseY))
                 viewY -= MOVE_OFFSET;
-    //            setUpdates(owner.getScale(), new Vector2f(positionX, positionY));
-            }
 
-            if (scrolledDown(isGrabbed, mouseY)) {
-    //            positionY -= mouseY;
+            if (scrolledDown(isGrabbed, mouseY))
                 viewY += MOVE_OFFSET;
-    //            setUpdates(owner.getScale(), new Vector2f(positionX, positionY));
-            }
 
             checkView();
 
@@ -87,37 +71,16 @@ public class Scroll extends ImageMovementsComponent {
             float scale = owner.getScale();
             int mouseWheel = GameScene.getMouseWheel();
 
-    //        Vector2f position = new Vector2f();
-    //        position.x = (main.mapSize.x / 2f) - viewX * getImageWidth(scale);
-    //        position.y = (main.mapSize.y / 2f) - viewY * getImageHeight(scale);
-    //        System.out.printf("updating to view x %f and view y %f\n", viewX, viewY);
-
-            if (mouseWheel > 0) {
-    //            System.out.println("previous scale " + scale);
-    //            zoomIn(scale, delta, position);
-    //            System.out.println("later scale " + owner.getScale());
+            if (mouseWheel > 0)
                 zoomIn(scale, delta, owner.getPosition());
-            }
 
-            if (mouseWheel < 0) {
-    //            System.out.println("previous scale " + scale);
-    //            zoomOut(scale, delta, position);
-    //            System.out.println("later scale " + owner.getScale());
+            if (mouseWheel < 0)
                 zoomOut(scale, delta, owner.getPosition());
-    //            Vector2f position = new Vector2f();
-    //            position.x = (main.mapSize.x / 2f) - viewX * getImageWidth(owner.getScale());
-    //            position.y = (main.mapSize.y / 2f) - viewY * getImageHeight(owner.getScale());
-    //            setUpdates(owner.getScale(), position);
-            }
             Vector2f position = new Vector2f();
-
-
 
             position.x = mapPos.x + (mapSize.x / 2f) - viewX * getImageWidth(owner.getScale());
             position.y = mapPos.y + (mapSize.y / 2f) - viewY * getImageHeight(owner.getScale());
             setUpdates(owner.getScale(), position);
-
-    //        setUpdates(owner.getScale(), position);
             
         }
     }

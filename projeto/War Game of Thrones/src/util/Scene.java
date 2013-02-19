@@ -72,9 +72,10 @@ public abstract class Scene extends NiftyOverlayBasicGameState{
         for(Entity e : entities)
             e.update(container, game, dt);
         for(Entity e : entitiesToBeRemoved) {
-            entities.remove(e);
-            e.setScene(null);
-            e.onRemoved();
+            if (entities.remove(e)) {
+                e.setScene(null);
+                e.onRemoved();
+            }
         }
         entitiesToBeRemoved.clear();
         

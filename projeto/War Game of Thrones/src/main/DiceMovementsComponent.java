@@ -9,13 +9,13 @@ public class DiceMovementsComponent extends Component {
 
     private static final float X_DISPLACEMENT = 1.5f;
     private static final float Y_DISPLACEMENT = 3;
-    private static final int TIME_TO_START = 70;
-    private static final int TIME_TO_REMOVE_DICES = 70;
+    private static final float TIME_TO_START = 1;
+    private static final float TIME_TO_REMOVE_DICES = 1;
     private Vector2f originalPosition;
     private Vector2f destination;
     private boolean movingDown;
-    private int timer;
-    private int removeDicesTimer;
+    private float timer;
+    private float removeDicesTimer;
 
     public DiceMovementsComponent(String id, Vector2f pos, Vector2f dest) {
         originalPosition = pos;
@@ -58,11 +58,11 @@ public class DiceMovementsComponent extends Component {
                     dm.checkIfAllDicesReachedDestination();
                 }
                 if (dm.allDicesOnCorrectPosition())
-                    removeDicesTimer++;
+                    removeDicesTimer += delta;
             }
         }
         else
-            timer++;
+            timer += delta;
         if (removeDicesTimer >= TIME_TO_REMOVE_DICES)
             dm.removeDices();
     }
