@@ -5,7 +5,7 @@ import org.newdawn.slick.geom.Vector2f;
 
 public class DiceManager {
     
-        private static final Vector2f FIRST_ATK_DICE_POSITION = new Vector2f(Main.windowW * 0.45f, Main.windowH * 0.4f);
+    private static final Vector2f FIRST_ATK_DICE_POSITION = new Vector2f(Main.windowW * 0.45f, Main.windowH * 0.4f);
     private static final Vector2f SECOND_ATK_DICE_POSITION = new Vector2f(Main.windowW * 0.45f, Main.windowH * 0.5f);
     private static final Vector2f THIRD_ATK_DICE_POSITION = new Vector2f(Main.windowW * 0.45f, Main.windowH * 0.6f);
     private static final Vector2f FIRST_DEF_DICE_POSITION = new Vector2f(Main.windowW * 0.55f, Main.windowH * 0.4f);
@@ -17,6 +17,7 @@ public class DiceManager {
     private static DiceManager instance;
     private GameScene gameScene;
     private boolean dicesOnScreen;
+    private boolean dicesOnCorrectPosition;
     private ArrayList<Dice> atkDices;
     private ArrayList<Dice> defDices;
     
@@ -35,18 +36,6 @@ public class DiceManager {
         gameScene = gs;
     }
     
-    public static void reset() {
-        instance = null;
-    }
-    
-    public void addAtkDice(Dice d) {
-        atkDices.add(d);
-    }
-    
-    public void addDefDice(Dice d) {
-        defDices.add(d);
-    }
-    
     public void checkIfAllDicesAreSet() {
         boolean dicesSet = true;
         for (Dice ad : atkDices) {
@@ -57,16 +46,18 @@ public class DiceManager {
         }
         if (dicesSet) {
             int pos = 0;
-            while (!(atkDices.isEmpty())) {
-                Dice diceToMove = getHigherResultDice(atkDices);
-                atkDices.remove(diceToMove);
+            ArrayList<Dice> tempAtkDices = new ArrayList<Dice>(atkDices);
+            while (!(tempAtkDices.isEmpty())) {
+                Dice diceToMove = getHigherResultDice(tempAtkDices);
+                tempAtkDices.remove(diceToMove);
                 diceToMove.addComponent(new DiceMovementsComponent("dice-movements", diceToMove.getPosition(), ATK_POSITIONS[pos]));
                 pos++;
             }
             pos = 0;
-            while (!(defDices.isEmpty())) {
-                Dice diceToMove = getHigherResultDice(defDices);
-                defDices.remove(diceToMove);
+            ArrayList<Dice> tempDefDices = new ArrayList<Dice>(defDices);
+            while (!(tempDefDices.isEmpty())) {
+                Dice diceToMove = getHigherResultDice(tempDefDices);
+                tempDefDices.remove(diceToMove);
                 diceToMove.addComponent(new DiceMovementsComponent("dice-movements", diceToMove.getPosition(), DEF_POSITIONS[pos]));
                 pos++;
             }
@@ -83,10 +74,6 @@ public class DiceManager {
             }
         }
         return winner;
-    }
-    
-    public void setDicesOnScreen(boolean onScreen) {
-        dicesOnScreen = onScreen;
     }
     
     public boolean dicesOnScreen() {
@@ -108,13 +95,31 @@ public class DiceManager {
         dicesOnScreen = true;
     }
     
-    public void removeDices() {
-        atkDices.addAll(defDices); //concatting
-        for(Dice d : atkDices) {
-            gameScene.removeEntity(d);
+    public void checkIfAllDicesReachedDestination() {
+        boolean dicesReachedDest = true;
+        for (Dice ad : atkDices) {
+            dicesReachedDest = dicesReachedDest && ad.hasReachedDestination();
         }
-        dicesOnScreen = false;
+        for (Dice dd : defDices) {
+            dicesReachedDest = dicesReachedDest && dd.hasReachedDestination();
+        }
+        dicesOnCorrectPosition = dicesReachedDest;
+    }
+    
+    public void removeDices() {
+        System.out.println(atkDices.size());
+        for(Dice ad : atkDices) {
+            gameScene.removeEntity(ad);
+        }
         atkDices.clear();
+        for(Dice dd : defDices) {
+            gameScene.removeEntity(dd);
+        }
         defDices.clear();
+        dicesOnScreen = false;
+    }
+    
+    public boolean allDicesOnCorrectPosition() {
+        return dicesOnCorrectPosition;
     }
 }

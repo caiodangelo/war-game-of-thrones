@@ -7,13 +7,15 @@ import util.Component;
 
 public class DiceMovementsComponent extends Component {
 
-    private static final float X_DISPLACEMENT = 0.5f;
-    private static final float Y_DISPLACEMENT = 1;
+    private static final float X_DISPLACEMENT = 1.5f;
+    private static final float Y_DISPLACEMENT = 3;
     private static final int TIME_TO_START = 70;
+    private static final int TIME_TO_REMOVE_DICES = 70;
     private Vector2f originalPosition;
     private Vector2f destination;
     private boolean movingDown;
     private int timer;
+    private int removeDicesTimer;
 
     public DiceMovementsComponent(String id, Vector2f pos, Vector2f dest) {
         originalPosition = pos;
@@ -29,6 +31,7 @@ public class DiceMovementsComponent extends Component {
         int xMultiplier = 0;
         int yMultiplier = 0;
         boolean reached = false;
+        DiceManager dm = DiceManager.getInstance();
         if (timer >= TIME_TO_START) {
             if (movingDown) {
                 if (y >= destination.y)
@@ -49,8 +52,18 @@ public class DiceMovementsComponent extends Component {
             }
             if (!reached)
                 owner.setPosition(new Vector2f(x + (X_DISPLACEMENT * xMultiplier), y + (Y_DISPLACEMENT * yMultiplier)));
-        } else {
-            timer++;
+            else {
+                if (!((Dice) owner).hasReachedDestination()) {
+                    ((Dice) owner).setReachedDestination(true);
+                    dm.checkIfAllDicesReachedDestination();
+                }
+                if (dm.allDicesOnCorrectPosition())
+                    removeDicesTimer++;
+            }
         }
+        else
+            timer++;
+        if (removeDicesTimer >= TIME_TO_REMOVE_DICES)
+            dm.removeDices();
     }
 }

@@ -15,6 +15,7 @@ public abstract class Scene extends NiftyOverlayBasicGameState{
     
     private List<Entity> entities;
     private GameContainer container;
+    private List<Entity> entitiesToBeRemoved;
     private static boolean inited = false;
     
     public void addEntity(Entity e){
@@ -30,10 +31,7 @@ public abstract class Scene extends NiftyOverlayBasicGameState{
     }
     
     public void removeEntity(Entity e){
-        if(entities.remove(e)){
-            e.setScene(null);
-            e.onRemoved();
-        }
+        entitiesToBeRemoved.add(e);
     }
     
     public void setupNifty(Nifty n){
@@ -43,6 +41,7 @@ public abstract class Scene extends NiftyOverlayBasicGameState{
     @Override
     public void enterState(GameContainer container, StateBasedGame game) throws SlickException { 
         entities = new ArrayList<Entity>();
+        entitiesToBeRemoved = new ArrayList<Entity>();
         setupNifty(getNifty());
     }
 
@@ -72,5 +71,12 @@ public abstract class Scene extends NiftyOverlayBasicGameState{
         float dt = delta / 1000f;
         for(Entity e : entities)
             e.update(container, game, dt);
+        for(Entity e : entitiesToBeRemoved) {
+            entities.remove(e);
+            e.setScene(null);
+            e.onRemoved();
+        }
+        entitiesToBeRemoved.clear();
+        
     }
 }

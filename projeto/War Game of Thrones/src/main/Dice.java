@@ -15,11 +15,13 @@ public class Dice extends Entity {
     
     private boolean atkDice;
     private int result = -1;
-    private boolean rolling = true;
+    private boolean rolling;
+    private boolean reachedDestination;
     
     public Dice(Vector2f pos, boolean atk) {
-        this.position = pos;
+        position = pos;
         atkDice = atk;
+        rolling = true;
         SpriteSheet diceSheet;
         try {
 //            SpriteSheet ss = new SpriteSheet("resources/images/dado-atk", 1186/6, 186);
@@ -52,5 +54,13 @@ public class Dice extends Entity {
     
     public int getResult() {
         return result;
+    }
+    
+    public void setReachedDestination(boolean r) {
+        reachedDestination = r;
+    }
+    
+    public boolean hasReachedDestination() {
+        return reachedDestination;
     }
 }
