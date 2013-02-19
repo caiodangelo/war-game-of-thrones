@@ -9,6 +9,7 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.tools.Color;
 import de.lessvoid.nifty.tools.SizeValue;
+import main.DiceManager;
 import main.Territory;
 import util.PopupManager;
 
@@ -110,7 +111,8 @@ public class ContextMenuController {
         int defUnits = defDropDown.getSelection();
         //chamar o ataque aqui
         //blablalba
-        
+        DiceManager dm = DiceManager.getInstance();
+        dm.showDices(atkUnits, defUnits);
         originTerritory = destTerritory = null;
     }
     

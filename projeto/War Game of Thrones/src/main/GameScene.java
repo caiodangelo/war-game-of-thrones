@@ -12,16 +12,6 @@ import util.Scene;
 
 public class GameScene extends Scene{
     
-    private static final Vector2f FIRST_ATK_DICE_POSITION = new Vector2f(Main.windowW * 0.45f, Main.windowH * 0.4f);
-    private static final Vector2f SECOND_ATK_DICE_POSITION = new Vector2f(Main.windowW * 0.45f, Main.windowH * 0.5f);
-    private static final Vector2f THIRD_ATK_DICE_POSITION = new Vector2f(Main.windowW * 0.45f, Main.windowH * 0.6f);
-    private static final Vector2f FIRST_DEF_DICE_POSITION = new Vector2f(Main.windowW * 0.55f, Main.windowH * 0.4f);
-    private static final Vector2f SECOND_DEF_DICE_POSITION = new Vector2f(Main.windowW * 0.55f, Main.windowH * 0.5f);
-    private static final Vector2f THIRD_DEF_DICE_POSITION = new Vector2f(Main.windowW * 0.55f, Main.windowH * 0.6f);
-    public static final Vector2f[] ATK_POSITIONS = {FIRST_ATK_DICE_POSITION, SECOND_ATK_DICE_POSITION, THIRD_ATK_DICE_POSITION};
-    public static final Vector2f[] DEF_POSITIONS = {FIRST_DEF_DICE_POSITION, SECOND_DEF_DICE_POSITION, THIRD_DEF_DICE_POSITION};
-    
-    private static ArrayList<Dice> dices = new ArrayList();
     private static int mouseWheel;
     
     public static int getMouseWheel(){
@@ -42,7 +32,8 @@ public class GameScene extends Scene{
         container.getInput().clearMousePressedRecord();
         AudioManager am = AudioManager.getInstance();
         am.stopMusic(AudioManager.OPENING);
-        showDices(3, 3);
+        DiceManager dm = DiceManager.getInstance();
+        dm.setGameScene(this);
     }
 
     @Override
@@ -60,32 +51,6 @@ public class GameScene extends Scene{
     @Override
     public int getID() {
         return WarScenes.GAME_SCENE.ordinal();
-    }
-    
-    public void showDices(int atk, int def) {
-        Dice d;
-        DiceManager dm = DiceManager.getInstance();
-        for (int i = 0; i < atk; i++) {
-            d = new Dice(ATK_POSITIONS[i], true);
-            dm.addAtkDice(d);
-            dices.add(d);
-            addEntity(d);
-        }
-        for (int i = 0; i < def; i++) {
-            d = new Dice(DEF_POSITIONS[i], false);
-            dm.addDefDice(d);
-            dices.add(d);
-            addEntity(d);
-        }
-        dm.setDicesOnScreen(true);
-    }
-    
-    public void removeDices() {
-        for(Dice d : dices) {
-            removeEntity(d);
-        }
-        dices.clear();
-        DiceManager.reset();
     }
     
 }
