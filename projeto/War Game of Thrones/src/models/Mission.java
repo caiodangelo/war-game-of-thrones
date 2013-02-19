@@ -1,8 +1,6 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -16,20 +14,19 @@ public class Mission {
     public static final int TYPE_HOUSE = 3;
     protected String name;
     protected String description;
-    protected List<Territory> territories;
+    protected int territories;
     protected List<Region> regions;
     protected House house;
     protected Player player;
     protected int type;
 
     public Mission(String name, String description, int type) {
-        this.type = type;
         this.name = name;
+        this.type = type;
         this.description = description;
         // Inicializa apenas a lista dos objetivos em questão
         switch (type) {
             case TYPE_TERRITORY:
-                territories = new ArrayList<Territory>();
                 break;
             case TYPE_REGION:
                 regions = new ArrayList<Region>();
@@ -38,9 +35,6 @@ public class Mission {
                 house = new House();
                 break;
         }
-    }
-
-    public Mission() {
     }
 
     public String getDescription() {
@@ -71,13 +65,6 @@ public class Mission {
         this.house = house;
     }
 
-    public boolean addTerritory(Territory territory) {
-        if (type == TYPE_TERRITORY && !territories.contains(territory)) {
-            return territories.add(territory);
-        }
-        return false;
-    }
-
     public boolean addRegion(Region region) {
         if (type == TYPE_REGION && !regions.contains(region)) {
             return regions.add(region);
@@ -89,7 +76,7 @@ public class Mission {
         return regions;
     }
 
-    public List<Territory> getTerritories() {
+    public int getTerritories() {
         return territories;
     }
 
@@ -101,46 +88,8 @@ public class Mission {
         this.player = player;
     }
 
-    public void shuffleMissions(LinkedList<Mission> mission) {
-        Collections.shuffle(mission);
-    }
-
     public boolean hasSameHouse(Player player) {
         return ((this.getType() == Mission.TYPE_HOUSE) && (this.getHouse().equals(player.getHouse())));
-    }
-
-    public LinkedList<Mission> raffleMission(Board board, LinkedList<Mission> allMissions, LinkedList<House> allHouses) {
-        int size = board.getPlayers().size();
-
-        LinkedList<Mission> r = removeMissions(board, allMissions, allHouses);
-        shuffleMissions(r);
-
-        for (int i = 0; i < size; i++) {
-            Player p = board.getPlayer(i);
-            Mission mission = r.peekFirst();
-            while (mission.hasSameHouse(p)) {
-                shuffleMissions(r);
-                mission = r.peekFirst();
-            }
-            p.setMission(r.removeFirst());
-        }
-        return r;
-    }
-
-    public LinkedList<Mission> removeMissions(Board board, LinkedList<Mission> allMissions, LinkedList<House> allHouses) {
-        List<House> absentHouses = board.getAbsentHouses(allHouses);
-        LinkedList<Mission> answer = (LinkedList<Mission>) allMissions.clone();
-
-        for (int i = 0; i < answer.size(); i++) {
-            Mission mission = answer.get(i);
-            for (House h : absentHouses) {
-                if ((mission.getType() == Mission.TYPE_HOUSE) && (mission.getHouse().equals(h))) {
-                    answer.remove(answer.get(i));
-                    i--;
-                }
-            }
-        }
-        return answer;
     }
 
     public boolean isCompletedMission(Board board, ArrayList<Region> allRegions) {
@@ -194,9 +143,9 @@ public class Mission {
     public boolean isTerritoryMissionCompleted() {
         boolean answer;
         List<Territory> playerTerritories = this.getPlayer().getTerritories();
-        answer = (this.getTerritories().size() == playerTerritories.size());
+        answer = (this.getTerritories() == playerTerritories.size());
 
-        if ((this.getTerritories().size() == 18) && (answer)) {
+        if ((this.getTerritories() == 18) && (answer)) {
             for (Territory territory : playerTerritories) {
                 if (!(territory.getNumArmies() >= 2)) {
                     return false;
@@ -216,15 +165,4 @@ public class Mission {
         return (defeated.getTerritories().isEmpty());
     }
 
-    public boolean isTerritoryInMission(Territory territory) {
-        switch (type) {
-            case TYPE_HOUSE:
-                return territory.getOwner() == house.getPlayer();
-            case TYPE_REGION:
-                return regions.contains(territory.getRegion());
-            case TYPE_TERRITORY:
-                return territories.contains(territory);
-        }
-        return false;
-    }
 }

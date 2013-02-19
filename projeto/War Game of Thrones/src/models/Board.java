@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -120,5 +121,43 @@ public class Board {
                 player.addTerritory(card.getTerritory());                
             }
         }
+    }
+    
+     public void shuffleMissions(LinkedList<Mission> mission) {
+        Collections.shuffle(mission);
+    }
+    
+    public LinkedList<Mission> raffleMission(LinkedList<Mission> allMissions, LinkedList<House> allHouses) {
+        int size = players.size();
+
+        LinkedList<Mission> r = removeMissions(allMissions, allHouses);
+        shuffleMissions(r);
+
+        for (int i = 0; i < size; i++) {
+            Player p = this.getPlayer(i);
+            Mission mission = r.peekFirst();
+            while (mission.hasSameHouse(p)) {
+                shuffleMissions(r);
+                mission = r.peekFirst();
+            }
+            p.setMission(r.removeFirst());
+        }
+        return r;
+    }
+
+    public LinkedList<Mission> removeMissions(LinkedList<Mission> allMissions, LinkedList<House> allHouses) {
+        List<House> absentHouses = this.getAbsentHouses(allHouses);
+        LinkedList<Mission> answer = (LinkedList<Mission>) allMissions.clone();
+
+        for (int i = 0; i < answer.size(); i++) {
+            Mission mission = answer.get(i);
+            for (House h : absentHouses) {
+                if ((mission.getType() == Mission.TYPE_HOUSE) && (mission.getHouse().equals(h))) {
+                    answer.remove(answer.get(i));
+                    i--;
+                }
+            }
+        }
+        return answer;
     }
 }
