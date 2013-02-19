@@ -80,6 +80,10 @@ public class Mission {
         return territories;
     }
 
+    public void setTerritories(int territories) {
+        this.territories = territories;
+    }
+
     public Player getPlayer() {
         return player;
     }
