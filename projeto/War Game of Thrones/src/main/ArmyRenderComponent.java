@@ -53,29 +53,28 @@ public class ArmyRenderComponent extends ImageRenderComponent {
             imageCopy.draw(movingPos.x, movingPos.y, scale);
             gr.drawString(movingQty+"", movingPos.x, movingPos.y);
         }
-        if (exploding) {
+        if (exploding)
             drawCenteredExplosion();
-            //exploding = false; //when animation ends
-        }
     }
     
     @Override
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
-        if (movingQty > 0) {
-            if (xSpeed == 0 && ySpeed == 0) {
-                movingPos = origin;
-                xSpeed = (destiny.x - origin.x)/80f;
-                ySpeed = (destiny.y - origin.y)/80f;
-            }
-            if (!attackOnHold && !exploding) {
-                if ((xSpeed < 0 && movingPos.x >= destiny.x) || (xSpeed > 0 && movingPos.x <= destiny.x))
-                    move();
-                else {
-                    movingQty = 0;
-                    destiny = null;
-                    xSpeed = 0;
-                    ySpeed = 0;
+        if (exploding && explosion.isStopped()) { //animation has ended
+            exploding = false;
+            movingQty = 0;
+            destiny = null;
+            xSpeed = 0;
+            ySpeed = 0;
+        }
+        else if (!exploding) {
+            if (movingQty > 0) {
+                if (xSpeed == 0 && ySpeed == 0) {
+                    movingPos = origin;
+                    xSpeed = (destiny.x - origin.x)/80f;
+                    ySpeed = (destiny.y - origin.y)/80f;
                 }
+                else if ((xSpeed < 0 && movingPos.x > destiny.x + ATTACK_SPACEMENT) || (xSpeed > 0 && movingPos.x < destiny.x - ATTACK_SPACEMENT))
+                    move();
             }
         }
     }
@@ -92,20 +91,14 @@ public class ArmyRenderComponent extends ImageRenderComponent {
         this.destiny = d;
     }
     
-    
-    public void setAtkOnHold(boolean onHold) {
-        attackOnHold = onHold;
-    }
-    
     public void startExplosion() {
         exploding = true;
+        explosion.restart();
     }
     
     private void move() {
         movingPos.x += xSpeed;
         movingPos.y += ySpeed;
-        if ((xSpeed < 0 && movingPos.x <= destiny.x + ATTACK_SPACEMENT) || (xSpeed > 0 && movingPos.x >= destiny.x - ATTACK_SPACEMENT))
-            attackOnHold = true;
     }
     
     private void drawCenteredExplosion() {

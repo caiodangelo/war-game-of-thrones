@@ -1,14 +1,20 @@
 package gui;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.NiftyMethodInvoker;
+import de.lessvoid.nifty.controls.Controller;
 import de.lessvoid.nifty.controls.DropDown;
 import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.controls.Menu;
 import de.lessvoid.nifty.controls.MenuItemActivatedEvent;
+import de.lessvoid.nifty.controls.menu.PopupMenuControl;
 import de.lessvoid.nifty.elements.Element;
+import de.lessvoid.nifty.input.NiftyInputEvent;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.tools.Color;
 import de.lessvoid.nifty.tools.SizeValue;
+import de.lessvoid.xml.xpp3.Attributes;
+import java.util.Properties;
 import main.ArmyRenderComponent;
 import main.DiceManager;
 import main.Map;
@@ -49,6 +55,9 @@ public class ContextMenuController {
         popupMenu.addMenuItem("Distribuir exércitos", "resources/images/icons/distribuir.png", MENU_DISTRIBUTE);
         popupMenu.addMenuItem("Cancelar", MENU_CANCEL);
         popupMenu.setId("menuItemid");
+        contextMenu.getElementInteraction().getPrimary().setOnClickMethod(new NiftyMethodInvoker(n, "closePopupMenu()", this));
+        contextMenu.getElementInteraction().getSecondary().setOnClickMethod(new NiftyMethodInvoker(n, "closePopupMenu()", this));
+        contextMenu.getElementInteraction().getTertiary().setOnClickMethod(new NiftyMethodInvoker(n, "closePopupMenu()", this));
         
         fewArmiesPopup = n.createPopup("fewArmiesPopup");
     }
@@ -56,7 +65,7 @@ public class ContextMenuController {
     protected void handleTerritoryClick(Screen s, Territory t){
         currentTemp = t;
         if(originTerritory == null){
-            n.showPopup(s, contextMenu.getId(), null);
+            PopupManager.showPopup(n, s, contextMenu);
         } else {
             destTerritory = t;
             parent.setInfoLabelText(null);
@@ -64,6 +73,7 @@ public class ContextMenuController {
                 showAttackPopup(s);
             else
                 showRearrangePopup(s);
+            //Map.selectedTerritory = null;
         }
     }
     
@@ -157,7 +167,7 @@ public class ContextMenuController {
             originTerritory = currentTemp;
             showRearrangeInfo();
         }
-        n.closePopup(contextMenu.getId());
+        PopupManager.closePopup(n, contextMenu);
     }
 
     public void rearrangeOK() {
@@ -170,6 +180,10 @@ public class ContextMenuController {
     protected void cancelAttackPopup(){
         PopupManager.closePopup(n, attackPopup);
         originTerritory = destTerritory = null;
+    }
+    
+    public void closePopupMenu() {
+        PopupManager.closePopup(n, contextMenu);
     }
     
     private static class UnitCount{
@@ -189,4 +203,5 @@ public class ContextMenuController {
             return count + " unidade" + pluralSufix;
         }
     }
+    
 }

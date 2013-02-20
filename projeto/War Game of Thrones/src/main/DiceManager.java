@@ -107,7 +107,6 @@ public class DiceManager {
         dicesOnCorrectPosition = dicesReachedDest;
         if (attackingTerritory != null) {
             ArmyRenderComponent comp = (ArmyRenderComponent) attackingTerritory.getArmy().getComponent("army-renderer");
-            comp.setAtkOnHold(false);
             comp.startExplosion();
             AudioManager am = AudioManager.getInstance();
             am.playSound(AudioManager.ATTACK_SOUND);

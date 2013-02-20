@@ -37,18 +37,12 @@ public class TerritoryHoverImage extends ImageRenderComponent {
         if (!dm.dicesOnScreen() && !PopupManager.isAnyPopupOpen() && mouseOver(mouseX, mouseY) && !imagePixelColorIsTransparent((int) (mouseX - owner.position.x), (int) (mouseY - owner.position.y), owner.getScale())){
             highlightedImage = true;
             if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-                if (Map.selectedTerritory == null){
-                    Map.selectedTerritory = (Territory) owner;
+//                if (Map.selectedTerritory == null){
+//                    Map.selectedTerritory = (Territory) owner;
                     InGameGUIController.handleTerritoryClick((Territory) owner);
-                } else if (Map.selectedTerritory == owner)
-                    Map.selectedTerritory = null;
-                else {
-//                    ArmyRenderComponent comp = ((ArmyRenderComponent) ((Territory) owner).getArmy().getComponent("army-renderer"));
-//                    comp.setMovingQuantity(3);
-//                    comp.setOrigin(Map.selectedTerritory.getArmy().getPosition());
-//                    comp.setDestiny(((Territory) owner).getArmy().getPosition());
-                    Map.selectedTerritory = null;
-                }
+//                }
+//                else 
+//                    Map.selectedTerritory = null;
             }
         }
         else
