@@ -9,7 +9,9 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.tools.Color;
 import de.lessvoid.nifty.tools.SizeValue;
+import main.ArmyRenderComponent;
 import main.DiceManager;
+import main.Map;
 import main.Territory;
 import util.PopupManager;
 
@@ -113,6 +115,11 @@ public class ContextMenuController {
         //blablalba
         DiceManager dm = DiceManager.getInstance();
         dm.showDices(atkUnits, defUnits);
+        dm.setAttackingTerritory(originTerritory);
+        ArmyRenderComponent comp = (ArmyRenderComponent) originTerritory.getArmy().getComponent("army-renderer");
+        comp.setOrigin(originTerritory.getArmy().getPosition());
+        comp.setDestiny(destTerritory.getArmy().getPosition());
+        comp.setMovingQuantity(atkUnits);
         originTerritory = destTerritory = null;
     }
     

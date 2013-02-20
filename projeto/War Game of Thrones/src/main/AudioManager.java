@@ -13,7 +13,7 @@ public class AudioManager {
     private HashMap audioMap = new HashMap();
     private static Music opening;
     private static Sound startGame;
-    private static Sound attack;
+    private static Sound attackSound;
     private float musicVolume;
     private boolean musicMuted;
     private float soundVolume;
@@ -22,12 +22,13 @@ public class AudioManager {
     
     public static final int OPENING = 0;
     public static final int START_GAME = 1;
-    public static final int ATTACK = 2;
+    public static final int ATTACK_SOUND = 2;
     
     public AudioManager() {
         try {
             opening = new Music("resources/sounds/got-opening.ogg");
             startGame = new Sound("resources/sounds/raio-start.ogg");
+            attackSound = new Sound("resources/sounds/explosion.ogg");
         } catch (SlickException ex) {
             System.out.println(ex.getMessage());
         }
@@ -35,7 +36,7 @@ public class AudioManager {
         this.soundVolume = 1;
         audioMap.put(OPENING, opening);
         audioMap.put(START_GAME, startGame);
-        audioMap.put(ATTACK, attack);
+        audioMap.put(ATTACK_SOUND, attackSound);
     }
     
     public static AudioManager getInstance(){

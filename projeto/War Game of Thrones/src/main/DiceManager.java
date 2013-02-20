@@ -18,6 +18,7 @@ public class DiceManager {
     private GameScene gameScene;
     private boolean dicesOnScreen;
     private boolean dicesOnCorrectPosition;
+    private Territory attackingTerritory;
     private ArrayList<Dice> atkDices;
     private ArrayList<Dice> defDices;
     
@@ -104,6 +105,14 @@ public class DiceManager {
             dicesReachedDest = dicesReachedDest && dd.hasReachedDestination();
         }
         dicesOnCorrectPosition = dicesReachedDest;
+        if (attackingTerritory != null) {
+            ArmyRenderComponent comp = (ArmyRenderComponent) attackingTerritory.getArmy().getComponent("army-renderer");
+            comp.setAtkOnHold(false);
+            comp.startExplosion();
+            AudioManager am = AudioManager.getInstance();
+            am.playSound(AudioManager.ATTACK_SOUND);
+        }
+        attackingTerritory = null;
     }
     
     public void removeDices() {
@@ -119,4 +128,9 @@ public class DiceManager {
     public boolean allDicesOnCorrectPosition() {
         return dicesOnCorrectPosition;
     }
+    
+    public void setAttackingTerritory(Territory attacker) {
+        attackingTerritory = attacker;
+    }
+
 }
