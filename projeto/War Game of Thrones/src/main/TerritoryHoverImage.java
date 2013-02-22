@@ -20,7 +20,7 @@ public class TerritoryHoverImage extends ImageRenderComponent {
     
     @Override
     public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
-        if (highlightedImage || Map.selectedTerritory == owner) {
+        if (highlightedImage) {
             Vector2f pos = owner.position;
             float scale = owner.getScale();
             image.draw(pos.x, pos.y, scale);
@@ -36,14 +36,8 @@ public class TerritoryHoverImage extends ImageRenderComponent {
         
         if (!dm.dicesOnScreen() && !PopupManager.isAnyPopupOpen() && mouseOver(mouseX, mouseY) && !imagePixelColorIsTransparent((int) (mouseX - owner.position.x), (int) (mouseY - owner.position.y), owner.getScale())){
             highlightedImage = true;
-            if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-//                if (Map.selectedTerritory == null){
-//                    Map.selectedTerritory = (Territory) owner;
-                    InGameGUIController.handleTerritoryClick((Territory) owner);
-//                }
-//                else 
-//                    Map.selectedTerritory = null;
-            }
+            if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON))
+                InGameGUIController.handleTerritoryClick((Territory) owner);
         }
         else
             highlightedImage = false;

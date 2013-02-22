@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns">
+<graph edgedefault="undirected">
+ 
+<!-- data schema -->
+<key id="name" for="node" attr.name="name" attr.type="string"/>
+<key id="region" for="node" attr.name="region" attr.type="string"/>
+  
+<!-- nodes -->  
+
+<node id="a-costa-gelada">
+ <data key="name">A Costa Gelada</data>
+ <data key="region">Além da Muralha</data>
+</node>
+<node id="a-floresta-assombrada">
+ <data key="name">A Floresta Assombrada</data>
+ <data key="region">Além da Muralha</data>
+</node>
+<node id="a-terra-de-sempre-inverno">
+ <data key="name">A Terra de Sempre Inverno</data>
+ <data key="region">Além da Muralha</data>
+</node>
+<node id="ilha-dos-ursos">
+ <data key="name">Ilha dos Ursos</data>
+ <data key="region">Além da Muralha</data>
+</node>
+<node id="skagos">
+ <data key="name">Skagos</data>
+ <data key="region">Além da Muralha</data>
+</node>
+<node id="a-costa-laranja">
+ <data key="name">A Costa Laranja</data>
+ <data key="region">Cidades Livres</data>
+</node>
+<node id="as-terras-disputadas">
+ <data key="name">As Terras Disputadas</data>
+ <data key="region">Cidades Livres</data>
+</node>
+<node id="campos-dourados">
+ <data key="name">Campos Dourados</data>
+ <data key="region">Cidades Livres</data>
+</node>
+<node id="colinas-de-norvos">
+ <data key="name">Colinas de Norvos</data>
+ <data key="region">Cidades Livres</data>
+</node>
+<node id="costa-bravosiana">
+ <data key="name">Costa Bravosiana</data>
+ <data key="region">Cidades Livres</data>
+</node>
+<node id="a-floresta-de-qohor">
+ <data key="name">A Floresta de Qohor</data>
+ <data key="region">Cidades Livres</data>
+</node>
+<node id="the-flatlands">
+ <data key="name">The Flatlands</data>
+ <data key="region">Cidades Livres</data>
+</node>
+<node id="valiria">
+ <data key="name">Valiria</data>
+ <data key="region">Cidades Livres</data>
+</node>
+<node id="a-dadiva">
+ <data key="name">A Dádiva</data>
+ <data key="region">O Norte</data>
+</node>
+<node id="barrowlands">
+ <data key="name">Barrowlands</data>
+ <data key="region">O Norte</data>
+</node>
+<node id="costa-pedregosa">
+ <data key="name">Costa Pedregosa</data>
+ <data key="region">O Norte</data>
+</node>
+<node id="mata-de-lobos">
+ <data key="name">Mata de Lobos</data>
+ <data key="region">O Norte</data>
+</node>
+<node id="o-penhasco-sombrio">
+ <data key="name">O Penhasco Sombrio</data>
+ <data key="region">O Norte</data>
+</node>
+<node id="the-hills">
+ <data key="name">The Hills</data>
+ <data key="region">O Norte</data>
+</node>
+<node id="winterfell">
+ <data key="name">Winterfell</data>
+ <data key="region">O Norte</data>
+</node>
+<node id="a-arvore">
+ <data key="name">A Árvore</data>
+ <data key="region">Sul</data>
+</node>
+<node id="jardim-de-cima">
+ <data key="name">Jardim de Cima</data>
+ <data key="region">Sul</data>
+</node>
+<node id="dorne">
+ <data key="name">Dorne</data>
+ <data key="region">Sul</data>
+</node>
+<node id="mataderrei">
+ <data key="name">Mataderrei</data>
+ <data key="region">Sul</data>
+</node>
+<node id="monte-chifre">
+ <data key="name">Monte Chifre</data>
+ <data key="region">Sul</data>
+</node>
+<node id="tarth">
+ <data key="name">Tarth</data>
+ <data key="region">Sul</data>
+</node>
+<node id="terras-da-tempestade">
+ <data key="name">Terras da Tempestade</data>
+ <data key="region">Sul</data>
+</node>
+<node id="cape-krakentt">
+ <data key="name">Cape Krakentt</data>
+ <data key="region">Tridente</data>
+</node>
+<node id="as-montanhas-da-lua">
+ <data key="name">As Montanhas da Lua</data>
+ <data key="region">Tridente</data>
+</node>
+<node id="o-gargalo">
+ <data key="name">O Gargalo</data>
+ <data key="region">Tridente</data>
+</node>
+<node id="o-vale-do-arryn">
+ <data key="name">O Vale de Arryn</data>
+ <data key="region">Tridente</data>
+</node>
+<node id="porto-real">
+ <data key="name">Porto Real</data>
+ <data key="region">Tridente</data>
+</node>
+<node id="rochedo-casterly">
+ <data key="name">Rochedo Casterly</data>
+ <data key="region">Tridente</data>
+</node>
+<node id="terras-fluviais">
+ <data key="name">Terras Fluviais</data>
+ <data key="region">Tridente</data>
+</node>
+<node id="ghiscar">
+ <data key="name">Ghiscar</data>
+ <data key="region">O Mar Dothraki</data>
+</node>
+<node id="o-deserto-vermelho">
+ <data key="name">O Deserto Vermelho</data>
+ <data key="region">O Mar Dothraki</data>
+</node>
+<node id="o-mar-dothraki">
+ <data key="name">O Mar Dothraki</data>
+ <data key="region">O Mar Dothraki</data>
+</node>
+<node id="oros">
+ <data key="name">Oros</data>
+ <data key="region">O Mar Dothraki</data>
+</node>
+<node id="the-footprint">
+ <data key="name">The Footprint</data>
+ <data key="region">O Mar Dothraki</data>
+</node>
+
+
+<!-- edges -->
+
+<!-- A Costa Gelada -->
+<edge source="a-costa-gelada" target="ilha-dos-ursos"></edge>
+<edge source="a-costa-gelada" target="a-floresta-assombrada"></edge>
+<edge source="a-costa-gelada" target="a-dadiva"></edge>
+
+<!-- A Floresta Assombrada -->
+<edge source="a-floresta-assombrada" target="skagos"></edge>
+<edge source="a-floresta-assombrada" target="a-dadiva"></edge>
+
+<!-- A Terra Sempre Inverno -->
+<edge source="a-terra-de-sempre-inverno" target="a-costa-gelada"></edge>
+
+<!-- Ilha dos Ursos -->
+<edge source="ilha-dos-ursos" target="a-dadiva"></edge>
+
+<!-- Skagos -->
+<edge source="skagos" target="a-dadiva"></edge>
+
+<!-- A Dádiva -->
+<edge source="a-dadiva" target="o-penhasco-sombrio"></edge>
+<edge source="a-dadiva" target="mata-de-lobos"></edge>
+
+<!-- Mata de Lobos -->
+<edge source="mata-de-lobos" target="winterfell"></edge>
+<edge source="mata-de-lobos" target="barrowlands"></edge>
+<edge source="mata-de-lobos" target="costa-pedregosa"></edge>
+<edge source="mata-de-lobos" target="the-hills"></edge>
+
+<!-- O Norte -->
+<edge source="winterfell" target="barrowlands"></edge>
+<edge source="winterfell" target="as-montanhas-da-lua"></edge>
+	
+<!-- Barrowlands -->
+<edge source="barrowlands" target="the-hills"></edge>
+<edge source="barrowlands" target="o-gargalo"></edge>
+
+<!-- Costa Pedregosa -->
+<edge source="costa-pedregosa" target="the-hills"></edge>
+
+<!-- O Gargalo -->
+<edge source="o-gargalo" target="cape-krakentt"></edge>
+<edge source="o-gargalo" target="as-montanhas-da-lua"></edge>
+<edge source="o-gargalo" target="terras-fluviais"></edge>
+<edge source="o-gargalo" target="porto-real"></edge>
+
+<!-- Cape Krakentt -->
+<edge source="cape-krakentt" target="the-footprint"></edge>
+
+<!-- As Montanhas da Lua -->
+<edge source="as-montanhas-da-lua" target="o-vale-do-arryn"></edge>
+<edge source="as-montanhas-da-lua" target="porto-real"></edge>
+
+<!-- O Vale de Arryn -->
+<edge source="o-vale-do-arryn" target="costa-bravosiana"></edge>
+
+<!-- Terras Fluviais -->
+<edge source="terras-fluviais" target="porto-real"></edge>
+<edge source="terras-fluviais" target="rochedo-casterly"></edge>
+
+<!-- A Terra da Coroa -->
+<edge source="porto-real" target="rochedo-casterly"></edge>
+<edge source="porto-real" target="jardim-de-cima"></edge>
+<edge source="porto-real" target="tarth"></edge>
+<edge source="porto-real" target="the-flatlands"></edge>
+
+<!-- Westernlands -->
+<edge source="rochedo-casterly" target="jardim-de-cima"></edge>
+<edge source="rochedo-casterly" target="monte-chifre"></edge>
+<edge source="rochedo-casterly" target="a-arvore"></edge>
+
+<!-- A Campina -->
+<edge source="jardim-de-cima" target="mataderrei"></edge>
+<edge source="jardim-de-cima" target="terras-da-tempestade"></edge>
+<edge source="jardim-de-cima" target="monte-chifre"></edge>
+
+<!-- Mataderrei -->
+<edge source="mataderrei" target="terras-da-tempestade"></edge>
+
+<!-- Terras da Tempestade -->
+<edge source="terras-da-tempestade" target="tarth"></edge>
+<edge source="terras-da-tempestade" target="dorne"></edge>
+<edge source="terras-da-tempestade" target="monte-chifre"></edge>
+
+<!-- Monte Chifre -->
+<edge source="monte-chifre" target="a-arvore"></edge>
+<edge source="monte-chifre" target="dorne"></edge>
+
+<!-- Dorne -->
+<edge source="dorne" target="a-arvore"></edge>
+<edge source="dorne" target="valiria"></edge>
+
+<!-- Tarth -->
+<edge source="tarth" target="the-flatlands"></edge>
+
+<!-- A Floresta de Quohor -->
+<edge source="a-floresta-de-qohor" target="colinas-de-norvos"></edge>
+<edge source="a-floresta-de-qohor" target="o-mar-dothraki"></edge>
+
+<!-- Colinas de Norvos -->
+<edge source="colinas-de-norvos" target="costa-bravosiana"></edge>
+<edge source="colinas-de-norvos" target="the-flatlands"></edge>
+<edge source="colinas-de-norvos" target="campos-dourados"></edge>
+<edge source="colinas-de-norvos" target="o-mar-dothraki"></edge>
+
+<!-- Costa Bravosiana -->	
+<edge source="costa-bravosiana" target="the-flatlands"></edge>
+
+<!-- The Flatlands -->	
+<edge source="the-flatlands" target="campos-dourados"></edge>
+<edge source="the-flatlands" target="as-terras-disputadas"></edge>
+
+<!-- Campos Dourados -->	
+<edge source="campos-dourados" target="as-terras-disputadas"></edge>
+<edge source="campos-dourados" target="o-mar-dothraki"></edge>
+
+<!-- As Terras Disputadas -->
+<edge source="as-terras-disputadas" target="a-costa-laranja"></edge>
+<edge source="as-terras-disputadas" target="o-mar-dothraki"></edge>
+
+<!-- A Costa Laranja -->
+<edge source="a-costa-laranja" target="valiria"></edge>
+<edge source="a-costa-laranja" target="o-mar-dothraki"></edge>
+
+<!-- Sem Nome Ainda -->
+<edge source="valiria" target="ghiscar"></edge>
+<edge source="valiria" target="oros"></edge>
+
+<!-- O Mar Dothraki -->
+<edge source="o-mar-dothraki" target="the-footprint"></edge>
+<edge source="o-mar-dothraki" target="o-deserto-vermelho"></edge>
+<edge source="o-mar-dothraki" target="oros"></edge>
+
+<!-- The Footprints -->
+<edge source="the-footprint" target="o-deserto-vermelho"></edge>
+
+<!-- O Deserto Vermelho -->
+<edge source="o-deserto-vermelho" target="ghiscar"></edge>
+
+</graph>
+</graphml>
