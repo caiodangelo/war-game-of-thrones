@@ -57,8 +57,14 @@ public class InGameGUIController implements ScreenController{
 //                new BEPImpl("Mateus Azis"),
 //                new BEPImpl("Rodrigo Castro")
 //            };
+            instance = this;
         }
-        instance = this;
+    }
+    
+    public static InGameGUIController getInstance() {
+        if (instance == null)
+            instance = new InGameGUIController();
+        return instance;
     }
     
     @Override
@@ -241,7 +247,7 @@ public class InGameGUIController implements ScreenController{
     /**
      * Use null to hide the panel.
      */
-    protected void setInfoLabelText(String text){
+    public void setInfoLabelText(String text){
         Label infoLabel = s.findNiftyControl("infoLabel", Label.class);
         if(text != null){
             infoLabel.setText(text);
