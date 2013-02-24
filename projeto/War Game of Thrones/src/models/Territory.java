@@ -1,6 +1,10 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import prefuse.data.Node;
+import util.TerritoriesGraphStructure;
 
 /**
  *
@@ -8,14 +12,21 @@ import java.util.List;
  */
 public class Territory {
 
+    private int index;
     private String name;
     private Region region;
     private Player owner;
+    private TerritoriesGraphStructure graph;
     protected int numArmies;
     protected int numArmiesCanMoveThisRound;
     protected int numAttacks;  //Num de vezes que o territorio foi atacado
     protected int numConquests;  //Num de vezes que o territorio foi conquistado
-
+    
+    public Territory(int index, TerritoriesGraphStructure strct){
+        this.index = index;
+        this.graph = strct;
+    }
+    
     public Territory(String name, Region region) {
         this.name = name;
         this.region = region;
@@ -28,12 +39,12 @@ public class Territory {
     }
 
     public String getName() {
-        return name;
+        return graph.getNode(index).getString("name");
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+//    public void setName(String name) {
+//        this.name = name;
+//    }
 
     public Region getRegion() {
         return region;
@@ -130,10 +141,35 @@ public class Territory {
      * Verifica se um território é vizinho deste
      */
     public boolean isNeighbour(Territory another) {
-        return true;
+        String otherName = another.getName();
+        Iterator neighbours = graph.getNeighborsIterator(index);
+        while(neighbours.hasNext()){
+            Node next = (Node)neighbours.next();
+            if(next.getString("name").equals(otherName))
+                return true;
+        }
+        return false;
     }
 
     public List<Territory> getNeighbours() {
-        return null;
+        Board b = Board.getInstance();
+        Territory[] allTerritories = b.getTerritories();
+        List<Territory> resp = new ArrayList<Territory>();
+        System.out.println("running for in all territories");
+        for(Territory t : allTerritories)
+            if(!t.equals(this) && t.isNeighbour(this))
+                resp.add(t);
+        return resp;
+    }
+    
+    @Override
+    public boolean equals(Object other){
+        Territory tOther = (Territory)other;
+        return tOther.index == this.index;
+    }
+    
+    @Override
+    public String toString(){
+        return "Territory: " + getName() + " from " + region;
     }
 }

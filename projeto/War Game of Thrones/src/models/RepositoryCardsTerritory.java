@@ -6,6 +6,8 @@ package models;
 
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
+import sun.awt.resources.awt;
 
 /**
  *
@@ -47,6 +49,7 @@ public class RepositoryCardsTerritory {
 
     public void addCardToDeck(CardTerritory card) {
         deck.add(card);
+        shuffleCards();
     }
 
     public void addCardToRepository(CardTerritory card) {
@@ -88,6 +91,69 @@ public class RepositoryCardsTerritory {
                 addCardToRepository(cardJoker);
                 i--;
             }
+        }
+    }
+
+    public boolean swapCards(List<CardTerritory> cardsToSwap, Player player) {
+        int numberOfSwaps, numberOfArmies;
+        if (player.isMaySwapCards()) {
+            if ((isSameCards(cardsToSwap)) || (isDifferentCards(cardsToSwap))) {
+                for (CardTerritory card : cardsToSwap) {
+                    player.removeCard(card);
+                    this.addCardToDeck(card);
+                }
+                Board.getInstance().increaseNumberOfSwaps();
+                numberOfSwaps = Board.getInstance().getNumberOfSwaps();
+                numberOfArmies = consultSwapTable(numberOfSwaps);
+                player.addPendingArmies(numberOfArmies);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isSameCards(List<CardTerritory> cards) {
+        int typeCard = 0;
+        for (int i = 0; i < cards.size(); i++) {
+            typeCard = cards.get(i).getType();
+            if (typeCard != CardTerritory.JOKER) {
+                break;
+            }
+        }
+
+        for (CardTerritory card : cards) {
+            if ((card.getType() != typeCard) || (card.getType() != CardTerritory.JOKER)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isDifferentCards(List<CardTerritory> cards) {
+        int typeCard = 0;
+        for (int i = 0; i < cards.size(); i++) {
+            typeCard = cards.get(i).getType();
+            if (typeCard != CardTerritory.JOKER) {
+                break;
+            }
+        }
+
+        for (CardTerritory card : cards) {
+            if ((card.getType() == typeCard) || (card.getType() != CardTerritory.JOKER)) {
+                return false;
+            }
+            typeCard = card.getType();
+        }
+        return true;
+    }
+
+    public int consultSwapTable(int numberOfSwaps) {
+        if ((numberOfSwaps >= 1) && (numberOfSwaps <= 5)) {
+            return (numberOfSwaps * 2) + 2;
+        } else if (numberOfSwaps == 6) {
+            return 15;
+        } else {
+            return ((numberOfSwaps - 6) * 5) + 15;
         }
     }
 }

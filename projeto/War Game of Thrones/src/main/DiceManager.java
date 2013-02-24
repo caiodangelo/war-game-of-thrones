@@ -18,6 +18,7 @@ public class DiceManager {
     private GameScene gameScene;
     private boolean dicesOnScreen;
     private boolean dicesOnCorrectPosition;
+    private Territory attackingTerritory;
     private ArrayList<Dice> atkDices;
     private ArrayList<Dice> defDices;
     
@@ -47,24 +48,41 @@ public class DiceManager {
         if (dicesSet) {
             int pos = 0;
             ArrayList<Dice> tempAtkDices = new ArrayList<Dice>(atkDices);
-            while (!(tempAtkDices.isEmpty())) {
-                Dice diceToMove = getHigherResultDice(tempAtkDices);
-                tempAtkDices.remove(diceToMove);
-                diceToMove.addComponent(new DiceMovementsComponent("dice-movements", diceToMove.getPosition(), ATK_POSITIONS[pos]));
+            ArrayList<Dice> tempDefDices = new ArrayList<Dice>(defDices);
+            boolean atkIsWinner = false;
+            Dice atkDiceToMove;
+            Dice defDiceToMove;
+            while (!tempAtkDices.isEmpty() && !tempDefDices.isEmpty()) {
+                atkDiceToMove = getHigherResultDice(tempAtkDices);
+                defDiceToMove = getHigherResultDice(tempDefDices);
+                if (atkDiceToMove.getResult() > defDiceToMove.getResult())
+                    atkIsWinner = true;
+                else
+                    atkIsWinner = false;
+                tempAtkDices.remove(atkDiceToMove);
+                atkDiceToMove.addComponent(new DiceMovementsComponent("dice-movements", atkDiceToMove.getPosition(), ATK_POSITIONS[pos], atkIsWinner));
+                tempDefDices.remove(defDiceToMove);
+                defDiceToMove.addComponent(new DiceMovementsComponent("dice-movements", defDiceToMove.getPosition(), DEF_POSITIONS[pos], !atkIsWinner));
                 pos++;
             }
-            pos = 0;
-            ArrayList<Dice> tempDefDices = new ArrayList<Dice>(defDices);
-            while (!(tempDefDices.isEmpty())) {
-                Dice diceToMove = getHigherResultDice(tempDefDices);
-                tempDefDices.remove(diceToMove);
-                diceToMove.addComponent(new DiceMovementsComponent("dice-movements", diceToMove.getPosition(), DEF_POSITIONS[pos]));
+            while (!tempAtkDices.isEmpty()) {
+                atkDiceToMove = getHigherResultDice(tempAtkDices);
+                tempAtkDices.remove(atkDiceToMove);
+                atkDiceToMove.addComponent(new DiceMovementsComponent("dice-movements", atkDiceToMove.getPosition(), ATK_POSITIONS[pos], atkIsWinner));
+                pos++;
+            }
+            while (!tempDefDices.isEmpty()) {
+                defDiceToMove = getHigherResultDice(tempDefDices);
+                tempDefDices.remove(defDiceToMove);
+                defDiceToMove.addComponent(new DiceMovementsComponent("dice-movements", defDiceToMove.getPosition(), DEF_POSITIONS[pos], !atkIsWinner));
                 pos++;
             }
         }
     }
     
     public Dice getHigherResultDice(ArrayList<Dice> list) {
+        if (list.isEmpty() || list == null)
+            return null;
         int higher = -1;
         Dice winner = null;
         for (Dice d : list) {
@@ -104,6 +122,13 @@ public class DiceManager {
             dicesReachedDest = dicesReachedDest && dd.hasReachedDestination();
         }
         dicesOnCorrectPosition = dicesReachedDest;
+        if (attackingTerritory != null) {
+            ArmyRenderComponent comp = (ArmyRenderComponent) attackingTerritory.getArmy().getComponent("army-renderer");
+            comp.startExplosion();
+            AudioManager am = AudioManager.getInstance();
+            am.playSound(AudioManager.ATTACK_SOUND);
+        }
+        attackingTerritory = null;
     }
     
     public void removeDices() {
@@ -119,4 +144,9 @@ public class DiceManager {
     public boolean allDicesOnCorrectPosition() {
         return dicesOnCorrectPosition;
     }
+    
+    public void setAttackingTerritory(Territory attacker) {
+        attackingTerritory = attacker;
+    }
+
 }

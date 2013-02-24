@@ -11,8 +11,6 @@ import util.Scene;
 public class Map extends Entity{
     
     private Scroll s;
-    public static Territory selectedTerritory;
-    //public static Territory selectedTerritory2;
     
     private static final String [] imgs = {
         //além da muralha
@@ -29,35 +27,35 @@ public class Map extends Entity{
         "resources/images/territorios/cidades-livres/colinas-de-norvos.png",
         "resources/images/territorios/cidades-livres/costa-bravosiana.png",
         "resources/images/territorios/cidades-livres/floresta-de-qohor.png",
-        "resources/images/territorios/cidades-livres/sem-nome-ainda.png",
         "resources/images/territorios/cidades-livres/the-flatlands.png",
+        "resources/images/territorios/cidades-livres/valiria.png",
         
         //o norte
         "resources/images/territorios/o-norte/a-dadiva.png",
         "resources/images/territorios/o-norte/barrowlands.png",
-        "resources/images/territorios/o-norte/costa-perigosa.png",
+        "resources/images/territorios/o-norte/costa-pedregosa.png",
         "resources/images/territorios/o-norte/mata-de-lobos.png",
-        "resources/images/territorios/o-norte/o-norte.png",
         "resources/images/territorios/o-norte/o-penhasco-sombrio.png",
         "resources/images/territorios/o-norte/the-hills.png",
+        "resources/images/territorios/o-norte/winterfell.png",
         
         //o sul
         "resources/images/territorios/sul/a-arvore.png",
-        "resources/images/territorios/sul/a-campina.png",
         "resources/images/territorios/sul/dorne.png",
-        "resources/images/territorios/sul/mata-do-rei.png",
+        "resources/images/territorios/sul/jardim-de-cima.png",
+        "resources/images/territorios/sul/mataderrei.png",
         "resources/images/territorios/sul/monte-chifre.png",
         "resources/images/territorios/sul/tarth.png",
         "resources/images/territorios/sul/terras-da-tempestade.png",
         
         //o tridente
         "resources/images/territorios/tridente/as-montanhas-da-lua.png",
-        "resources/images/territorios/tridente/a-terra-da-coroa.png",
-        "resources/images/territorios/tridente/cape-kraken.png",
+        "resources/images/territorios/tridente/cape-krakentt.png",
         "resources/images/territorios/tridente/o-gargalo.png",
         "resources/images/territorios/tridente/o-vale-de-arryn.png",
+        "resources/images/territorios/tridente/porto-real.png",
+        "resources/images/territorios/tridente/rochedo-casterly.png",
         "resources/images/territorios/tridente/terras-fluviais.png",
-        "resources/images/territorios/tridente/westernlands.png",
         
         //o mar dothraki
         "resources/images/territorios/o-mar-dothraki/ghiscar.png",
@@ -82,22 +80,22 @@ public class Map extends Entity{
         new Vector2f(0.37395397f,0.36755952f),
         new Vector2f(0.36192468f,0.3764881f),
         new Vector2f(0.4837866f,0.36681548f),
-        new Vector2f(0.53974897f,0.8489583f),
         new Vector2f(0.34832636f,0.48363096f),
+        new Vector2f(0.53974897f,0.8489583f),
         
         //o norte
         new Vector2f(0.16841005f,0.0639881f),
         new Vector2f(0.123953976f,0.23214285f),
         new Vector2f(0.07269874f,0.14136904f),
         new Vector2f(0.11087866f,0.10491072f),
-        new Vector2f(0.2039749f,0.16815476f),
         new Vector2f(0.28608787f,0.12276786f),
         new Vector2f(0.08995816f,0.23883928f),
+        new Vector2f(0.2039749f,0.16815476f),
         
         //sul
         new Vector2f(0.072175734f,0.7589286f),
-        new Vector2f(0.14225942f,0.53348213f),
         new Vector2f(0.13702929f,0.71800596f),
+        new Vector2f(0.14225942f,0.53348213f),
         new Vector2f(0.17677824f,0.5610119f),
         new Vector2f(0.077405855f,0.6428869f),
         new Vector2f(0.3038703f,0.60863096f),
@@ -105,12 +103,12 @@ public class Map extends Entity{
         
         //o tridente
         new Vector2f(0.20188284f,0.34151787f),
-        new Vector2f(0.18671548f,0.45610118f),
         new Vector2f(0.08158996f,0.31324404f),
         new Vector2f(0.1417364f,0.3013393f),
         new Vector2f(0.27405858f,0.37797618f),
-        new Vector2f(0.08455858f,0.42097618f),
+        new Vector2f(0.18671548f,0.45610118f),
         new Vector2f(0.09257322f,0.46205357f),
+        new Vector2f(0.08455858f,0.42097618f),
         
         //o mar dothraki
         new Vector2f(0.6736402f,0.77529764f),
@@ -125,7 +123,7 @@ public class Map extends Entity{
         new Vector2f(0.13075313f,0.015347515f),
         new Vector2f(0.2015238f,0.018417018f),
         new Vector2f(0.07379137f,0.012278012f),
-        new Vector2f(0.110471286f,0.09269899f),
+        new Vector2f(0.11254149f,0.10594705f),
         new Vector2f(0.2731575f,0.047270346f),
         
         //cidades livres
@@ -135,35 +133,35 @@ public class Map extends Entity{
         new Vector2f(0.44185477f,0.48238245f),
         new Vector2f(0.37277764f,0.45017615f),
         new Vector2f(0.54401934f,0.46586642f),
-        new Vector2f(0.5721992f,0.9014132f),
         new Vector2f(0.38760647f,0.54796976f),
+        new Vector2f(0.577078f,0.9161218f),
         
         //o norte
         new Vector2f(0.24004136f,0.09350001f),
         new Vector2f(0.16341797f,0.25205404f),
-        new Vector2f(0.08157024f,0.21158974f),
+        new Vector2f(0.08772271f,0.22599193f),
         new Vector2f(0.16632037f,0.16617061f),
-        new Vector2f(0.23365608f,0.22480257f),
-        new Vector2f(0.29112363f,0.12818371f),
+        new Vector2f(0.29622382f,0.13422008f),
         new Vector2f(0.10072609f,0.25866047f),
+        new Vector2f(0.23365608f,0.22480257f),
         
         //sul
-        new Vector2f(0.07089725f,0.7486976f),
-        new Vector2f(0.1608717f,0.56206626f),
+        new Vector2f(0.07437915f,0.7674639f),
         new Vector2f(0.20208581f,0.7330074f),
-        new Vector2f(0.22704646f,0.5703243f),
+        new Vector2f(0.1608717f,0.56206626f),
+        new Vector2f(0.22595693f,0.58453643f),
         new Vector2f(0.13997442f,0.6752012f),
-        new Vector2f(0.2996065f,0.59674996f),
+        new Vector2f(0.30410144f,0.61204416f),
         new Vector2f(0.23575366f,0.62234986f),
         
         //o tridente
         new Vector2f(0.23749511f,0.39855742f),
-        new Vector2f(0.22704646f,0.4968279f),
-        new Vector2f(0.11036991f,0.3234094f),
+        new Vector2f(0.111633494f,0.33760673f),
         new Vector2f(0.1666765f,0.33497065f),
-        new Vector2f(0.2874164f,0.38451877f),
-        new Vector2f(0.12894529f,0.44067332f),
+        new Vector2f(0.2891358f,0.39862484f),
+        new Vector2f(0.22704646f,0.4968279f),
         new Vector2f(0.11733568f,0.51912457f),
+        new Vector2f(0.1370044f,0.45378765f),
         
         //o mar dothraki
         new Vector2f(0.7260133f,0.83314276f),
@@ -201,7 +199,7 @@ public class Map extends Entity{
         for(int i = 0; i < territoryPositions.length; i++){
             Territory t = new Territory(this, territoryPositions[i], imgs[i]);
             scene.addEntity(t);
-            Army a = new Army(this, t, armyPositions[i], ((int) (Math.random()*5)+1), Army.FAMILY_BARATHEON);
+            Army a = new Army(this, t, armyPositions[i], ((int) (Math.random()*5)+1), Army.FAMILY_BARATHEON, s);
             scene.addEntity(a);
             t.setArmy(a);
         }

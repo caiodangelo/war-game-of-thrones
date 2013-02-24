@@ -58,7 +58,7 @@ public class RepositoryCardsTerritoryTest {
     public void sorteioInicialCom6JogadoresDeveSortearTodasAsCartas() {
         Board board = new Board();
         for (int i = 0; i < 6; i++) {
-            HumanPlayer p = new HumanPlayer(null) {};
+            HumanPlayer p = new HumanPlayer(null);
             board.addPlayer(p, i, Board.HUMAN_PLAYER);
         }
         

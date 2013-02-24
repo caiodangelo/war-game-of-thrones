@@ -71,10 +71,10 @@ public class Scroll extends ImageMovementsComponent {
             float scale = owner.getScale();
             int mouseWheel = GameScene.getMouseWheel();
 
-            if (mouseWheel > 0)
+            if (mouseWheel > 0 || input.isKeyDown(Input.KEY_UP))
                 zoomIn(scale, delta, owner.getPosition());
 
-            if (mouseWheel < 0)
+            if (mouseWheel < 0 || input.isKeyDown(Input.KEY_DOWN))
                 zoomOut(scale, delta, owner.getPosition());
             Vector2f position = new Vector2f();
 

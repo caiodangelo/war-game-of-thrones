@@ -15,6 +15,7 @@ import de.lessvoid.nifty.tools.Color;
 import java.util.List;
 import main.AudioManager;
 import main.Territory;
+import main.WarScenes;
 import models.Board;
 import models.Player;
 import org.newdawn.slick.GameContainer;
@@ -57,8 +58,14 @@ public class InGameGUIController implements ScreenController{
 //                new BEPImpl("Mateus Azis"),
 //                new BEPImpl("Rodrigo Castro")
 //            };
+            instance = this;
         }
-        instance = this;
+    }
+    
+    public static InGameGUIController getInstance() {
+        if (instance == null)
+            instance = new InGameGUIController();
+        return instance;
     }
     
     @Override
@@ -83,11 +90,16 @@ public class InGameGUIController implements ScreenController{
         infoPanel = screen.findElementByName("infoPanel");
         nextTurnConfirmPopup = n.createPopup("nextTurnConfirmationPopup");
         
-        Slider musicSlider = optionsPopup.findNiftyControl("musicSlider", Slider.class);
-        Slider soundSlider = optionsPopup.findNiftyControl("soundSlider", Slider.class);
-        optionsPopup.findNiftyControl("sliderCPUdifficulty", Slider.class).disable();
-        musicSlider.setValue(1 - AudioManager.getInstance().getMusicVolume());
-        soundSlider.setValue(1 - AudioManager.getInstance().getSoundVolume());
+    }
+    
+    @Override
+    public void onStartScreen() {  
+        List<Player> playersList = Board.getInstance().getPlayers();
+        players = playersList.toArray(new Player[0]);
+        
+        retrieveStatusPanels(s);
+        updatePlayersData();
+        
         Label musicVolumeValue = optionsPopup.findNiftyControl("musicVolumeValue", Label.class);
         musicVolumeValue.setText(((int) (100 * AudioManager.getInstance().getMusicVolume()))+"");
         Label soundVolumeValue = optionsPopup.findNiftyControl("soundVolumeValue", Label.class);
@@ -98,15 +110,11 @@ public class InGameGUIController implements ScreenController{
             musicMute.check();
         if (AudioManager.getInstance().soundIsMuted())
             soundMute.check();
-    }
-    
-    @Override
-    public void onStartScreen() {  
-        List<Player> playersList = Board.getInstance().getPlayers();
-        players = playersList.toArray(new Player[0]);
-        
-        retrieveStatusPanels(s);
-        updatePlayersData();
+        Slider musicSlider = optionsPopup.findNiftyControl("musicSlider", Slider.class);
+        Slider soundSlider = optionsPopup.findNiftyControl("soundSlider", Slider.class);
+        optionsPopup.findNiftyControl("sliderCPUdifficulty", Slider.class).disable();
+        musicSlider.setValue(1 - AudioManager.getInstance().getMusicVolume());
+        soundSlider.setValue(1 - AudioManager.getInstance().getSoundVolume());
     }
     
     @Override
@@ -149,7 +157,8 @@ public class InGameGUIController implements ScreenController{
     }
     
     private void updateCurrentPlayersData(){
-        if(!main.Main.JUMP_TO_GAME){
+        boolean skipedStartScreen = main.Main.JUMP_TO_GAME;
+        if(!skipedStartScreen){
             Player currPlayer = getCurrentPlayer();
             Color currentPlayerColor = getCurrentPlayerColor();
             playerStatusName.setText(currPlayer.getName());
@@ -221,8 +230,11 @@ public class InGameGUIController implements ScreenController{
     }
     
     //Popups event handling
+    
     public void exitGame(){
-        main.Main.getInstance().getGameContainer().exit();
+        PopupManager.closePopup(n, exitConfirmPopup);
+        main.Main.getInstance().enterState(WarScenes.STARTING_SCENE);
+//        main.Main.getInstance().getGameContainer().exit();
     }
     
     public void showTables(){
@@ -241,7 +253,7 @@ public class InGameGUIController implements ScreenController{
     /**
      * Use null to hide the panel.
      */
-    protected void setInfoLabelText(String text){
+    public void setInfoLabelText(String text){
         Label infoLabel = s.findNiftyControl("infoLabel", Label.class);
         if(text != null){
             infoLabel.setText(text);

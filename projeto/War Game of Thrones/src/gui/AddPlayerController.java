@@ -227,24 +227,28 @@ public class AddPlayerController implements ScreenController{
     }
     
     public void playButtonPressed() {
-        if(nameFieldIsEmpty() && !ACCEPT_EMPTY_NAMES)
-            showEmptyNameWarning();
-        else{
-            saveCurrentPlayerData();
+        try{
+            if(nameFieldIsEmpty() && !ACCEPT_EMPTY_NAMES)
+                showEmptyNameWarning();
+            else{
+                saveCurrentPlayerData();
+                Board.reset();
+                Board b = Board.getInstance();
+                int playersCount = createdPlayers.size();
+                for(int i = 0; i < playersCount; i++){
+                    int randomPos = (int)(Math.random()*createdPlayers.size());
+                    PlayerData playerData = createdPlayers.remove(randomPos);
+                    b.isPlayerCountValid();
+                    House h = createBackEndHouse(playerData.house);
+                    Player p = createBackEndPlayer(playerData, h);
+                    int type = playerData.isHuman ? Board.HUMAN_PLAYER : Board.AI_PLAYER;
 
-            Board b = Board.getInstance();
-            int playersCount = createdPlayers.size();
-            for(int i = 0; i < playersCount; i++){
-                int randomPos = (int)(Math.random()*createdPlayers.size());
-                PlayerData playerData = createdPlayers.remove(randomPos);
-
-                House h = createBackEndHouse(playerData.house);
-                Player p = createBackEndPlayer(playerData, h);
-                int type = playerData.isHuman ? Board.HUMAN_PLAYER : Board.AI_PLAYER;
-
-                b.addPlayer(p, i, type);
+                    b.addPlayer(p, i, type);
+                }
+                Main.getInstance().enterState(main.WarScenes.GAME_SCENE);
             }
-            Main.getInstance().enterState(main.WarScenes.GAME_SCENE);
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
     
