@@ -3,6 +3,8 @@ package main;
 import util.MapAreaRenderer;
 import de.lessvoid.nifty.Nifty;
 import java.util.ArrayList;
+import java.util.Date;
+import models.StatisticGameManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
@@ -26,6 +28,7 @@ public class GameScene extends Scene{
     @Override
     public void enterState(GameContainer container, StateBasedGame game) throws SlickException { 
         super.enterState(container, game);
+        StatisticGameManager.getInstance().setInitTime(new Date());
         Map map = new Map();
         addEntity(map);
         //Left button was pressed to play but this record must be erased.

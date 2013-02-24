@@ -1,6 +1,7 @@
 package main;
 
 import gui.InGameGUIController;
+import models.StatisticGameManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Vector2f;
@@ -55,6 +56,10 @@ public class DiceMovementsComponent extends Component {
                     guiControl.setInfoLabelText("Clique para dispensar os dados.");
                     Input i = gc.getInput();
                     if (i.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) || i.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) {
+                        //if some player wins, call end game animation
+                        //else
+                        StatisticGameManager.getInstance().setPlayTime();
+                        Main.getInstance().enterState(WarScenes.STATISTICS_SCENE);
                         dm.removeDices();
                         guiControl.setInfoLabelText(null);
                     }
