@@ -13,11 +13,11 @@ import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.Color;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import main.AudioManager;
 import main.GameScene;
 import main.Territory;
+import main.TurnHelper;
 import main.WarScenes;
 import models.Board;
 import models.Player;
@@ -29,10 +29,11 @@ import util.PopupManager;
 public class InGameGUIController implements ScreenController{
 
     private StatusPanelControl [] statusPanels;
-    private Label playerStatusName, playerStatusCards, playerStatusUnits, playerStatusTerritories, infoTerritories;
+    private Label playerStatusName, playerStatusCards, playerStatusUnits, playerStatusTerritories, infoTerritories, 
+            ravenMessage;
     private Screen s;
     private Nifty n;
-    Board b;
+    private Board b;
     public static Player [] players;
     protected static final Color [] playerNameColors = new Color[]{
                 new Color("#465DC0"),
@@ -89,9 +90,13 @@ public class InGameGUIController implements ScreenController{
         infoTerritoriesPopup = n.createPopup("infoTerritoriesPopup");
         infoTerritories = infoTerritoriesPopup.findNiftyControl("infoTerritories", Label.class);
 
+        ravenMessage = screen.findNiftyControl("ravenMessage", Label.class);
         infoPanel = screen.findElementByName("infoPanel");
         nextTurnConfirmPopup = n.createPopup("nextTurnConfirmationPopup");
-        
+    }
+    
+    public void setRavenMessage(String msg){
+        ravenMessage.setText(msg);
     }
     
     @Override
@@ -140,10 +145,6 @@ public class InGameGUIController implements ScreenController{
         }
     }
     
-    private void showCurrentPlayerMsg(){
-        gameScene.showPlayerTurnMsg();
-    }
-    
     private void updatePlayersData(){
         for(int i = 0; i < players.length; i++){
             StatusPanelControl spc = statusPanels[i];
@@ -156,12 +157,17 @@ public class InGameGUIController implements ScreenController{
     
     //TODO: check who really is the next player
     private Player getCurrentPlayer(){
-        return players[0];
+        return b.getCurrentPlayer();
     }
     
     //TODO: check who really is the next player
     private Color getCurrentPlayerColor(){
-        return playerNameColors[0];
+        return getCurrentPlayer().getHouse().getColor();
+    }
+    
+    public void update(){
+        updateCurrentPlayersData();
+        updatePlayersData();
     }
     
     private void updateCurrentPlayersData(){
@@ -203,10 +209,11 @@ public class InGameGUIController implements ScreenController{
     }
     
     public void nextPlayerTurn() {
-        b.changePlayer();
-        showCurrentPlayerMsg();
-        if (b.isOnInitialSetup())
-            showInfoTerritories();
+//        b.changePlayer();
+//        showCurrentPlayerMsg();
+//        if (b.isOnInitialSetup())
+//            showInfoTerritories();
+        TurnHelper.getInstance().changeTurn();
         PopupManager.closePopup(n, nextTurnConfirmPopup);
     }
     
@@ -347,11 +354,12 @@ public class InGameGUIController implements ScreenController{
         System.out.println("pending arms for curr player " + curr.getPendingArmies());
         List<models.Territory> ts = b.getCurrentPlayer().getTerritories();
         
-//        for(models.Territory t : ts){
-////            t.setNumArmies(numArmies);
-//            
-//            b.getCurrentPlayer().getPendingArmies();
-//        }
+        for(models.Territory t : ts){
+            t.setNumArmies(1);
+        }
+        
+        update();
+        setRavenMessage(curr.getName() + " está distribuindo os exércitos.");
     }
             
     @NiftyEventSubscriber(id = "menuItemid")

@@ -25,10 +25,27 @@ public abstract class Feature {
 
     // A importância dessa feature. Basicamente é pra fazer uma média ponderada com as outras features
     protected double importance;
-
     // O fator de escala serve para igualar essa feature com as outras, numa escala igual (por exemplo, um valor de 0 a 1)
     protected double scaleFactor;
+    protected Board gameState;
+    protected Player player;
 
-    public abstract double calculate(Board gameState, Player player);
+    public Feature(Board gameState, Player player) {
+        this.gameState = gameState;
+        this.player = player;
+    }
 
+    public abstract double calculate();
+
+    /**
+     * Retorna a nota desta feature multiplicada por sua escala, de forma a dar uma nota que varia sempre de (0 a 1],
+     * e depois multiplica por sua importância, para gerar a nota final desta feature.
+     */
+    public double calculateScaledGrade() {
+        return calculate() * scaleFactor * importance;
+    }
+
+    public double getImportance() {
+        return importance;
+    }
 }

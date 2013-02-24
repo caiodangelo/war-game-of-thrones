@@ -248,6 +248,8 @@ public class AddPlayerController implements ScreenController{
                     b.addHouse(h);
                     b.addPlayer(p, i, type);
                 }
+                
+                //TODO: sortear objetivos
                 b.distributeInitialTerritories();
                 Main.getInstance().enterState(main.WarScenes.GAME_SCENE);
             }

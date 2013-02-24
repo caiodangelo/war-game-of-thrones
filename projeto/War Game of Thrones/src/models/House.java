@@ -1,10 +1,13 @@
 package models;
+
+import java.io.Serializable;
 import de.lessvoid.nifty.tools.Color;
+
 /**
  *
  * @author rodrigo
  */
-public class House {
+public class House implements Serializable {
 
     // Exemplo:                                 AARRGGBB
     //TODO: trocar cores

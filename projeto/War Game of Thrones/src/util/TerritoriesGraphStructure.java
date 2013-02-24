@@ -1,6 +1,5 @@
 package util;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -8,10 +7,12 @@ import main.MainScene;
 import models.Region;
 import models.Territory;
 import models.TerritoryID;
+import prefuse.Constants;
 import prefuse.data.Graph;
 import prefuse.data.Node;
 import prefuse.data.io.DataIOException;
 import prefuse.data.io.GraphMLReader;
+import prefuse.data.util.BreadthFirstIterator;
 
 public class TerritoriesGraphStructure {
     
@@ -55,7 +56,7 @@ public class TerritoriesGraphStructure {
     public Iterator getNeighborsIterator(int node) {
         return g.getNode(node).neighbors();
     }
-    
+
     //algorithms here
 
     public Territory[] fillTerritories(Region[] regions) {

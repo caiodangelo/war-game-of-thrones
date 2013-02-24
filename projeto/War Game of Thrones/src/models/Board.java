@@ -1,16 +1,18 @@
 package models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import util.TerritoriesGraphStructure;
+import org.apache.commons.lang.SerializationUtils;
 
 /**
  *
  * @author rodrigo
  */
-public class Board {
+public class Board implements Serializable {
 
     public static final int AI_PLAYER = 1;
     public static final int HUMAN_PLAYER = 2;
@@ -49,8 +51,9 @@ public class Board {
         System.out.println("Filling board territories");
         regions = new Region[6];
         String [] regionNames = {"Além da Muralha", "Cidades Livres", "O Norte", "Sul", "Tridente", "O Mar Dothraki"};
+        int [] bonus = {Region.ALEM_DA_MURALHA, Region.CIDADES_LIVRES, Region.O_NORTE, Region.O_SUL, Region.TRIDENTE, Region.O_MAR_DOTHRAKI};
         for(int i = 0; i < regionNames.length; i++)
-            regions[i] = new Region(regionNames[i]);
+            regions[i] = new Region(regionNames[i], bonus[i]);
         
         //alem da muralha
         Region current = regions[0];
@@ -126,6 +129,10 @@ public class Board {
     
     public static void reset(){
         instance = null;
+    }
+
+    public Board getClone() {
+        return (Board) SerializationUtils.clone(this);
     }
 
     public boolean addPlayer(Player player, int playingOrder, int type) {
@@ -220,12 +227,31 @@ public class Board {
     
     public void changePlayer() {
         int oldPlayer = this.currentPlayer;
-        if (oldPlayer == this.getPlayers().size()) {
+        
+        int playersCount = this.getPlayers().size();
+        if (oldPlayer == this.getPlayers().size() - 1) {
             currentPlayer = 0;
             isOnInitialSetup = false;
         }
         else 
             currentPlayer++;
+        addPlayerArmies();
+    }
+    
+    private void addPlayerArmies(Player curr){
+        int territoryCount = curr.getTerritories().size();
+        int pendingArmies = curr.getPendingArmies();
+        pendingArmies += territoryCount / 2;
+        for(Region r : regions)
+            if(r.conqueredByPlayer(curr)){
+                pendingArmies += r.getBonus();
+                System.out.println("receiving " + r.getBonus() + " from " + r);
+            }
+        curr.setPendingArmies(pendingArmies);
+    }
+    
+    private void addPlayerArmies(){
+        addPlayerArmies(getCurrentPlayer());
     }
 
     public StatisticGameManager getStatistic() {
@@ -234,14 +260,13 @@ public class Board {
     
     public void distributeInitialTerritories() {
         RepositoryCardsTerritory.getInstance().initialRaffle();
-        int cardsCount = 0;
         for (Player player : players) {
             for (CardTerritory card : player.getCards()) {
-                player.addTerritory(card.getTerritory());   
-                
+                player.addTerritory(card.getTerritory());                
             }
             player.getCards().clear();
         }
+        addPlayerArmies();
     }
     
      public void shuffleMissions(LinkedList<Mission> mission) {
@@ -280,5 +305,9 @@ public class Board {
             }
         }
         return answer;
+    }
+
+    public Region[] getRegions() {
+        return regions;
     }
 }

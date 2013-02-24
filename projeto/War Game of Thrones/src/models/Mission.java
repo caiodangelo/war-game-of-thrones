@@ -1,5 +1,6 @@
 package models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  *
  * @author rodrigo
  */
-public class Mission {
+public class Mission implements Serializable {
 
     public static final int TYPE_TERRITORY = 1;
     public static final int TYPE_REGION = 2;
@@ -143,7 +144,7 @@ public class Mission {
 
     public boolean isRegionMissionCompleted(ArrayList<Region> allRegions) {
         boolean answer = false;
-        Region aux = new Region("");
+        Region aux = new Region("", 0);
         List<Region> conqueredRegions = new ArrayList<Region>(); //Regioes que foram conquistadas pelo jogador      
         List<Territory> territoriesPlayer = player.getTerritories();
 
@@ -199,5 +200,4 @@ public class Mission {
         }
         return (defeated.getTerritories().isEmpty());
     }
-
 }
