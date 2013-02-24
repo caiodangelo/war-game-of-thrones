@@ -81,12 +81,12 @@ public class MissionTest {
 
     @Test
     public void isRegionMissionCompletedDeveRetornarTrueCasoAMissaoDeRegionEstiverCompleta() {
-        Region theNorth = new Region("The North");
-        Region theSouth = new Region("The South");
-        Region tridente = new Region("Tridente");
-        Region beyondTheWall = new Region("Beyond the Wall");
-        Region theEast = new Region("The East");
-        Region dothraki = new Region("Dothraki");
+        Region theNorth = new Region("The North", Region.O_NORTE);
+        Region theSouth = new Region("The South", Region.O_SUL);
+        Region tridente = new Region("Tridente", Region.TRIDENTE);
+        Region beyondTheWall = new Region("Beyond the Wall", Region.ALEM_DA_MURALHA);
+        Region theEast = new Region("The East", Region.CIDADES_LIVRES);
+        Region dothraki = new Region("Dothraki", Region.O_MAR_DOTHRAKI);
         
         ArrayList<Region> allRegions = new ArrayList<Region>();
         allRegions.add(theNorth);
@@ -149,13 +149,13 @@ public class MissionTest {
     
     @Test
     public void isRegionMissionCompletedDeveRetornarFalseCasoAMissaoDeRegionNaoEstiverCompleta() {
-        Region theNorth = new Region("The North");
-        Region theSouth = new Region("The South");
-        Region tridente = new Region("Tridente");
-        Region beyondTheWall = new Region("Beyond the Wall");
-        Region theEast = new Region("The East");
-        Region dothraki = new Region("Dothraki");
-                
+        Region theNorth = new Region("The North", Region.O_NORTE);
+        Region theSouth = new Region("The South", Region.O_SUL);
+        Region tridente = new Region("Tridente", Region.TRIDENTE);
+        Region beyondTheWall = new Region("Beyond the Wall", Region.ALEM_DA_MURALHA);
+        Region theEast = new Region("The East", Region.CIDADES_LIVRES);
+        Region dothraki = new Region("Dothraki", Region.O_MAR_DOTHRAKI);
+
         ArrayList<Region> allRegions = new ArrayList<Region>();
         allRegions.add(theNorth);
         allRegions.add(theSouth);
@@ -215,13 +215,13 @@ public class MissionTest {
     
     @Test
     public void isRegionMissionCompletedDeveRetornarTrueCasoAMissaoDeRegionQueContenhaRegiaoNulaEstiverCompleta() {
-        Region theNorth = new Region("The North");
-        Region theSouth = new Region("The South");
-        Region tridente = new Region("Tridente");
-        Region beyondTheWall = new Region("Beyond the Wall");
-        Region theEast = new Region("The East");
-        Region dothraki = new Region("Dothraki");
-        Region nulo = new Region(null);
+        Region theNorth = new Region("The North", Region.O_NORTE);
+        Region theSouth = new Region("The South", Region.O_SUL);
+        Region tridente = new Region("Tridente", Region.TRIDENTE);
+        Region beyondTheWall = new Region("Beyond the Wall", Region.ALEM_DA_MURALHA);
+        Region theEast = new Region("The East", Region.CIDADES_LIVRES);
+        Region dothraki = new Region("Dothraki", Region.O_MAR_DOTHRAKI);
+        Region nulo = new Region(null, 0);
         
         ArrayList<Region> allRegions = new ArrayList<Region>();
         allRegions.add(theNorth);
@@ -288,8 +288,8 @@ public class MissionTest {
     
     @Test
     public void isRegionTerritoryCompletedDeveRetornarTrueCasoAMissaoDeTerritorioEstiverCompleta() {
-        Region theNorth = new Region("The North");
-        Region theSouth = new Region("The South");        
+        Region theNorth = new Region("The North", Region.O_NORTE);
+        Region theSouth = new Region("The South", Region.O_SUL);        
         
         Territory winterfell = new Territory(null, theNorth);
         Territory portoBranco = new Territory(null, theNorth);
@@ -326,8 +326,8 @@ public class MissionTest {
     
     @Test
     public void isRegionTerritoryCompletedDeveRetornarTrueCasoAMissaoDeTerritorioCom18ExercitosEstiverCompleta() {
-        Region theNorth = new Region("The North");
-        Region theSouth = new Region("The South");        
+        Region theNorth = new Region("The North", Region.O_NORTE);
+        Region theSouth = new Region("The South", Region.O_SUL);
         
         Territory winterfell = new Territory(null, theNorth);
         Territory portoBranco = new Territory(null, theNorth);
@@ -401,8 +401,8 @@ public class MissionTest {
     
     @Test
     public void isRegionTerritoryCompletedDeveRetornarFalseCasoAMissaoDeTerritorioCom18ExercitosNaoEstiverCompleta() {
-        Region theNorth = new Region("The North");
-        Region theSouth = new Region("The South");        
+        Region theNorth = new Region("The North", Region.O_NORTE);
+        Region theSouth = new Region("The South", Region.O_SUL);       
         
         Territory winterfell = new Territory(null, theNorth);
         Territory portoBranco = new Territory(null, theNorth);
@@ -477,9 +477,9 @@ public class MissionTest {
     @Test
     public void isRegionHouseCompletedDeveRetornarTrueCasoAMissaoDeCasaEstiverCompleta() {   
         Board board = new Board();
-        Region theNorth = new Region("The North");
-        Region theSouth = new Region("The South");        
-        
+        Region theNorth = new Region("The North", Region.O_NORTE);
+        Region theSouth = new Region("The South", Region.O_SUL);
+                        
         Territory winterfell = new Territory(null, theNorth);
         Territory portoBranco = new Territory(null, theNorth);
         Territory bosqueProfundo = new Territory(null, theNorth);
@@ -520,8 +520,8 @@ public class MissionTest {
     @Test
     public void isRegionHouseCompletedDeveRetornarFalseCasoAMissaoDeCasaNaoEstiverCompleta() {   
         Board board = new Board();
-        Region theNorth = new Region("The North");
-        Region theSouth = new Region("The South");        
+        Region theNorth = new Region("The North", Region.O_NORTE);
+        Region theSouth = new Region("The South", Region.O_SUL);       
         
         Territory winterfell = new Territory(null, theNorth);
         Territory portoBranco = new Territory(null, theNorth);
