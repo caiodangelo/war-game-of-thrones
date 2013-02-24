@@ -10,14 +10,14 @@ import util.Component;
 public class DiceMovementsComponent extends Component {
 
     private static final float TIME_TO_START = 1;
-    private static final float TIME_TO_REMOVE_DICES = 2;
+    private static final int SHAKING_AMPLITUDE = 3;
+    
     private double trajetory;
     private Vector2f originalPosition;
     private Vector2f destination;
     private boolean movingDown;
     private boolean winner;
     private float timer;
-    private float removeDicesTimer;
 
     public DiceMovementsComponent(String id, Vector2f pos, Vector2f dest, boolean w) {
         originalPosition = pos;
@@ -58,14 +58,11 @@ public class DiceMovementsComponent extends Component {
                         dm.removeDices();
                         guiControl.setInfoLabelText(null);
                     }
-                    //removeDicesTimer += delta;
                 }
             }
         }
         else
             timer += delta;
-//        if (removeDicesTimer >= TIME_TO_REMOVE_DICES)
-//            dm.removeDices();
     }
     
     private void parametricTrajetory(int multiplier) {
@@ -87,7 +84,7 @@ public class DiceMovementsComponent extends Component {
     private void shake() {
         float x = owner.getPosition().x;
         float y = owner.getPosition().y;
-        owner.setPosition(new Vector2f((float) (x + 3 * Math.cos(trajetory)), (float) (y + 3 * Math.sin(trajetory))));
-        trajetory += 1.5;
+        owner.setPosition(new Vector2f((float) (x + SHAKING_AMPLITUDE * Math.cos(trajetory)), (float) (y + SHAKING_AMPLITUDE * Math.sin(trajetory))));
+        trajetory += 0.5;
     }
 }

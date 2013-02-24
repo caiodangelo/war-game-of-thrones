@@ -55,26 +55,26 @@ public class DiceManager {
             while (!tempAtkDices.isEmpty() && !tempDefDices.isEmpty()) {
                 atkDiceToMove = getHigherResultDice(tempAtkDices);
                 defDiceToMove = getHigherResultDice(tempDefDices);
-                if (atkDiceToMove != null && defDiceToMove != null) {
-                    if (atkDiceToMove.getResult() > defDiceToMove.getResult())
-                        atkIsWinner = true;
-                    else
-                        atkIsWinner = false;
-                    tempAtkDices.remove(atkDiceToMove);
-                    atkDiceToMove.addComponent(new DiceMovementsComponent("dice-movements", atkDiceToMove.getPosition(), ATK_POSITIONS[pos], atkIsWinner));
-                    tempDefDices.remove(defDiceToMove);
-                    defDiceToMove.addComponent(new DiceMovementsComponent("dice-movements", defDiceToMove.getPosition(), DEF_POSITIONS[pos], !atkIsWinner));
-                }
-                else {
-                    if (atkDiceToMove != null) {
-                        tempAtkDices.remove(atkDiceToMove);
-                        atkDiceToMove.addComponent(new DiceMovementsComponent("dice-movements", atkDiceToMove.getPosition(), ATK_POSITIONS[pos], false));
-                    }
-                    else {
-                        tempDefDices.remove(defDiceToMove);
-                        defDiceToMove.addComponent(new DiceMovementsComponent("dice-movements", defDiceToMove.getPosition(), DEF_POSITIONS[pos], false));
-                    }
-                }
+                if (atkDiceToMove.getResult() > defDiceToMove.getResult())
+                    atkIsWinner = true;
+                else
+                    atkIsWinner = false;
+                tempAtkDices.remove(atkDiceToMove);
+                atkDiceToMove.addComponent(new DiceMovementsComponent("dice-movements", atkDiceToMove.getPosition(), ATK_POSITIONS[pos], atkIsWinner));
+                tempDefDices.remove(defDiceToMove);
+                defDiceToMove.addComponent(new DiceMovementsComponent("dice-movements", defDiceToMove.getPosition(), DEF_POSITIONS[pos], !atkIsWinner));
+                pos++;
+            }
+            while (!tempAtkDices.isEmpty()) {
+                atkDiceToMove = getHigherResultDice(tempAtkDices);
+                tempAtkDices.remove(atkDiceToMove);
+                atkDiceToMove.addComponent(new DiceMovementsComponent("dice-movements", atkDiceToMove.getPosition(), ATK_POSITIONS[pos], atkIsWinner));
+                pos++;
+            }
+            while (!tempDefDices.isEmpty()) {
+                defDiceToMove = getHigherResultDice(tempDefDices);
+                tempDefDices.remove(defDiceToMove);
+                defDiceToMove.addComponent(new DiceMovementsComponent("dice-movements", defDiceToMove.getPosition(), DEF_POSITIONS[pos], !atkIsWinner));
                 pos++;
             }
         }
