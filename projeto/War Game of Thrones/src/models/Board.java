@@ -217,7 +217,6 @@ public class Board implements Serializable {
         int oldPlayer = this.currentPlayer;
         
         int playersCount = this.getPlayers().size();
-        System.out.println("oldPlayer is " + oldPlayer + " and playerCount is " + playersCount);
         if (oldPlayer == this.getPlayers().size() - 1) {
             currentPlayer = 0;
             isOnInitialSetup = false;

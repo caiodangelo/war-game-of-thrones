@@ -2,23 +2,17 @@ package gui;
 
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyMethodInvoker;
-import de.lessvoid.nifty.controls.Controller;
 import de.lessvoid.nifty.controls.DropDown;
 import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.controls.Menu;
 import de.lessvoid.nifty.controls.MenuItemActivatedEvent;
-import de.lessvoid.nifty.controls.menu.PopupMenuControl;
 import de.lessvoid.nifty.elements.Element;
-import de.lessvoid.nifty.input.NiftyInputEvent;
 import de.lessvoid.nifty.screen.Screen;
-import de.lessvoid.nifty.tools.Color;
 import de.lessvoid.nifty.tools.SizeValue;
-import de.lessvoid.xml.xpp3.Attributes;
-import java.util.Properties;
 import main.ArmyRenderComponent;
 import main.DiceManager;
-import main.Map;
 import main.Territory;
+import models.Player;
 import util.PopupManager;
 
 public class ContextMenuController {
@@ -91,15 +85,20 @@ public class ContextMenuController {
         atkDropDown.clear();
         defDropDown.clear();
         
-        //set player names colors
+        //set player names and colors
         Label atkPlayerName = attackPopup.findNiftyControl("atkPlayerName", Label.class);
-        Label defPlayerName = attackPopup.findNiftyControl("atkPlayerName", Label.class);
-        //MUST GET THE REAL COLORS!!!
-        atkPlayerName.setColor(new Color("#465DC0"));
-        defPlayerName.setColor(new Color("#41BA47"));
+        Label defPlayerName = attackPopup.findNiftyControl("defPlayerName", Label.class);
+        models.Territory backAtkTer = originTerritory.getBackEndTerritory(), 
+                backDefTer = destTerritory.getBackEndTerritory();
+        Player attacker = backAtkTer.getOwner();
+        Player defender = backDefTer.getOwner();
+        atkPlayerName.setColor(attacker.getHouse().getColor());
+        atkPlayerName.setText(attacker.getName());
+        defPlayerName.setColor(defender.getHouse().getColor());
+        defPlayerName.setText(defender.getName());
         
-        int maxAtkUnits = 3;//retrieve the number of availabel armies (max 3)
-        int maxDefUnits = 3;
+        int maxAtkUnits = Math.min(3, backAtkTer.getNumArmies());
+        int maxDefUnits = Math.min(3, backDefTer.getNumArmies());
         for(int i = 1; i <= maxAtkUnits; i++)
             atkDropDown.addItem(i);
         for(int i = 1; i <= maxDefUnits; i++)
