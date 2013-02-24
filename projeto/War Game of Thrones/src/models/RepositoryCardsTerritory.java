@@ -114,15 +114,17 @@ public class RepositoryCardsTerritory {
 
     public boolean isSameCards(List<CardTerritory> cards) {
         int typeCard = 0;
-        for (int i = 0; i < cards.size(); i++) {
-            typeCard = cards.get(i).getType();
+        List<CardTerritory> aux = cards;
+        for (int i = 0; i < aux.size(); i++) {
+            typeCard = aux.get(i).getType();
             if (typeCard != CardTerritory.JOKER) {
+                aux.remove(i);
                 break;
             }
         }
 
-        for (CardTerritory card : cards) {
-            if ((card.getType() != typeCard) || (card.getType() != CardTerritory.JOKER)) {
+        for (CardTerritory card : aux) {
+            if ((card.getType() != typeCard) && (card.getType() != CardTerritory.JOKER)) {
                 return false;
             }
         }
@@ -131,15 +133,17 @@ public class RepositoryCardsTerritory {
 
     public boolean isDifferentCards(List<CardTerritory> cards) {
         int typeCard = 0;
-        for (int i = 0; i < cards.size(); i++) {
-            typeCard = cards.get(i).getType();
+        List<CardTerritory> aux = cards;
+        for (int i = 0; i < aux.size(); i++) {
+            typeCard = aux.get(i).getType();
             if (typeCard != CardTerritory.JOKER) {
+                aux.remove(i);
                 break;
             }
         }
-
-        for (CardTerritory card : cards) {
-            if ((card.getType() == typeCard) || (card.getType() != CardTerritory.JOKER)) {
+     
+        for (CardTerritory card : aux) {
+            if ((card.getType() == typeCard) && (card.getType() != CardTerritory.JOKER)) {
                 return false;
             }
             typeCard = card.getType();
