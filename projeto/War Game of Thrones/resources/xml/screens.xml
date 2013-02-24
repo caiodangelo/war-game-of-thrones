@@ -174,7 +174,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 						</panel>
 						<panel childLayout="vertical" width="100%" height="97%" padding="0px,20px,0px,0px">
 							<interact onMouseOver="mouseMovedOverBottomPanel()"/>
-							<image id="tablesIcon" align="right" valign="top" filename="resources/images/icons/tables.png" width="55px" height="49px">
+							<image id="tablesIcon" align="right" valign="top" filename="resources/images/icons/tables.png" width="64px" height="64px">
 								<interact onClick="showTables()"/>
 							</image>
 						</panel>

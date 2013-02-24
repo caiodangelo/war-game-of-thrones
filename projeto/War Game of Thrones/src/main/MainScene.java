@@ -50,6 +50,8 @@ public class MainScene extends Scene{
         } catch (SlickException ex) {
             Logger.getLogger(MainScene.class.getName()).log(Level.SEVERE, null, ex);
         }
+//        n.gotoScreen("empty");
+        super.setupNifty(n);
     }
     
     public static void showButtons() {
