@@ -3,6 +3,7 @@ package main;
 import util.MapAreaRenderer;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.tools.Color;
+import gui.InGameGUIController;
 import java.util.ArrayList;
 import java.util.Date;
 import models.Board;
@@ -44,7 +45,7 @@ public class GameScene extends Scene{
         
         turnMsg = new PlayerTurnMessage();
         addEntity(turnMsg);
-        
+        InGameGUIController.getInstance().showInfoTerritories();
         showPlayerTurnMsg();
 //        Board b = Board.getInstance();
 //        turnMsg.activate(b.getPlayer(0).getName());
@@ -52,7 +53,7 @@ public class GameScene extends Scene{
     
     public void showPlayerTurnMsg(){
         Board b = Board.getInstance();
-        Player p = b.getPlayer(0);
+        Player p = b.getCurrentPlayer();
         String playerName = p.getName();
         Color c = p.getHouse().getColor();
         

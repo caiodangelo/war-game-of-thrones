@@ -246,6 +246,7 @@ public class AddPlayerController implements ScreenController{
 
                     b.addPlayer(p, i, type);
                 }
+                b.distributeInitialTerritories();
                 Main.getInstance().enterState(main.WarScenes.GAME_SCENE);
             }
         }catch(Exception e){
