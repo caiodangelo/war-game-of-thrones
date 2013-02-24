@@ -166,7 +166,7 @@ public class BoardTest {
         playerLannister.addCard(cardRochedoCasterly);
         playerLannister.addCard(cardHarrenhal);
         
-        board.distributeInitialTerritory();
+        board.distributeInitialTerritories();
 
         for (Player player : board.getPlayers()) {
             for (int i = 0; i < player.getCards().size(); i++) {

@@ -91,4 +91,12 @@ public class Region implements Serializable {
     public double getRating() {
         return (15.0 + (bonus - 4.0) * getBorderTerritories().size()) / (getTerritories().size() * 1.0);
     }
+    
+    public boolean conqueredByPlayer(Player p){
+        for(Territory playerTerr : territories){
+            if(!playerTerr.getOwner().equals(p))
+                return false;
+        }
+        return true;
+    }
 }

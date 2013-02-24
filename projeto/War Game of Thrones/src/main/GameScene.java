@@ -20,6 +20,8 @@ public class GameScene extends Scene{
     
     private static int mouseWheel;
     private PlayerTurnMessage turnMsg;
+    private Board b;
+    private InGameGUIController ctrl;
     
     public static int getMouseWheel(){
         return mouseWheel;
@@ -47,8 +49,9 @@ public class GameScene extends Scene{
         addEntity(turnMsg);
         InGameGUIController.getInstance().showInfoTerritories();
         showPlayerTurnMsg();
-//        Board b = Board.getInstance();
+        b = Board.getInstance();
 //        turnMsg.activate(b.getPlayer(0).getName());
+        ctrl = InGameGUIController.getInstance();
     }
     
     public void showPlayerTurnMsg(){
@@ -75,6 +78,26 @@ public class GameScene extends Scene{
     @Override
     public int getID() {
         return WarScenes.GAME_SCENE.ordinal();
+    }
+
+    void handleTerritoryClick(Territory territory) {
+        if(!b.isOnInitialSetup())
+            InGameGUIController.handleTerritoryClick(territory);
+        else{
+            Player curr = b.getCurrentPlayer();
+            int pendingArmies = curr.getPendingArmies();
+            if(territory.getBackEndTerritory().getOwner() == curr){
+                models.Territory t = territory.getBackEndTerritory();
+                t.setNumArmies(t.getNumArmies() + 1);
+                curr.removePendingArmies(1);
+                pendingArmies--;
+            } 
+            if(pendingArmies == 0){
+                b.changePlayer();
+                if(b.isOnInitialSetup())
+                    ctrl.showInfoTerritories();
+            }
+        }
     }
     
 }

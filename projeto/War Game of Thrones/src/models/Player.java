@@ -116,6 +116,10 @@ public abstract class Player implements Serializable {
         territories.add(territory);
         territory.setOwner(this);
     }
+    
+    public void addArmiesInTerritory (Territory territory) {
+        territory.increaseArmies(pendingArmies);
+    }
 
     public void addCard(CardTerritory card) {
         cards.add(card);
