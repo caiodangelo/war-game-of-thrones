@@ -14,6 +14,12 @@ public class Board {
 
     public static final int AI_PLAYER = 1;
     public static final int HUMAN_PLAYER = 2;
+    public static final String LANNISTER = "Lannister";
+    public static final String STARK = "Stark";
+    public static final String GREYJOY = "Greyjoy";
+    public static final String FREE_FOLK = "Free Folk";
+    public static final String BARATHEON = "Baratheon";
+    public static final String TARGARYEN = "Targaryen";
     
     protected LinkedList<Player> players;
     protected static Board instance;
@@ -23,6 +29,7 @@ public class Board {
     
     private Region [] regions;
     private Territory [] territories;
+    private ArrayList<House> houses;
     private boolean isOnInitialSetup;
 
     protected Board() {
@@ -32,6 +39,7 @@ public class Board {
         numberOfSwaps = 0;
         statistic = new StatisticGameManager();
         isOnInitialSetup = true;
+        houses = new ArrayList<House>();
         
         if(regions == null)
             retrieveTerritories();
@@ -132,6 +140,10 @@ public class Board {
 
     public boolean removePlayer(Player player) {
         return players.remove(player);
+    }
+    
+    public void addHouse(House house) {
+        houses.add(house);
     }
 
     public Player getPlayer(int playingOrder) {

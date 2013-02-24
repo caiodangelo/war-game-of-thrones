@@ -149,7 +149,7 @@ public class InGameGUIController implements ScreenController{
             StatusPanelControl spc = statusPanels[i];
             Player current = players[i];
             spc.updateData(current.getName(), current.numCards(), current.numArmies(), current.numTerritories());
-            spc.setNameColor(playerNameColors[i]);
+            spc.setNameColor(players[i].getHouse().getColor());
         }
         updateCurrentPlayersData();
     }
