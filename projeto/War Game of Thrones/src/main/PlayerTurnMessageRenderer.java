@@ -27,19 +27,32 @@ public class PlayerTurnMessageRenderer extends RenderComponent{
         pos = new Vector2f(mapPos.x, mapPos.y + mapSize.y/2);
     }
     
+    private boolean fadingIn() {
+        return getPcgt() < 0.5f;
+    }
+    
+    private float getPcgt(){
+        return elapsed / DURATION;
+    }
+    
     @Override
     public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
         if(playerName != null){
+            float pctg = getPcgt();
+            if(fadingIn())
+                c.a = pctg / 0.5f;
+            else
+                c.a = 1 - (pctg - 0.5f) / 0.5f;
             gr.setColor(c);
-            AngelCodeFont fnt;
+            AngelCodeFont fnt = null;
             try {
-                fnt = new AngelCodeFont("resources/fonts/Calibri_bold.fnt", "calibri_bold_0.tga");
+                fnt = new AngelCodeFont("resources/fonts/calibri_80.fnt", "resources/fonts/calibri_80_0.tga");
                 gr.setFont(fnt);
             } catch (SlickException ex) {
                 Logger.getLogger(PlayerTurnMessageRenderer.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            gr.drawString("Vez de " + playerName + "!", pos.x + mapSize.x/2f - 100, pos.y);
+            String text = "Vez de " + playerName + "!";
+            gr.drawString(text, pos.x + (mapSize.x - fnt.getWidth(text))/2.0f, pos.y);
         }
     }
 
