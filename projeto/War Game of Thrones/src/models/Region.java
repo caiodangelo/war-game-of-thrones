@@ -51,17 +51,46 @@ public class Region implements Serializable {
     public List<Territory> getTerritories() {
         return territories;
     }
+
+    /**
+     * Retorna os territórios desta região que fazem fronteiras com outras regiões
+     */
+    public List<Territory> getBorderTerritories() {
+        List<Territory> borders = new ArrayList<Territory>();
+        for (Territory territory : territories) {
+            List<Territory> neighbours = territory.getNeighbours();
+            for (Territory neighbour : neighbours) {
+                if (neighbour.getRegion() != this && !borders.contains(neighbour)) {
+                    borders.add(territory);
+                }
+            }
+        }
+        return borders;
+    }
+
+    /**
+     * Retorna o jogador que possui todos os territórios deste continente, ou nulo se mais
+     * de um jogador possuir territórios neste continente.
+     */
+    public Player getOwner() {
+        Player owner = null;
+        for (Territory territory : territories) {
+            if (owner != null && owner != territory.getOwner()) {
+                return null;
+            }
+            owner = territory.getOwner();
+        }
+        return owner;
+    }
     
     @Override
     public String toString(){
         return "Region " + name;
     }
 
-
-    public static double getRating() {
-        return 0;
+    public double getRating() {
+        return (15.0 + (bonus - 4.0) * getBorderTerritories().size()) / (getTerritories().size() * 1.0);
     }
-
     
     public boolean conqueredByPlayer(Player p){
         for(Territory playerTerr : territories){

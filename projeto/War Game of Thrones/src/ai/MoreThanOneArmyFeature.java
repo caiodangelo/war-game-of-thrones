@@ -7,6 +7,7 @@ package ai;
 
 import models.Board;
 import models.Player;
+import models.Territory;
 
 /**
  *
@@ -22,7 +23,13 @@ public class MoreThanOneArmyFeature extends Feature {
 
     @Override
     public double calculate() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        double fortifiedTerritories = 0.0;
+        for (Territory territory : player.getTerritories()) {
+            if (territory.getSurplusArmies() > 0) {
+                fortifiedTerritories++;
+            }
+        }
+        return fortifiedTerritories / (player.getTerritories().size() * 1.0);
     }
 
 }

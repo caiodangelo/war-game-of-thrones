@@ -50,7 +50,7 @@ public abstract class Evaluator {
      * para gerar uma "nota" para esse tabuleiro gerado. Essa nota será utilizada depois
      * para decidir qual ação será tomada pela IA.
      */
-    public double evaluate(Board gameState) {
+    public double evaluate() {
         double grade = 0;
         double importanceSum = 0;
         for (Feature feature : features) {

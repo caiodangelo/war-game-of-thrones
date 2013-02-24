@@ -27,4 +27,11 @@ public class BattleComputer {
         int numDefenders = Math.min(3, defender.getNumArmies());
         return attackProbabilities[numAttackers - 1][numDefenders - 1];
     }
+
+    public static double calculateThreatToTerritory(Territory attacker, Territory defender) {
+        int attackers = attacker.getNumArmies() - 1;
+        int defenders = defender.getNumArmies();
+        int maxArmies = Math.max(attackers, defenders);
+        return Math.max(0.0, Math.min(10.0, 0.500 + (Math.pow((attackers - defenders) / maxArmies, 3) - (0.05 + ((attackers + defenders) / 2) / 100))));
+    }
 }
