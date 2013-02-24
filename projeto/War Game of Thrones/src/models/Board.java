@@ -25,6 +25,7 @@ public class Board implements Serializable {
     
     private Region [] regions;
     private Territory [] territories;
+    private boolean isOnInitialSetup;
 
     protected Board() {
         instance = this;
@@ -32,6 +33,7 @@ public class Board implements Serializable {
         currentPlayer = 0;
         numberOfSwaps = 0;
         statistic = new StatisticGameManager();
+        isOnInitialSetup = true;
         
         if(regions == null)
             retrieveTerritories();
@@ -41,8 +43,9 @@ public class Board implements Serializable {
         System.out.println("Filling board territories");
         regions = new Region[6];
         String [] regionNames = {"Além da Muralha", "Cidades Livres", "O Norte", "Sul", "Tridente", "O Mar Dothraki"};
+        int [] bonus = {Region.ALEM_DA_MURALHA, Region.CIDADES_LIVRES, Region.O_NORTE, Region.O_SUL, Region.O_MAR_DOTHRAKI};
         for(int i = 0; i < regionNames.length; i++)
-            regions[i] = new Region(regionNames[i]);
+            regions[i] = new Region(regionNames[i], bonus[i]);
         
         //alem da muralha
         Region current = regions[0];
@@ -141,6 +144,14 @@ public class Board implements Serializable {
     public Player getPlayer(int playingOrder) {
         return players.get(playingOrder);
     }
+    
+    public int getPlayerOrder(Player p) {
+        return players.indexOf(p);
+    }
+
+    public Player getCurrentPlayer() {
+        return players.get(currentPlayer);
+    }
 
     public LinkedList<Player> getPlayers() {
         return players;
@@ -164,6 +175,10 @@ public class Board implements Serializable {
 
     public boolean isPlayerCountValid() {
         return (players.size() >= 2 && players.size() <= 6);
+    }
+    
+    public boolean isOnInitialSetup() {
+        return isOnInitialSetup;
     }
 
     public List<House> getAbsentHouses(LinkedList<House> allHouses) {
@@ -195,31 +210,32 @@ public class Board implements Serializable {
         else {
             i++;
         }
-        return this.getPlayer(i);
+        return players.get(i);
     }
     
-    public int changePlayer () {
-        int newPlayer;
+    public void changePlayer() {
         int oldPlayer = this.currentPlayer;
         if (oldPlayer == this.getPlayers().size()) {
             currentPlayer = 0;
-            newPlayer = 0;
-        } else {
-            currentPlayer++;
-            newPlayer = oldPlayer + 1;
+            isOnInitialSetup = false;
         }
-        return newPlayer;
+        else 
+            currentPlayer++;
     }
 
     public StatisticGameManager getStatistic() {
         return statistic;
     }
     
-    public void distributeInitialTerritory() {
+    public void distributeInitialTerritories() {
+        RepositoryCardsTerritory.getInstance().initialRaffle();
+        int cardsCount = 0;
         for (Player player : players) {
             for (CardTerritory card : player.getCards()) {
-                player.addTerritory(card.getTerritory());                
+                player.addTerritory(card.getTerritory());   
+                
             }
+            player.getCards().clear();
         }
     }
     

@@ -144,7 +144,7 @@ public class Mission implements Serializable {
 
     public boolean isRegionMissionCompleted(ArrayList<Region> allRegions) {
         boolean answer = false;
-        Region aux = new Region("");
+        Region aux = new Region("", 0);
         List<Region> conqueredRegions = new ArrayList<Region>(); //Regioes que foram conquistadas pelo jogador      
         List<Territory> territoriesPlayer = player.getTerritories();
 

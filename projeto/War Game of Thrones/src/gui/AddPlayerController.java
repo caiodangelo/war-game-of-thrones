@@ -14,6 +14,7 @@ import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.render.NiftyImage;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import de.lessvoid.nifty.tools.Color;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
@@ -80,12 +81,12 @@ public class AddPlayerController implements ScreenController{
         playButton.disable();
         for(int i = 1; i < playerIcons.length; i++)
             playerIcons[i].hide();
-        HouseData houses[] = {  new HouseData("Stark", "resources/images/house_logos/stark.png", "Lobo", House.COLOR_STARK),
-                                new HouseData("Targaryen", "resources/images/house_logos/targaryen.png", "Dragão", House.COLOR_TARGARYEN),  
-                                new HouseData("Greyjoy", "resources/images/house_logos/greyjoy.png", "Lula", House.COLOR_GREYJOY),  
-                                new HouseData("Baratheon", "resources/images/house_logos/baratheon.png", "Veado", House.COLOR_BARATHEON),  
-                                new HouseData("Free Folk", "resources/images/house_logos/free_folk.png", "Urso polar", House.COLOR_FREE_FOLK),  
-                                new HouseData("Lannister", "resources/images/house_logos/Lannister.png", "Leão", House.COLOR_LANNISTER)
+        HouseData houses[] = {  new HouseData("Stark", "resources/images/house_logos/stark.png", "Lobo"),
+                                new HouseData("Targaryen", "resources/images/house_logos/targaryen.png", "Dragão"),  
+                                new HouseData("Greyjoy", "resources/images/house_logos/greyjoy.png", "Lula"),  
+                                new HouseData("Baratheon", "resources/images/house_logos/baratheon.png", "Veado"),  
+                                new HouseData("Free Folk", "resources/images/house_logos/free_folk.png", "Urso polar"),  
+                                new HouseData("Lannister", "resources/images/house_logos/Lannister.png", "Leão")
         };
         createdPlayers = new ArrayList<PlayerData>();
         availableHouses = new ArrayList<HouseData>();
@@ -216,8 +217,8 @@ public class AddPlayerController implements ScreenController{
         }
     }
     
-    private House createBackEndHouse(HouseData d){
-        return new House(d.name, d.color, d.symbol);
+    private House createBackEndHouse(HouseData d, Color c){
+        return new House(d.name, c, d.symbol);
     }
     
     private Player createBackEndPlayer(PlayerData pd, House h){
@@ -239,12 +240,13 @@ public class AddPlayerController implements ScreenController{
                     int randomPos = (int)(Math.random()*createdPlayers.size());
                     PlayerData playerData = createdPlayers.remove(randomPos);
                     b.isPlayerCountValid();
-                    House h = createBackEndHouse(playerData.house);
+                    House h = createBackEndHouse(playerData.house, InGameGUIController.playerNameColors[i]);
                     Player p = createBackEndPlayer(playerData, h);
                     int type = playerData.isHuman ? Board.HUMAN_PLAYER : Board.AI_PLAYER;
 
                     b.addPlayer(p, i, type);
                 }
+                b.distributeInitialTerritories();
                 Main.getInstance().enterState(main.WarScenes.GAME_SCENE);
             }
         }catch(Exception e){
@@ -288,13 +290,11 @@ public class AddPlayerController implements ScreenController{
         String name;
         String imgPath;
         String symbol;
-        int color;
         
-        private HouseData(String houseName, String imageFile, String symbol, int color){
+        private HouseData(String houseName, String imageFile, String symbol){
             name = houseName;
             imgPath = imageFile;
             this.symbol = symbol;
-            this.color = color;
         }
         
         public NiftyImage createImage(Nifty n){

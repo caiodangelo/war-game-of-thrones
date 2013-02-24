@@ -26,7 +26,6 @@ public class ArmyRenderComponent extends ImageRenderComponent {
     private float xSpeed = 0;
     private float ySpeed = 0;
     private Vector2f movingPos;
-    private boolean attackOnHold;
     private boolean exploding;
     private Animation explosion;
     

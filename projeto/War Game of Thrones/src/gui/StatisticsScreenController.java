@@ -4,10 +4,12 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.controls.DropDown;
 import de.lessvoid.nifty.controls.DropDownSelectionChangedEvent;
+import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import java.util.ArrayList;
 import java.util.HashMap;
+import models.StatisticGameManager;
 
 public class StatisticsScreenController implements ScreenController {
     
@@ -39,8 +41,23 @@ public class StatisticsScreenController implements ScreenController {
         optionsDropdown.addAllItems(items);
     }
     
+    public void setGeneralStatistics() {
+        StatisticGameManager generalStatistics = StatisticGameManager.getInstance();
+        generalStatistics.getPlayTime();
+        s.findNiftyControl("tempo-duracao-jogo", Label.class).setText(generalStatistics.getPlayTime());
+        s.findNiftyControl("maior-numero-ataques", Label.class).setText(generalStatistics.getPlayTime());
+        s.findNiftyControl("maior-numero-defesas", Label.class).setText(generalStatistics.getPlayTime());
+        s.findNiftyControl("maior-sucesso-ataques", Label.class).setText(generalStatistics.getPlayTime());
+        s.findNiftyControl("maior-sucesso-defesas", Label.class).setText(generalStatistics.getPlayTime());
+        s.findNiftyControl("territorio-mais-atacado", Label.class).setText(generalStatistics.getPlayTime());
+        s.findNiftyControl("territorio-mais-conquistado", Label.class).setText(generalStatistics.getPlayTime());
+    }
+    
     @Override
-    public void onStartScreen() {    }
+    public void onStartScreen() {
+        s.findNiftyControl("tempo-duracao-jogo", Label.class).setText("AAAAAAAAAA");
+        setGeneralStatistics();
+    }
 
     @Override
     public void onEndScreen() {    }

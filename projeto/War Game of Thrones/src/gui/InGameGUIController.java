@@ -12,8 +12,11 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.Color;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import main.AudioManager;
+import main.GameScene;
 import main.Territory;
 import main.WarScenes;
 import models.Board;
@@ -26,40 +29,37 @@ import util.PopupManager;
 public class InGameGUIController implements ScreenController{
 
     private StatusPanelControl [] statusPanels;
-    private Label playerStatusName, playerStatusCards, playerStatusUnits, playerStatusTerritories;
+    private Label playerStatusName, playerStatusCards, playerStatusUnits, playerStatusTerritories, infoTerritories;
     private Screen s;
     private Nifty n;
+    Board b;
     public static Player [] players;
-    private static Color [] playerNameColors;
-    private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel, 
-            optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon;
-    private boolean mouseOverObjective = false;
-    
-    private ContextMenuController ctxMenuCtrl;
-    private static InGameGUIController instance;
-    
-    public InGameGUIController(){
-        //DEBUG ONLY
-        if(players == null){
-            playerNameColors = new Color[]{
+    protected static final Color [] playerNameColors = new Color[]{
                 new Color("#465DC0"),
                 new Color("#41BA47"),
                 new Color("#DB27AE"),
                 new Color("#F4AB0C"),
                 new Color("#04AAF7"),
                 new Color("#9110B5")
-            };
-            
-//            players = new BackEndPlayer[]{
-//                new BEPImpl("Anderson Busto"),
-//                new BEPImpl("Lucas Nadalutti"),
-//                new BEPImpl("Mario Henrique"),
-//                new BEPImpl("Marcelle Guiné"),
-//                new BEPImpl("Mateus Azis"),
-//                new BEPImpl("Rodrigo Castro")
-//            };
+            };;
+    private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel, 
+            optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup;
+    private boolean mouseOverObjective = false;
+    
+    private ContextMenuController ctxMenuCtrl;
+    private static InGameGUIController instance;
+    private HashMap<Integer, String> turnsOrder;
+    private GameScene gameScene;
+    
+    public InGameGUIController(){
+            turnsOrder = new HashMap();
+            turnsOrder.put(0, "primeiro");
+            turnsOrder.put(1, "segundo");
+            turnsOrder.put(2, "terceiro");
+            turnsOrder.put(3, "quarto");
+            turnsOrder.put(4, "quinto");
+            turnsOrder.put(5, "sexto");
             instance = this;
-        }
     }
     
     public static InGameGUIController getInstance() {
@@ -86,6 +86,8 @@ public class InGameGUIController implements ScreenController{
         helpPopup = n.createPopup("helpPopup");
         cardsPopup = n.createPopup("cardsPopup");
         ctxMenuCtrl = new ContextMenuController(n, this);
+        infoTerritoriesPopup = n.createPopup("infoTerritoriesPopup");
+        infoTerritories = infoTerritoriesPopup.findNiftyControl("infoTerritories", Label.class);
 
         infoPanel = screen.findElementByName("infoPanel");
         nextTurnConfirmPopup = n.createPopup("nextTurnConfirmationPopup");
@@ -94,6 +96,8 @@ public class InGameGUIController implements ScreenController{
     
     @Override
     public void onStartScreen() {  
+        gameScene = (GameScene)main.Main.getInstance().getCurrentState();
+        b = Board.getInstance();
         List<Player> playersList = Board.getInstance().getPlayers();
         players = playersList.toArray(new Player[0]);
         
@@ -134,6 +138,10 @@ public class InGameGUIController implements ScreenController{
             else
                 statusPanels[i] = spc;
         }
+    }
+    
+    private void showCurrentPlayerMsg(){
+        gameScene.showPlayerTurnMsg();
     }
     
     private void updatePlayersData(){
@@ -195,7 +203,10 @@ public class InGameGUIController implements ScreenController{
     }
     
     public void nextPlayerTurn() {
-        //back-end move to next player
+        b.changePlayer();
+        showCurrentPlayerMsg();
+        if (b.isOnInitialSetup())
+            showInfoTerritories();
         PopupManager.closePopup(n, nextTurnConfirmPopup);
     }
     
@@ -316,7 +327,32 @@ public class InGameGUIController implements ScreenController{
     public void cancelAttackPopup(){
         ctxMenuCtrl.cancelAttackPopup();
     }
-            
+    
+    public void showInfoTerritories() {
+        String content = "\nAtenção, ";
+        Board b = Board.getInstance();
+        Player currPlayer = b.getCurrentPlayer();
+        String turn = turnsOrder.get(b.getPlayerOrder(currPlayer));
+        content += currPlayer.getName()+"! Os turnos foram sorteados e você é o "+turn+" a jogar!\n\nSeus territórios são:\n";
+        for (models.Territory t : currPlayer.getTerritories()) {
+            content += "\n"+t.getName();
+        }
+        infoTerritories.setText(content);
+        PopupManager.showPopup(n, s, infoTerritoriesPopup);
+    }
+     
+    public void closeInfoTerritoriesPopup(){
+        PopupManager.closePopup(n, infoTerritoriesPopup);
+        Player curr = b.getCurrentPlayer();
+        System.out.println("pending arms for curr player " + curr.getPendingArmies());
+        List<models.Territory> ts = b.getCurrentPlayer().getTerritories();
+        
+//        for(models.Territory t : ts){
+////            t.setNumArmies(numArmies);
+//            
+//            b.getCurrentPlayer().getPendingArmies();
+//        }
+    }
             
     @NiftyEventSubscriber(id = "menuItemid")
     public void MenuItemClicked(final String id, final MenuItemActivatedEvent event) {

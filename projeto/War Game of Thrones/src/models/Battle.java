@@ -2,6 +2,7 @@ package models;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -36,7 +37,7 @@ public class Battle {
     public void attack() {
         //Estatisticas
         defender.increaseNumAttacks();
-        Board.getInstance().getStatistic().setTerritoryMoreAttacked(null);       
+        //Board.getInstance().getStatistic().setTerritoryMoreAttacked(null);       
         
         Player attackerPlayer = this.getAttackerPlayerFromTerritory();
         Player defenderPlayer = this.getDefenderPlayerFromTerritory();
@@ -68,7 +69,7 @@ public class Battle {
                 attackerPlayer.getStatisticPlayerManager().increaseNumberOfAttackWins();
                 attackerPlayer.getStatisticPlayerManager().setSuccessfulAttackPercentage();
                 attackerPlayer.getStatisticPlayerManager().increaseLostArmies();
-                Board.getInstance().getStatistic().setMostWinnerAttacks();
+                //Board.getInstance().getStatistic().setMostWinnerAttacks();
                 //Fim estatisticas
             }
             else {
@@ -77,12 +78,12 @@ public class Battle {
                 defenderPlayer.getStatisticPlayerManager().increaseNumberOfDefenceWins();
                 defenderPlayer.getStatisticPlayerManager().setSuccessfulDefencePercentage();
                 defenderPlayer.getStatisticPlayerManager().increaseLostArmies();
-                Board.getInstance().getStatistic().setMostWinnerDefences();
+                //Board.getInstance().getStatistic().setMostWinnerDefences();
                 //Fim estatisticas
             }
             
-            Board.getInstance().getStatistic().setMoreAttacker();
-            Board.getInstance().getStatistic().setMoreDefender();
+//            Board.getInstance().getStatistic().setMoreAttacker();
+//            Board.getInstance().getStatistic().setMoreDefender();
         }
 }
 
@@ -96,7 +97,7 @@ public class Battle {
                 attacker.getOwner().setMaySwapCards(true);
                 //Estatistica
                 defender.increaseNumConquests();
-                Board.getInstance().getStatistic().setTerritoryMoreConquested(null);
+                //Board.getInstance().getStatistic().setTerritoryMoreConquested(null);
                 //Fim estatistica
             }
             concluded = true;

@@ -21,6 +21,48 @@ public class RepositoryCardsTerritory {
 
     protected RepositoryCardsTerritory() {
         deck = new LinkedList<CardTerritory>();
+            Territory allTerritories[] = Board.getInstance().getTerritories();
+            deck.add(new CardTerritory(CardTerritory.SQUARE,allTerritories[TerritoryID.BARROWLANDS]));
+            deck.add(new CardTerritory(CardTerritory.SQUARE,allTerritories[TerritoryID.COSTA_BRAVOSIANA]));
+            deck.add(new CardTerritory(CardTerritory.SQUARE,allTerritories[TerritoryID.COSTA_LARANJA]));
+            deck.add(new CardTerritory(CardTerritory.SQUARE,allTerritories[TerritoryID.COSTA_PEDREGOSA]));
+            deck.add(new CardTerritory(CardTerritory.SQUARE,allTerritories[TerritoryID.DESERTO_VERMELHO]));
+            deck.add(new CardTerritory(CardTerritory.SQUARE,allTerritories[TerritoryID.DORNE]));
+            deck.add(new CardTerritory(CardTerritory.SQUARE,allTerritories[TerritoryID.FLORESTA_ASSOMBRADA]));
+            deck.add(new CardTerritory(CardTerritory.SQUARE,allTerritories[TerritoryID.ROCHEDO_CASTERLY]));
+            deck.add(new CardTerritory(CardTerritory.SQUARE,allTerritories[TerritoryID.PORTO_REAL]));
+            deck.add(new CardTerritory(CardTerritory.SQUARE,allTerritories[TerritoryID.SKAGOS]));
+            deck.add(new CardTerritory(CardTerritory.SQUARE,allTerritories[TerritoryID.TERRAS_DA_TEMPESTADE]));
+            deck.add(new CardTerritory(CardTerritory.SQUARE,allTerritories[TerritoryID.THE_FLATLANDS]));
+            deck.add(new CardTerritory(CardTerritory.SQUARE,allTerritories[TerritoryID.VALE_DE_ARRYN]));
+            deck.add(new CardTerritory(CardTerritory.CIRCLE,allTerritories[TerritoryID.CAPE_KRAKENTT]));
+            deck.add(new CardTerritory(CardTerritory.CIRCLE,allTerritories[TerritoryID.COLINAS_DE_NORVOS]));
+            deck.add(new CardTerritory(CardTerritory.CIRCLE,allTerritories[TerritoryID.COSTA_GELADA]));
+            deck.add(new CardTerritory(CardTerritory.CIRCLE,allTerritories[TerritoryID.ILHA_DOS_URSOS]));
+            deck.add(new CardTerritory(CardTerritory.CIRCLE,allTerritories[TerritoryID.JARDIM_DE_CIMA]));
+            deck.add(new CardTerritory(CardTerritory.CIRCLE,allTerritories[TerritoryID.MAR_DOTHRAKI]));
+            deck.add(new CardTerritory(CardTerritory.CIRCLE,allTerritories[TerritoryID.MONTE_CHIFRE]));
+            deck.add(new CardTerritory(CardTerritory.CIRCLE,allTerritories[TerritoryID.OROS]));
+            deck.add(new CardTerritory(CardTerritory.CIRCLE,allTerritories[TerritoryID.TARTH]));
+            deck.add(new CardTerritory(CardTerritory.CIRCLE,allTerritories[TerritoryID.TERRAS_FLUVIAIS]));
+            deck.add(new CardTerritory(CardTerritory.CIRCLE,allTerritories[TerritoryID.THE_HILLS]));
+            deck.add(new CardTerritory(CardTerritory.CIRCLE,allTerritories[TerritoryID.VALIRIA]));
+            deck.add(new CardTerritory(CardTerritory.CIRCLE,allTerritories[TerritoryID.WINTERFELL]));
+            deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.ARVORE]));
+            deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.A_DADIVA]));
+            deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.CAMPOS_DOURADOS]));
+            deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.FLORESTA_DE_QOHOR]));
+            deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.FOOTPRINT]));
+            deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.GARGALO]));
+            deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.GHISCAR]));
+            deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.MATA_DE_LOBOS]));
+            deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.MATA_DO_REI]));
+            deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.MONTANHAS_DA_LUA]));
+            deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.SEMPRE_INVERNO]));
+            deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.PENHASCO_SOMBRIO]));
+            deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.TERRAS_DISPUTADAS]));
+            deck.add(new CardTerritory(CardTerritory.JOKER,null));
+            deck.add(new CardTerritory(CardTerritory.JOKER,null));
         repository = new LinkedList<CardTerritory>();
     }
 
@@ -66,7 +108,8 @@ public class RepositoryCardsTerritory {
         return card;
     }
 
-    public void initialRaffle(Board board) {
+    public void initialRaffle() {
+        Board board = Board.getInstance();
         int size = board.getPlayers().size();
         removeJokers();
         shuffleCards();
@@ -100,6 +143,10 @@ public class RepositoryCardsTerritory {
             if ((isSameCards(cardsToSwap)) || (isDifferentCards(cardsToSwap))) {
                 for (CardTerritory card : cardsToSwap) {
                     player.removeCard(card);
+                    for (int i = 0; i < player.getTerritories().size(); i++) {
+                        if (player.getTerritories().get(i).equals(card.getTerritory()))
+                            player.getTerritories().get(i).increaseArmies(2);
+                    }
                     this.addCardToDeck(card);
                 }
                 Board.getInstance().increaseNumberOfSwaps();

@@ -33,8 +33,6 @@ public class MainScene extends Scene{
     public void setupNifty(Nifty n) {
         this.n = n;
         try {
-            TerritoriesGraphStructure tgm = TerritoriesGraphStructure.getInstance();
-            
             Image mapImage = new Image("resources/images/mapa-nomes.png");
             Image logoWarImage = new Image("resources/images/logo-war.png");
             Image logoOfImage = new Image("resources/images/logo-of.png");
@@ -47,6 +45,8 @@ public class MainScene extends Scene{
             anim = new MainSceneAnimation("animation", mapImage, logoWarImage, logoOfImage, logoThronesImage, instructionImage);
             map.addComponent(anim);
             addEntity(map);
+            
+
         } catch (SlickException ex) {
             Logger.getLogger(MainScene.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -2,7 +2,13 @@ package main;
 
 import util.MapAreaRenderer;
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.tools.Color;
+import gui.InGameGUIController;
 import java.util.ArrayList;
+import java.util.Date;
+import models.Board;
+import models.Player;
+import models.StatisticGameManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
@@ -13,6 +19,7 @@ import util.Scene;
 public class GameScene extends Scene{
     
     private static int mouseWheel;
+    private PlayerTurnMessage turnMsg;
     
     public static int getMouseWheel(){
         return mouseWheel;
@@ -26,6 +33,7 @@ public class GameScene extends Scene{
     @Override
     public void enterState(GameContainer container, StateBasedGame game) throws SlickException { 
         super.enterState(container, game);
+        StatisticGameManager.getInstance().setInitTime(new Date());
         Map map = new Map();
         addEntity(map);
         //Left button was pressed to play but this record must be erased.
@@ -34,6 +42,22 @@ public class GameScene extends Scene{
         am.stopMusic(AudioManager.OPENING);
         DiceManager dm = DiceManager.getInstance();
         dm.setGameScene(this);
+        
+        turnMsg = new PlayerTurnMessage();
+        addEntity(turnMsg);
+        InGameGUIController.getInstance().showInfoTerritories();
+        showPlayerTurnMsg();
+//        Board b = Board.getInstance();
+//        turnMsg.activate(b.getPlayer(0).getName());
+    }
+    
+    public void showPlayerTurnMsg(){
+        Board b = Board.getInstance();
+        Player p = b.getCurrentPlayer();
+        String playerName = p.getName();
+        Color c = p.getHouse().getColor();
+        
+        turnMsg.activate(playerName, c);
     }
 
     @Override
