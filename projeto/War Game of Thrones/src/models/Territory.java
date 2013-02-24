@@ -93,7 +93,7 @@ public class Territory implements Serializable {
     /**
      * Pega o número de exércitos - 1
      */
-    protected int getSurplusArmies() {
+    public int getSurplusArmies() {
         return numArmies - 1;
     }
 

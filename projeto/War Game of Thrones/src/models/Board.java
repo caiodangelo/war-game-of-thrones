@@ -276,4 +276,8 @@ public class Board implements Serializable {
         }
         return answer;
     }
+
+    public Region[] getRegions() {
+        return regions;
+    }
 }

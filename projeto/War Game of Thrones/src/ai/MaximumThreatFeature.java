@@ -1,12 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ai;
 
 import models.Board;
 import models.Player;
+import models.Territory;
 
 /**
  *
@@ -22,7 +18,16 @@ public class MaximumThreatFeature extends Feature {
 
     @Override
     public double calculate() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        double maxProbability = 0;
+        for (Territory territory : player.getTerritories()) {
+            if (territory.getSurplusArmies() > 0) {
+                for (Territory neighbour : territory.getNeighbours()) {
+                    if (neighbour.getOwner() != player) {
+                        maxProbability = Math.max(maxProbability, BattleComputer.calculateThreatToTerritory(territory, neighbour));
+                    }
+                }
+            }
+        }
+        return maxProbability;
     }
-
 }
