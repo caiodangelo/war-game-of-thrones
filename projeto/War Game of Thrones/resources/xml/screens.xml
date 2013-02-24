@@ -214,6 +214,10 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 								</control>
 							</panel>
 						</panel>
+						<panel marginLeft="10%" childLayout="horizontal" width="100%">
+							<control align="center" name="label" width="17%" height="100%" font="resources/fonts/calibri_bold.fnt" color="#333333ff" text="Mensagem do Corvo: "/>
+							<control id="informacao-do-jogo" textHAlign="left" name="label" width="83%" height="100%" font="resources/fonts/calibri_18.fnt" color="#333333ff" text="Os objetivos foram sorteados!"/>
+						</panel>
 					</panel>
 				</panel>
 				
@@ -1133,26 +1137,6 @@ Em cada vez de jogar, o participante pode:&#10;
 					<control color="#333333ff" height="20%" width="100%" name="label" text="Dificuldade dos jogadores&#10;não humanos"/>
 					<control id="sliderCPUdifficulty" name="verticalSlider" height="65%" min ="1.0" max="3.0" initial="1.0" stepSize="1.0" buttonStepSize="1.0"/>
 					<control id="CPUdifficultyValue" color="#333333ff" height="10%" width="100%" name="label" text="Fácil"/>
-					<!--<control id="radioCPUdifficulty" name="radioButtonGroup"/>
-					<panel childLayout="horizontal">
-					  <panel childLayout="vertical" backgroundColor="#8001" paddingLeft="7px" paddingRight="7px" paddingTop="4px" paddingBottom="4px" width="105px">
-						<effect>
-						  <onActive name="border" color="#0008" />
-						</effect>
-						<panel childLayout="horizontal">
-						  <control name="label" text="Option 1" width="60px" />
-						  <control name="radioButton" id="option-1" group="radioCPUdifficulty" />
-						</panel>
-						<panel childLayout="horizontal">
-						  <control name="label" text="Option 2" width="60px" />
-						  <control name="radioButton" id="option-2" group="radioCPUdifficulty" />
-						</panel>
-						<panel childLayout="horizontal">
-						  <control name="label" text="Option 3" width="60px" />
-						  <control name="radioButton" id="option-3" group="radioCPUdifficulty" />
-						</panel>
-					  </panel>
-					</panel>-->
 				</panel>
 			</panel>
 			<control align="center" name="button" label="OK" focusable="false">
@@ -1230,6 +1214,20 @@ Em cada vez de jogar, o participante pode:&#10;
 					<interact onClick="dismissFewArmiesPopup()"/>
 				</control>
 			</panel>
+		</panel>
+	</popup>
+	
+	<popup id="infoTerritoriesPopup" childLayout="center">
+		<panel margin="30px" style="nifty-panel-custom" width="50%" height="50%" childLayout="vertical">
+			<control font="resources/fonts/calibri_bold.fnt" color="#333333ff" height="10%" width="100%" textHAlign="left" name="label" text="Turnos sorteados!"/>
+			<control style="nifty-listbox" width="100%" height="80%" name="scrollPanel" horizontal="false">
+				<panel margin="5px" width="100%" height="500%" childLayout="vertical">
+					<control id="infoTerritories" textHAlign="left" textVAlign="top" wrap="true" width="90%" height="100%" name="label" text=""/>
+				</panel>
+			</control>
+			<control align="center" name="button" label="OK" focusable="false">
+				<interact onClick="closeInfoTerritoriesPopup()"/>
+			</control>
 		</panel>
 	</popup>
 </nifty>

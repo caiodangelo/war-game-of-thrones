@@ -1,5 +1,5 @@
 package models;
-
+import de.lessvoid.nifty.tools.Color;
 /**
  *
  * @author rodrigo
@@ -20,29 +20,29 @@ public class House {
      *
      * TODO: Definir isso melhor depois.
      */
-    private int color;
+    private Color color;
     private String symbol;
     private Player player;
 
     public House() {
     }
 
-    public House(String name, int color, String symbol) {
+    public House(String name, Color color, String symbol) {
         this.name = name;
         this.color = color;
         this.symbol = symbol;
     }
 
-    public House(String name, int color, String symbol, Player player) {
+    public House(String name, Color color, String symbol, Player player) {
         this(name, color, symbol);
         this.player = player;
     }
 
-    public int getColor() {
+    public Color getColor() {
         return color;
     }
 
-    public void setColor(int color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 

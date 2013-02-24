@@ -108,7 +108,8 @@ public class RepositoryCardsTerritory {
         return card;
     }
 
-    public void initialRaffle(Board board) {
+    public void initialRaffle() {
+        Board board = Board.getInstance();
         int size = board.getPlayers().size();
         removeJokers();
         shuffleCards();
