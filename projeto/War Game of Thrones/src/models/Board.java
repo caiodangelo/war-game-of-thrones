@@ -23,6 +23,7 @@ public class Board {
     
     private Region [] regions;
     private Territory [] territories;
+    private boolean isOnInitialSetup;
 
     protected Board() {
         instance = this;
@@ -30,6 +31,7 @@ public class Board {
         currentPlayer = 0;
         numberOfSwaps = 0;
         statistic = new StatisticGameManager();
+        isOnInitialSetup = true;
         
         if(regions == null)
             retrieveTerritories();
@@ -167,6 +169,10 @@ public class Board {
     public boolean isPlayerCountValid() {
         return (players.size() >= 2 && players.size() <= 6);
     }
+    
+    public boolean isOnInitialSetup() {
+        return isOnInitialSetup;
+    }
 
     public List<House> getAbsentHouses(LinkedList<House> allHouses) {
         List<House> absentHouses = new ArrayList<House>();
@@ -202,9 +208,11 @@ public class Board {
     
     public void changePlayer() {
         int oldPlayer = this.currentPlayer;
-        if (oldPlayer == this.getPlayers().size())
+        if (oldPlayer == this.getPlayers().size()) {
             currentPlayer = 0;
-        else
+            isOnInitialSetup = false;
+        }
+        else 
             currentPlayer++;
     }
 
@@ -212,11 +220,15 @@ public class Board {
         return statistic;
     }
     
-    public void distributeInitialTerritory() {
+    public void distributeInitialTerritories() {
+        RepositoryCardsTerritory.getInstance().initialRaffle();
+        int cardsCount = 0;
         for (Player player : players) {
             for (CardTerritory card : player.getCards()) {
-                player.addTerritory(card.getTerritory());                
+                player.addTerritory(card.getTerritory());   
+                
             }
+            player.getCards().clear();
         }
     }
     
@@ -256,14 +268,5 @@ public class Board {
             }
         }
         return answer;
-    }
-    
-    public void addTerritoriesToPlayers() {
-        RepositoryCardsTerritory.getInstance().initialRaffle();
-        for (Player p : players) {
-            for (CardTerritory ct : p.getCards()) {
-                p.addTerritory(ct.getTerritory());
-            }
-        }
     }
 }

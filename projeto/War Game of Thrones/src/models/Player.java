@@ -113,6 +113,7 @@ public abstract class Player {
             
     public void addTerritory(Territory territory) {
         territories.add(territory);
+        territory.setOwner(this);
     }
 
     public void addCard(CardTerritory card) {

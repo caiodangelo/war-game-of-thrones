@@ -32,6 +32,7 @@ public class InGameGUIController implements ScreenController{
     private Label playerStatusName, playerStatusCards, playerStatusUnits, playerStatusTerritories, infoTerritories;
     private Screen s;
     private Nifty n;
+    Board b;
     public static Player [] players;
     protected static final Color [] playerNameColors = new Color[]{
                 new Color("#465DC0"),
@@ -96,7 +97,7 @@ public class InGameGUIController implements ScreenController{
     @Override
     public void onStartScreen() {  
         gameScene = (GameScene)main.Main.getInstance().getCurrentState();
-        
+        b = Board.getInstance();
         List<Player> playersList = Board.getInstance().getPlayers();
         players = playersList.toArray(new Player[0]);
         
@@ -118,7 +119,6 @@ public class InGameGUIController implements ScreenController{
         optionsPopup.findNiftyControl("sliderCPUdifficulty", Slider.class).disable();
         musicSlider.setValue(1 - AudioManager.getInstance().getMusicVolume());
         soundSlider.setValue(1 - AudioManager.getInstance().getSoundVolume());
-        showInfoTerritories();
     }
     
     @Override
@@ -203,7 +203,10 @@ public class InGameGUIController implements ScreenController{
     }
     
     public void nextPlayerTurn() {
-        //back-end move to next player
+        b.changePlayer();
+        showCurrentPlayerMsg();
+        if (b.isOnInitialSetup())
+            showInfoTerritories();
         PopupManager.closePopup(n, nextTurnConfirmPopup);
     }
     
@@ -328,7 +331,6 @@ public class InGameGUIController implements ScreenController{
     public void showInfoTerritories() {
         String content = "\nAtenção, ";
         Board b = Board.getInstance();
-        b.addTerritoriesToPlayers();
         Player currPlayer = b.getCurrentPlayer();
         String turn = turnsOrder.get(b.getPlayerOrder(currPlayer));
         content += currPlayer.getName()+"! Os turnos foram sorteados e você é o "+turn+" a jogar!\n\nSeus territórios são:\n";
@@ -341,6 +343,15 @@ public class InGameGUIController implements ScreenController{
      
     public void closeInfoTerritoriesPopup(){
         PopupManager.closePopup(n, infoTerritoriesPopup);
+        Player curr = b.getCurrentPlayer();
+        System.out.println("pending arms for curr player " + curr.getPendingArmies());
+        List<models.Territory> ts = b.getCurrentPlayer().getTerritories();
+        
+//        for(models.Territory t : ts){
+////            t.setNumArmies(numArmies);
+//            
+//            b.getCurrentPlayer().getPendingArmies();
+//        }
     }
             
     @NiftyEventSubscriber(id = "menuItemid")
