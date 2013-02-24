@@ -4,6 +4,7 @@
  */
 package models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -11,7 +12,7 @@ import java.util.Date;
  *
  * @author Anderson
  */
-public class StatisticGameManager {
+public class StatisticGameManager implements Serializable {
     
     private Date playTime;
     private ArrayList<Player> moreAttacker;//DONE

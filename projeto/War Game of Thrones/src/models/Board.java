@@ -1,16 +1,18 @@
 package models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import util.TerritoriesGraphStructure;
+import org.apache.commons.lang.SerializationUtils;
 
 /**
  *
  * @author rodrigo
  */
-public class Board {
+public class Board implements Serializable {
 
     public static final int AI_PLAYER = 1;
     public static final int HUMAN_PLAYER = 2;
@@ -116,6 +118,10 @@ public class Board {
     
     public static void reset(){
         instance = null;
+    }
+
+    public Board getClone() {
+        return (Board) SerializationUtils.clone(this);
     }
 
     public boolean addPlayer(Player player, int playingOrder, int type) {

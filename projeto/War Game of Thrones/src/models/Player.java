@@ -1,5 +1,6 @@
 package models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  *
  * @author rodrigo
  */
-public abstract class Player {
+public abstract class Player implements Serializable {
 
     private String name;
     private int pendingArmies; // Número de exércitos que ele tem mas ainda não posicionou
@@ -146,5 +147,4 @@ public abstract class Player {
         }
         return false;
     }
-    
 }

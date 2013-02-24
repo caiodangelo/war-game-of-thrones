@@ -11,6 +11,7 @@ import models.Player;
 public abstract class Evaluator {
 
     protected Board currentGameState;
+    protected Board simulatedGameState;
     protected List<Feature> features;
     protected Player player;
 
@@ -25,14 +26,39 @@ public abstract class Evaluator {
      * Esse tabuleiro simulado será avaliado para se definir se essa ação trouxe mais vantagens do
      * que outra ação disponível.
      */
-    public abstract Board simulateActionExecution();
+    protected abstract Board simulateActionExecution();
+
+    public Board getSimulatedGameState() {
+        if (simulatedGameState == null) {
+            simulatedGameState = simulateActionExecution();
+        }
+        return simulatedGameState;
+    }
+
+    public Player getSimulatedPlayer() {
+        Player clonedPlayer = null;
+        for (Player newPlayer : getSimulatedGameState().getPlayers()) {
+            if (player.getName().equals(player.getName())) {
+                clonedPlayer = newPlayer;
+            }
+        }
+        return clonedPlayer;
+    }
 
     /**
      * Aplica todos as features desse evaluator no tabuleiro gerado no jogador selecionado,
      * para gerar uma "nota" para esse tabuleiro gerado. Essa nota será utilizada depois
      * para decidir qual ação será tomada pela IA.
      */
-    public abstract double evaluate(Board gameState);
+    public double evaluate(Board gameState) {
+        double grade = 0;
+        double importanceSum = 0;
+        for (Feature feature : features) {
+            grade += feature.calculateScaledGrade();
+            importanceSum += feature.getImportance();
+        }
+        return grade / importanceSum;
+    }
 
     public List<Feature> getFeatures() {
         return features;

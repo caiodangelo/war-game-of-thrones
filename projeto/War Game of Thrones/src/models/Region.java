@@ -1,5 +1,6 @@
 package models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  *
  * @author rodrigo
  */
-public class Region {
+public class Region implements Serializable {
 
     private String name;
     private List<Territory> territories;
@@ -37,5 +38,9 @@ public class Region {
     @Override
     public String toString(){
         return "Region " + name;
+    }
+
+    public static double getRating() {
+        return 0;
     }
 }

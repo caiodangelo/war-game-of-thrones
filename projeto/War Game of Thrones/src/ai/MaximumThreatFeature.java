@@ -12,12 +12,11 @@ import models.Player;
  *
  * @author rodrigo
  */
-public class ContinentSafetyFeature extends Feature {
+public class MaximumThreatFeature extends Feature {
 
-
-    public ContinentSafetyFeature(Board gameState, Player player) {
+    public MaximumThreatFeature(Board gameState, Player player) {
         super(gameState, player);
-        importance = 2;
+        importance = 3;
         scaleFactor = 1;
     }
 

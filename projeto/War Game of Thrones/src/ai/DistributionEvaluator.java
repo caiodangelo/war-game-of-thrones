@@ -10,7 +10,7 @@ import models.Territory;
 
 /**
  * Esse evaluator avaliará como vai ficar o jogo quando um jogador posicionar um exército
- * pendente em um certo território.
+ * pendente em um certo território, e dará uma "nota" ao novo estado do jogo.
  *
  * @author rodrigo
  */
@@ -21,19 +21,19 @@ public class DistributionEvaluator extends Evaluator {
 
     public DistributionEvaluator(Board currentGameState, Player player) {
         super(currentGameState, player);
+        features.add(new DistanceToFrontierFeature(getSimulatedGameState(), getSimulatedPlayer()));
+        // ContinentSafetyFeature
+        
         // TODO: preencher a lista de features com as features aplicáveis para este evaluator.
     }
 
     @Override
     public Board simulateActionExecution() {
-        // TODO: Copiar e gerar um novo tabuleiro, posicionando 1 exército no território especificado.
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public double evaluate(Board gameState) {
-        // TODO: Gerar uma nota para esse evaluator, aplicando as features certas.
-        throw new UnsupportedOperationException("Not supported yet.");
+        Board newState = currentGameState.getClone();
+        Territory clonedTerritory = newState.getTerritories()[territory.getIndex()];
+        Player clonedPlayer = getSimulatedPlayer();
+        clonedPlayer.distributeArmies(clonedTerritory, 1);
+        return newState;
     }
 
     public Territory getTerritory() {

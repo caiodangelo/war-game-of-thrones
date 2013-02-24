@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ai;
 
 import models.Board;
@@ -18,16 +17,31 @@ import models.Territory;
  */
 public class DistanceToFrontierFeature extends Feature {
 
+    public DistanceToFrontierFeature(Board gameState, Player player) {
+        super(gameState, player);
+        importance = 3;
+        scaleFactor = 1;
+    }
+
     @Override
-    public double calculate(Board gameState, Player player) {
+    public double calculate() {
         double sumArmiesDistances = 0.0;
         for (Territory t : player.getTerritories()) {
-            sumArmiesDistances += t.getNumArmies() * distanceToNearestEnemyTerritory(t);
+            sumArmiesDistances += t.getNumArmies() * distanceToNearestEnemyTerritory(t, 1);
         }
         return (player.numArmies() * 1.0) / sumArmiesDistances;
     }
 
-    private int distanceToNearestEnemyTerritory(Territory territory) {
-        return 1;
+    private int distanceToNearestEnemyTerritory(Territory territory, int totalDistance) {
+        int minDistance = Integer.MAX_VALUE;
+        for (Territory neighbour : territory.getNeighbours()) {
+            if (neighbour.getOwner() != territory.getOwner()) {
+                return totalDistance;
+            }
+        }
+        for (Territory neighbour : territory.getNeighbours()) {
+            minDistance = Math.min(minDistance, distanceToNearestEnemyTerritory(neighbour, totalDistance + 1));
+        }
+        return -1;
     }
 }
