@@ -14,6 +14,7 @@ import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.Color;
 import java.util.List;
 import main.AudioManager;
+import main.GameScene;
 import main.Territory;
 import main.WarScenes;
 import models.Board;
@@ -30,34 +31,25 @@ public class InGameGUIController implements ScreenController{
     private Screen s;
     private Nifty n;
     public static Player [] players;
-    private static Color [] playerNameColors;
-    private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel, 
-            optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon;
-    private boolean mouseOverObjective = false;
-    
-    private ContextMenuController ctxMenuCtrl;
-    private static InGameGUIController instance;
-    
-    public InGameGUIController(){
-        //DEBUG ONLY
-        if(players == null){
-            playerNameColors = new Color[]{
+    protected static final Color [] playerNameColors = new Color[]{
                 new Color("#465DC0"),
                 new Color("#41BA47"),
                 new Color("#DB27AE"),
                 new Color("#F4AB0C"),
                 new Color("#04AAF7"),
                 new Color("#9110B5")
-            };
-            
-//            players = new BackEndPlayer[]{
-//                new BEPImpl("Anderson Busto"),
-//                new BEPImpl("Lucas Nadalutti"),
-//                new BEPImpl("Mario Henrique"),
-//                new BEPImpl("Marcelle Guiné"),
-//                new BEPImpl("Mateus Azis"),
-//                new BEPImpl("Rodrigo Castro")
-//            };
+            };;
+    private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel, 
+            optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon;
+    private boolean mouseOverObjective = false;
+    
+    private ContextMenuController ctxMenuCtrl;
+    private static InGameGUIController instance;
+    private GameScene gameScene;
+    
+    public InGameGUIController(){
+        //DEBUG ONLY
+        if(players == null){
             instance = this;
         }
     }
@@ -94,6 +86,8 @@ public class InGameGUIController implements ScreenController{
     
     @Override
     public void onStartScreen() {  
+        gameScene = (GameScene)main.Main.getInstance().getCurrentState();
+        
         List<Player> playersList = Board.getInstance().getPlayers();
         players = playersList.toArray(new Player[0]);
         
@@ -115,6 +109,7 @@ public class InGameGUIController implements ScreenController{
         optionsPopup.findNiftyControl("sliderCPUdifficulty", Slider.class).disable();
         musicSlider.setValue(1 - AudioManager.getInstance().getMusicVolume());
         soundSlider.setValue(1 - AudioManager.getInstance().getSoundVolume());
+        
     }
     
     @Override
@@ -134,6 +129,10 @@ public class InGameGUIController implements ScreenController{
             else
                 statusPanels[i] = spc;
         }
+    }
+    
+    private void showCurrentPlayerMsg(){
+        gameScene.showPlayerTurnMsg();
     }
     
     private void updatePlayersData(){
