@@ -12,6 +12,8 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.Color;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import main.AudioManager;
 import main.Territory;
@@ -26,17 +28,18 @@ import util.PopupManager;
 public class InGameGUIController implements ScreenController{
 
     private StatusPanelControl [] statusPanels;
-    private Label playerStatusName, playerStatusCards, playerStatusUnits, playerStatusTerritories;
+    private Label playerStatusName, playerStatusCards, playerStatusUnits, playerStatusTerritories, infoTerritories;
     private Screen s;
     private Nifty n;
     public static Player [] players;
     private static Color [] playerNameColors;
     private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel, 
-            optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon;
+            optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup;
     private boolean mouseOverObjective = false;
     
     private ContextMenuController ctxMenuCtrl;
     private static InGameGUIController instance;
+    private HashMap<Integer, String> turnsOrder;
     
     public InGameGUIController(){
         //DEBUG ONLY
@@ -58,6 +61,13 @@ public class InGameGUIController implements ScreenController{
 //                new BEPImpl("Mateus Azis"),
 //                new BEPImpl("Rodrigo Castro")
 //            };
+            turnsOrder = new HashMap();
+            turnsOrder.put(0, "primeiro");
+            turnsOrder.put(1, "segundo");
+            turnsOrder.put(2, "terceiro");
+            turnsOrder.put(3, "quarto");
+            turnsOrder.put(4, "quinto");
+            turnsOrder.put(5, "sexto");
             instance = this;
         }
     }
@@ -86,6 +96,8 @@ public class InGameGUIController implements ScreenController{
         helpPopup = n.createPopup("helpPopup");
         cardsPopup = n.createPopup("cardsPopup");
         ctxMenuCtrl = new ContextMenuController(n, this);
+        infoTerritoriesPopup = n.createPopup("infoTerritoriesPopup");
+        infoTerritories = infoTerritoriesPopup.findNiftyControl("infoTerritories", Label.class);
 
         infoPanel = screen.findElementByName("infoPanel");
         nextTurnConfirmPopup = n.createPopup("nextTurnConfirmationPopup");
@@ -115,6 +127,7 @@ public class InGameGUIController implements ScreenController{
         optionsPopup.findNiftyControl("sliderCPUdifficulty", Slider.class).disable();
         musicSlider.setValue(1 - AudioManager.getInstance().getMusicVolume());
         soundSlider.setValue(1 - AudioManager.getInstance().getSoundVolume());
+        showInfoTerritories();
     }
     
     @Override
@@ -316,7 +329,24 @@ public class InGameGUIController implements ScreenController{
     public void cancelAttackPopup(){
         ctxMenuCtrl.cancelAttackPopup();
     }
-            
+    
+    public void showInfoTerritories() {
+        String content = "\nAtenção, ";
+        Board b = Board.getInstance();
+        b.addTerritoriesToPlayers();
+        Player currPlayer = b.getCurrentPlayer();
+        String turn = turnsOrder.get(b.getPlayerOrder(currPlayer));
+        content += currPlayer.getName()+"! Os turnos foram sorteados e você é o "+turn+" a jogar!\n\nSeus territórios são:\n";
+        for (models.Territory t : currPlayer.getTerritories()) {
+            content += "\n"+t.getName();
+        }
+        infoTerritories.setText(content);
+        PopupManager.showPopup(n, s, infoTerritoriesPopup);
+    }
+     
+    public void closeInfoTerritoriesPopup(){
+        PopupManager.closePopup(n, infoTerritoriesPopup);
+    }
             
     @NiftyEventSubscriber(id = "menuItemid")
     public void MenuItemClicked(final String id, final MenuItemActivatedEvent event) {

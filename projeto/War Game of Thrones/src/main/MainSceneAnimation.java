@@ -13,7 +13,7 @@ import util.ImageMovementsComponent;
 public class MainSceneAnimation extends ImageMovementsComponent {
     
     private final float TIME_TO_CHANGE_CONTINENT = 1;
-    private final float TIME_TO_SHOW_LOGO = 3;
+    private final float TIME_TO_SHOW_LOGO = 7;
     private final float DELAY_TO_SHOW_BUTTON_INSTRUCTION = -0.5f;
     private final float TIME_TO_TOGGLE_BUTTON_INSTRUCTION = 1.2f;
     private final float GRADIENT_CHANGING_SPEED = 0.5f;
@@ -121,7 +121,7 @@ public class MainSceneAnimation extends ImageMovementsComponent {
         position.y = (main.Main.windowH / 2f) - viewY * getImageHeight(owner.getScale());
         owner.setPosition(position);
         gc.setMouseGrabbed(!buttonsDisplayed);
-        if(buttonsDisplayed){
+        if(!buttonsDisplayed){
             if (logoTimer >= TIME_TO_SHOW_LOGO) {
                 if (gradientWar.a < 1)
                     gradientWar.a += delta * GRADIENT_CHANGING_SPEED;

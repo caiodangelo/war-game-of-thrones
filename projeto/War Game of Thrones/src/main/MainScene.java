@@ -33,8 +33,6 @@ public class MainScene extends Scene{
     public void setupNifty(Nifty n) {
         this.n = n;
         try {
-            TerritoriesGraphStructure tgm = TerritoriesGraphStructure.getInstance();
-            
             Image mapImage = new Image("resources/images/mapa-nomes.png");
             Image logoWarImage = new Image("resources/images/logo-war.png");
             Image logoOfImage = new Image("resources/images/logo-of.png");

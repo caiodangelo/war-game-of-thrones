@@ -135,6 +135,14 @@ public class Board {
     public Player getPlayer(int playingOrder) {
         return players.get(playingOrder);
     }
+    
+    public int getPlayerOrder(Player p) {
+        return players.indexOf(p);
+    }
+
+    public Player getCurrentPlayer() {
+        return players.get(currentPlayer);
+    }
 
     public LinkedList<Player> getPlayers() {
         return players;
@@ -189,20 +197,15 @@ public class Board {
         else {
             i++;
         }
-        return this.getPlayer(i);
+        return players.get(i);
     }
     
-    public int changePlayer () {
-        int newPlayer;
+    public void changePlayer() {
         int oldPlayer = this.currentPlayer;
-        if (oldPlayer == this.getPlayers().size()) {
+        if (oldPlayer == this.getPlayers().size())
             currentPlayer = 0;
-            newPlayer = 0;
-        } else {
+        else
             currentPlayer++;
-            newPlayer = oldPlayer + 1;
-        }
-        return newPlayer;
     }
 
     public StatisticGameManager getStatistic() {
@@ -253,5 +256,14 @@ public class Board {
             }
         }
         return answer;
+    }
+    
+    public void addTerritoriesToPlayers() {
+        RepositoryCardsTerritory.getInstance().initialRaffle();
+        for (Player p : players) {
+            for (CardTerritory ct : p.getCards()) {
+                p.addTerritory(ct.getTerritory());
+            }
+        }
     }
 }
