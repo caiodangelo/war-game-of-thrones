@@ -93,12 +93,12 @@
  <data key="name">A Árvore</data>
  <data key="region">Sul</data>
 </node>
-<node id="jardim-de-cima">
- <data key="name">Jardim de Cima</data>
- <data key="region">Sul</data>
-</node>
 <node id="dorne">
  <data key="name">Dorne</data>
+ <data key="region">Sul</data>
+</node>
+<node id="jardim-de-cima">
+ <data key="name">Jardim de Cima</data>
  <data key="region">Sul</data>
 </node>
 <node id="mataderrei">
@@ -117,12 +117,12 @@
  <data key="name">Terras da Tempestade</data>
  <data key="region">Sul</data>
 </node>
-<node id="cape-krakentt">
- <data key="name">Cape Krakentt</data>
- <data key="region">Tridente</data>
-</node>
 <node id="as-montanhas-da-lua">
  <data key="name">As Montanhas da Lua</data>
+ <data key="region">Tridente</data>
+</node>
+<node id="cape-krakentt">
+ <data key="name">Cape Krakentt</data>
  <data key="region">Tridente</data>
 </node>
 <node id="o-gargalo">

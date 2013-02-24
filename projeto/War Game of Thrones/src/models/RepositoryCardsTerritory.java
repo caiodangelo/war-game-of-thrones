@@ -101,6 +101,10 @@ public class RepositoryCardsTerritory {
             if ((isSameCards(cardsToSwap)) || (isDifferentCards(cardsToSwap))) {
                 for (CardTerritory card : cardsToSwap) {
                     player.removeCard(card);
+                    for (int i = 0; i < player.getTerritories().size(); i++) {
+                        if (player.getTerritories().get(i).equals(card.getTerritory()))
+                            player.getTerritories().get(i).increaseArmies(2);
+                    }
                     this.addCardToDeck(card);
                 }
                 Board.getInstance().increaseNumberOfSwaps();

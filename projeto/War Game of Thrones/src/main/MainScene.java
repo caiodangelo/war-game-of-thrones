@@ -45,6 +45,8 @@ public class MainScene extends Scene{
             anim = new MainSceneAnimation("animation", mapImage, logoWarImage, logoOfImage, logoThronesImage, instructionImage);
             map.addComponent(anim);
             addEntity(map);
+            
+
         } catch (SlickException ex) {
             Logger.getLogger(MainScene.class.getName()).log(Level.SEVERE, null, ex);
         }

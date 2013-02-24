@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import main.AudioManager;
+import main.GameScene;
 import main.Territory;
 import main.WarScenes;
 import models.Board;
@@ -32,7 +33,14 @@ public class InGameGUIController implements ScreenController{
     private Screen s;
     private Nifty n;
     public static Player [] players;
-    private static Color [] playerNameColors;
+    protected static final Color [] playerNameColors = new Color[]{
+                new Color("#465DC0"),
+                new Color("#41BA47"),
+                new Color("#DB27AE"),
+                new Color("#F4AB0C"),
+                new Color("#04AAF7"),
+                new Color("#9110B5")
+            };;
     private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel, 
             optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup;
     private boolean mouseOverObjective = false;
@@ -40,27 +48,9 @@ public class InGameGUIController implements ScreenController{
     private ContextMenuController ctxMenuCtrl;
     private static InGameGUIController instance;
     private HashMap<Integer, String> turnsOrder;
+    private GameScene gameScene;
     
     public InGameGUIController(){
-        //DEBUG ONLY
-        if(players == null){
-            playerNameColors = new Color[]{
-                new Color("#465DC0"),
-                new Color("#41BA47"),
-                new Color("#DB27AE"),
-                new Color("#F4AB0C"),
-                new Color("#04AAF7"),
-                new Color("#9110B5")
-            };
-            
-//            players = new BackEndPlayer[]{
-//                new BEPImpl("Anderson Busto"),
-//                new BEPImpl("Lucas Nadalutti"),
-//                new BEPImpl("Mario Henrique"),
-//                new BEPImpl("Marcelle Guiné"),
-//                new BEPImpl("Mateus Azis"),
-//                new BEPImpl("Rodrigo Castro")
-//            };
             turnsOrder = new HashMap();
             turnsOrder.put(0, "primeiro");
             turnsOrder.put(1, "segundo");
@@ -69,7 +59,6 @@ public class InGameGUIController implements ScreenController{
             turnsOrder.put(4, "quinto");
             turnsOrder.put(5, "sexto");
             instance = this;
-        }
     }
     
     public static InGameGUIController getInstance() {
@@ -106,6 +95,8 @@ public class InGameGUIController implements ScreenController{
     
     @Override
     public void onStartScreen() {  
+        gameScene = (GameScene)main.Main.getInstance().getCurrentState();
+        
         List<Player> playersList = Board.getInstance().getPlayers();
         players = playersList.toArray(new Player[0]);
         
@@ -147,6 +138,10 @@ public class InGameGUIController implements ScreenController{
             else
                 statusPanels[i] = spc;
         }
+    }
+    
+    private void showCurrentPlayerMsg(){
+        gameScene.showPlayerTurnMsg();
     }
     
     private void updatePlayersData(){
