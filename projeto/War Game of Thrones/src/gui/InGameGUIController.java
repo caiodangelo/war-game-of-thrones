@@ -35,14 +35,7 @@ public class InGameGUIController implements ScreenController{
     private Nifty n;
     private Board b;
     public static Player [] players;
-    protected static final Color [] playerNameColors = new Color[]{
-                new Color("#465DC0"),
-                new Color("#41BA47"),
-                new Color("#DB27AE"),
-                new Color("#F4AB0C"),
-                new Color("#04AAF7"),
-                new Color("#9110B5")
-            };;
+    
     private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel, 
             optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup;
     private boolean mouseOverObjective = false;
