@@ -9,11 +9,22 @@ import java.util.List;
  */
 public class MediumAI extends Difficulty {
 
+    /*A IA deve colocar seus exercitos em territorios que são necessarios para completar a
+     * sua missão. Caso já tenha mais de 3 exercitos em todos esses territorios, ela 
+     * deve colocar em territorios vizinhos aos territorios necessarios para completar a missão.
+     * Caso ainda sobre exercitos, ele coloca nos demais.
+     */
     @Override
     public void distributeArmies() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        while (player.getPendingArmies() > 0) {
+            
+        }
     }
-
+    
+    /*
+     * A IA deve continuar atacando se ele tiver num aceitavel de exercitos de sobra.
+     * E deve parar se seus territorios estiverem com num baixos.
+     */
     @Override
     protected boolean keepAttacking() {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -75,6 +86,12 @@ public class MediumAI extends Difficulty {
         return null; // Não conseguiu arranjar nenhum esquema de troca
     }
 
+    /*
+     * A IA deve escolher para atacar algum territorio que seja necessario para completar a missão
+     * e que ela seja facil de ser conquistada, ou seja, q tenha poucos exercitos de defesa. 
+     * Apos isso ela deve procurar apenas territorios q tenham no max o msm num de exercitos q o seu 
+     * territorio atacante.
+     */
     @Override
     public TerritoryTransaction nextAttack() {
         throw new UnsupportedOperationException("Not supported yet.");

@@ -65,7 +65,7 @@ public class RepositoryCardsTerritoryTest {
             board.addPlayer(p, i, Board.HUMAN_PLAYER);
         }
 
-        repositoryCards.initialRaffle(board);
+        repositoryCards.initialRaffle();
 
         int contador = 0;
         for (int i = 0; i < board.getPlayers().size(); i++) {
@@ -84,7 +84,7 @@ public class RepositoryCardsTerritoryTest {
             board.addPlayer(p, i, Board.HUMAN_PLAYER);
         }
 
-        repositoryCards.initialRaffle(board);
+        repositoryCards.initialRaffle();
 
         int contador = 0;
         for (int i = 0; i < board.getPlayers().size(); i++) {
@@ -103,7 +103,7 @@ public class RepositoryCardsTerritoryTest {
             board.addPlayer(p, i, Board.HUMAN_PLAYER);
         }
 
-        repositoryCards.initialRaffle(board);
+        repositoryCards.initialRaffle();
 
         int contador = 0;
         for (int i = 0; i < board.getPlayers().size(); i++) {
@@ -122,7 +122,7 @@ public class RepositoryCardsTerritoryTest {
             board.addPlayer(p, i, Board.HUMAN_PLAYER);
         }
 
-        repositoryCards.initialRaffle(board);
+        repositoryCards.initialRaffle();
 
         assertEquals(repositoryCards.getRepository().size(), 0);
     }
@@ -146,7 +146,7 @@ public class RepositoryCardsTerritoryTest {
         when(joker2.getType()).thenReturn(4);
         repositoryCards.addCardToDeck(joker2);
 
-        repositoryCards.initialRaffle(board);
+        repositoryCards.initialRaffle();
 
         assertEquals(repositoryCards.getDeck().size(), 44);
     }
