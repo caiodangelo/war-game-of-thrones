@@ -27,10 +27,8 @@ public class StatisticGameManager {
         this.moreDefender = new ArrayList<Player>();
         this.mostWinnerAttacks = new ArrayList<Player>();
         this.mostWinnerDefences = new ArrayList<Player>();
-        this.territoryMoreAttacked = null;
-        this.territoryMoreConquered = null;
     }
-
+    
     public Date getPlayTime() {
         return playTime;
     }

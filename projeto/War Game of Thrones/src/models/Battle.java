@@ -93,6 +93,7 @@ public class Battle {
             defender.decreaseArmies(attackerDeaths);
             if (conquested) {
                 defender.setOwner(attacker.getOwner());
+                attacker.getOwner().setMaySwapCards(true);
                 //Estatistica
                 defender.increaseNumConquests();
                 Board.getInstance().getStatistic().setTerritoryMoreConquested(null);

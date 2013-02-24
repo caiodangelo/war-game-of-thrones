@@ -17,11 +17,13 @@ public class Board {
     protected LinkedList<Player> players;
     protected static Board instance;
     protected int currentPlayer;
+    protected int numberOfSwaps;
     protected StatisticGameManager statistic;
 
     protected Board() {
         players = new LinkedList<Player>();
         currentPlayer = 0;
+        numberOfSwaps = 0;
         statistic = new StatisticGameManager();
     }
 
@@ -60,6 +62,14 @@ public class Board {
             houses.add(player.getHouse());
         }
         return houses;
+    }
+
+    public int getNumberOfSwaps() {
+        return numberOfSwaps;
+    }
+
+    public void increaseNumberOfSwaps() {
+        numberOfSwaps++;
     }
 
     public boolean isPlayerCountValid() {

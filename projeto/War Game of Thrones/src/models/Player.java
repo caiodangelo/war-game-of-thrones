@@ -16,6 +16,7 @@ public abstract class Player {
     private List<Territory> territories;
     private List<CardTerritory> cards;
     private StatisticPlayerManager statistic;
+    private boolean maySwapCards;
 
     public Player(String name) {
         this.name = name;
@@ -23,6 +24,7 @@ public abstract class Player {
         this.territories = new ArrayList<Territory>();
         this.cards = new ArrayList<CardTerritory>();
         this.statistic = new StatisticPlayerManager();
+        this.maySwapCards = false;
     }
 
     public Player(String name, House house) {
@@ -50,6 +52,10 @@ public abstract class Player {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isMaySwapCards() {
+        return maySwapCards;
     }
 
     public void setName(String name) {
@@ -83,6 +89,10 @@ public abstract class Player {
     
     public StatisticPlayerManager getStatisticPlayerManager () {
         return statistic;
+    }
+
+    public void setMaySwapCards(boolean maySwapCards) {
+        this.maySwapCards = maySwapCards;
     }
     
     public int numArmies() {
@@ -136,4 +146,5 @@ public abstract class Player {
         }
         return false;
     }
+    
 }
