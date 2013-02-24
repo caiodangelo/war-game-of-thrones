@@ -56,10 +56,10 @@ public class DiceMovementsComponent extends Component {
                     guiControl.setInfoLabelText("Clique para dispensar os dados.");
                     Input i = gc.getInput();
                     if (i.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) || i.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) {
-                        //if some player wins, call end game animation
-                        //else
-                        StatisticGameManager.getInstance().setPlayTime();
-                        Main.getInstance().enterState(WarScenes.STATISTICS_SCENE);
+//                        if some player wins, call end game animation
+//                        StatisticGameManager.getInstance().setPlayTime();
+//                        Main.getInstance().enterState(WarScenes.STATISTICS_SCENE);
+//                        else
                         dm.removeDices();
                         guiControl.setInfoLabelText(null);
                     }
