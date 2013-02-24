@@ -43,7 +43,7 @@ public class Board implements Serializable {
         System.out.println("Filling board territories");
         regions = new Region[6];
         String [] regionNames = {"Além da Muralha", "Cidades Livres", "O Norte", "Sul", "Tridente", "O Mar Dothraki"};
-        int [] bonus = {Region.ALEM_DA_MURALHA, Region.CIDADES_LIVRES, Region.O_NORTE, Region.O_SUL, Region.O_MAR_DOTHRAKI};
+        int [] bonus = {Region.ALEM_DA_MURALHA, Region.CIDADES_LIVRES, Region.O_NORTE, Region.O_SUL, Region.TRIDENTE, Region.O_MAR_DOTHRAKI};
         for(int i = 0; i < regionNames.length; i++)
             regions[i] = new Region(regionNames[i], bonus[i]);
         
@@ -215,12 +215,32 @@ public class Board implements Serializable {
     
     public void changePlayer() {
         int oldPlayer = this.currentPlayer;
-        if (oldPlayer == this.getPlayers().size()) {
+        
+        int playersCount = this.getPlayers().size();
+        System.out.println("oldPlayer is " + oldPlayer + " and playerCount is " + playersCount);
+        if (oldPlayer == this.getPlayers().size() - 1) {
             currentPlayer = 0;
             isOnInitialSetup = false;
         }
         else 
             currentPlayer++;
+        addPlayerArmies();
+    }
+    
+    private void addPlayerArmies(Player curr){
+        int territoryCount = curr.getTerritories().size();
+        int pendingArmies = curr.getPendingArmies();
+        pendingArmies += territoryCount / 2;
+        for(Region r : regions)
+            if(r.conqueredByPlayer(curr)){
+                pendingArmies += r.getBonus();
+                System.out.println("receiving " + r.getBonus() + " from " + r);
+            }
+        curr.setPendingArmies(pendingArmies);
+    }
+    
+    private void addPlayerArmies(){
+        addPlayerArmies(getCurrentPlayer());
     }
 
     public StatisticGameManager getStatistic() {
@@ -229,14 +249,13 @@ public class Board implements Serializable {
     
     public void distributeInitialTerritories() {
         RepositoryCardsTerritory.getInstance().initialRaffle();
-        int cardsCount = 0;
         for (Player player : players) {
             for (CardTerritory card : player.getCards()) {
-                player.addTerritory(card.getTerritory());   
-                
+                player.addTerritory(card.getTerritory());                
             }
             player.getCards().clear();
         }
+        addPlayerArmies();
     }
     
      public void shuffleMissions(LinkedList<Mission> mission) {

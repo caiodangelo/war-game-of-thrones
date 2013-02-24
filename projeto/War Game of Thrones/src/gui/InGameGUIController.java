@@ -29,7 +29,8 @@ import util.PopupManager;
 public class InGameGUIController implements ScreenController{
 
     private StatusPanelControl [] statusPanels;
-    private Label playerStatusName, playerStatusCards, playerStatusUnits, playerStatusTerritories, infoTerritories;
+    private Label playerStatusName, playerStatusCards, playerStatusUnits, playerStatusTerritories, infoTerritories, 
+            ravenMessage;
     private Screen s;
     private Nifty n;
     Board b;
@@ -89,9 +90,13 @@ public class InGameGUIController implements ScreenController{
         infoTerritoriesPopup = n.createPopup("infoTerritoriesPopup");
         infoTerritories = infoTerritoriesPopup.findNiftyControl("infoTerritories", Label.class);
 
+        ravenMessage = screen.findNiftyControl("ravenMessage", Label.class);
         infoPanel = screen.findElementByName("infoPanel");
         nextTurnConfirmPopup = n.createPopup("nextTurnConfirmationPopup");
-        
+    }
+    
+    public void setRavenMessage(String msg){
+        ravenMessage.setText(msg);
     }
     
     @Override
@@ -347,11 +352,13 @@ public class InGameGUIController implements ScreenController{
         System.out.println("pending arms for curr player " + curr.getPendingArmies());
         List<models.Territory> ts = b.getCurrentPlayer().getTerritories();
         
-//        for(models.Territory t : ts){
-////            t.setNumArmies(numArmies);
-//            
+        for(models.Territory t : ts){
+            t.setNumArmies(1);
+            
 //            b.getCurrentPlayer().getPendingArmies();
-//        }
+        }
+        
+        setRavenMessage(curr.getName() + " está distribuindo os exércitos.");
     }
             
     @NiftyEventSubscriber(id = "menuItemid")

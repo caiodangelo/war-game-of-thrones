@@ -7,6 +7,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
+import sun.security.action.GetBooleanAction;
 import util.ImageRenderComponent;
 import util.PopupManager;
 
@@ -37,7 +38,8 @@ public class TerritoryHoverImage extends ImageRenderComponent {
         if (!dm.dicesOnScreen() && !PopupManager.isAnyPopupOpen() && mouseOver(mouseX, mouseY) && !imagePixelColorIsTransparent((int) (mouseX - owner.position.x), (int) (mouseY - owner.position.y), owner.getScale())){
             highlightedImage = true;
             if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON))
-                InGameGUIController.handleTerritoryClick((Territory) owner);
+                ((GameScene)owner.getScene()).handleTerritoryClick((Territory) owner);
+//                InGameGUIController.handleTerritoryClick((Territory) owner);
         }
         else
             highlightedImage = false;

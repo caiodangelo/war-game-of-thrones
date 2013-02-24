@@ -57,7 +57,17 @@ public class Region implements Serializable {
         return "Region " + name;
     }
 
+
     public static double getRating() {
         return 0;
+    }
+
+    
+    public boolean conqueredByPlayer(Player p){
+        for(Territory playerTerr : territories){
+            if(!playerTerr.getOwner().equals(p))
+                return false;
+        }
+        return true;
     }
 }

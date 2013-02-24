@@ -39,7 +39,8 @@ public class Army extends Entity {
     }
     
     public int getQuantity() {
-        return this.qty;
+        return territory.getBackEndTerritory().getNumArmies();
+//        return this.qty;
     }
     
     public void addArmies(int q) {
