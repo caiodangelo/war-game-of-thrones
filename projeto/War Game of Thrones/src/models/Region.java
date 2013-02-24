@@ -26,10 +26,16 @@ public class Region {
     }
 
     public boolean addTerritory(Territory territory) {
+        territory.setRegion(this);
         return territories.add(territory);
     }
 
     public List<Territory> getTerritories() {
         return territories;
+    }
+    
+    @Override
+    public String toString(){
+        return "Region " + name;
     }
 }

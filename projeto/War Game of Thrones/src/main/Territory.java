@@ -12,9 +12,11 @@ public class Territory extends Entity{
     private TerritoryPositionSync syncer;
     private ImageRenderComponent irc;
     private Army army;
+    private models.Territory backEndTerr;
     
-    public Territory(Map m, Vector2f relativePos, String imagePath){
+    public Territory(Map m, Vector2f relativePos, String imagePath, models.Territory backEndTerr){
         super();
+        this.backEndTerr = backEndTerr;
         map = m;
         syncer = new TerritoryPositionSync(map, relativePos);
         addComponent(syncer);
@@ -27,6 +29,10 @@ public class Territory extends Entity{
         }catch(SlickException e){
             e.printStackTrace();
         }
+    }
+    
+    public models.Territory getBackEndTerritory(){
+        return backEndTerr;
     }
     
     public float getScaledWidth(){

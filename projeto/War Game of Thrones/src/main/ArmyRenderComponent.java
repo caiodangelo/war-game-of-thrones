@@ -35,7 +35,7 @@ public class ArmyRenderComponent extends ImageRenderComponent {
             SpriteSheet ss = new SpriteSheet("resources/images/explosion-spritesheet.png", 1024/8, 768/6);
             explosion = new Animation(ss, 40);
             explosion.setLooping(false);
-            this.imageCopy = new Image("resources/images/army-temp.png");
+            this.imageCopy = img;
         } catch (SlickException ex) {
             Logger.getLogger(ArmyRenderComponent.class.getName()).log(Level.SEVERE, null, ex);
         }
