@@ -39,8 +39,9 @@ public class Board {
         System.out.println("Filling board territories");
         regions = new Region[6];
         String [] regionNames = {"Além da Muralha", "Cidades Livres", "O Norte", "Sul", "Tridente", "O Mar Dothraki"};
+        int [] bonus = {Region.ALEM_DA_MURALHA, Region.CIDADES_LIVRES, Region.O_NORTE, Region.O_SUL, Region.O_MAR_DOTHRAKI};
         for(int i = 0; i < regionNames.length; i++)
-            regions[i] = new Region(regionNames[i]);
+            regions[i] = new Region(regionNames[i], bonus[i]);
         
         //alem da muralha
         Region current = regions[0];
