@@ -36,6 +36,24 @@ public class Mission implements Serializable {
         }
     }
 
+    public Mission(String name, int type, int territories) {
+        this.name = name;
+        this.type = type;
+        this.territories = territories;
+    }
+
+    public Mission(String name, int type, List<Region> regions) {
+        this.name = name;
+        this.type = type;
+        this.regions = regions;
+    }
+
+    public Mission(String name, int type, House house) {
+        this.name = name;
+        this.type = type;
+        this.house = house;
+    }
+    
     @Deprecated
     public Mission(String name, String description, int type) {
         this.name = name;
@@ -57,7 +75,12 @@ public class Mission implements Serializable {
     public String getDescription() {
         switch (type) {
             case TYPE_TERRITORY:
-                return "Seu objetivo é conquistar " + territories + " territórios à sua escolha";
+                if (territories == 23) {
+                    return "Seu objetivo é conquistar " + territories + " territórios à sua escolha";
+                }
+                if (territories == 17) {
+                    return "Seu objetivo é conquistar " + territories + " territórios à sua escolha com 2 exércitos em cada um deles";
+                }
             case TYPE_HOUSE:
                 return "Seu objetivo é destruir todos os exércitos da casa " + house.getName();
             case TYPE_REGION:
@@ -153,8 +176,8 @@ public class Mission implements Serializable {
                 conqueredRegions.add(region);
             }
         }
-        
-        for (Region regionMission : this.getRegions()) {   
+
+        for (Region regionMission : this.getRegions()) {
             //Para as missões do tipo que tenham que conquistar uma região a sua escolha
             //é definido o nome da região como null
             if (regionMission.getName() != null) {
