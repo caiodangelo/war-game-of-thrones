@@ -85,7 +85,7 @@ public class GameScene extends Scene{
             InGameGUIController.handleTerritoryClick(territory);
         }
         else{
-            ctrl.update();
+            ctrl.updatePlayersData();
             int pendingArmies = curr.getPendingArmies();
             if(territory.getBackEndTerritory().getOwner() == curr){
                 models.Territory t = territory.getBackEndTerritory();

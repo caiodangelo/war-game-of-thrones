@@ -9,6 +9,8 @@ import de.lessvoid.nifty.controls.MenuItemActivatedEvent;
 import de.lessvoid.nifty.controls.Slider;
 import de.lessvoid.nifty.controls.SliderChangedEvent;
 import de.lessvoid.nifty.elements.Element;
+import de.lessvoid.nifty.elements.render.ImageRenderer;
+import de.lessvoid.nifty.render.NiftyImage;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.Color;
@@ -20,6 +22,7 @@ import main.Territory;
 import main.TurnHelper;
 import main.WarScenes;
 import models.Board;
+import models.House;
 import models.Player;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -138,7 +141,7 @@ public class InGameGUIController implements ScreenController{
         }
     }
     
-    private void updatePlayersData(){
+    public void updatePlayersData(){
         for(int i = 0; i < players.length; i++){
             StatusPanelControl spc = statusPanels[i];
             Player current = players[i];
@@ -158,11 +161,6 @@ public class InGameGUIController implements ScreenController{
         return getCurrentPlayer().getHouse().getColor();
     }
     
-    public void update(){
-        updateCurrentPlayersData();
-        updatePlayersData();
-    }
-    
     private void updateCurrentPlayersData(){
         boolean skipedStartScreen = main.Main.JUMP_TO_GAME;
         if(!skipedStartScreen){
@@ -173,6 +171,7 @@ public class InGameGUIController implements ScreenController{
             StatusPanelControlImpl.setLabel(playerStatusCards, currPlayer.numCards(), "Carta");
             StatusPanelControlImpl.setLabel(playerStatusUnits, currPlayer.numArmies(), "Exército");
             StatusPanelControlImpl.setLabel(playerStatusTerritories, currPlayer.numTerritories(), "Território");
+            updateCurrentHouse(currPlayer.getHouse());
         }
     }
     
@@ -351,7 +350,7 @@ public class InGameGUIController implements ScreenController{
             t.setNumArmies(1);
         }
         
-        update();
+        updatePlayersData();
         setRavenMessage(curr.getName() + " está distribuindo os exércitos.");
     }
             
@@ -392,5 +391,13 @@ public class InGameGUIController implements ScreenController{
             am.muteSound();
         else
             am.unmuteSound();
+    }
+    
+    private void updateCurrentHouse(House h){
+        Element imgElement = s.findElementByName("currHouseImg");
+        ImageRenderer r = imgElement.getRenderer(ImageRenderer.class);
+        r.setImage(n.createImage(h.getImgPath(), false));
+        Label houseNameLabel = s.findNiftyControl("currHouseName", Label.class);
+        houseNameLabel.setText(h.getName());
     }
 }

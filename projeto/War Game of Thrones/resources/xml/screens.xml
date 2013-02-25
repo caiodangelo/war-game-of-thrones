@@ -184,8 +184,8 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 						<panel childLayout="vertical" width="15%">
 							<control height="20%" width="100%" font="resources/fonts/calibri_bold.fnt" color="#333333ff" id="playerStatusName" name="label" text="Marcelle Guine"/>
 							<panel  height="70%" childLayout="vertical" padding="5px">
-								<image align="center" filename="resources/images/house_logos/stark.png" height="80%" width="40%"/>
-								<control textHAlign="center" color="#333333ff" name="label" text="Stark" height="20%" width="50%"/>
+								<image id="currHouseImg" align="center" filename="resources/images/house_logos/stark.png" height="80%" width="40%"/>
+								<control id="currHouseName" textHAlign="center" color="#333333ff" name="label" text="Stark" height="20%" width="50%"/>
 							</panel>
 						</panel>
 						<panel align="left" id="playerStatusPanel" childLayout="vertical" width="20%" height="100%">

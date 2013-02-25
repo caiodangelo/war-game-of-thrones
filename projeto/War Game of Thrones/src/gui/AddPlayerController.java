@@ -219,7 +219,7 @@ public class AddPlayerController implements ScreenController{
     }
     
     private House createBackEndHouse(HouseData d){
-        return new House(d.name, d.color, d.symbol);
+        return new House(d.name, d.color, d.symbol, d.imgPath);
     }
     
     private Player createBackEndPlayer(PlayerData pd, House h){
