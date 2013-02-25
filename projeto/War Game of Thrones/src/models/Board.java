@@ -122,7 +122,6 @@ public class Board implements Serializable {
     public void createMissions() {
         Region empty = new Region(null, 0);
         ArrayList<Region> allRegions = new ArrayList<Region>();
-        String[] regionNames = {"Além da Muralha", "Cidades Livres", "O Norte", "Sul", "Tridente", "O Mar Dothraki"};
         allRegions.add(regions[0]);
         allRegions.add(regions[3]);
         allRegions.add(empty);
@@ -320,7 +319,7 @@ public class Board implements Serializable {
         Collections.shuffle(mission);
     }
 
-    public ArrayList<Mission> raffleMission() {
+    public void raffleMission() {
         int size = players.size();
 
        // ArrayList<Mission> r = removeMissions();
@@ -335,7 +334,6 @@ public class Board implements Serializable {
             }
             p.setMission(missions.remove(0));
         }
-        return missions;
     }
 
     public ArrayList<Mission> removeMissions() {

@@ -179,10 +179,10 @@ public class InGameGUIController implements ScreenController{
     
     public void showPlayerObjective(){
         resetMouseCursor();
-        PopupManager.showPopup(n, s, objectivePopup);
         Label description = objectivePopup.findNiftyControl("objectiveDescLabel", Label.class);
         String objectiveStr = getCurrentPlayer().getMission().getDescription();
         description.setText(objectiveStr);
+        PopupManager.showPopup(n, s, objectivePopup);
     }
     
     public void showPlayerCards(){
