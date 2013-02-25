@@ -16,6 +16,12 @@ public class Board implements Serializable {
 
     public static final int AI_PLAYER = 1;
     public static final int HUMAN_PLAYER = 2;
+    public static final String LANNISTER = "Lannister";
+    public static final String STARK = "Stark";
+    public static final String GREYJOY = "Greyjoy";
+    public static final String FREE_FOLK = "Free Folk";
+    public static final String BARATHEON = "Baratheon";
+    public static final String TARGARYEN = "Targaryen";
     
     protected LinkedList<Player> players;
     protected static Board instance;
@@ -25,6 +31,7 @@ public class Board implements Serializable {
     
     private Region [] regions;
     private Territory [] territories;
+    private ArrayList<House> houses;
     private boolean isOnInitialSetup;
 
     protected Board() {
@@ -34,6 +41,7 @@ public class Board implements Serializable {
         numberOfSwaps = 0;
         statistic = new StatisticGameManager();
         isOnInitialSetup = true;
+        houses = new ArrayList<House>();
         
         if(regions == null)
             retrieveTerritories();
@@ -140,6 +148,10 @@ public class Board implements Serializable {
     public boolean removePlayer(Player player) {
         return players.remove(player);
     }
+    
+    public void addHouse(House house) {
+        houses.add(house);
+    }
 
     public Player getPlayer(int playingOrder) {
         return players.get(playingOrder);
@@ -217,7 +229,6 @@ public class Board implements Serializable {
         int oldPlayer = this.currentPlayer;
         
         int playersCount = this.getPlayers().size();
-        System.out.println("oldPlayer is " + oldPlayer + " and playerCount is " + playersCount);
         if (oldPlayer == this.getPlayers().size() - 1) {
             currentPlayer = 0;
             isOnInitialSetup = false;

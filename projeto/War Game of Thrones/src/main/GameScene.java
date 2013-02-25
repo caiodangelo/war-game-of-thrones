@@ -1,19 +1,15 @@
 package main;
 
-import util.MapAreaRenderer;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.tools.Color;
 import gui.InGameGUIController;
-import java.util.ArrayList;
 import java.util.Date;
 import models.Board;
 import models.Player;
 import models.StatisticGameManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
-import util.Entity;
 import util.Scene;
 
 public class GameScene extends Scene{
@@ -22,6 +18,8 @@ public class GameScene extends Scene{
     private PlayerTurnMessage turnMsg;
     private Board b;
     private InGameGUIController ctrl;
+    private TurnHelper helper;
+    
     
     public static int getMouseWheel(){
         return mouseWheel;
@@ -52,6 +50,7 @@ public class GameScene extends Scene{
         b = Board.getInstance();
 //        turnMsg.activate(b.getPlayer(0).getName());
         ctrl = InGameGUIController.getInstance();
+        helper = new TurnHelper(this, ctrl);
     }
     
     public void showPlayerTurnMsg(){
@@ -81,22 +80,21 @@ public class GameScene extends Scene{
     }
 
     void handleTerritoryClick(Territory territory) {
-        if(!b.isOnInitialSetup())
+        Player curr = b.getCurrentPlayer();
+        if(!b.isOnInitialSetup()){
             InGameGUIController.handleTerritoryClick(territory);
+        }
         else{
-            Player curr = b.getCurrentPlayer();
+            ctrl.update();
             int pendingArmies = curr.getPendingArmies();
             if(territory.getBackEndTerritory().getOwner() == curr){
                 models.Territory t = territory.getBackEndTerritory();
-                t.setNumArmies(t.getNumArmies() + 1);
+                t.increaseArmies(1);
                 curr.removePendingArmies(1);
                 pendingArmies--;
             } 
-            if(pendingArmies == 0){
-                b.changePlayer();
-                if(b.isOnInitialSetup())
-                    ctrl.showInfoTerritories();
-            }
+            if(pendingArmies == 0)
+                helper.changeTurn();
         }
     }
     

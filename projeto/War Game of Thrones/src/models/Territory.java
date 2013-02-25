@@ -74,7 +74,7 @@ public class Territory implements Serializable {
         return numConquests;
     }
 
-    protected void increaseArmies(int amount) {
+    public void increaseArmies(int amount) {
         numArmies += amount;
     }
 

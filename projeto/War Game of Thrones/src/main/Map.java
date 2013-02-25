@@ -201,7 +201,7 @@ public class Map extends Entity{
         for(int i = 0; i < territoryPositions.length; i++){
             Territory t = new Territory(this, territoryPositions[i], imgs[i], backEndTerritories[i]);
             scene.addEntity(t);
-            Army a = new Army(this, t, armyPositions[i], ((int) (Math.random()*5)+1), Army.FAMILY_BARATHEON, s);
+            Army a = new Army(this, t, armyPositions[i], ((int) (Math.random()*5)+1), s);
             scene.addEntity(a);
             t.setArmy(a);
         }
