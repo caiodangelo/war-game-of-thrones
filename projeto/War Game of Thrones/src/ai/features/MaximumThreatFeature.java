@@ -7,6 +7,14 @@ import models.Player;
 import models.Territory;
 
 /**
+ * The Maximum Threat Feature returns a measurement of the probability that the actual
+ * player is able to successfully occupy at least a single enemy territory during his next
+ * Attacking game phase. Of all possible battles that the actual player is able to initiate
+ * the feature computes the victory probability and the maximum of these probabilities is
+ * returned.
+ *
+ * The feature result is always in the interval [0, 1]. This feature is not applied in the
+ * Attacking phase of the game.
  *
  * @author rodrigo
  */
