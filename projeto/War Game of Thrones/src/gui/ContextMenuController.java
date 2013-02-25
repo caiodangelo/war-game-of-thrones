@@ -12,6 +12,7 @@ import de.lessvoid.nifty.tools.SizeValue;
 import main.ArmyRenderComponent;
 import main.DiceManager;
 import main.Territory;
+import models.Board;
 import models.Player;
 import util.PopupManager;
 
@@ -57,16 +58,33 @@ public class ContextMenuController {
     }
     
     protected void handleTerritoryClick(Screen s, Territory t){
+        Player curr = Board.getInstance().getCurrentPlayer();
         currentTemp = t;
+        boolean ownedTerritory = t.getBackEndTerritory().getOwner() == curr;
         if(originTerritory == null){
-            PopupManager.showPopup(n, s, contextMenu);
+            if (ownedTerritory)
+                PopupManager.showPopup(n, s, contextMenu);
         } else {
             destTerritory = t;
+            boolean areNeighbors = t.getBackEndTerritory().isNeighbour(originTerritory.getBackEndTerritory());
             parent.setInfoLabelText(null);
-            if(onAtkSequence)
-                showAttackPopup(s);
-            else
-                showRearrangePopup(s);
+            if(onAtkSequence) {
+                if (!ownedTerritory && areNeighbors)
+                    showAttackPopup(s);
+                else {
+                    //show popup
+                    originTerritory = null;
+                    destTerritory = null;
+                }
+            }
+            else {
+                if (ownedTerritory && areNeighbors)
+                    showRearrangePopup(s);
+                else {
+                    originTerritory = null;
+                    destTerritory = null;
+                }
+            }  
             //Map.selectedTerritory = null;
         }
     }
@@ -101,7 +119,7 @@ public class ContextMenuController {
         defPlayerName.setColor(defender.getHouse().getColor());
         defPlayerName.setText(defender.getName());
         
-        int maxAtkUnits = Math.min(3, backAtkTer.getNumArmies());
+        int maxAtkUnits = Math.min(3, backAtkTer.getNumArmies() - 1);
         int maxDefUnits = Math.min(3, backDefTer.getNumArmies());
         for(int i = 1; i <= maxAtkUnits; i++)
             atkDropDown.addItem(i);
@@ -155,10 +173,10 @@ public class ContextMenuController {
     
     protected void MenuItemClicked(final String id, final MenuItemActivatedEvent event, final Screen s) {
         byte option = (Byte) event.getItem();
-        if(option == MENU_ATTACK){
+        int availableUnits = currentTemp.getBackEndTerritory().getNumArmies();
+        if(option == MENU_ATTACK) {
             //TODO: get available units from back-end
-            int availableUnits = 3;
-            if(availableUnits > 1){
+            if(availableUnits > 1) {
                 onAtkSequence = true;
                 originTerritory = currentTemp;
                 showAttackInfo();
@@ -166,9 +184,12 @@ public class ContextMenuController {
                 PopupManager.showPopup(n, s, fewArmiesPopup);
         }
         else if(option == MENU_DISTRIBUTE){
-            onAtkSequence = false;
-            originTerritory = currentTemp;
-            showRearrangeInfo();
+            if (availableUnits > 1) {
+                onAtkSequence = false;
+                originTerritory = currentTemp;
+                showRearrangeInfo();
+            } else
+                PopupManager.showPopup(n, s, fewArmiesPopup);
         }
         PopupManager.closePopup(n, contextMenu);
     }

@@ -39,7 +39,6 @@ public class TerritoryHoverImage extends ImageRenderComponent {
             highlightedImage = true;
             if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON))
                 ((GameScene)owner.getScene()).handleTerritoryClick((Territory) owner);
-//                InGameGUIController.handleTerritoryClick((Territory) owner);
         }
         else
             highlightedImage = false;

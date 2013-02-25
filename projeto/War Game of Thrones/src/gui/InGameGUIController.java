@@ -179,10 +179,10 @@ public class InGameGUIController implements ScreenController{
     
     public void showPlayerObjective(){
         resetMouseCursor();
-        PopupManager.showPopup(n, s, objectivePopup);
         Label description = objectivePopup.findNiftyControl("objectiveDescLabel", Label.class);
         String objectiveStr = getCurrentPlayer().getMission().getDescription();
         description.setText(objectiveStr);
+        PopupManager.showPopup(n, s, objectivePopup);
     }
     
     public void showPlayerCards(){
@@ -203,10 +203,6 @@ public class InGameGUIController implements ScreenController{
     }
     
     public void nextPlayerTurn() {
-//        b.changePlayer();
-//        showCurrentPlayerMsg();
-//        if (b.isOnInitialSetup())
-//            showInfoTerritories();
         PopupManager.closePopup(n, nextTurnConfirmPopup);
         if (getCurrentPlayer().getPendingArmies() > 0)
             PopupManager.showPopup(n, s, cantMoveToNextTurnPopup);

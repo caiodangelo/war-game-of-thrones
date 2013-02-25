@@ -81,8 +81,9 @@ public class GameScene extends Scene{
 
     void handleTerritoryClick(Territory territory) {
         Player curr = b.getCurrentPlayer();
-        if(!b.isOnInitialSetup())
+        if(!b.isOnInitialSetup()) {
             InGameGUIController.handleTerritoryClick(territory);
+        }
         else{
             ctrl.updatePlayersData();
             int pendingArmies = curr.getPendingArmies();

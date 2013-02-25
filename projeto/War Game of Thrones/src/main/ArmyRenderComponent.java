@@ -1,6 +1,5 @@
 package main;
 
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.Animation;
@@ -8,7 +7,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Vector2f;
@@ -46,9 +44,9 @@ public class ArmyRenderComponent extends ImageRenderComponent {
         Vector2f pos = owner.getPosition();
         float scale = ((Army) owner).getTerritory().getScale();
         image.draw(pos.x, pos.y, scale);
+        gr.setColor(Color.white);
         gr.drawString((((Army) owner).getQuantity() - movingQty)+"", pos.x, pos.y);
         if (movingQty > 0 && (xSpeed != 0 || ySpeed != 0)) {
-            gr.setColor(Color.white);
             imageCopy.draw(movingPos.x, movingPos.y, scale);
             gr.drawString(movingQty+"", movingPos.x, movingPos.y);
         }
