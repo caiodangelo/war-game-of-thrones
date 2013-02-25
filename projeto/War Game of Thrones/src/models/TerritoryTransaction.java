@@ -1,6 +1,8 @@
 package models;
 
-public class TerritoryTransaction {
+import java.io.Serializable;
+
+public class TerritoryTransaction implements Serializable {
         Territory attacker;
         Territory defender;
         int numberOfAttackers;

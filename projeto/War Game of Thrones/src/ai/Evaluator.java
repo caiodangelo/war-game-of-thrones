@@ -54,7 +54,17 @@ public abstract class Evaluator {
         double grade = 0;
         double importanceSum = 0;
         for (Feature feature : features) {
-            grade += feature.calculateScaledGrade();
+            grade += feature.calculateScaledGrade(getSimulatedGameState(), getSimulatedPlayer());
+            importanceSum += feature.getImportance();
+        }
+        return grade / importanceSum;
+    }
+
+    public double evaluateCurrentGameState() {
+        double grade = 0;
+        double importanceSum = 0;
+        for (Feature feature : features) {
+            grade += feature.calculateScaledGrade(currentGameState, player);
             importanceSum += feature.getImportance();
         }
         return grade / importanceSum;

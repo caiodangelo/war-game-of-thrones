@@ -15,14 +15,13 @@ import models.Territory;
  */
 public class MoreThanOneArmyFeature extends Feature {
 
-    public MoreThanOneArmyFeature(Board gameState, Player player) {
-        super(gameState, player);
+    public MoreThanOneArmyFeature() {
         importance = 2;
         scaleFactor = 1;
     }
 
     @Override
-    public double calculate() {
+    public double calculate(Board gameState, Player player) {
         double fortifiedTerritories = 0.0;
         for (Territory territory : player.getTerritories()) {
             if (territory.getSurplusArmies() > 0) {
