@@ -2,6 +2,10 @@ package models;
 
 import java.util.HashMap;
 
+/**
+ * Contém todos os IDs estáticos dos territórios, que correspondem às suas respectivas
+ * ordens no vetor de territórios da classe {@link Board}
+ */
 public final class TerritoryID {
     public static final int 
             COSTA_GELADA = 0,
@@ -50,7 +54,12 @@ public final class TerritoryID {
             FOOTPRINT = 38;
     
     private static HashMap<String, Integer> regionIDs;
-    
+
+    /**
+     * Retorna o ID de uma {@link Region}, passando o seu nome como parâmetro.
+     *
+     * Caso o hash de regiões for nulo, este será preenchido com as regiões padrão.
+     */
     public static int getRegionID(String name){
         if(regionIDs == null){
             regionIDs = new HashMap<String, Integer>();

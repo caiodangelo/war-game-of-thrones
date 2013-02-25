@@ -1,7 +1,7 @@
 package models;
 
-import ai.DistributionEvaluator;
-import ai.MovementEvaluator;
+import ai.evaluators.DistributionEvaluator;
+import ai.evaluators.MovementEvaluator;
 import java.util.ArrayList;
 import java.util.List;
 

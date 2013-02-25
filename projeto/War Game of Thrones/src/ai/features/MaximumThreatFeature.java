@@ -1,5 +1,7 @@
-package ai;
+package ai.features;
 
+import ai.BattleComputer;
+import ai.Feature;
 import models.Board;
 import models.Player;
 import models.Territory;

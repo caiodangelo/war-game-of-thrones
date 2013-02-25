@@ -2,8 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ai;
+package ai.evaluators;
 
+import ai.Evaluator;
+import ai.features.ContinentThreatFeature;
+import ai.features.MoreThanOneArmyFeature;
+import ai.features.DistanceToFrontierFeature;
+import ai.features.MaximumThreatFeature;
 import models.Board;
 import models.Player;
 import models.Territory;
@@ -23,7 +28,7 @@ public class DistributionEvaluator extends Evaluator {
         super(currentGameState, player);
         features.add(new DistanceToFrontierFeature());
         features.add(new MoreThanOneArmyFeature());
-        features.add(new ContinentSafetyFeature());
+        features.add(new ContinentThreatFeature());
         features.add(new MaximumThreatFeature());
     }
 

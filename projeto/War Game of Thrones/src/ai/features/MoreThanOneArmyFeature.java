@@ -3,8 +3,9 @@
  * and open the template in the editor.
  */
 
-package ai;
+package ai.features;
 
+import ai.Feature;
 import models.Board;
 import models.Player;
 import models.Territory;
