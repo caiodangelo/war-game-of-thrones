@@ -1,7 +1,9 @@
 package gui;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.NiftyMethodInvoker;
+import de.lessvoid.nifty.controls.CheckBoxStateChangedEvent;
 import de.lessvoid.nifty.controls.DropDown;
 import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.controls.Menu;
@@ -11,6 +13,7 @@ import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.tools.SizeValue;
 import main.Army;
 import main.ArmyRenderComponent;
+import main.AudioManager;
 import main.DiceManager;
 import main.Territory;
 import models.Battle;
@@ -22,7 +25,7 @@ public class ContextMenuController {
 
     private DropDown<UnitCount> selectUnitsDropdown;
     private DropDown<Integer> atkDropDown, defDropDown;
-    private Element contextMenu, rearrangePopup, attackPopup, fewArmiesPopup;
+    private Element contextMenu, rearrangeConfirmationPopup, rearrangePopup, attackPopup;
     
     private Nifty n;
     private InGameGUIController parent;
@@ -33,11 +36,13 @@ public class ContextMenuController {
     
     private boolean onAtkSequence;
     private boolean distributing;
+    private boolean mayShowRearrangeConfirmation;
     
     public ContextMenuController(Nifty n, InGameGUIController parent){
         this.n = n;
         this.parent = parent;
         
+        rearrangeConfirmationPopup = n.createPopup("rearrangeConfirmationPopup");
         rearrangePopup = n.createPopup("rearrangePopup");
         selectUnitsDropdown = rearrangePopup.findNiftyControl("dropDownSelectArmies", DropDown.class);
         
@@ -56,8 +61,7 @@ public class ContextMenuController {
         contextMenu.getElementInteraction().getPrimary().setOnClickMethod(new NiftyMethodInvoker(n, "closePopupMenu()", this));
         contextMenu.getElementInteraction().getSecondary().setOnClickMethod(new NiftyMethodInvoker(n, "closePopupMenu()", this));
         contextMenu.getElementInteraction().getTertiary().setOnClickMethod(new NiftyMethodInvoker(n, "closePopupMenu()", this));
-        
-        fewArmiesPopup = n.createPopup("fewArmiesPopup");
+        mayShowRearrangeConfirmation = true;
     }
     
     protected void handleTerritoryClick(Screen s, Territory t){
@@ -75,7 +79,10 @@ public class ContextMenuController {
                 if (!ownedTerritory && areNeighbors)
                     showAttackPopup(s);
                 else {
-                    //show popup
+                    if (ownedTerritory)
+                        parent.showAlert("Você não pode atacar um território que já possui!");
+                    else
+                        parent.showAlert("Só é possível atacar territórios vizinhos!");
                     originTerritory = null;
                     destTerritory = null;
                 }
@@ -84,12 +91,14 @@ public class ContextMenuController {
                 if (ownedTerritory && areNeighbors)
                     showRearrangePopup(s);
                 else {
-                    //show popup
+                    if (!ownedTerritory)
+                        parent.showAlert("Você não pode levar exércitos para um território que não possui!");
+                    else
+                        parent.showAlert("Só é possível distribuir para territórios vizinhos!");
                     originTerritory = null;
                     destTerritory = null;
                 }
             }  
-            //Map.selectedTerritory = null;
         }
     }
     
@@ -173,16 +182,12 @@ public class ContextMenuController {
         originTerritory = destTerritory = null;
     }
     
-    protected void dismissFewArmiesPopup(){
-        PopupManager.closePopup(n, fewArmiesPopup);
-    }
-    
     protected void MenuItemClicked(final String id, final MenuItemActivatedEvent event, final Screen s) {
         byte option = (Byte) event.getItem();
         int availableUnits = currentTemp.getBackEndTerritory().getNumArmies();
         if(option == MENU_ATTACK) {
             if (distributing) {
-                //call popup
+                parent.showAlert("Você escolheu distribuir seus exércitos! Poderá atacar apenas na próxima rodada!");
             }
             else if(availableUnits > 1) {
                 onAtkSequence = true;
@@ -190,22 +195,29 @@ public class ContextMenuController {
                 showAttackInfo();
             }
             else
-                PopupManager.showPopup(n, s, fewArmiesPopup);
+                parent.showAlert("Você não possui exércitos suficientes para atacar!");
         }
         else if(option == MENU_DISTRIBUTE){
             if (availableUnits > 1) {
                 onAtkSequence = false;
                 originTerritory = currentTemp;
-                showRearrangeInfo();
+                if (!distributing && mayShowRearrangeConfirmation)
+                    PopupManager.showPopup(n, s, rearrangeConfirmationPopup);
+                else
+                    showRearrangeInfo();
             } else
-                PopupManager.showPopup(n, s, fewArmiesPopup);
+                parent.showAlert("Você não possui exércitos suficientes para movimentar!");
         }
         PopupManager.closePopup(n, contextMenu);
     }
+    
+    public void rearrangeConfirmed() {
+        distributing = true;
+        showRearrangeInfo();
+        PopupManager.closePopup(n, rearrangeConfirmationPopup);
+    }
 
     public void rearrangeOK() {
-        //call confirmation popup
-        distributing = true;
         int armiesToMove = selectUnitsDropdown.getSelection().getCount();
         originTerritory.getBackEndTerritory().decreaseArmies(armiesToMove);
         ArmyRenderComponent armyRenderer = (ArmyRenderComponent) originTerritory.getArmy().getComponent("army-renderer");
@@ -215,6 +227,11 @@ public class ContextMenuController {
         armyRenderer.startDistribution();
         parent.setRavenMessage(Board.getInstance().getCurrentPlayer().getName()+" moveu "+armiesToMove+" territórios.");
         dismissRearrangePopup();
+    }
+    
+    public void dismissRearrangeConfirmation() {
+        originTerritory = null;
+        PopupManager.closePopup(n, rearrangeConfirmationPopup);
     }
     
     protected void cancelAttackPopup(){
@@ -228,6 +245,10 @@ public class ContextMenuController {
     
     public void setDistributing(boolean d) {
         distributing = d;
+    }
+    
+    public void mayShowRearrangeConfirmationAgain(boolean show) {
+        mayShowRearrangeConfirmation = show;
     }
     
     private static class UnitCount{

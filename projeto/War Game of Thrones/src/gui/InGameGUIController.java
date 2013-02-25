@@ -33,7 +33,7 @@ public class InGameGUIController implements ScreenController{
 
     private StatusPanelControl [] statusPanels;
     private Label playerStatusName, playerStatusCards, playerStatusUnits, playerStatusTerritories, infoTerritories, 
-            ravenMessage;
+            ravenMessage, alert;
     private Screen s;
     private Nifty n;
     private Board b;
@@ -41,7 +41,7 @@ public class InGameGUIController implements ScreenController{
     
     private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel, 
             optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup,
-            cantMoveToNextTurnPopup;
+            alertPopup;
     private boolean mouseOverObjective = false;
     
     private ContextMenuController ctxMenuCtrl;
@@ -85,7 +85,8 @@ public class InGameGUIController implements ScreenController{
         ctxMenuCtrl = new ContextMenuController(n, this);
         infoTerritoriesPopup = n.createPopup("infoTerritoriesPopup");
         infoTerritories = infoTerritoriesPopup.findNiftyControl("infoTerritories", Label.class);
-        cantMoveToNextTurnPopup = n.createPopup("cantMoveToNextTurnPopup");
+        alertPopup = n.createPopup("alertPopup");
+        alert = alertPopup.findNiftyControl("alert", Label.class);
 
         ravenMessage = screen.findNiftyControl("ravenMessage", Label.class);
         infoPanel = screen.findElementByName("infoPanel");
@@ -94,6 +95,11 @@ public class InGameGUIController implements ScreenController{
     
     public void setRavenMessage(String msg){
         ravenMessage.setText(msg);
+    }
+    
+    public void showAlert(String text) {
+        alert.setText(text);
+        PopupManager.showPopup(n, s, alertPopup);
     }
     
     @Override
@@ -151,19 +157,17 @@ public class InGameGUIController implements ScreenController{
         updateCurrentPlayersData();
     }
     
-    //TODO: check who really is the next player
     private Player getCurrentPlayer(){
         return b.getCurrentPlayer();
     }
     
-    //TODO: check who really is the next player
     private Color getCurrentPlayerColor(){
         return getCurrentPlayer().getHouse().getColor();
     }
     
     private void updateCurrentPlayersData(){
-        boolean skipedStartScreen = main.Main.JUMP_TO_GAME;
-        if(!skipedStartScreen){
+        boolean skippedStartScreen = main.Main.JUMP_TO_GAME;
+        if(!skippedStartScreen){
             Player currPlayer = getCurrentPlayer();
             Color currentPlayerColor = getCurrentPlayerColor();
             playerStatusName.setText(currPlayer.getName());
@@ -202,8 +206,9 @@ public class InGameGUIController implements ScreenController{
     
     public void nextPlayerTurn() {
         PopupManager.closePopup(n, nextTurnConfirmPopup);
-        if (getCurrentPlayer().getPendingArmies() > 0)
-            PopupManager.showPopup(n, s, cantMoveToNextTurnPopup);
+        int pendingArmies = getCurrentPlayer().getPendingArmies();
+        if (pendingArmies > 0)
+            showAlert("Você ainda possui "+pendingArmies+" exércitos para distribuir!");
         else {
             TurnHelper.getInstance().changeTurn();
             ctxMenuCtrl.setDistributing(false);
@@ -261,8 +266,8 @@ public class InGameGUIController implements ScreenController{
         PopupManager.closePopup(n, tablesPopup);
     }
     
-    public void dismissCantMoveToNextTurnPopup() {
-        PopupManager.closePopup(n, cantMoveToNextTurnPopup);
+    public void dismissAlertPopup() {
+        PopupManager.closePopup(n, alertPopup);
     }
     
     /**
@@ -308,12 +313,16 @@ public class InGameGUIController implements ScreenController{
         }
     }
     
-    public void dismissFewArmiesPopup(){
-        ctxMenuCtrl.dismissFewArmiesPopup();
-    }
-    
     public void dismissRearrangePopup(){
         ctxMenuCtrl.dismissRearrangePopup();
+    }
+    
+    public void rearrangeConfirmed() {
+        ctxMenuCtrl.rearrangeConfirmed();
+    }
+    
+    public void dismissRearrangeConfirmation() {
+        ctxMenuCtrl.dismissRearrangeConfirmation();
     }
     
     public void rearrangePopupOK(){
@@ -395,6 +404,11 @@ public class InGameGUIController implements ScreenController{
             am.muteSound();
         else
             am.unmuteSound();
+    }
+     
+    @NiftyEventSubscriber(id="dontShowRearrangeConfirmationAgain")
+    public void onDontShowRearrangeConfirmationAgainChange(final String id, final CheckBoxStateChangedEvent event) {
+        ctxMenuCtrl.mayShowRearrangeConfirmationAgain(!event.isChecked());
     }
     
     private void updateCurrentHouse(House h){

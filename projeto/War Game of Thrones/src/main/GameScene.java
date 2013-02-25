@@ -81,12 +81,12 @@ public class GameScene extends Scene{
 
     void handleTerritoryClick(Territory territory) {
         Player curr = b.getCurrentPlayer();
-        if(!b.isOnInitialSetup()) {
+        int pendingArmies = curr.getPendingArmies();
+        if(!b.isOnInitialSetup() && pendingArmies == 0) {
             InGameGUIController.handleTerritoryClick(territory);
         }
         else{
             ctrl.updatePlayersData();
-            int pendingArmies = curr.getPendingArmies();
             if(territory.getBackEndTerritory().getOwner() == curr){
                 models.Territory t = territory.getBackEndTerritory();
                 t.increaseArmies(1);
@@ -95,7 +95,8 @@ public class GameScene extends Scene{
             } 
             if(pendingArmies == 0) {
                 ctrl.setInfoLabelText(null);
-                helper.changeTurn();
+                if ( b.isOnInitialSetup())
+                    helper.changeTurn();
             }
             else
                 ctrl.setInfoLabelText("Você ainda possui "+curr.getPendingArmies()+" exército(s) para distribuir.");

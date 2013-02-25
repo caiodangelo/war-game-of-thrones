@@ -1211,17 +1211,6 @@ Em cada vez de jogar, o participante pode:&#10;
 			</control>
 		</panel>
 	</popup>
-
-	<popup id="fewArmiesPopup" childLayout="center" backgroundColor="#000a">
-		<panel padding="10%" style="nifty-panel-custom" width="32%" height="15%" childLayout="vertical">
-			<control color="#333333ff" width="100%" height="50%" align="center" name="label" text="Este território não possui unidades suficientes!"/>
-			<panel width="100%" height="35%" valign="bottom" childLayout="center">
-				<control align="center" width="40%" name="button" label="OK" focusable="false">
-					<interact onClick="dismissFewArmiesPopup()"/>
-				</control>
-			</panel>
-		</panel>
-	</popup>
 	
 	<popup id="infoTerritoriesPopup" childLayout="center">
 		<panel margin="30px" style="nifty-panel-custom" width="50%" height="50%" childLayout="vertical">
@@ -1237,13 +1226,33 @@ Em cada vez de jogar, o participante pode:&#10;
 		</panel>
 	</popup>
 	
-	<popup id="cantMoveToNextTurnPopup" childLayout="center" backgroundColor="#000a">
-		<panel padding="10%" style="nifty-panel-custom" width="32%" height="15%" childLayout="vertical">
-			<control color="#333333ff" width="100%" height="50%" align="center" name="label" text="Você ainda possui exércitos pendentes!"/>
+	<popup id="alertPopup" childLayout="center" backgroundColor="#000a">
+		<panel padding="10%" style="nifty-panel-custom" width="50%" height="15%" childLayout="vertical">
+			<control id="alert" color="#333333ff" width="100%" height="50%" align="center" name="label" text=""/>
 			<panel width="100%" height="35%" valign="bottom" childLayout="center">
-				<control align="center" width="40%" name="button" label="OK" focusable="false">
-					<interact onClick="dismissCantMoveToNextTurnPopup()"/>
+				<control align="center" width="20%" name="button" label="OK" focusable="false">
+					<interact onClick="dismissAlertPopup()"/>
 				</control>
+			</panel>
+		</panel>
+	</popup>
+	
+	<popup id="rearrangeConfirmationPopup" childLayout="center" backgroundColor="#000a">
+		<panel padding="10%" style="nifty-panel-custom" width="45%" height="20%" childLayout="vertical">
+			<control color="#333333ff" width="100%" height="25%" align="center" name="label" text="Se optar por redistribuir seus exércitos, não poderá mais atacar nesta rodada."/>
+			<control color="#333333ff" width="100%" height="25%" align="center" name="label" text="Tem certeza de que deseja redistribuir?"/>
+			<panel width="100%" height="35%" valign="bottom" childLayout="horizontal">
+				<control align="left" width="40%" name="button" label="Cancelar" focusable="false">
+					<interact onClick="dismissRearrangeConfirmation()"/>
+				</control>
+				<panel childLayout="center" width="20%"/>
+				<control align="right" width="40%" name="button" label="Sim" focusable="false">
+					<interact onClick="rearrangeConfirmed()"/>
+				</control>
+			</panel>
+			<panel align="center" marginBottom="35%" width="40%" height="15%" valign="bottom" childLayout="horizontal">
+				<control id="dontShowRearrangeConfirmationAgain" name="checkbox" height="70%" width="7%"/>
+				<control color="#333333ff" marginLeft="5%" textHAlign="left" name="label" text="Não mostrar novamente" height="80%" width="95%"/>
 			</panel>
 		</panel>
 	</popup>
