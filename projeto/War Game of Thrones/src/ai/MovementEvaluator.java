@@ -20,18 +20,20 @@ public class MovementEvaluator extends Evaluator {
 
     public MovementEvaluator(Board currentGameState, Player player) {
         super(currentGameState, player);
-        // TODO: preencher a lista de features com as features aplicáveis para este evaluator.
+        features.add(new DistanceToFrontierFeature());
+        features.add(new MoreThanOneArmyFeature());
+        features.add(new ContinentSafetyFeature());
+        features.add(new MaximumThreatFeature());
     }
 
     @Override
     public Board simulateActionExecution() {
-        // TODO: Copiar e gerar um novo tabuleiro, movimentando 1 exército de um dado território para outro dado território
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public double evaluate(Board gameState) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Board newState = currentGameState.getClone();
+        Territory clonedOriginTerritory = newState.getTerritories()[originTerritory.getIndex()];
+        Territory clonedDestinyTerritory = newState.getTerritories()[destinyTerritory.getIndex()];
+        Player clonedPlayer = getSimulatedPlayer();
+        clonedPlayer.moveArmies(clonedOriginTerritory, clonedDestinyTerritory, 1);
+        return newState;
     }
 
     public Territory getDestinyTerritory() {

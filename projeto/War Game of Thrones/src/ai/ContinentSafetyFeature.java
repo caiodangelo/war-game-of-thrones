@@ -17,14 +17,13 @@ import models.Territory;
 public class ContinentSafetyFeature extends Feature {
 
 
-    public ContinentSafetyFeature(Board gameState, Player player) {
-        super(gameState, player);
+    public ContinentSafetyFeature() {
         importance = 2;
         scaleFactor = 1;
     }
 
     @Override
-    public double calculate() {
+    public double calculate(Board gameState, Player player) {
         double totalThreat = 0.0;
         double regionThreat = 0.0;
         int totalThreats = 0;
