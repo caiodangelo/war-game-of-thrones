@@ -76,21 +76,26 @@ public class Mission implements Serializable {
         switch (type) {
             case TYPE_TERRITORY:
                 if (territories == 23) {
-                    return "Seu objetivo é conquistar " + territories + " territórios à sua escolha";
+                    return "Seu objetivo é conquistar " + territories + " territórios à sua escolha!";
                 }
                 if (territories == 17) {
-                    return "Seu objetivo é conquistar " + territories + " territórios à sua escolha com 2 exércitos em cada um deles";
+                    return "Seu objetivo é conquistar " + territories + " territórios à sua escolha com 2 exércitos em cada um deles!";
                 }
             case TYPE_HOUSE:
-                return "Seu objetivo é destruir todos os exércitos da casa " + house.getName();
+                return "Seu objetivo é destruir todos os exércitos da casa " + house.getName() + "!";
             case TYPE_REGION:
                 String objective = "Seu objetivo é conquistar completamente os seguintes continentes: ";
-                for (Region region : regions) {
+                for (int i = 0; i < regions.size(); i++) {
+                    Region region = regions.get(i);
                     objective += region.getName() + ", ";
+                    if (i == regions.size() - 1)
+                        objective += region.getName();
+                    if (region.getName().equals(null))
+                        objective += "e um continente à sua escolha!";
                 }
                 return objective.substring(0, objective.length() - 1);
         }
-        return "Seu objetivo ainda não foi definido";
+        return "Seu objetivo ainda não foi definido!";
     }
 
     @Deprecated
