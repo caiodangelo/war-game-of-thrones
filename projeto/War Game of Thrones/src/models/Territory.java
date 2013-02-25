@@ -91,7 +91,8 @@ public class Territory implements Serializable {
     }
 
     /**
-     * Pega o número de exércitos - 1
+     * Pega o número de exércitos - 1. Serve para indicar quantos exércitos o jogador tem
+     * de sobra para poder atacar.
      */
     public int getSurplusArmies() {
         return numArmies - 1;
@@ -101,7 +102,7 @@ public class Territory implements Serializable {
      * Diz que X exércitos já foram movidos naquela jogada. Retorna false se o
      * número resultante for menor que zero, e não permite a movimentação.
      *
-     * @param amount
+     * @param amount O número de exércitos que foi movido deste território
      */
     protected boolean setMovedArmies(int amount) {
         int remaining = numArmiesCanMoveThisRound - amount;
@@ -112,10 +113,20 @@ public class Territory implements Serializable {
         return false;
     }
 
+    /**
+     * Reseta o número de exércitos que podem se movimentar deste território para outro.
+     * Deve ser chamado no início da rodada do jogador.
+     */
     protected void resetMovedArmies() {
         numArmiesCanMoveThisRound = numArmies - 1;
     }
 
+    /**
+     * Retorna o número de exércitos que podem se movimentar para outro território
+     * nesta rodada. Este número é decrementado para cada exército movido deste
+     * território, de modo que um exército que seja movido para este território
+     * não possa ser movido novamente na mesma rodada
+     */
     public int getNumArmiesCanMoveThisRound() {
         return numArmiesCanMoveThisRound;
     }
@@ -155,6 +166,10 @@ public class Territory implements Serializable {
         return false;
     }
 
+    /**
+     * Retorna uma lista com todos os territórios que fazem fronteira ou tem
+     * conexão por rotas com este.
+     */
     public List<Territory> getNeighbours() {
         Territory[] allTerritories = board.getTerritories();
         List<Territory> resp = new ArrayList<Territory>();
@@ -164,6 +179,19 @@ public class Territory implements Serializable {
                 resp.add(t);
         }
         return resp;
+    }
+
+    /**
+     * Retorna true se este território não conter nenhum vizinho de outro jogador, ou seja,
+     * se ele for um território interno do jogador.
+     */
+    public boolean isHinterland() {
+        for (Territory neighbour : getNeighbours()) {
+            if (neighbour.getOwner() != this.getOwner()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -180,6 +208,9 @@ public class Territory implements Serializable {
         return "Territory: " + getName() + " from " + region;
     }
 
+    /**
+     * Retorna o ID deste território, de acordo com a classe {@link TerritoryID}
+     */
     public int getIndex() {
         return index;
     }

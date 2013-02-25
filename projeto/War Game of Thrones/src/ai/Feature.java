@@ -4,12 +4,13 @@ import models.Board;
 import models.Player;
 
 /**
- *
- * @author rodrigo
- *
- * Feature é um aspecto de avaliação para determinar o próximo movimento da IA.
+ * Feature é um aspecto de avaliação para gerar uma "nota" para um estado de jogo.
  * Toda feature avalia um estado de jogo e um jogador, retornando um número real que é
- * como se fosse uma nota para aquele estado de jogo, visto de um certo ponto de vista específico.
+ * a nota para aquele estado de jogo, visto de um certo ponto de vista. Cada ponto de vista é uma
+ * feature, e cada feature tem uma importância e uma escala diferente.
+ *
+ * A importância serve para indicar o quanto dada feature vai afetar a nota final de um estado de jogo,
+ * e a escala serve para nivelar o resultado de todas as features para um valor entre 0 e 1.
  *
  * Um exemplo de feature seria a DistanceToFrontierFeature, que avalia numa escala de 0 a 1 a distribuição
  * dos exércitos do jogador entre territórios de fronteira e territórios internos (que só tem fronteira
@@ -20,6 +21,7 @@ import models.Player;
  * Feature Result =  ----------------------------------------------------------------------
  *                    ∑(t ∈ territorios_jogador) num_exercitos(t) * distância_fronteira(t)
  *
+ * @author rodrigo
  */
 public abstract class Feature {
 

@@ -69,8 +69,8 @@ public class Region implements Serializable {
     }
 
     /**
-     * Retorna o jogador que possui todos os territórios deste continente, ou nulo se mais
-     * de um jogador possuir territórios neste continente.
+     * Se um único {@link Player} possuir todos os {@link Territory} desta região, ele
+     * será retornado. Caso contrário, o método retornará null.
      */
     public Player getOwner() {
         Player owner = null;
@@ -88,10 +88,21 @@ public class Region implements Serializable {
         return "Region " + name;
     }
 
+    /**
+     * Retorna uma nota para esta region, avaliando o número de territórios que ela
+     * possui, número de bordas com outras regiões e o bônus de exércitos que o
+     * jogador recebe caso conquiste a região por completo. Este método é utilizado
+     * pelo {@link AIPlayer} para avaliar se vale a pena tentar conquistar dada região.
+     */
     public double getRating() {
         return (15.0 + (bonus - 4.0) * getBorderTerritories().size()) / (getTerritories().size() * 1.0);
     }
-    
+
+    /**
+     * Retorna true se todos os {@link Territory} desta região pertencerem a um
+     * único {@link Player}, e false se não.
+     * @param p O {@link Player} que se deseja verificar se é dono da região toda.
+     */
     public boolean conqueredByPlayer(Player p){
         for(Territory playerTerr : territories){
             if(!playerTerr.getOwner().equals(p))
