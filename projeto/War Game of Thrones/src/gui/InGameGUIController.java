@@ -40,7 +40,8 @@ public class InGameGUIController implements ScreenController{
     public static Player [] players;
     
     private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel, 
-            optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup;
+            optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup,
+            cantMoveToNextTurnPopup;
     private boolean mouseOverObjective = false;
     
     private ContextMenuController ctxMenuCtrl;
@@ -85,6 +86,7 @@ public class InGameGUIController implements ScreenController{
         ctxMenuCtrl = new ContextMenuController(n, this);
         infoTerritoriesPopup = n.createPopup("infoTerritoriesPopup");
         infoTerritories = infoTerritoriesPopup.findNiftyControl("infoTerritories", Label.class);
+        cantMoveToNextTurnPopup = n.createPopup("cantMoveToNextTurnPopup");
 
         ravenMessage = screen.findNiftyControl("ravenMessage", Label.class);
         infoPanel = screen.findElementByName("infoPanel");
@@ -205,8 +207,11 @@ public class InGameGUIController implements ScreenController{
 //        showCurrentPlayerMsg();
 //        if (b.isOnInitialSetup())
 //            showInfoTerritories();
-        TurnHelper.getInstance().changeTurn();
         PopupManager.closePopup(n, nextTurnConfirmPopup);
+        if (getCurrentPlayer().getPendingArmies() > 0)
+            PopupManager.showPopup(n, s, cantMoveToNextTurnPopup);
+        else
+            TurnHelper.getInstance().changeTurn();
     }
     
     public void dismissNextTurnConfirmation(){
@@ -258,6 +263,10 @@ public class InGameGUIController implements ScreenController{
     
     public void dismissTablesPopup(){
         PopupManager.closePopup(n, tablesPopup);
+    }
+    
+    public void dismissCantMoveToNextTurnPopup() {
+        PopupManager.closePopup(n, cantMoveToNextTurnPopup);
     }
     
     /**
@@ -343,13 +352,12 @@ public class InGameGUIController implements ScreenController{
     public void closeInfoTerritoriesPopup(){
         PopupManager.closePopup(n, infoTerritoriesPopup);
         Player curr = b.getCurrentPlayer();
-        System.out.println("pending arms for curr player " + curr.getPendingArmies());
         List<models.Territory> ts = b.getCurrentPlayer().getTerritories();
         
         for(models.Territory t : ts){
             t.setNumArmies(1);
         }
-        
+        setInfoLabelText("Você ainda possui "+getCurrentPlayer().getPendingArmies()+" exército(s) para distribuir.");
         updatePlayersData();
         setRavenMessage(curr.getName() + " está distribuindo os exércitos.");
     }
