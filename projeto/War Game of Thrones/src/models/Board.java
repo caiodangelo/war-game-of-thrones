@@ -239,21 +239,21 @@ public class Board implements Serializable {
         return isOnInitialSetup;
     }
 
-    public List<House> getAbsentHouses() {
-        List<House> absentHouses = new ArrayList<House>();
-        List<House> presentHouses = getHouses();
-
-        if (players.size() != 6) {
-            for (House house : houses) {
-                if (!presentHouses.contains(house)) {
-                    absentHouses.add(house);
-                }
-            }
-            return absentHouses;
-        } else {
-            return null;
-        }
-    }
+//    public List<House> getAbsentHouses() {
+//        List<House> absentHouses = new ArrayList<House>();
+//        List<House> presentHouses = getHouses();
+//
+//        if (players.size() != 6) {
+//            for (House house : houses) {
+//                if (!presentHouses.contains(house)) {
+//                    absentHouses.add(house);
+//                }
+//            }
+//            return absentHouses;
+//        } else {
+//            return null;
+//        }
+//    }
 
     public Player nextPlayer(Player player) {
         int i;
@@ -336,29 +336,29 @@ public class Board implements Serializable {
         }
     }
 
-    public ArrayList<Mission> removeMissions() {
-        //List<House> absentHouses = this.getAbsentHouses();
-        boolean found = false;
-        ArrayList<Mission> answer = new ArrayList<Mission>();
-
-        answer = missions;
-
-        for (int i = 0; i < answer.size(); i++) {
-            Mission mission = answer.get(i);
-            if ((mission.getType() == Mission.TYPE_HOUSE)) {
-                for (int j = 0; j < houses.size(); j++) {
-                    if (mission.getHouse().equals(houses.get(j))) {
-                        found = true;
-                    }
-                }
-                if (!found) {
-                    answer.remove(answer.get(i));
-                    i--;
-                }
-            }
-        }
-        return answer;
-    }
+//    public ArrayList<Mission> removeMissions() {
+//        //List<House> absentHouses = this.getAbsentHouses();
+//        boolean found = false;
+//        ArrayList<Mission> answer = new ArrayList<Mission>();
+//
+//        answer = missions;
+//
+//        for (int i = 0; i < answer.size(); i++) {
+//            Mission mission = answer.get(i);
+//            if ((mission.getType() == Mission.TYPE_HOUSE)) {
+//                for (int j = 0; j < houses.size(); j++) {
+//                    if (mission.getHouse().equals(houses.get(j))) {
+//                        found = true;
+//                    }
+//                }
+//                if (!found) {
+//                    answer.remove(answer.get(i));
+//                    i--;
+//                }
+//            }
+//        }
+//        return answer;
+//    }
 
     public Region[] getRegions() {
         return regions;
