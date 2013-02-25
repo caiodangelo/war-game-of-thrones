@@ -4,6 +4,8 @@
  */
 package models;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author Anderson
@@ -177,23 +179,29 @@ public class StatisticPlayerManager {
 
     public void setYouAttackedMore() {
         Board board = Board.getInstance();
-        int index = this.attackTable[0];
-        for (int i = 0; i < board.getPlayers().size() - 1; i++) {
-            if (this.attackTable[i + 1] > this.attackTable[i]) {
-                index = this.attackTable[i + 1];
+        LinkedList<Player> players = board.getPlayers();
+        int indexOfMostAttackedPlayer = 0;
+        int mostAttacks = this.attackTable[indexOfMostAttackedPlayer];
+        for (int i = 1; i < players.size(); i++) {
+            if (this.attackTable[i] > mostAttacks) {
+                mostAttacks = this.attackTable[i];
+                indexOfMostAttackedPlayer = i;
             }
         }
-        this.youAttackMore = board.getPlayer(index);
+        this.youAttackMore = board.getPlayer(indexOfMostAttackedPlayer);
     }
 
     public void setMoreEnemy() {
         Board board = Board.getInstance();
-        int index = this.defenceTable[0];
-        for (int i = 0; i < board.getPlayers().size() - 1; i++) {
-            if (this.defenceTable[i + 1] > this.defenceTable[i]) {
-                index = this.defenceTable[i + 1];
+        LinkedList<Player> players = board.getPlayers();
+        int indexOfMostAttackedPlayer = 0;
+        int mostAttacks = this.defenceTable[indexOfMostAttackedPlayer];
+        for (int i = 1; i < players.size(); i++) {
+            if (this.defenceTable[i] > mostAttacks) {
+                mostAttacks = this.defenceTable[i];
+                indexOfMostAttackedPlayer = i;
             }
         }
-        this.moreEnemy = board.getPlayer(index);
+        this.moreEnemy = board.getPlayer(indexOfMostAttackedPlayer);
     }
 }

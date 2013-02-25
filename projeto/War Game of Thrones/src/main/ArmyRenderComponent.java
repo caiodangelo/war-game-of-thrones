@@ -18,13 +18,15 @@ public class ArmyRenderComponent extends ImageRenderComponent {
     private static final float ATTACK_SPACEMENT = 20;
     
     private int movingQty = 0;
-    private Image imageCopy;
     private Vector2f origin;
     private Vector2f destiny;
+    private Territory destinyTerritory;
     private float xSpeed = 0;
     private float ySpeed = 0;
     private Vector2f movingPos;
+    private Image imageCopy;
     private boolean exploding;
+    private boolean distributing;
     private Animation explosion;
     
     public ArmyRenderComponent(String id, Image img) {
@@ -33,7 +35,7 @@ public class ArmyRenderComponent extends ImageRenderComponent {
             SpriteSheet ss = new SpriteSheet("resources/images/explosion-spritesheet.png", 1024/8, 768/6);
             explosion = new Animation(ss, 40);
             explosion.setLooping(false);
-            this.imageCopy = img;
+            imageCopy = img;
         } catch (SlickException ex) {
             Logger.getLogger(ArmyRenderComponent.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -45,7 +47,10 @@ public class ArmyRenderComponent extends ImageRenderComponent {
         float scale = ((Army) owner).getTerritory().getScale();
         image.draw(pos.x, pos.y, scale);
         gr.setColor(Color.white);
-        gr.drawString((((Army) owner).getQuantity() - movingQty)+"", pos.x, pos.y);
+        if (!distributing)
+            gr.drawString((((Army) owner).getQuantity() - movingQty)+"", pos.x, pos.y);
+        else
+            gr.drawString(((Army) owner).getQuantity()+"", pos.x, pos.y);
         if (movingQty > 0 && (xSpeed != 0 || ySpeed != 0)) {
             imageCopy.draw(movingPos.x, movingPos.y, scale);
             gr.drawString(movingQty+"", movingPos.x, movingPos.y);
@@ -63,14 +68,33 @@ public class ArmyRenderComponent extends ImageRenderComponent {
             xSpeed = 0;
             ySpeed = 0;
         }
-        else if (!exploding) {
+        else if (!exploding && !distributing) {
             if (movingQty > 0) {
                 if (xSpeed == 0 && ySpeed == 0) {
                     movingPos = origin;
                     xSpeed = (destiny.x - origin.x)/80f;
                     ySpeed = (destiny.y - origin.y)/80f;
                 }
-                else if ((xSpeed < 0 && movingPos.x > destiny.x + ATTACK_SPACEMENT) || (xSpeed > 0 && movingPos.x < destiny.x - ATTACK_SPACEMENT))
+                else if (!closeToDestiny())
+                    move();
+            }
+        }
+        else if (distributing) {
+            if (movingQty > 0) {
+                if (xSpeed == 0 && ySpeed == 0) {
+                    movingPos = origin;
+                    xSpeed = (destiny.x - origin.x)/80f;
+                    ySpeed = (destiny.y - origin.y)/80f;
+                }
+                else if ((xSpeed < 0 && movingPos.x <= destiny.x) || (xSpeed > 0 && movingPos.x >= destiny.x)) {
+                    destinyTerritory.getBackEndTerritory().increaseArmies(movingQty);
+                    movingQty = 0;
+                    distributing = false;
+                    destiny = null;
+                    xSpeed = 0;
+                    ySpeed = 0;
+                }
+                else
                     move();
             }
         }
@@ -80,12 +104,13 @@ public class ArmyRenderComponent extends ImageRenderComponent {
         this.movingQty = q;
     }
     
-    public void setOrigin(Vector2f o) {
-        this.origin = o;
+    public void setOrigin(Territory o) {
+        origin = o.getArmy().getPosition();
     }
     
-    public void setDestiny(Vector2f d) {
-        this.destiny = d;
+    public void setDestiny(Territory d) {
+        destiny = d.getArmy().getPosition();
+        destinyTerritory = d;
     }
     
     public void startExplosion() {
@@ -93,9 +118,20 @@ public class ArmyRenderComponent extends ImageRenderComponent {
         explosion.restart();
     }
     
+    public void startDistribution() {
+        distributing = true;
+    }
+    
     private void move() {
         movingPos.x += xSpeed;
         movingPos.y += ySpeed;
+    }
+    
+    private boolean closeToDestiny() {
+        float xDistance = Math.abs(destiny.x - movingPos.x);
+        float yDistance = Math.abs(destiny.y - movingPos.y);
+        float diagonalDistance = (float) Math.sqrt((Math.pow(xDistance, 2) + Math.pow(yDistance, 2)));
+        return diagonalDistance < ATTACK_SPACEMENT;
     }
     
     private void drawCenteredExplosion() {

@@ -1,6 +1,9 @@
 package main;
 
+import gui.InGameGUIController;
 import java.util.ArrayList;
+import models.Battle;
+import models.Board;
 import org.newdawn.slick.geom.Vector2f;
 
 public class DiceManager {
@@ -16,9 +19,11 @@ public class DiceManager {
     
     private static DiceManager instance;
     private GameScene gameScene;
+    private Battle battle;
     private boolean dicesOnScreen;
     private boolean dicesOnCorrectPosition;
     private Territory attackingTerritory;
+    private Territory defendingTerritory;
     private ArrayList<Dice> atkDices;
     private ArrayList<Dice> defDices;
     
@@ -40,10 +45,10 @@ public class DiceManager {
     public void checkIfAllDicesAreSet() {
         boolean dicesSet = true;
         for (Dice ad : atkDices) {
-            dicesSet = dicesSet && (ad.getResult() >= 0);
+            dicesSet = dicesSet && (!ad.isRolling());
         }
         for (Dice dd : defDices) {
-            dicesSet = dicesSet && (dd.getResult() >= 0);
+            dicesSet = dicesSet && (!dd.isRolling());
         }
         if (dicesSet) {
             int pos = 0;
@@ -101,12 +106,12 @@ public class DiceManager {
     public void showDices(int atk, int def) {
         Dice d;
         for (int i = 0; i < atk; i++) {
-            d = new Dice(ATK_POSITIONS[i], true);
+            d = new Dice(ATK_POSITIONS[i], true, battle.getAttackersDices()[i]);
             atkDices.add(d);
             gameScene.addEntity(d);
         }
         for (int i = 0; i < def; i++) {
-            d = new Dice(DEF_POSITIONS[i], false);
+            d = new Dice(DEF_POSITIONS[i], false, battle.getDefendersDices()[i]);
             defDices.add(d);
             gameScene.addEntity(d);
         }
@@ -139,6 +144,18 @@ public class DiceManager {
         atkDices.clear();
         defDices.clear();
         dicesOnScreen = false;
+        dicesOnCorrectPosition = false;
+        InGameGUIController guiController = InGameGUIController.getInstance();
+        String currPlayerName = Board.getInstance().getCurrentPlayer().getName();
+        String attackedPlayerName = defendingTerritory.getBackEndTerritory().getOwner().getName();
+        int atkDeaths = battle.getAttackerDeaths();
+        int defDeaths = battle.getDefendersDeaths();
+        guiController.setRavenMessage(currPlayerName+" sofreu "+atkDeaths+" baixa(s)! "+attackedPlayerName+" sofreu "+defDeaths+" baixa(s)!");
+        battle.concludeAttack();
+        if (battle.isConquested()) {
+            InGameGUIController.getInstance().setRavenMessage(currPlayerName+" conquistou o território de "+attackedPlayerName+"!");
+            defendingTerritory.getArmy().changeImage();
+        }
     }
     
     public boolean allDicesOnCorrectPosition() {
@@ -147,6 +164,18 @@ public class DiceManager {
     
     public void setAttackingTerritory(Territory attacker) {
         attackingTerritory = attacker;
+    }
+    
+    public void setDefendingTerritory(Territory defender) {
+        defendingTerritory = defender;
+    }
+    
+    public void setBattle(Battle b) {
+        battle = b;
+    }
+    
+    public Battle getBattle() {
+        return battle;
     }
 
 }

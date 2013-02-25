@@ -9,9 +9,11 @@ import de.lessvoid.nifty.controls.MenuItemActivatedEvent;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.tools.SizeValue;
+import main.Army;
 import main.ArmyRenderComponent;
 import main.DiceManager;
 import main.Territory;
+import models.Battle;
 import models.Board;
 import models.Player;
 import util.PopupManager;
@@ -30,6 +32,7 @@ public class ContextMenuController {
     private Territory originTerritory, destTerritory, currentTemp;
     
     private boolean onAtkSequence;
+    private boolean distributing;
     
     public ContextMenuController(Nifty n, InGameGUIController parent){
         this.n = n;
@@ -81,6 +84,7 @@ public class ContextMenuController {
                 if (ownedTerritory && areNeighbors)
                     showRearrangePopup(s);
                 else {
+                    //show popup
                     originTerritory = null;
                     destTerritory = null;
                 }
@@ -94,12 +98,11 @@ public class ContextMenuController {
         selectUnitsDropdown.clear();
         Player owner = originTerritory.getBackEndTerritory().getOwner();
         models.Territory origin = originTerritory.getBackEndTerritory();
-//        int unitsCount = origin.getNumArmiesCanMoveThisRound();
-//        System.out.println("UNITS THAT CAN BE MOVED " + unitsCount);
-        int unitsCount = 3;
+        int unitsCount = origin.getNumArmies() - 1;
         for(int i = 1; i <= unitsCount; i++)
             selectUnitsDropdown.addItem(new UnitCount(i));
         PopupManager.showPopup(n, screen, rearrangePopup);
+        parent.setRavenMessage(owner.getName()+" está distribuindo seus exércitos.");
     }
     
     private void showAttackPopup(Screen screen){
@@ -142,14 +145,17 @@ public class ContextMenuController {
         PopupManager.closePopup(n, attackPopup);
         int atkUnits = atkDropDown.getSelection();
         int defUnits = defDropDown.getSelection();
-        //chamar o ataque aqui
-        //blablalba
+        Battle battle = new Battle(originTerritory.getBackEndTerritory(), destTerritory.getBackEndTerritory(), atkUnits, defUnits);
+        battle.attack();
         DiceManager dm = DiceManager.getInstance();
+        dm.setBattle(battle);
+        parent.setRavenMessage(battle.getAttacker().getOwner().getName()+" está atacando "+battle.getDefender().getOwner().getName()+"!");
         dm.showDices(atkUnits, defUnits);
         dm.setAttackingTerritory(originTerritory);
+        dm.setDefendingTerritory(destTerritory);
         ArmyRenderComponent comp = (ArmyRenderComponent) originTerritory.getArmy().getComponent("army-renderer");
-        comp.setOrigin(originTerritory.getArmy().getPosition());
-        comp.setDestiny(destTerritory.getArmy().getPosition());
+        comp.setOrigin(originTerritory);
+        comp.setDestiny(destTerritory);
         comp.setMovingQuantity(atkUnits);
         originTerritory = destTerritory = null;
     }
@@ -175,12 +181,15 @@ public class ContextMenuController {
         byte option = (Byte) event.getItem();
         int availableUnits = currentTemp.getBackEndTerritory().getNumArmies();
         if(option == MENU_ATTACK) {
-            //TODO: get available units from back-end
-            if(availableUnits > 1) {
+            if (distributing) {
+                //call popup
+            }
+            else if(availableUnits > 1) {
                 onAtkSequence = true;
                 originTerritory = currentTemp;
                 showAttackInfo();
-            } else
+            }
+            else
                 PopupManager.showPopup(n, s, fewArmiesPopup);
         }
         else if(option == MENU_DISTRIBUTE){
@@ -195,9 +204,16 @@ public class ContextMenuController {
     }
 
     public void rearrangeOK() {
+        //call confirmation popup
+        distributing = true;
         int armiesToMove = selectUnitsDropdown.getSelection().getCount();
-        System.out.println("[Front-End] requesting from back end to move " + armiesToMove +
-                " from " + originTerritory + " to " + destTerritory);
+        originTerritory.getBackEndTerritory().decreaseArmies(armiesToMove);
+        ArmyRenderComponent armyRenderer = (ArmyRenderComponent) originTerritory.getArmy().getComponent("army-renderer");
+        armyRenderer.setOrigin(originTerritory);
+        armyRenderer.setDestiny(destTerritory);
+        armyRenderer.setMovingQuantity(armiesToMove);
+        armyRenderer.startDistribution();
+        parent.setRavenMessage(Board.getInstance().getCurrentPlayer().getName()+" moveu "+armiesToMove+" territórios.");
         dismissRearrangePopup();
     }
     
@@ -208,6 +224,10 @@ public class ContextMenuController {
     
     public void closePopupMenu() {
         PopupManager.closePopup(n, contextMenu);
+    }
+    
+    public void setDistributing(boolean d) {
+        distributing = d;
     }
     
     private static class UnitCount{

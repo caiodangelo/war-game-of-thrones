@@ -1,6 +1,8 @@
 package main;
 
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import models.Board;
 import models.House;
 import org.newdawn.slick.Image;
@@ -10,12 +12,10 @@ import util.Entity;
 
 public class Army extends Entity {
     
-    private int qty;
     private Territory territory;
     
     public Army(Map m, Territory territory, Vector2f relativePos, int qty, Scroll s) {
         super();
-        this.qty = qty;
         this.territory = territory;
         addComponent(new ArmyPositionSync(m, relativePos));
         try {
@@ -24,7 +24,7 @@ public class Army extends Entity {
             setScale(m.getScale());
             addComponent(new ArmyRenderComponent("army-renderer", new Image(armyImgPath)));
         } catch (SlickException e) {
-            e.printStackTrace();
+            Logger.getLogger(Army.class.getName()).log(Level.SEVERE, null, e);
         }
     }
     
@@ -34,15 +34,16 @@ public class Army extends Entity {
     
     public int getQuantity() {
         return territory.getBackEndTerritory().getNumArmies();
-//        return this.qty;
     }
     
-    public void addArmies(int q) {
-        this.qty += q;
-    }
-    
-    public void decreaseArmies(int q) {
-        this.qty -= q;
+    public void changeImage() {
+        removeComponent(getComponent("army-renderer"));
+        String imgPath = getHouseImagePath();
+        try {
+            addComponent(new ArmyRenderComponent("army-renderer", new Image(imgPath)));
+        } catch (SlickException ex) {
+            Logger.getLogger(Army.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private String getHouseImagePath() {

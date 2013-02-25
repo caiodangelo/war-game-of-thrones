@@ -47,7 +47,6 @@ public class InGameGUIController implements ScreenController{
     private ContextMenuController ctxMenuCtrl;
     private static InGameGUIController instance;
     private HashMap<Integer, String> turnsOrder;
-    private GameScene gameScene;
     
     public InGameGUIController(){
             turnsOrder = new HashMap();
@@ -99,7 +98,6 @@ public class InGameGUIController implements ScreenController{
     
     @Override
     public void onStartScreen() {  
-        gameScene = (GameScene)main.Main.getInstance().getCurrentState();
         b = Board.getInstance();
         List<Player> playersList = Board.getInstance().getPlayers();
         players = playersList.toArray(new Player[0]);
@@ -206,8 +204,10 @@ public class InGameGUIController implements ScreenController{
         PopupManager.closePopup(n, nextTurnConfirmPopup);
         if (getCurrentPlayer().getPendingArmies() > 0)
             PopupManager.showPopup(n, s, cantMoveToNextTurnPopup);
-        else
+        else {
             TurnHelper.getInstance().changeTurn();
+            ctxMenuCtrl.setDistributing(false);
+        }
     }
     
     public void dismissNextTurnConfirmation(){
