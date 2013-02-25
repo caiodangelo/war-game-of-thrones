@@ -14,6 +14,8 @@ public abstract class Evaluator {
     protected Board simulatedGameState;
     protected List<Feature> features;
     protected Player player;
+    protected double simulatedRating = Double.NEGATIVE_INFINITY;
+    protected double currentRating = Double.NEGATIVE_INFINITY;
 
     public Evaluator(Board currentGameState, Player player) {
         this.currentGameState = currentGameState;
@@ -57,7 +59,8 @@ public abstract class Evaluator {
             grade += feature.calculateScaledGrade(getSimulatedGameState(), getSimulatedPlayer());
             importanceSum += feature.getImportance();
         }
-        return grade / importanceSum;
+        simulatedRating = grade / importanceSum;
+        return simulatedRating;
     }
 
     public double evaluateCurrentGameState() {
@@ -67,7 +70,20 @@ public abstract class Evaluator {
             grade += feature.calculateScaledGrade(currentGameState, player);
             importanceSum += feature.getImportance();
         }
-        return grade / importanceSum;
+        currentRating = grade / importanceSum;
+        return currentRating;
+    }
+
+    /**
+     * Compara a nota do GameState gerado pela ação aplicada neste evaluator com a nota
+     * do GameState original, e retorna true se a nota do novo GameState for maior ou 
+     * igual do que a nota do GameState original, senão retorna false.
+     */
+    public boolean isGoodAction() {
+        if (simulatedRating > -1000.0 && currentRating > -1000.0) {
+            return simulatedRating >= currentRating;
+        }
+        return false;
     }
 
     public List<Feature> getFeatures() {
