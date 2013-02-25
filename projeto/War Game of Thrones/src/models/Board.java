@@ -52,7 +52,7 @@ public class Board implements Serializable {
     private void retrieveTerritories() {
         System.out.println("Filling board territories");
         regions = new Region[6];
-        String[] regionNames = {"Além da Muralha", "Cidades Livres", "O Norte", "Sul", "Tridente", "O Mar Dothraki"};
+        String[] regionNames = {"Além da Muralha", "Cidades Livres", "O Norte", "O Sul", "Tridente", "O Mar Dothraki"};
         int[] bonus = {Region.ALEM_DA_MURALHA, Region.CIDADES_LIVRES, Region.O_NORTE, Region.O_SUL, Region.TRIDENTE, Region.O_MAR_DOTHRAKI};
         for (int i = 0; i < regionNames.length; i++) {
             regions[i] = new Region(regionNames[i], bonus[i]);
@@ -121,39 +121,39 @@ public class Board implements Serializable {
 
     public void createMissions() {
         Region empty = new Region(null, 0);
-        ArrayList<Region> allRegions = new ArrayList<Region>();
-        allRegions.add(regions[0]);
-        allRegions.add(regions[3]);
-        allRegions.add(empty);
-        missions.add(new Mission("", Mission.TYPE_REGION, allRegions));
-        allRegions.clear();
-        allRegions.add(regions[1]);
-        allRegions.add(regions[0]);
-        missions.add(new Mission("", Mission.TYPE_REGION, allRegions));
-        allRegions.clear();
-        allRegions.add(regions[2]);
-        allRegions.add(regions[5]);
-        allRegions.add(empty);
-        missions.add(new Mission("", Mission.TYPE_REGION, allRegions));
-        allRegions.clear();
-        allRegions.add(regions[1]);
-        allRegions.add(regions[4]);
-        missions.add(new Mission("", Mission.TYPE_REGION, allRegions));
-        allRegions.clear();
-        allRegions.add(regions[2]);
-        allRegions.add(regions[3]);
-        missions.add(new Mission("", Mission.TYPE_REGION, allRegions));
-        allRegions.clear();
-        allRegions.add(regions[4]);
-        allRegions.add(regions[5]);
-        missions.add(new Mission("", Mission.TYPE_REGION, allRegions));
+        ArrayList<Region> allRegions1 = new ArrayList<Region>();
+        allRegions1.add(regions[0]);
+        allRegions1.add(regions[3]);
+        allRegions1.add(empty);
+        missions.add(new Mission("", Mission.TYPE_REGION, allRegions1));
+        ArrayList<Region> allRegions2 = new ArrayList<Region>();
+        allRegions2.add(regions[1]);
+        allRegions2.add(regions[0]);
+        missions.add(new Mission("", Mission.TYPE_REGION, allRegions2));
+        ArrayList<Region> allRegions3 = new ArrayList<Region>();
+        allRegions3.add(regions[2]);
+        allRegions3.add(regions[5]);
+        allRegions3.add(empty);
+        missions.add(new Mission("", Mission.TYPE_REGION, allRegions3));
+        ArrayList<Region> allRegions4 = new ArrayList<Region>();
+        allRegions4.add(regions[1]);
+        allRegions4.add(regions[4]);
+        missions.add(new Mission("", Mission.TYPE_REGION, allRegions4));
+        ArrayList<Region> allRegions5 = new ArrayList<Region>();
+        allRegions5.add(regions[2]);
+        allRegions5.add(regions[3]);
+        missions.add(new Mission("", Mission.TYPE_REGION, allRegions5));
+        ArrayList<Region> allRegions6 = new ArrayList<Region>();
+        allRegions6.add(regions[4]);
+        allRegions6.add(regions[5]);
+        missions.add(new Mission("", Mission.TYPE_REGION, allRegions6));
         missions.add(new Mission("", Mission.TYPE_TERRITORY, 23));
         missions.add(new Mission("", Mission.TYPE_TERRITORY, 17));
         for (int i = 0; i < houses.size(); i++) {
             missions.add(new Mission("", Mission.TYPE_HOUSE, houses.get(i)));
         }
     }
-
+    
     public Territory[] getTerritories() {
         return territories;
     }

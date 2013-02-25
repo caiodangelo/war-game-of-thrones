@@ -214,12 +214,12 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 								</control>
 							</panel>
 						</panel>
-						<panel marginLeft="10%" childLayout="center" width="50%" height="90%">
+						<panel marginLeft="7%" childLayout="center" width="60%" height="90%">
 							<image filename="resources/images/parchment.png" width="100%" height="100%"/>
 							<panel childLayout="horizontal" width="100%" height="100%">
 								<panel childLayout="center" width="10%"/>
-								<control align="left" name="label" width="35%" height="100%" font="resources/fonts/calibri_bold.fnt" color="#333333ff" text="Mensagem do Corvo: "/>
-								<control id="ravenMessage" textHAlign="left" name="label" width="55%" height="100%" font="resources/fonts/calibri_18.fnt" color="#333333ff" text="Os objetivos foram sorteados!"/>
+								<control align="left" name="label" width="30%" height="100%" font="resources/fonts/calibri_bold.fnt" color="#333333ff" text="Mensagem do Corvo: "/>
+								<control id="ravenMessage" textHAlign="left" name="label" width="60%" height="100%" font="resources/fonts/calibri_18.fnt" color="#333333ff" text="Os objetivos foram sorteados!"/>
 							</panel>
 						</panel>
 					</panel>
@@ -942,7 +942,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 		<panel padding="10%" style="nifty-panel-custom" width="30%" height="30%" childLayout="vertical">
 			<control width="100%" color="#333333ff" font="resources/fonts/calibri_bold.fnt" align="left" textHAlign="left" name="label" text="Seu objetivo"/>
 			<panel width="100%" height="3px" childLayout="vertical" backgroundColor="#000"/>
-			<panel height="60%" width="90%" childLayout="center">
+			<panel height="60%" width="100%" childLayout="center">
 				<control wrap="true" font="resources/fonts/calibri_18.fnt" color="#333333ff" align="left" textHAlign="left" id="objectiveDescLabel" name="label" text="" height="100%" width="100%"/>
 			</panel>
 			<control align="center" name="button" label="OK" focusable="false">

@@ -37,33 +37,30 @@ public class Battle {
     public void attack() {
         //Estatisticas
         defender.increaseNumAttacks();
-        //Board.getInstance().getStatistic().setTerritoryMoreAttacked(null);       
-        
+        //Board.getInstance().getStatistic().setTerritoryMoreAttacked(null);
         Player attackerPlayer = this.getAttackerPlayerFromTerritory();
         Player defenderPlayer = this.getDefenderPlayerFromTerritory();
-        
         attackerPlayer.getStatisticPlayerManager().increaseNumberOfAttacks();
         defenderPlayer.getStatisticPlayerManager().increaseNumberOfDefences();
-        
         attackerPlayer.getStatisticPlayerManager().updateAttackTable(defenderPlayer);
         attackerPlayer.getStatisticPlayerManager().setYouAttackedMore();
         defenderPlayer.getStatisticPlayerManager().updateDefenceTable(attackerPlayer);
         defenderPlayer.getStatisticPlayerManager().setMoreEnemy();
         //Fim Estatisticas
-        
         attackersDices = rollDices(numberAttackers);
         defendersDices = rollDices(numberDefenders);
-        
+        Integer[] tempAttackersDices = Arrays.copyOf(attackersDices, attackersDices.length);
+        Integer[] tempDefendersDices = Arrays.copyOf(defendersDices, defendersDices.length);
         //Estatisticas        
         attackerPlayer.getStatisticPlayerManager().averageAttackDices(attackersDices);
         defenderPlayer.getStatisticPlayerManager().averageDefenceDices(defendersDices);
         //Fim Estatisticas
         
-        Arrays.sort(attackersDices, Collections.reverseOrder());
-        Arrays.sort(defendersDices, Collections.reverseOrder());
+        Arrays.sort(tempAttackersDices, Collections.reverseOrder());
+        Arrays.sort(tempDefendersDices, Collections.reverseOrder());
         int smallerPart = Math.min(numberAttackers, numberDefenders);
         for (int i = 0; i < smallerPart; i++) {
-            if (compareDices(attackersDices[i], defendersDices[i])) {
+            if (compareDices(tempAttackersDices[i], tempDefendersDices[i])) {
                 defenderDeaths++; // Ataque ganha
                 //Estatisticas
                 attackerPlayer.getStatisticPlayerManager().increaseNumberOfAttackWins();
@@ -91,9 +88,11 @@ public class Battle {
         if (attackerDeaths > 0 || defenderDeaths > 0) {
             conquested = defenderDeaths >= defender.getNumArmies();
             attacker.decreaseArmies(attackerDeaths);
-            defender.decreaseArmies(attackerDeaths);
+            defender.decreaseArmies(defenderDeaths);
             if (conquested) {
                 defender.setOwner(attacker.getOwner());
+                attacker.decreaseArmies(1);
+                defender.increaseArmies(1);
                 attacker.getOwner().setMaySwapCards(true);
                 //Estatistica
                 defender.increaseNumConquests();

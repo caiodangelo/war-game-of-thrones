@@ -21,7 +21,8 @@ public class DiceRenderComponent extends RenderComponent {
     
     private SpriteSheet sheet;
     private Animation anim;
-    List<Integer> numbers;
+    private List<Integer> numbers;
+    private boolean checked;
     
     public DiceRenderComponent(String id, SpriteSheet ss) {
         super(id);
@@ -56,12 +57,13 @@ public class DiceRenderComponent extends RenderComponent {
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
         Dice dice = ((Dice) owner);
         DiceManager dm = DiceManager.getInstance();
-        if (!dice.isRolling() && dice.getResult() < 0) {
-            int rand = (int) (Math.random()*6);
-            dice.setResult(rand);
+        if (!dice.isRolling() && !checked) {
+//            int rand = (int) (Math.random()*6);
+//            dice.setResult(rand);
             dm.checkIfAllDicesAreSet();
-            anim.setCurrentFrame(numbers.indexOf(rand));
+            anim.setCurrentFrame(numbers.indexOf(dice.getResult()-1));
             anim.stop();
+            checked = true;
         }
     }
     

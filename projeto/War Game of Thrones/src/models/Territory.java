@@ -78,7 +78,7 @@ public class Territory implements Serializable {
         numArmies += amount;
     }
 
-    protected void decreaseArmies(int amount) {
+    public void decreaseArmies(int amount) {
         numArmies -= amount;
     }
 

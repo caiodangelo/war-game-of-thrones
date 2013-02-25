@@ -14,14 +14,15 @@ public class Dice extends Entity {
     public static final int HEIGHT = 74;
     
     private boolean atkDice;
-    private int result = -1;
+    private int result;
     private boolean rolling;
     private boolean reachedDestination;
     
-    public Dice(Vector2f pos, boolean atk) {
+    public Dice(Vector2f pos, boolean atk, int r) {
         position = pos;
         atkDice = atk;
         rolling = true;
+        result = r;
         SpriteSheet diceSheet;
         try {
 //            SpriteSheet ss = new SpriteSheet("resources/images/dado-atk", 1186/6, 186);
