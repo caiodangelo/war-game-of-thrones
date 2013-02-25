@@ -940,9 +940,11 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 	
 	<popup id="objectivePopup" childLayout="center" backgroundColor="#000a">
 		<panel padding="10%" style="nifty-panel-custom" width="30%" height="30%" childLayout="vertical">
-			<control color="#333333ff" font="resources/fonts/calibri_bold.fnt" align="left" textHAlign="left" name="label" text="Seu objetivo" width="100%"/>
-			<panel  width="100%" height="3px" childLayout="vertical" backgroundColor="#000"/>
-			<control font="resources/fonts/calibri_18.fnt" color="#333333ff" align="left" textHAlign="left" id="objectiveDescLabel" name="label" text="descrição do objetivo" height="60%" width="100%"/>
+			<control width="100%" color="#333333ff" font="resources/fonts/calibri_bold.fnt" align="left" textHAlign="left" name="label" text="Seu objetivo"/>
+			<panel width="100%" height="3px" childLayout="vertical" backgroundColor="#000"/>
+			<panel height="60%" width="90%" childLayout="center">
+				<control wrap="true" font="resources/fonts/calibri_18.fnt" color="#333333ff" align="left" textHAlign="left" id="objectiveDescLabel" name="label" text="" height="100%" width="100%"/>
+			</panel>
 			<control align="center" name="button" label="OK" focusable="false">
 				<interact onClick="dismissPlayerObjective()"/>
 			</control>
