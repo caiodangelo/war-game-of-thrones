@@ -31,6 +31,6 @@ public class TurnHelper {
             Player curr = b.getCurrentPlayer();
             ctrl.setRavenMessage(curr.getName() + " está jogando.");
         }
-        ctrl.update();
+        ctrl.updatePlayersData();
     }
 }
