@@ -214,9 +214,13 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 								</control>
 							</panel>
 						</panel>
-						<panel marginLeft="10%" childLayout="horizontal" width="100%">
-							<control align="center" name="label" width="17%" height="100%" font="resources/fonts/calibri_bold.fnt" color="#333333ff" text="Mensagem do Corvo: "/>
-							<control id="ravenMessage" textHAlign="left" name="label" width="83%" height="100%" font="resources/fonts/calibri_18.fnt" color="#333333ff" text="Os objetivos foram sorteados!"/>
+						<panel marginLeft="10%" childLayout="center" width="50%" height="90%">
+							<image filename="resources/images/parchment.png" width="100%" height="100%"/>
+							<panel childLayout="horizontal" width="100%" height="100%">
+								<panel childLayout="center" width="10%"/>
+								<control align="left" name="label" width="35%" height="100%" font="resources/fonts/calibri_bold.fnt" color="#333333ff" text="Mensagem do Corvo: "/>
+								<control id="ravenMessage" textHAlign="left" name="label" width="55%" height="100%" font="resources/fonts/calibri_18.fnt" color="#333333ff" text="Os objetivos foram sorteados!"/>
+							</panel>
 						</panel>
 					</panel>
 				</panel>
