@@ -82,8 +82,8 @@ public class AddPlayerController implements ScreenController{
         for(int i = 1; i < playerIcons.length; i++)
             playerIcons[i].hide();
             HouseData houses[] = {
-                                new HouseData("Baratheon", "resources/images/house_logos/baratheon.png", "Veado", new Color("#ffff66")),  
-                                new HouseData("Free Folk", "resources/images/house_logos/free_folk.png", "Urso polar", new Color("#336666")),  
+                                new HouseData("Baratheon", "resources/images/house_logos/baratheon.png", "Veado", new Color("#fbd685")),  
+                                new HouseData("Free Folk", "resources/images/house_logos/free_folk.png", "Urso polar", new Color("#70ebf2")),  
                                 new HouseData("Greyjoy", "resources/images/house_logos/greyjoy.png", "Lula", new Color("#000000")),  
                                 new HouseData("Lannister", "resources/images/house_logos/Lannister.png", "Leão", new Color("#cc0000")),
                                 new HouseData("Stark", "resources/images/house_logos/stark.png", "Lobo", new Color("#999999")),
@@ -219,7 +219,7 @@ public class AddPlayerController implements ScreenController{
     }
     
     private House createBackEndHouse(HouseData d){
-        return new House(d.name, d.color, d.symbol);
+        return new House(d.name, d.color, d.symbol, d.imgPath);
     }
     
     private Player createBackEndPlayer(PlayerData pd, House h){

@@ -1,5 +1,7 @@
-package ai;
+package ai.features;
 
+import ai.BattleComputer;
+import ai.Feature;
 import models.Board;
 import models.Player;
 import models.Territory;
@@ -10,14 +12,13 @@ import models.Territory;
  */
 public class MaximumThreatFeature extends Feature {
 
-    public MaximumThreatFeature(Board gameState, Player player) {
-        super(gameState, player);
+    public MaximumThreatFeature() {
         importance = 3;
         scaleFactor = 1;
     }
 
     @Override
-    public double calculate() {
+    public double calculate(Board gameState, Player player) {
         double maxProbability = 0;
         for (Territory territory : player.getTerritories()) {
             if (territory.getSurplusArmies() > 0) {

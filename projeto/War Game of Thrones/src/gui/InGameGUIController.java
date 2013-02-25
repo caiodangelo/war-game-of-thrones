@@ -9,6 +9,8 @@ import de.lessvoid.nifty.controls.MenuItemActivatedEvent;
 import de.lessvoid.nifty.controls.Slider;
 import de.lessvoid.nifty.controls.SliderChangedEvent;
 import de.lessvoid.nifty.elements.Element;
+import de.lessvoid.nifty.elements.render.ImageRenderer;
+import de.lessvoid.nifty.render.NiftyImage;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.Color;
@@ -20,6 +22,7 @@ import main.Territory;
 import main.TurnHelper;
 import main.WarScenes;
 import models.Board;
+import models.House;
 import models.Player;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -35,16 +38,10 @@ public class InGameGUIController implements ScreenController{
     private Nifty n;
     private Board b;
     public static Player [] players;
-    protected static final Color [] playerNameColors = new Color[]{
-                new Color("#465DC0"),
-                new Color("#41BA47"),
-                new Color("#DB27AE"),
-                new Color("#F4AB0C"),
-                new Color("#04AAF7"),
-                new Color("#9110B5")
-            };;
+    
     private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel, 
-            optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup;
+            optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup,
+            cantMoveToNextTurnPopup;
     private boolean mouseOverObjective = false;
     
     private ContextMenuController ctxMenuCtrl;
@@ -89,6 +86,7 @@ public class InGameGUIController implements ScreenController{
         ctxMenuCtrl = new ContextMenuController(n, this);
         infoTerritoriesPopup = n.createPopup("infoTerritoriesPopup");
         infoTerritories = infoTerritoriesPopup.findNiftyControl("infoTerritories", Label.class);
+        cantMoveToNextTurnPopup = n.createPopup("cantMoveToNextTurnPopup");
 
         ravenMessage = screen.findNiftyControl("ravenMessage", Label.class);
         infoPanel = screen.findElementByName("infoPanel");
@@ -145,7 +143,7 @@ public class InGameGUIController implements ScreenController{
         }
     }
     
-    private void updatePlayersData(){
+    public void updatePlayersData(){
         for(int i = 0; i < players.length; i++){
             StatusPanelControl spc = statusPanels[i];
             Player current = players[i];
@@ -165,11 +163,6 @@ public class InGameGUIController implements ScreenController{
         return getCurrentPlayer().getHouse().getColor();
     }
     
-    public void update(){
-        updateCurrentPlayersData();
-        updatePlayersData();
-    }
-    
     private void updateCurrentPlayersData(){
         boolean skipedStartScreen = main.Main.JUMP_TO_GAME;
         if(!skipedStartScreen){
@@ -180,6 +173,7 @@ public class InGameGUIController implements ScreenController{
             StatusPanelControlImpl.setLabel(playerStatusCards, currPlayer.numCards(), "Carta");
             StatusPanelControlImpl.setLabel(playerStatusUnits, currPlayer.numArmies(), "Exército");
             StatusPanelControlImpl.setLabel(playerStatusTerritories, currPlayer.numTerritories(), "Território");
+            updateCurrentHouse(currPlayer.getHouse());
         }
     }
     
@@ -213,8 +207,11 @@ public class InGameGUIController implements ScreenController{
 //        showCurrentPlayerMsg();
 //        if (b.isOnInitialSetup())
 //            showInfoTerritories();
-        TurnHelper.getInstance().changeTurn();
         PopupManager.closePopup(n, nextTurnConfirmPopup);
+        if (getCurrentPlayer().getPendingArmies() > 0)
+            PopupManager.showPopup(n, s, cantMoveToNextTurnPopup);
+        else
+            TurnHelper.getInstance().changeTurn();
     }
     
     public void dismissNextTurnConfirmation(){
@@ -266,6 +263,10 @@ public class InGameGUIController implements ScreenController{
     
     public void dismissTablesPopup(){
         PopupManager.closePopup(n, tablesPopup);
+    }
+    
+    public void dismissCantMoveToNextTurnPopup() {
+        PopupManager.closePopup(n, cantMoveToNextTurnPopup);
     }
     
     /**
@@ -351,14 +352,13 @@ public class InGameGUIController implements ScreenController{
     public void closeInfoTerritoriesPopup(){
         PopupManager.closePopup(n, infoTerritoriesPopup);
         Player curr = b.getCurrentPlayer();
-        System.out.println("pending arms for curr player " + curr.getPendingArmies());
         List<models.Territory> ts = b.getCurrentPlayer().getTerritories();
         
         for(models.Territory t : ts){
             t.setNumArmies(1);
         }
-        
-        update();
+        setInfoLabelText("Você ainda possui "+getCurrentPlayer().getPendingArmies()+" exército(s) para distribuir.");
+        updatePlayersData();
         setRavenMessage(curr.getName() + " está distribuindo os exércitos.");
     }
             
@@ -399,5 +399,13 @@ public class InGameGUIController implements ScreenController{
             am.muteSound();
         else
             am.unmuteSound();
+    }
+    
+    private void updateCurrentHouse(House h){
+        Element imgElement = s.findElementByName("currHouseImg");
+        ImageRenderer r = imgElement.getRenderer(ImageRenderer.class);
+        r.setImage(n.createImage(h.getImgPath(), false));
+        Label houseNameLabel = s.findNiftyControl("currHouseName", Label.class);
+        houseNameLabel.setText(h.getName());
     }
 }

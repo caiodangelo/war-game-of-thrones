@@ -17,18 +17,21 @@ public class House implements Serializable {
     private Color color;
     private String symbol;
     private Player player;
+    private String imgPath;
+    
 
     public House() {
     }
 
-    public House(String name, Color color, String symbol) {
+    public House(String name, Color color, String symbol, String imgPath) {
         this.name = name;
         this.color = color;
         this.symbol = symbol;
+        this.imgPath = imgPath;
     }
 
-    public House(String name, Color color, String symbol, Player player) {
-        this(name, color, symbol);
+    public House(String name, Color color, String symbol, String imgPath, Player player) {
+        this(name, color, symbol, imgPath);
         this.player = player;
     }
 
@@ -62,5 +65,9 @@ public class House implements Serializable {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public String getImgPath() {
+        return imgPath;
     }
 }

@@ -57,7 +57,7 @@ public class Army extends Entity {
         else if (house.equals(Board.LANNISTER))
             imgPath = "resources/images/pecas/quarto.png";
         else if (house.equals(Board.STARK))
-            imgPath = "resources/images/pecas/quinto.png";
+            imgPath = "resources/images/pecas/quinta.png";
         else if (house.equals(Board.TARGARYEN))
             imgPath = "resources/images/pecas/sexto.png";
         return imgPath;

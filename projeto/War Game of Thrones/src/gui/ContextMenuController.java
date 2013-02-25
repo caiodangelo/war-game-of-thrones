@@ -74,6 +74,10 @@ public class ContextMenuController {
     //territory context menu event handling
     private void showRearrangePopup(Screen screen){
         selectUnitsDropdown.clear();
+        Player owner = originTerritory.getBackEndTerritory().getOwner();
+        models.Territory origin = originTerritory.getBackEndTerritory();
+//        int unitsCount = origin.getNumArmiesCanMoveThisRound();
+//        System.out.println("UNITS THAT CAN BE MOVED " + unitsCount);
         int unitsCount = 3;
         for(int i = 1; i <= unitsCount; i++)
             selectUnitsDropdown.addItem(new UnitCount(i));

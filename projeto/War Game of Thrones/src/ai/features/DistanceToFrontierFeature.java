@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ai;
+package ai.features;
 
+import ai.Feature;
 import models.Board;
 import models.Player;
 import models.Territory;
@@ -17,14 +18,13 @@ import models.Territory;
  */
 public class DistanceToFrontierFeature extends Feature {
 
-    public DistanceToFrontierFeature(Board gameState, Player player) {
-        super(gameState, player);
+    public DistanceToFrontierFeature() {
         importance = 3;
         scaleFactor = 1;
     }
 
     @Override
-    public double calculate() {
+    public double calculate(Board gameState, Player player) {
         double sumArmiesDistances = 0.0;
         for (Territory t : player.getTerritories()) {
             sumArmiesDistances += t.getNumArmies() * distanceToNearestEnemyTerritory(t, 1);

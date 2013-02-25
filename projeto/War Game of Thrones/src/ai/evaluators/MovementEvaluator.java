@@ -3,8 +3,13 @@
  * and open the template in the editor.
  */
 
-package ai;
+package ai.evaluators;
 
+import ai.Evaluator;
+import ai.features.ContinentThreatFeature;
+import ai.features.MoreThanOneArmyFeature;
+import ai.features.DistanceToFrontierFeature;
+import ai.features.MaximumThreatFeature;
 import models.Board;
 import models.Player;
 import models.Territory;
@@ -20,18 +25,20 @@ public class MovementEvaluator extends Evaluator {
 
     public MovementEvaluator(Board currentGameState, Player player) {
         super(currentGameState, player);
-        // TODO: preencher a lista de features com as features aplicáveis para este evaluator.
+        features.add(new DistanceToFrontierFeature());
+        features.add(new MoreThanOneArmyFeature());
+        features.add(new ContinentThreatFeature());
+        features.add(new MaximumThreatFeature());
     }
 
     @Override
     public Board simulateActionExecution() {
-        // TODO: Copiar e gerar um novo tabuleiro, movimentando 1 exército de um dado território para outro dado território
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public double evaluate(Board gameState) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Board newState = currentGameState.getClone();
+        Territory clonedOriginTerritory = newState.getTerritories()[originTerritory.getIndex()];
+        Territory clonedDestinyTerritory = newState.getTerritories()[destinyTerritory.getIndex()];
+        Player clonedPlayer = getSimulatedPlayer();
+        clonedPlayer.moveArmies(clonedOriginTerritory, clonedDestinyTerritory, 1);
+        return newState;
     }
 
     public Territory getDestinyTerritory() {
