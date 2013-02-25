@@ -27,7 +27,7 @@ public class OwnEstimatedReinforcementsFeature extends Feature {
         int territoryCount = player.getTerritories().size();
         int pendingArmies = 0;
         pendingArmies += territoryCount / 2;
-        for (Region region : Board.getInstance().getRegions()) {
+        for (Region region : gameState.getRegions()) {
             if (region.conqueredByPlayer(player)) {
                 pendingArmies += region.getBonus();
             }

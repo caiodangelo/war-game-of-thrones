@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ai.features;
 
 import ai.Feature;
@@ -10,9 +6,15 @@ import models.Player;
 import models.Territory;
 
 /**
- * Calcula um número no intervalo (0, 1], que indica se os exércitos do jogador estão
- * mais pertos ou distantes das suas fronteiras (1 é melhor, significa que os exércitos
- * estão todos nas fronteiras, que precisam ser defendidas).
+ * The Distance to Frontier Feature returns a measurement of the army distribution
+ * throughout the actual player’s territories. Armies positioned far away from territories
+ * occupied by enemy players result in a lower feature value than armies positioned on
+ * border territories. The function distance(territory) is implemented in the class Useful-
+ * Functions and computes the distance of a given friendly territory to the nearest enemy
+ * territory.
+ * 
+ * The feature result is always in the interval (0, 1]. This feature is not applied in the
+ * Attacking phase of the game.
  *
  * @author rodrigo
  */

@@ -1,5 +1,6 @@
 package models;
 
+import ai.evaluators.AttackEvaluator;
 import ai.evaluators.DistributionEvaluator;
 import ai.evaluators.MovementEvaluator;
 import java.util.ArrayList;
@@ -151,6 +152,33 @@ public class ExtremeAI extends Difficulty {
 
     @Override
     public TerritoryTransaction nextAttack() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<TerritoryTransaction> attacks = new ArrayList<TerritoryTransaction>();
+        for (Territory territory : player.getTerritories()) {
+            if (territory.getSurplusArmies() > 0) {
+                for (Territory neighbour : territory.getNeighbours()) {
+                    if (neighbour.getOwner() != player) {
+                        TerritoryTransaction attack = new TerritoryTransaction(territory, neighbour, Math.min(3, territory.getSurplusArmies()));
+                        attacks.add(attack);
+                    }
+                }
+            }
+        }
+        double maxRating = 0.0;
+        double currentRating = 0.0;
+        TerritoryTransaction chosenAttack = null;
+        for (TerritoryTransaction attack : attacks) {
+            AttackEvaluator evaluator = new AttackEvaluator(Board.getInstance(), player);
+            evaluator.setAttack(attack);
+            double rating = evaluator.evaluate();
+            maxRating = Math.max(maxRating, rating);
+            if (maxRating == rating) {
+                currentRating = evaluator.evaluateCurrentGameState();
+                chosenAttack = attack;
+            }
+        }
+        if (maxRating > currentRating) {
+            return chosenAttack;
+        }
+        return null;
     }
 }
