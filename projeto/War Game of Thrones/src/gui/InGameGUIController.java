@@ -203,10 +203,6 @@ public class InGameGUIController implements ScreenController{
     }
     
     public void nextPlayerTurn() {
-//        b.changePlayer();
-//        showCurrentPlayerMsg();
-//        if (b.isOnInitialSetup())
-//            showInfoTerritories();
         PopupManager.closePopup(n, nextTurnConfirmPopup);
         if (getCurrentPlayer().getPendingArmies() > 0)
             PopupManager.showPopup(n, s, cantMoveToNextTurnPopup);
