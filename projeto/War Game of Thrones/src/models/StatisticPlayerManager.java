@@ -22,7 +22,7 @@ public class StatisticPlayerManager {
     private int numberOfAttackDicesPlayed; // Numero de dados jogados pelo jogador de ataque
     private float dicesOfDefenceAverage;//DONE
     private int numberOfDefenceDicesPlayed; // Numero de dados jogados pelo jogador de defesa
-    private int numberOfCardsSwapped; //TODO:Falta colocar no metodo de troca de cartas
+    private int numberOfCardsSwapped; //DONE
     private int receivedArmies;//DONE
     private int lostArmies;//DONE
     private int[] attackTable; //vetor que indica o num de ataques feitos a cada jogador; Player descoberto pelo indice do vetor
@@ -110,6 +110,10 @@ public class StatisticPlayerManager {
 
     public int getNumberOfDefenceWins() {
         return numberOfDefenceWins;
+    }
+
+    public int getNumberOfCardsSwapped() {
+        return numberOfCardsSwapped;
     }
 
     public void increaseNumberOfAttacks() {

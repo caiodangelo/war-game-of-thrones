@@ -26,7 +26,6 @@ public class Board implements Serializable {
     protected LinkedList<Player> players;
     protected static Board instance;
     protected int currentPlayer;
-    protected int numberOfSwaps;
     protected StatisticGameManager statistic;
     private Region[] regions;
     private BackEndTerritory[] territories;
@@ -39,7 +38,6 @@ public class Board implements Serializable {
         instance = this;
         players = new LinkedList<Player>();
         currentPlayer = 0;
-        numberOfSwaps = 0;
         statistic = new StatisticGameManager();
         onInitialSetup = true;
         houses = new ArrayList<House>();
@@ -222,14 +220,6 @@ public class Board implements Serializable {
             houses.add(player.getHouse());
         }
         return houses;
-    }
-
-    public int getNumberOfSwaps() {
-        return numberOfSwaps;
-    }
-
-    public void increaseNumberOfSwaps() {
-        numberOfSwaps++;
     }
 
     public boolean isPlayerCountValid() {

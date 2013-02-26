@@ -39,9 +39,9 @@ public class MediumAI extends Difficulty {
         boolean successful = false;
         int numArmies;
         House house  = player.getHouse();
-        for (Territory territory : player.getTerritories()) {
-            List<Territory> neighbours = territory.getNeighbours();
-            for (Territory neighbour : neighbours) {
+        for (BackEndTerritory territory : player.getTerritories()) {
+            List<BackEndTerritory> neighbours = territory.getNeighbours();
+            for (BackEndTerritory neighbour : neighbours) {
                 if (house.equals(neighbour.getOwner().getHouse())) {
                     while (!successful) {
                         if (territory.getNumArmies() > 3) {
@@ -66,15 +66,15 @@ public class MediumAI extends Difficulty {
     public void distributeAccordingTerritoryMission() {
         boolean successful;
         for (int i = 0; i < player.getTerritories().size(); i++) {
-            Territory territory = player.getTerritories().get(i);
+            BackEndTerritory territory = player.getTerritories().get(i);
             successful = distribute(territory, 0);
             if (! successful) break;
         }
     }
     
     public void distributeAccordingRegionMission(int numberOfSearches) {
-        ArrayList<Territory> aux = new ArrayList<Territory>();        
-        for (Territory territory : player.getTerritories()) {
+        ArrayList<BackEndTerritory> aux = new ArrayList<BackEndTerritory>();        
+        for (BackEndTerritory territory : player.getTerritories()) {
             for (Region region : player.getMission().getRegions()) {
                 if (territory.belongToRegion(region)) //Se o territorio for crucial para completar a missao
                     distribute(territory, numberOfSearches);
@@ -82,9 +82,9 @@ public class MediumAI extends Difficulty {
                     aux.add(territory); //Adiciona numa lista auxiliar                     
             }
         }
-        for (Territory territory : aux) { //Verifica se tem vizinhos que são cruciais para completar a missão
-            List<Territory> neighbours = territory.getNeighbours();
-            for (Territory neighbour : neighbours) {
+        for (BackEndTerritory territory : aux) { //Verifica se tem vizinhos que são cruciais para completar a missão
+            List<BackEndTerritory> neighbours = territory.getNeighbours();
+            for (BackEndTerritory neighbour : neighbours) {
                 for (Region region : player.getMission().getRegions()) {
                     if (neighbour.belongToRegion(region))
                         distribute(territory, numberOfSearches);                        
@@ -97,7 +97,7 @@ public class MediumAI extends Difficulty {
      * Metodo auxiliar que distribui de fato os exercitos. Parametro "num" indica quantas vezes a IA 
      * já acessou os seus territorios para a distruibuição
      */
-    public boolean distribute(Territory territory, int numberOfSearches) {
+    public boolean distribute(BackEndTerritory territory, int numberOfSearches) {
         int numArmies = territory.getNumArmies();
         if (numberOfSearches == 0) {
             if ((numArmies == 1) && (player.getPendingArmies() >= 2)) {

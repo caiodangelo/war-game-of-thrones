@@ -148,8 +148,8 @@ public class RepositoryCardsTerritory {
                     }
                     this.addCardToDeck(card);
                 }
-                Board.getInstance().increaseNumberOfSwaps();
-                numberOfSwaps = Board.getInstance().getNumberOfSwaps();
+                player.getStatisticPlayerManager().increaseNumberOfCardsSwapped();
+                numberOfSwaps = player.getStatisticPlayerManager().getNumberOfCardsSwapped();
                 numberOfArmies = consultSwapTable(numberOfSwaps);
                 player.addPendingArmies(numberOfArmies);
                 return true;
