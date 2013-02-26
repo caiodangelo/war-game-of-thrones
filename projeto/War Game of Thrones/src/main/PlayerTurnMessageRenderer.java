@@ -2,6 +2,8 @@ package main;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.Board;
+import models.Player;
 import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -15,8 +17,9 @@ public class PlayerTurnMessageRenderer extends RenderComponent{
 
     private Color c;
     private String playerName;
+    private String bonus;
     private float elapsed = 0;
-    private static final float DURATION = 5f, H_SPEED = 100f;
+    private static final float DURATION = 5f;
     private Vector2f pos;
     private Vector2f mapSize;
     
@@ -51,15 +54,22 @@ public class PlayerTurnMessageRenderer extends RenderComponent{
             } catch (SlickException ex) {
                 Logger.getLogger(PlayerTurnMessageRenderer.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String text = "Vez de " + playerName + "!";
-            gr.drawString(text, pos.x + (mapSize.x - fnt.getWidth(text))/2.0f, pos.y);
+            String turnText = "Vez de " + playerName + "!";
+            String initialSetupText = "Distribuição inicial: "+bonus+" exércitos";
+            String bonusText = "Exércitos recebidos: "+bonus;
+            gr.drawString(turnText, pos.x + (mapSize.x - fnt.getWidth(turnText))/2.0f, pos.y);
+            //escolher fonte menor para o segundo texto
+            if (Board.getInstance().isOnInitialSetup())
+                gr.drawString(initialSetupText, pos.x + (mapSize.x - fnt.getWidth(initialSetupText))/2.0f, pos.y + (fnt.getHeight(turnText) * 1.5f));
+            else if (!Board.getInstance().isOnFirstTurn())
+                gr.drawString(bonusText, pos.x + (mapSize.x - fnt.getWidth(bonusText))/2.0f, pos.y + (fnt.getHeight(turnText) * 1.5f));
         }
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
         if (playerName != null) {
-            if(delta < 0.5f){
+            if(delta < 0.5f) {
                 elapsed += delta;
                 if(elapsed >= DURATION)
                     playerName = null;
@@ -67,9 +77,11 @@ public class PlayerTurnMessageRenderer extends RenderComponent{
         }
     }
 
-    public void activate(String playerName, de.lessvoid.nifty.tools.Color color) {
-        this.playerName = playerName;
-        this.c = new Color(color.getRed(), color.getGreen(), color.getBlue());
+    public void activate(Player player, de.lessvoid.nifty.tools.Color color) {
+        playerName = player.getName();
+        bonus = player.getPendingArmies()+"";
+        c = new Color(color.getRed(), color.getGreen(), color.getBlue());
         elapsed = 0;
+        AudioManager.getInstance().playSound(AudioManager.SWORD_TURN_SOUND);
     }
 }

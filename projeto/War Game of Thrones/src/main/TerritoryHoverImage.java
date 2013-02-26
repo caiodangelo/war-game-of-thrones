@@ -1,6 +1,7 @@
 package main;
 
 import gui.InGameGUIController;
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -35,10 +36,12 @@ public class TerritoryHoverImage extends ImageRenderComponent {
         float mouseY = input.getAbsoluteMouseY();
         DiceManager dm = DiceManager.getInstance();
         
-        if (!dm.dicesOnScreen() && !PopupManager.isAnyPopupOpen() && mouseOver(mouseX, mouseY) && !imagePixelColorIsTransparent((int) (mouseX - owner.position.x), (int) (mouseY - owner.position.y), owner.getScale())){
+        if (!dm.dicesOnScreen() && !PopupManager.isAnyPopupOpen() && mouseOver(mouseX, mouseY) && !imagePixelColorIsTransparent((int) (mouseX - owner.position.x), (int) (mouseY - owner.position.y), owner.getScale()) && !Mouse.isGrabbed()){
             highlightedImage = true;
+            GameScene scene = (GameScene) owner.getScene();
+            scene.handleMouseOverTerritory((Territory) owner);
             if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON))
-                ((GameScene)owner.getScene()).handleTerritoryClick((Territory) owner);
+                scene.handleTerritoryClick((Territory) owner);
         }
         else
             highlightedImage = false;

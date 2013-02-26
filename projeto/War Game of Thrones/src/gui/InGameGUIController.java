@@ -5,6 +5,7 @@ import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.controls.CheckBox;
 import de.lessvoid.nifty.controls.CheckBoxStateChangedEvent;
 import de.lessvoid.nifty.controls.Label;
+import de.lessvoid.nifty.controls.Menu;
 import de.lessvoid.nifty.controls.MenuItemActivatedEvent;
 import de.lessvoid.nifty.controls.Slider;
 import de.lessvoid.nifty.controls.SliderChangedEvent;
@@ -14,6 +15,7 @@ import de.lessvoid.nifty.render.NiftyImage;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.Color;
+import de.lessvoid.nifty.tools.SizeValue;
 import java.util.HashMap;
 import java.util.List;
 import main.AudioManager;
@@ -33,7 +35,7 @@ public class InGameGUIController implements ScreenController{
 
     private StatusPanelControl [] statusPanels;
     private Label playerStatusName, playerStatusCards, playerStatusUnits, playerStatusTerritories, infoTerritories, 
-            ravenMessage, alert;
+            ravenMessage, alert, territoryName;
     private Screen s;
     private Nifty n;
     private Board b;
@@ -41,12 +43,13 @@ public class InGameGUIController implements ScreenController{
     
     private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel, 
             optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup,
-            alertPopup;
+            alertPopup, territoryNamePopup;
     private boolean mouseOverObjective = false;
     
     private ContextMenuController ctxMenuCtrl;
     private static InGameGUIController instance;
     private HashMap<Integer, String> turnsOrder;
+    private HashMap<String, String> regionsColors;
     
     public InGameGUIController(){
             turnsOrder = new HashMap();
@@ -56,6 +59,13 @@ public class InGameGUIController implements ScreenController{
             turnsOrder.put(3, "quarto");
             turnsOrder.put(4, "quinto");
             turnsOrder.put(5, "sexto");
+            regionsColors = new HashMap();
+            regionsColors.put("Além da Muralha", "\\#FFFFFF#");
+            regionsColors.put("Cidades Livres", "\\#660066#");
+            regionsColors.put("O Norte", "\\#66CCFF#");
+            regionsColors.put("O Sul", "\\#66CC00#");
+            regionsColors.put("Tridente", "\\#CCCC00#");
+            regionsColors.put("O Mar Dothraki", "\\#FF6600#");
             instance = this;
     }
     
@@ -87,7 +97,7 @@ public class InGameGUIController implements ScreenController{
         infoTerritories = infoTerritoriesPopup.findNiftyControl("infoTerritories", Label.class);
         alertPopup = n.createPopup("alertPopup");
         alert = alertPopup.findNiftyControl("alert", Label.class);
-
+        
         ravenMessage = screen.findNiftyControl("ravenMessage", Label.class);
         infoPanel = screen.findElementByName("infoPanel");
         nextTurnConfirmPopup = n.createPopup("nextTurnConfirmationPopup");
@@ -100,6 +110,11 @@ public class InGameGUIController implements ScreenController{
     public void showAlert(String text) {
         alert.setText(text);
         PopupManager.showPopup(n, s, alertPopup);
+    }
+    
+    public void showTerritoryName(Territory t) {
+//        territoryName.setText(t.getBackEndTerritory().getName());
+//        n.showPopup(s, null, territoryNamePopup);
     }
     
     @Override
@@ -210,8 +225,8 @@ public class InGameGUIController implements ScreenController{
         if (pendingArmies > 0)
             showAlert("Você ainda possui "+pendingArmies+" exércitos para distribuir!");
         else {
-            TurnHelper.getInstance().changeTurn();
             ctxMenuCtrl.setDistributing(false);
+            TurnHelper.getInstance().changeTurn();
         }
     }
     
@@ -347,8 +362,10 @@ public class InGameGUIController implements ScreenController{
         Player currPlayer = b.getCurrentPlayer();
         String turn = turnsOrder.get(b.getPlayerOrder(currPlayer));
         content += currPlayer.getName()+"! Os turnos foram sorteados e você é o "+turn+" a jogar!\n\nSeus territórios são:\n";
+        String colorCode;
         for (models.Territory t : currPlayer.getTerritories()) {
-            content += "\n"+t.getName();
+            colorCode = regionsColors.get(t.getRegion().getName());
+            content += "\n"+colorCode+t.getName()+colorCode;
         }
         infoTerritories.setText(content);
         PopupManager.showPopup(n, s, infoTerritoriesPopup);

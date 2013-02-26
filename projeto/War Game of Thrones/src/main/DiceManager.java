@@ -130,8 +130,7 @@ public class DiceManager {
         if (attackingTerritory != null) {
             ArmyRenderComponent comp = (ArmyRenderComponent) attackingTerritory.getArmy().getComponent("army-renderer");
             comp.startExplosion();
-            AudioManager am = AudioManager.getInstance();
-            am.playSound(AudioManager.ATTACK_SOUND);
+            AudioManager.getInstance().playSound(AudioManager.ATTACK_SOUND);
         }
         attackingTerritory = null;
     }

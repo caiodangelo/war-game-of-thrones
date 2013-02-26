@@ -32,7 +32,8 @@ public class Board implements Serializable {
     private Territory[] territories;
     private ArrayList<House> houses;
     private ArrayList<Mission> missions;
-    private boolean isOnInitialSetup;
+    private boolean onInitialSetup;
+    private boolean onFirstTurn;
 
     protected Board() {
         instance = this;
@@ -40,7 +41,7 @@ public class Board implements Serializable {
         currentPlayer = 0;
         numberOfSwaps = 0;
         statistic = new StatisticGameManager();
-        isOnInitialSetup = true;
+        onInitialSetup = true;
         houses = new ArrayList<House>();
         missions = new ArrayList<Mission>();
         
@@ -236,7 +237,11 @@ public class Board implements Serializable {
     }
 
     public boolean isOnInitialSetup() {
-        return isOnInitialSetup;
+        return onInitialSetup;
+    }
+    
+    public boolean isOnFirstTurn() {
+        return onFirstTurn;
     }
 
 //    public List<House> getAbsentHouses() {
@@ -271,16 +276,18 @@ public class Board implements Serializable {
     }
 
     public void changePlayer() {
-        int oldPlayer = this.currentPlayer;
-
-        int playersCount = this.getPlayers().size();
-        if (oldPlayer == this.getPlayers().size() - 1) {
+        if (currentPlayer == getPlayers().size() - 1) {
             currentPlayer = 0;
-            isOnInitialSetup = false;
-        } else {
+            if (onInitialSetup) {
+                onInitialSetup = false;
+                onFirstTurn = true;
+            }
+            else if (onFirstTurn)
+                onFirstTurn = false;
+        } else
             currentPlayer++;
-        }
-        addPlayerArmies();
+        if (!onFirstTurn)
+            addPlayerArmies();
     }
 
     private void addPlayerArmies(Player curr) {

@@ -47,9 +47,6 @@ public class Territory implements Serializable {
         return graph.getNode(index).getString("name");
     }
 
-//    public void setName(String name) {
-//        this.name = name;
-//    }
     public Region getRegion() {
         return region;
     }
@@ -104,7 +101,7 @@ public class Territory implements Serializable {
      *
      * @param amount O número de exércitos que foi movido deste território
      */
-    protected boolean setMovedArmies(int amount) {
+    public boolean setMovedArmies(int amount) {
         int remaining = numArmiesCanMoveThisRound - amount;
         if (remaining >= 0) {
             numArmiesCanMoveThisRound = remaining;
@@ -117,7 +114,7 @@ public class Territory implements Serializable {
      * Reseta o número de exércitos que podem se movimentar deste território para outro.
      * Deve ser chamado no início da rodada do jogador.
      */
-    protected void resetMovedArmies() {
+    public void resetMovedArmies() {
         numArmiesCanMoveThisRound = numArmies - 1;
     }
 

@@ -1,6 +1,7 @@
 package main;
 
 import de.lessvoid.nifty.tools.Color;
+import models.Player;
 import util.Entity;
 
 public class PlayerTurnMessage extends Entity{
@@ -11,8 +12,8 @@ public class PlayerTurnMessage extends Entity{
         addComponent(renderer = new PlayerTurnMessageRenderer("turnRenderer"));
     }
 
-    void activate(String playerName, Color c) {
-        renderer.activate(playerName, c);
+    void activate(Player player, Color c) {
+        renderer.activate(player, c);
     }
     
 }

@@ -56,10 +56,9 @@ public class GameScene extends Scene{
     public void showPlayerTurnMsg(){
         Board b = Board.getInstance();
         Player p = b.getCurrentPlayer();
-        String playerName = p.getName();
         Color c = p.getHouse().getColor();
         
-        turnMsg.activate(playerName, c);
+        turnMsg.activate(p, c);
     }
 
     @Override
@@ -95,12 +94,16 @@ public class GameScene extends Scene{
             } 
             if(pendingArmies == 0) {
                 ctrl.setInfoLabelText(null);
-                if ( b.isOnInitialSetup())
+                if (b.isOnInitialSetup())
                     helper.changeTurn();
             }
             else
                 ctrl.setInfoLabelText("Você ainda possui "+curr.getPendingArmies()+" exército(s) para distribuir.");
         }
+    }
+    
+    void handleMouseOverTerritory(Territory territory) {
+        ctrl.showTerritoryName(territory);
     }
     
 }

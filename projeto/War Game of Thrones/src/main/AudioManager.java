@@ -1,8 +1,6 @@
 package main;
 
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
@@ -14,6 +12,7 @@ public class AudioManager {
     private static Music opening;
     private static Sound startGame;
     private static Sound attackSound;
+    private static Sound changeTurnSound;
     private float musicVolume;
     private boolean musicMuted;
     private float soundVolume;
@@ -23,12 +22,14 @@ public class AudioManager {
     public static final int OPENING = 0;
     public static final int START_GAME = 1;
     public static final int ATTACK_SOUND = 2;
+    public static final int SWORD_TURN_SOUND = 3;
     
     public AudioManager() {
         try {
             opening = new Music("resources/sounds/got-opening.ogg");
             startGame = new Sound("resources/sounds/raio-start.ogg");
             attackSound = new Sound("resources/sounds/explosion.ogg");
+            changeTurnSound = new Sound("resources/sounds/sword-turn.ogg");
         } catch (SlickException ex) {
             System.out.println(ex.getMessage());
         }
@@ -37,6 +38,7 @@ public class AudioManager {
         audioMap.put(OPENING, opening);
         audioMap.put(START_GAME, startGame);
         audioMap.put(ATTACK_SOUND, attackSound);
+        audioMap.put(SWORD_TURN_SOUND, changeTurnSound);
     }
     
     public static AudioManager getInstance(){

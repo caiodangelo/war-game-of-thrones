@@ -107,7 +107,7 @@ public class ContextMenuController {
         selectUnitsDropdown.clear();
         Player owner = originTerritory.getBackEndTerritory().getOwner();
         models.Territory origin = originTerritory.getBackEndTerritory();
-        int unitsCount = origin.getNumArmies() - 1;
+        int unitsCount = origin.getNumArmiesCanMoveThisRound();
         for(int i = 1; i <= unitsCount; i++)
             selectUnitsDropdown.addItem(new UnitCount(i));
         PopupManager.showPopup(n, screen, rearrangePopup);
@@ -198,7 +198,7 @@ public class ContextMenuController {
                 parent.showAlert("Você não possui exércitos suficientes para atacar!");
         }
         else if(option == MENU_DISTRIBUTE){
-            if (availableUnits > 1) {
+            if (currentTemp.getBackEndTerritory().getNumArmiesCanMoveThisRound() > 0) {
                 onAtkSequence = false;
                 originTerritory = currentTemp;
                 if (!distributing && mayShowRearrangeConfirmation)
@@ -206,7 +206,7 @@ public class ContextMenuController {
                 else
                     showRearrangeInfo();
             } else
-                parent.showAlert("Você não possui exércitos suficientes para movimentar!");
+                parent.showAlert("Não há mais exércitos que podem ser movidos deste território!");
         }
         PopupManager.closePopup(n, contextMenu);
     }
@@ -220,6 +220,7 @@ public class ContextMenuController {
     public void rearrangeOK() {
         int armiesToMove = selectUnitsDropdown.getSelection().getCount();
         originTerritory.getBackEndTerritory().decreaseArmies(armiesToMove);
+        originTerritory.getBackEndTerritory().setMovedArmies(armiesToMove);
         ArmyRenderComponent armyRenderer = (ArmyRenderComponent) originTerritory.getArmy().getComponent("army-renderer");
         armyRenderer.setOrigin(originTerritory);
         armyRenderer.setDestiny(destTerritory);
