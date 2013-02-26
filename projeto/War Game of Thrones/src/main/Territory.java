@@ -12,9 +12,9 @@ public class Territory extends Entity{
     private TerritoryPositionSync syncer;
     private ImageRenderComponent irc;
     private Army army;
-    private models.Territory backEndTerr;
+    private models.BackEndTerritory backEndTerr;
     
-    public Territory(Map m, Vector2f relativePos, String imagePath, models.Territory backEndTerr){
+    public Territory(Map m, Vector2f relativePos, String imagePath, models.BackEndTerritory backEndTerr){
         super();
         this.backEndTerr = backEndTerr;
         map = m;
@@ -31,7 +31,7 @@ public class Territory extends Entity{
         }
     }
     
-    public models.Territory getBackEndTerritory(){
+    public models.BackEndTerritory getBackEndTerritory(){
         return backEndTerr;
     }
     

@@ -3,7 +3,7 @@ package ai;
 import java.util.ArrayList;
 import java.util.List;
 import models.Board;
-import models.Territory;
+import models.BackEndTerritory;
 import org.apache.commons.lang.SerializationUtils;
 
 /**
@@ -66,7 +66,7 @@ public class BattleComputer {
      *
      * TODO: remover este método e utilizar apenas o método abaixo, que será refatorado (juro).
      */
-    public static double calculateAttackOdds(Territory attacker, Territory defender) {
+    public static double calculateAttackOdds(BackEndTerritory attacker, BackEndTerritory defender) {
         int numAttackers = Math.min(3, attacker.getNumArmies() - 1);
         int numDefenders = Math.min(3, defender.getNumArmies());
         return attackProbabilities[numAttackers - 1][numDefenders - 1];
@@ -78,11 +78,11 @@ public class BattleComputer {
      *
      * TODO: excluir esta merda e implementar a forma correta de calcular a probabilidade (utilizando uma Absorbing Markov chain)
      * 
-     * @param attacker O {@link models.Territory} atacante
-     * @param defender O {@link models.Territory} defensor
+     * @param attacker O {@link models.BackEndTerritory} atacante
+     * @param defender O {@link models.BackEndTerritory} defensor
      * @return A probabilidade, no intervalo de [0,1]
      */
-    public static double calculateThreatToTerritory(Territory attacker, Territory defender) {
+    public static double calculateThreatToTerritory(BackEndTerritory attacker, BackEndTerritory defender) {
         int attackers = attacker.getNumArmies() - 1;
         int defenders = defender.getNumArmies();
         int maxArmies = Math.max(attackers, defenders);
@@ -95,20 +95,20 @@ public class BattleComputer {
      * ser avaliado pela IA.
      * 
      * @param currentGameState O GameState atual do jogo
-     * @param attacker O {@link models.Territory} atacante
-     * @param defender O {@link models.Territory} defensor
+     * @param attacker O {@link models.BackEndTerritory} atacante
+     * @param defender O {@link models.BackEndTerritory} defensor
      * @param numAttackers O número de exércitos participantes do ataque
      * @param numDefenders O número de exércitos participantes da defesa
      * @return
      */
-    public static List<Board> generateAttackOutcomes(Board currentGameState, Territory attacker, Territory defender, int numAttackers) {
+    public static List<Board> generateAttackOutcomes(Board currentGameState, BackEndTerritory attacker, BackEndTerritory defender, int numAttackers) {
         List<Board> outcomes = new ArrayList<Board>();
         int numDefenders = Math.min(3, defender.getNumArmies());
         int numLosses = Math.min(numAttackers, numDefenders);
         for (int i = 0; i <= numLosses; i++) {
             Board newGameState = (Board) SerializationUtils.clone(currentGameState);
-            Territory clonedAttacker = newGameState.getTerritories()[attacker.getIndex()];
-            Territory clonedDefender = newGameState.getTerritories()[defender.getIndex()];
+            BackEndTerritory clonedAttacker = newGameState.getTerritories()[attacker.getIndex()];
+            BackEndTerritory clonedDefender = newGameState.getTerritories()[defender.getIndex()];
             int attackerLosses = i;
             int defenderLosses = numLosses - i;
             clonedAttacker.increaseArmies(-attackerLosses);
@@ -125,7 +125,7 @@ public class BattleComputer {
         return outcomes;
     }
 
-    public static double[] generateAttackOutcomeProbabilities(Board currentGameState, Territory attacker, Territory defender, int numAttackers) {
+    public static double[] generateAttackOutcomeProbabilities(Board currentGameState, BackEndTerritory attacker, BackEndTerritory defender, int numAttackers) {
         int numDefenders = Math.min(3, defender.getNumArmies());
         return attackResultProbabilities[numDefenders - 1][numAttackers - 1];
     }

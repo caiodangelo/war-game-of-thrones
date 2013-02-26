@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import main.MainScene;
 import models.Region;
-import models.Territory;
+import models.BackEndTerritory;
 import models.TerritoryID;
 import prefuse.Constants;
 import prefuse.data.Graph;
@@ -59,15 +59,15 @@ public class TerritoriesGraphStructure {
 
     //algorithms here
 
-    public Territory[] fillTerritories(Region[] regions) {
-        Territory [] resp = new Territory[39];
+    public BackEndTerritory[] fillTerritories(Region[] regions) {
+        BackEndTerritory [] resp = new BackEndTerritory[39];
         for(int i = 0; i < getNodeCount(); i++){
             Node n = getNode(i);
             String terrName = n.getString("name");
             String regName = n.getString("region");
             int regIndex = TerritoryID.getRegionID(regName);
             Region parent = regions[regIndex];
-            Territory newTerritory = new Territory(terrName, parent);
+            BackEndTerritory newTerritory = new BackEndTerritory(terrName, parent);
             parent.addTerritory(newTerritory);
             resp[i] = newTerritory;
         }

@@ -87,7 +87,7 @@ public class GameScene extends Scene{
         else{
             ctrl.updatePlayersData();
             if(territory.getBackEndTerritory().getOwner() == curr){
-                models.Territory t = territory.getBackEndTerritory();
+                models.BackEndTerritory t = territory.getBackEndTerritory();
                 t.increaseArmies(1);
                 curr.removePendingArmies(1);
                 pendingArmies--;

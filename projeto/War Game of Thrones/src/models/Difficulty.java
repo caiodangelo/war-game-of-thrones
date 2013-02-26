@@ -37,7 +37,7 @@ abstract class Difficulty {
      *
      * @param qtdPodeMover Um número entre 1 e 3
      */
-    abstract public int moveAfterConquest(Territory origin, Territory conquered, int numberCanMove);
+    abstract public int moveAfterConquest(BackEndTerritory origin, BackEndTerritory conquered, int numberCanMove);
 
     /**
      * Pergunta à IA se ela deseja movimentar mais algum exército para outro

@@ -20,7 +20,7 @@ public class RepositoryCardsTerritory {
 
     protected RepositoryCardsTerritory() {
         deck = new LinkedList<CardTerritory>();
-            Territory allTerritories[] = Board.getInstance().getTerritories();
+            BackEndTerritory allTerritories[] = Board.getInstance().getTerritories();
             deck.add(new CardTerritory(CardTerritory.SQUARE,allTerritories[TerritoryID.BARROWLANDS]));
             deck.add(new CardTerritory(CardTerritory.SQUARE,allTerritories[TerritoryID.COSTA_BRAVOSIANA]));
             deck.add(new CardTerritory(CardTerritory.SQUARE,allTerritories[TerritoryID.COSTA_LARANJA]));

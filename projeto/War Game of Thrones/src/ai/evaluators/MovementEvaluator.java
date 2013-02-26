@@ -12,7 +12,7 @@ import ai.features.DistanceToFrontierFeature;
 import ai.features.MaximumThreatFeature;
 import models.Board;
 import models.Player;
-import models.Territory;
+import models.BackEndTerritory;
 
 /**
  *
@@ -20,8 +20,8 @@ import models.Territory;
  */
 public class MovementEvaluator extends Evaluator {
 
-    private Territory originTerritory;
-    private Territory destinyTerritory;
+    private BackEndTerritory originTerritory;
+    private BackEndTerritory destinyTerritory;
 
     public MovementEvaluator(Board currentGameState, Player player) {
         super(currentGameState, player);
@@ -34,26 +34,26 @@ public class MovementEvaluator extends Evaluator {
     @Override
     public Board simulateActionExecution() {
         Board newState = currentGameState.getClone();
-        Territory clonedOriginTerritory = newState.getTerritories()[originTerritory.getIndex()];
-        Territory clonedDestinyTerritory = newState.getTerritories()[destinyTerritory.getIndex()];
+        BackEndTerritory clonedOriginTerritory = newState.getTerritories()[originTerritory.getIndex()];
+        BackEndTerritory clonedDestinyTerritory = newState.getTerritories()[destinyTerritory.getIndex()];
         Player clonedPlayer = getSimulatedPlayer();
         clonedPlayer.moveArmies(clonedOriginTerritory, clonedDestinyTerritory, 1);
         return newState;
     }
 
-    public Territory getDestinyTerritory() {
+    public BackEndTerritory getDestinyTerritory() {
         return destinyTerritory;
     }
 
-    public void setDestinyTerritory(Territory destinyTerritory) {
+    public void setDestinyTerritory(BackEndTerritory destinyTerritory) {
         this.destinyTerritory = destinyTerritory;
     }
 
-    public Territory getOriginTerritory() {
+    public BackEndTerritory getOriginTerritory() {
         return originTerritory;
     }
 
-    public void setOriginTerritory(Territory originTerritory) {
+    public void setOriginTerritory(BackEndTerritory originTerritory) {
         this.originTerritory = originTerritory;
     }
 }

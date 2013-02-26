@@ -24,7 +24,7 @@ public class TurnHelper {
     
     public void changeTurn(){
         b.changePlayer();
-        for(models.Territory t : b.getCurrentPlayer().getTerritories()) {
+        for(models.BackEndTerritory t : b.getCurrentPlayer().getTerritories()) {
             t.resetMovedArmies();
         }
         parent.showPlayerTurnMsg();

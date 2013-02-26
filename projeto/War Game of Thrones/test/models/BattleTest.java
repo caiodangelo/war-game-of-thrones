@@ -13,13 +13,13 @@ import static org.mockito.Mockito.*;
 public class BattleTest {
 
     Battle battle;
-    Territory attacker;
-    Territory defender;
+    BackEndTerritory attacker;
+    BackEndTerritory defender;
 
     @BeforeClass
     public void setUp() {
-        attacker = mock(Territory.class);
-        defender = mock(Territory.class);
+        attacker = mock(BackEndTerritory.class);
+        defender = mock(BackEndTerritory.class);
         Player attackerPlayer = mock(Player.class);
         Player defenderPlayer = mock(Player.class);
         when(attacker.getOwner()).thenReturn(attackerPlayer);

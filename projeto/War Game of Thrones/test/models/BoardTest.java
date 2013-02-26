@@ -148,10 +148,10 @@ public class BoardTest {
         Player playerLannister = mock(Player.class);
         board.addPlayer(playerStark, 0, Board.HUMAN_PLAYER);
         board.addPlayer(playerLannister, 1, Board.HUMAN_PLAYER);
-        Territory winterfell = mock(Territory.class);
-        Territory rochedoCasterly = mock(Territory.class);
-        Territory harrenhal = mock(Territory.class);
-        Territory dorne = mock(Territory.class);
+        BackEndTerritory winterfell = mock(BackEndTerritory.class);
+        BackEndTerritory rochedoCasterly = mock(BackEndTerritory.class);
+        BackEndTerritory harrenhal = mock(BackEndTerritory.class);
+        BackEndTerritory dorne = mock(BackEndTerritory.class);
         CardTerritory cardWinterfell = mock(CardTerritory.class);
         CardTerritory cardRochedoCasterly = mock(CardTerritory.class);
         CardTerritory cardHarrenhal = mock(CardTerritory.class);

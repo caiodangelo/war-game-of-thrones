@@ -1,9 +1,7 @@
 package gui;
 
 import de.lessvoid.nifty.Nifty;
-import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.NiftyMethodInvoker;
-import de.lessvoid.nifty.controls.CheckBoxStateChangedEvent;
 import de.lessvoid.nifty.controls.DropDown;
 import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.controls.Menu;
@@ -11,11 +9,10 @@ import de.lessvoid.nifty.controls.MenuItemActivatedEvent;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.tools.SizeValue;
-import main.Army;
 import main.ArmyRenderComponent;
-import main.AudioManager;
 import main.DiceManager;
 import main.Territory;
+import models.BackEndTerritory;
 import models.Battle;
 import models.Board;
 import models.Player;
@@ -106,7 +103,7 @@ public class ContextMenuController {
     private void showRearrangePopup(Screen screen){
         selectUnitsDropdown.clear();
         Player owner = originTerritory.getBackEndTerritory().getOwner();
-        models.Territory origin = originTerritory.getBackEndTerritory();
+        BackEndTerritory origin = originTerritory.getBackEndTerritory();
         int unitsCount = origin.getNumArmiesCanMoveThisRound();
         for(int i = 1; i <= unitsCount; i++)
             selectUnitsDropdown.addItem(new UnitCount(i));
@@ -122,7 +119,7 @@ public class ContextMenuController {
         //set player names and colors
         Label atkPlayerName = attackPopup.findNiftyControl("atkPlayerName", Label.class);
         Label defPlayerName = attackPopup.findNiftyControl("defPlayerName", Label.class);
-        models.Territory backAtkTer = originTerritory.getBackEndTerritory(), 
+        BackEndTerritory backAtkTer = originTerritory.getBackEndTerritory(), 
                 backDefTer = destTerritory.getBackEndTerritory();
         Player attacker = backAtkTer.getOwner();
         Player defender = backDefTer.getOwner();

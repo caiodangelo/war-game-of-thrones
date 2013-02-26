@@ -3,7 +3,7 @@ package ai.features;
 import ai.Feature;
 import models.Board;
 import models.Player;
-import models.Territory;
+import models.BackEndTerritory;
 
 /**
  * The Distance to Frontier Feature returns a measurement of the army distribution
@@ -28,20 +28,20 @@ public class DistanceToFrontierFeature extends Feature {
     @Override
     public double calculate(Board gameState, Player player) {
         double sumArmiesDistances = 0.0;
-        for (Territory t : player.getTerritories()) {
+        for (BackEndTerritory t : player.getTerritories()) {
             sumArmiesDistances += t.getNumArmies() * distanceToNearestEnemyTerritory(t, 1);
         }
         return (player.numArmies() * 1.0) / sumArmiesDistances;
     }
 
-    private int distanceToNearestEnemyTerritory(Territory territory, int totalDistance) {
+    private int distanceToNearestEnemyTerritory(BackEndTerritory territory, int totalDistance) {
         int minDistance = Integer.MAX_VALUE;
-        for (Territory neighbour : territory.getNeighbours()) {
+        for (BackEndTerritory neighbour : territory.getNeighbours()) {
             if (neighbour.getOwner() != territory.getOwner()) {
                 return totalDistance;
             }
         }
-        for (Territory neighbour : territory.getNeighbours()) {
+        for (BackEndTerritory neighbour : territory.getNeighbours()) {
             minDistance = Math.min(minDistance, distanceToNearestEnemyTerritory(neighbour, totalDistance + 1));
         }
         return -1;

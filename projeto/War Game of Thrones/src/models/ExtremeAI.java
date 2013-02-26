@@ -15,9 +15,9 @@ public class ExtremeAI extends Difficulty {
     @Override
     public void distributeArmies() {
         while (player.getPendingArmies() > 0) {
-            Territory chosen = null;
+            BackEndTerritory chosen = null;
             double maxRating = 0.0;
-            for (Territory territory : player.getTerritories()) {
+            for (BackEndTerritory territory : player.getTerritories()) {
                 DistributionEvaluator evaluator = new DistributionEvaluator(Board.getInstance(), player);
                 evaluator.setTerritory(territory);
                 double rating = evaluator.evaluate();
@@ -93,7 +93,7 @@ public class ExtremeAI extends Difficulty {
     }
 
     @Override
-    public int moveAfterConquest(Territory origin, Territory conquered, int numberCanMove) {
+    public int moveAfterConquest(BackEndTerritory origin, BackEndTerritory conquered, int numberCanMove) {
         int numberToMove = 0;
         while (numberCanMove > 0) {
             MovementEvaluator evaluator = new MovementEvaluator(Board.getInstance(), player);
@@ -118,13 +118,13 @@ public class ExtremeAI extends Difficulty {
 
     @Override
     public TerritoryTransaction nextMove() {
-        Territory origin = null;
-        Territory destiny = null;
+        BackEndTerritory origin = null;
+        BackEndTerritory destiny = null;
         double maxRating = 0.0;
         double currentRating = 0.0;
-        for (Territory territory : player.getTerritories()) {
+        for (BackEndTerritory territory : player.getTerritories()) {
             if (territory.getNumArmiesCanMoveThisRound() >= 1) {
-                for (Territory neighbour : territory.getNeighbours()) {
+                for (BackEndTerritory neighbour : territory.getNeighbours()) {
                     if (neighbour.getOwner() == player) {
                         MovementEvaluator evaluator = new MovementEvaluator(Board.getInstance(), player);
                         evaluator.setOriginTerritory(territory);
@@ -153,9 +153,9 @@ public class ExtremeAI extends Difficulty {
     @Override
     public TerritoryTransaction nextAttack() {
         List<TerritoryTransaction> attacks = new ArrayList<TerritoryTransaction>();
-        for (Territory territory : player.getTerritories()) {
+        for (BackEndTerritory territory : player.getTerritories()) {
             if (territory.getSurplusArmies() > 0) {
-                for (Territory neighbour : territory.getNeighbours()) {
+                for (BackEndTerritory neighbour : territory.getNeighbours()) {
                     if (neighbour.getOwner() != player) {
                         TerritoryTransaction attack = new TerritoryTransaction(territory, neighbour, Math.min(3, territory.getSurplusArmies()));
                         attacks.add(attack);

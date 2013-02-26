@@ -5,24 +5,21 @@ import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.controls.CheckBox;
 import de.lessvoid.nifty.controls.CheckBoxStateChangedEvent;
 import de.lessvoid.nifty.controls.Label;
-import de.lessvoid.nifty.controls.Menu;
 import de.lessvoid.nifty.controls.MenuItemActivatedEvent;
 import de.lessvoid.nifty.controls.Slider;
 import de.lessvoid.nifty.controls.SliderChangedEvent;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.ImageRenderer;
-import de.lessvoid.nifty.render.NiftyImage;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.Color;
-import de.lessvoid.nifty.tools.SizeValue;
 import java.util.HashMap;
 import java.util.List;
 import main.AudioManager;
-import main.GameScene;
 import main.Territory;
 import main.TurnHelper;
 import main.WarScenes;
+import models.BackEndTerritory;
 import models.Board;
 import models.House;
 import models.Player;
@@ -363,7 +360,7 @@ public class InGameGUIController implements ScreenController{
         String turn = turnsOrder.get(b.getPlayerOrder(currPlayer));
         content += currPlayer.getName()+"! Os turnos foram sorteados e você é o "+turn+" a jogar!\n\nSeus territórios são:\n";
         String colorCode;
-        for (models.Territory t : currPlayer.getTerritories()) {
+        for (BackEndTerritory t : currPlayer.getTerritories()) {
             colorCode = regionsColors.get(t.getRegion().getName());
             content += "\n"+colorCode+t.getName()+colorCode;
         }
@@ -374,9 +371,9 @@ public class InGameGUIController implements ScreenController{
     public void closeInfoTerritoriesPopup(){
         PopupManager.closePopup(n, infoTerritoriesPopup);
         Player curr = b.getCurrentPlayer();
-        List<models.Territory> ts = b.getCurrentPlayer().getTerritories();
+        List<BackEndTerritory> ts = b.getCurrentPlayer().getTerritories();
         
-        for(models.Territory t : ts){
+        for(BackEndTerritory t : ts){
             t.setNumArmies(1);
         }
         setInfoLabelText("Você ainda possui "+getCurrentPlayer().getPendingArmies()+" exército(s) para distribuir.");

@@ -8,7 +8,7 @@ package ai.features;
 import ai.Feature;
 import models.Board;
 import models.Player;
-import models.Territory;
+import models.BackEndTerritory;
 
 /**
  *
@@ -24,7 +24,7 @@ public class MoreThanOneArmyFeature extends Feature {
     @Override
     public double calculate(Board gameState, Player player) {
         double fortifiedTerritories = 0.0;
-        for (Territory territory : player.getTerritories()) {
+        for (BackEndTerritory territory : player.getTerritories()) {
             if (territory.getSurplusArmies() > 0) {
                 fortifiedTerritories++;
             }

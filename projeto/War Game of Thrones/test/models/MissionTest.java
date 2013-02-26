@@ -96,19 +96,19 @@ public class MissionTest {
         allRegions.add(theEast);
         allRegions.add(dothraki);        
         
-        Territory winterfell = new Territory(null, theNorth);
-        Territory portoBranco = new Territory(null, theNorth);
-        Territory bosqueProfundo = new Territory(null, theNorth);
-        Territory forteDoPavor = new Territory(null, theNorth);
-        Territory pracaDeTorrhen = new Territory(null, theNorth);
-        Territory karhold = new Territory(null, theNorth);
-        Territory portoReal = new Territory(null, theNorth);
-        Territory correrio = new Territory(null, theNorth);
-        Territory pontaTempestade = new Territory(null, theSouth);
-        Territory jardimDeCima = new Territory(null, theSouth);
-        Territory monteChifre = new Territory(null, theSouth);
-        Territory dorne = new Territory(null, theSouth);
-        Territory tarth = new Territory(null, theSouth);
+        BackEndTerritory winterfell = new BackEndTerritory(null, theNorth);
+        BackEndTerritory portoBranco = new BackEndTerritory(null, theNorth);
+        BackEndTerritory bosqueProfundo = new BackEndTerritory(null, theNorth);
+        BackEndTerritory forteDoPavor = new BackEndTerritory(null, theNorth);
+        BackEndTerritory pracaDeTorrhen = new BackEndTerritory(null, theNorth);
+        BackEndTerritory karhold = new BackEndTerritory(null, theNorth);
+        BackEndTerritory portoReal = new BackEndTerritory(null, theNorth);
+        BackEndTerritory correrio = new BackEndTerritory(null, theNorth);
+        BackEndTerritory pontaTempestade = new BackEndTerritory(null, theSouth);
+        BackEndTerritory jardimDeCima = new BackEndTerritory(null, theSouth);
+        BackEndTerritory monteChifre = new BackEndTerritory(null, theSouth);
+        BackEndTerritory dorne = new BackEndTerritory(null, theSouth);
+        BackEndTerritory tarth = new BackEndTerritory(null, theSouth);
 
         theNorth.addTerritory(winterfell);
         theNorth.addTerritory(portoBranco);
@@ -164,19 +164,19 @@ public class MissionTest {
         allRegions.add(theEast);
         allRegions.add(dothraki);    
         
-        Territory winterfell = new Territory(null, theNorth);
-        Territory portoBranco = new Territory(null, theNorth);
-        Territory bosqueProfundo = new Territory(null, theNorth);
-        Territory forteDoPavor = new Territory(null, theNorth);
-        Territory pracaDeTorrhen = new Territory(null, theNorth);
-        Territory karhold = new Territory(null, theNorth);
-        Territory portoReal = new Territory(null, theNorth);
-        Territory correrio = new Territory(null, theNorth);
-        Territory pontaTempestade = new Territory(null, theSouth);
-        Territory jardimDeCima = new Territory(null, theSouth);
-        Territory monteChifre = new Territory(null, theSouth);
-        Territory dorne = new Territory(null, theSouth);
-        Territory tarth = new Territory(null, theSouth);
+        BackEndTerritory winterfell = new BackEndTerritory(null, theNorth);
+        BackEndTerritory portoBranco = new BackEndTerritory(null, theNorth);
+        BackEndTerritory bosqueProfundo = new BackEndTerritory(null, theNorth);
+        BackEndTerritory forteDoPavor = new BackEndTerritory(null, theNorth);
+        BackEndTerritory pracaDeTorrhen = new BackEndTerritory(null, theNorth);
+        BackEndTerritory karhold = new BackEndTerritory(null, theNorth);
+        BackEndTerritory portoReal = new BackEndTerritory(null, theNorth);
+        BackEndTerritory correrio = new BackEndTerritory(null, theNorth);
+        BackEndTerritory pontaTempestade = new BackEndTerritory(null, theSouth);
+        BackEndTerritory jardimDeCima = new BackEndTerritory(null, theSouth);
+        BackEndTerritory monteChifre = new BackEndTerritory(null, theSouth);
+        BackEndTerritory dorne = new BackEndTerritory(null, theSouth);
+        BackEndTerritory tarth = new BackEndTerritory(null, theSouth);
 
         theNorth.addTerritory(winterfell);
         theNorth.addTerritory(portoBranco);
@@ -232,19 +232,19 @@ public class MissionTest {
         allRegions.add(dothraki);    
         allRegions.add(nulo);    
         
-        Territory winterfell = new Territory(null, theNorth);
-        Territory portoBranco = new Territory(null, theNorth);
-        Territory bosqueProfundo = new Territory(null, theNorth);
-        Territory forteDoPavor = new Territory(null, theNorth);
-        Territory pracaDeTorrhen = new Territory(null, theNorth);
-        Territory karhold = new Territory(null, theNorth);
-        Territory portoReal = new Territory(null, theNorth);
-        Territory correrio = new Territory(null, theNorth);
-        Territory pontaTempestade = new Territory(null, theSouth);
-        Territory jardimDeCima = new Territory(null, theSouth);
-        Territory monteChifre = new Territory(null, theSouth);
-        Territory dorne = new Territory(null, theSouth);
-        Territory tarth = new Territory(null, theSouth);
+        BackEndTerritory winterfell = new BackEndTerritory(null, theNorth);
+        BackEndTerritory portoBranco = new BackEndTerritory(null, theNorth);
+        BackEndTerritory bosqueProfundo = new BackEndTerritory(null, theNorth);
+        BackEndTerritory forteDoPavor = new BackEndTerritory(null, theNorth);
+        BackEndTerritory pracaDeTorrhen = new BackEndTerritory(null, theNorth);
+        BackEndTerritory karhold = new BackEndTerritory(null, theNorth);
+        BackEndTerritory portoReal = new BackEndTerritory(null, theNorth);
+        BackEndTerritory correrio = new BackEndTerritory(null, theNorth);
+        BackEndTerritory pontaTempestade = new BackEndTerritory(null, theSouth);
+        BackEndTerritory jardimDeCima = new BackEndTerritory(null, theSouth);
+        BackEndTerritory monteChifre = new BackEndTerritory(null, theSouth);
+        BackEndTerritory dorne = new BackEndTerritory(null, theSouth);
+        BackEndTerritory tarth = new BackEndTerritory(null, theSouth);
 
         theNorth.addTerritory(winterfell);
         theNorth.addTerritory(portoBranco);
@@ -291,16 +291,16 @@ public class MissionTest {
         Region theNorth = new Region("The North", Region.O_NORTE);
         Region theSouth = new Region("The South", Region.O_SUL);        
         
-        Territory winterfell = new Territory(null, theNorth);
-        Territory portoBranco = new Territory(null, theNorth);
-        Territory bosqueProfundo = new Territory(null, theNorth);
-        Territory forteDoPavor = new Territory(null, theNorth);        
-        Territory portoReal = new Territory(null, theNorth);
-        Territory correrio = new Territory(null, theNorth);
-        Territory pontaTempestade = new Territory(null, theSouth);      
-        Territory monteChifre = new Territory(null, theSouth);
-        Territory dorne = new Territory(null, theSouth);
-        Territory tarth = new Territory(null, theSouth);        
+        BackEndTerritory winterfell = new BackEndTerritory(null, theNorth);
+        BackEndTerritory portoBranco = new BackEndTerritory(null, theNorth);
+        BackEndTerritory bosqueProfundo = new BackEndTerritory(null, theNorth);
+        BackEndTerritory forteDoPavor = new BackEndTerritory(null, theNorth);        
+        BackEndTerritory portoReal = new BackEndTerritory(null, theNorth);
+        BackEndTerritory correrio = new BackEndTerritory(null, theNorth);
+        BackEndTerritory pontaTempestade = new BackEndTerritory(null, theSouth);      
+        BackEndTerritory monteChifre = new BackEndTerritory(null, theSouth);
+        BackEndTerritory dorne = new BackEndTerritory(null, theSouth);
+        BackEndTerritory tarth = new BackEndTerritory(null, theSouth);        
 
         Mission missionTerritory = new Mission(null, null, Mission.TYPE_TERRITORY);
 
@@ -329,25 +329,25 @@ public class MissionTest {
         Region theNorth = new Region("The North", Region.O_NORTE);
         Region theSouth = new Region("The South", Region.O_SUL);
         
-        Territory winterfell = new Territory(null, theNorth);
-        Territory portoBranco = new Territory(null, theNorth);
-        Territory bosqueProfundo = new Territory(null, theNorth);
-        Territory forteDoPavor = new Territory(null, theNorth);        
-        Territory portoReal = new Territory(null, theNorth);
-        Territory correrio = new Territory(null, theNorth);
-        Territory pontaTempestade = new Territory(null, theSouth);      
-        Territory monteChifre = new Territory(null, theSouth);
-        Territory dorne = new Territory(null, theSouth);
-        Territory tarth = new Territory(null, theSouth);        
-        Territory rochedoCasterly = new Territory(null, theSouth);        
-        Territory ninhoDaAguia = new Territory(null, theSouth);        
-        Territory harrenhal = new Territory(null, theSouth);        
-        Territory guardamar = new Territory(null, theSouth);        
-        Territory pyke = new Territory(null, theSouth);        
-        Territory casteloNegro = new Territory(null, theSouth);        
-        Territory pentos = new Territory(null, theSouth);        
-        Territory qarth = new Territory(null, theSouth);        
-        Territory arvore = new Territory(null, theSouth);        
+        BackEndTerritory winterfell = new BackEndTerritory(null, theNorth);
+        BackEndTerritory portoBranco = new BackEndTerritory(null, theNorth);
+        BackEndTerritory bosqueProfundo = new BackEndTerritory(null, theNorth);
+        BackEndTerritory forteDoPavor = new BackEndTerritory(null, theNorth);        
+        BackEndTerritory portoReal = new BackEndTerritory(null, theNorth);
+        BackEndTerritory correrio = new BackEndTerritory(null, theNorth);
+        BackEndTerritory pontaTempestade = new BackEndTerritory(null, theSouth);      
+        BackEndTerritory monteChifre = new BackEndTerritory(null, theSouth);
+        BackEndTerritory dorne = new BackEndTerritory(null, theSouth);
+        BackEndTerritory tarth = new BackEndTerritory(null, theSouth);        
+        BackEndTerritory rochedoCasterly = new BackEndTerritory(null, theSouth);        
+        BackEndTerritory ninhoDaAguia = new BackEndTerritory(null, theSouth);        
+        BackEndTerritory harrenhal = new BackEndTerritory(null, theSouth);        
+        BackEndTerritory guardamar = new BackEndTerritory(null, theSouth);        
+        BackEndTerritory pyke = new BackEndTerritory(null, theSouth);        
+        BackEndTerritory casteloNegro = new BackEndTerritory(null, theSouth);        
+        BackEndTerritory pentos = new BackEndTerritory(null, theSouth);        
+        BackEndTerritory qarth = new BackEndTerritory(null, theSouth);        
+        BackEndTerritory arvore = new BackEndTerritory(null, theSouth);        
         
         winterfell.setNumArmies(2);
         portoBranco.setNumArmies(2);
@@ -404,25 +404,25 @@ public class MissionTest {
         Region theNorth = new Region("The North", Region.O_NORTE);
         Region theSouth = new Region("The South", Region.O_SUL);       
         
-        Territory winterfell = new Territory(null, theNorth);
-        Territory portoBranco = new Territory(null, theNorth);
-        Territory bosqueProfundo = new Territory(null, theNorth);
-        Territory forteDoPavor = new Territory(null, theNorth);        
-        Territory portoReal = new Territory(null, theNorth);
-        Territory correrio = new Territory(null, theNorth);
-        Territory pontaTempestade = new Territory(null, theSouth);      
-        Territory monteChifre = new Territory(null, theSouth);
-        Territory dorne = new Territory(null, theSouth);
-        Territory tarth = new Territory(null, theSouth);        
-        Territory rochedoCasterly = new Territory(null, theSouth);        
-        Territory ninhoDaAguia = new Territory(null, theSouth);        
-        Territory harrenhal = new Territory(null, theSouth);        
-        Territory guardamar = new Territory(null, theSouth);        
-        Territory pyke = new Territory(null, theSouth);        
-        Territory casteloNegro = new Territory(null, theSouth);        
-        Territory pentos = new Territory(null, theSouth);        
-        Territory qarth = new Territory(null, theSouth);        
-        Territory arvore = new Territory(null, theSouth);        
+        BackEndTerritory winterfell = new BackEndTerritory(null, theNorth);
+        BackEndTerritory portoBranco = new BackEndTerritory(null, theNorth);
+        BackEndTerritory bosqueProfundo = new BackEndTerritory(null, theNorth);
+        BackEndTerritory forteDoPavor = new BackEndTerritory(null, theNorth);        
+        BackEndTerritory portoReal = new BackEndTerritory(null, theNorth);
+        BackEndTerritory correrio = new BackEndTerritory(null, theNorth);
+        BackEndTerritory pontaTempestade = new BackEndTerritory(null, theSouth);      
+        BackEndTerritory monteChifre = new BackEndTerritory(null, theSouth);
+        BackEndTerritory dorne = new BackEndTerritory(null, theSouth);
+        BackEndTerritory tarth = new BackEndTerritory(null, theSouth);        
+        BackEndTerritory rochedoCasterly = new BackEndTerritory(null, theSouth);        
+        BackEndTerritory ninhoDaAguia = new BackEndTerritory(null, theSouth);        
+        BackEndTerritory harrenhal = new BackEndTerritory(null, theSouth);        
+        BackEndTerritory guardamar = new BackEndTerritory(null, theSouth);        
+        BackEndTerritory pyke = new BackEndTerritory(null, theSouth);        
+        BackEndTerritory casteloNegro = new BackEndTerritory(null, theSouth);        
+        BackEndTerritory pentos = new BackEndTerritory(null, theSouth);        
+        BackEndTerritory qarth = new BackEndTerritory(null, theSouth);        
+        BackEndTerritory arvore = new BackEndTerritory(null, theSouth);        
         
         winterfell.setNumArmies(2);
         portoBranco.setNumArmies(2);
@@ -480,12 +480,12 @@ public class MissionTest {
         Region theNorth = new Region("The North", Region.O_NORTE);
         Region theSouth = new Region("The South", Region.O_SUL);
                         
-        Territory winterfell = new Territory(null, theNorth);
-        Territory portoBranco = new Territory(null, theNorth);
-        Territory bosqueProfundo = new Territory(null, theNorth);
-        Territory forteDoPavor = new Territory(null, theNorth);        
-        Territory portoReal = new Territory(null, theNorth);
-        Territory correrio = new Territory(null, theNorth);
+        BackEndTerritory winterfell = new BackEndTerritory(null, theNorth);
+        BackEndTerritory portoBranco = new BackEndTerritory(null, theNorth);
+        BackEndTerritory bosqueProfundo = new BackEndTerritory(null, theNorth);
+        BackEndTerritory forteDoPavor = new BackEndTerritory(null, theNorth);        
+        BackEndTerritory portoReal = new BackEndTerritory(null, theNorth);
+        BackEndTerritory correrio = new BackEndTerritory(null, theNorth);
         
         House stark = new House();
         House lannister = new House();
@@ -523,12 +523,12 @@ public class MissionTest {
         Region theNorth = new Region("The North", Region.O_NORTE);
         Region theSouth = new Region("The South", Region.O_SUL);       
         
-        Territory winterfell = new Territory(null, theNorth);
-        Territory portoBranco = new Territory(null, theNorth);
-        Territory bosqueProfundo = new Territory(null, theNorth);
-        Territory forteDoPavor = new Territory(null, theNorth);        
-        Territory portoReal = new Territory(null, theNorth);
-        Territory correrio = new Territory(null, theNorth);
+        BackEndTerritory winterfell = new BackEndTerritory(null, theNorth);
+        BackEndTerritory portoBranco = new BackEndTerritory(null, theNorth);
+        BackEndTerritory bosqueProfundo = new BackEndTerritory(null, theNorth);
+        BackEndTerritory forteDoPavor = new BackEndTerritory(null, theNorth);        
+        BackEndTerritory portoReal = new BackEndTerritory(null, theNorth);
+        BackEndTerritory correrio = new BackEndTerritory(null, theNorth);
         
         House stark = new House();
         House lannister = new House();

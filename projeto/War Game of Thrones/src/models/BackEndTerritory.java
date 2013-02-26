@@ -11,7 +11,7 @@ import util.TerritoriesGraphStructure;
  *
  * @author rodrigo
  */
-public class Territory implements Serializable {
+public class BackEndTerritory implements Serializable {
 
     private int index;
     private String name;
@@ -24,19 +24,19 @@ public class Territory implements Serializable {
     protected int numAttacks;  //Num de vezes que o territorio foi atacado
     protected int numConquests;  //Num de vezes que o territorio foi conquistado
 
-    public Territory(int index, TerritoriesGraphStructure strct) {
+    public BackEndTerritory(int index, TerritoriesGraphStructure strct) {
         this.index = index;
         this.graph = strct;
         this.board = Board.getInstance();
     }
 
-    public Territory(String name, Region region) {
+    public BackEndTerritory(String name, Region region) {
         this.name = name;
         this.region = region;
         this.board = Board.getInstance();
     }
 
-    public Territory(String name, Region region, Player player) {
+    public BackEndTerritory(String name, Region region, Player player) {
         this.name = name;
         this.region = region;
         this.owner = player;
@@ -132,7 +132,7 @@ public class Territory implements Serializable {
      * Transfere exércitos deste território para outro, apenas se este
      * território ficar com pelo menos um exército após o movimento.
      */
-    public boolean transferArmies(Territory target, int amount) {
+    public boolean transferArmies(BackEndTerritory target, int amount) {
         if (this.numArmies > amount) {
             target.increaseArmies(amount);
             this.decreaseArmies(amount);
@@ -152,7 +152,7 @@ public class Territory implements Serializable {
     /**
      * Verifica se um território é vizinho deste
      */
-    public boolean isNeighbour(Territory another) {
+    public boolean isNeighbour(BackEndTerritory another) {
         String otherName = another.getName();
         Iterator neighbours = graph.getNeighborsIterator(index);
         while (neighbours.hasNext()) {
@@ -167,11 +167,11 @@ public class Territory implements Serializable {
      * Retorna uma lista com todos os territórios que fazem fronteira ou tem
      * conexão por rotas com este.
      */
-    public List<Territory> getNeighbours() {
-        Territory[] allTerritories = board.getTerritories();
-        List<Territory> resp = new ArrayList<Territory>();
+    public List<BackEndTerritory> getNeighbours() {
+        BackEndTerritory[] allTerritories = board.getTerritories();
+        List<BackEndTerritory> resp = new ArrayList<BackEndTerritory>();
         System.out.println("running for in all territories");
-        for (Territory t : allTerritories) {
+        for (BackEndTerritory t : allTerritories) {
             if (!t.equals(this) && t.isNeighbour(this))
                 resp.add(t);
         }
@@ -183,7 +183,7 @@ public class Territory implements Serializable {
      * se ele for um território interno do jogador.
      */
     public boolean isHinterland() {
-        for (Territory neighbour : getNeighbours()) {
+        for (BackEndTerritory neighbour : getNeighbours()) {
             if (neighbour.getOwner() != this.getOwner()) {
                 return false;
             }
@@ -193,8 +193,8 @@ public class Territory implements Serializable {
 
     @Override
     public boolean equals(Object other) {
-        if (other instanceof Territory) {
-            Territory tOther = (Territory) other;
+        if (other instanceof BackEndTerritory) {
+            BackEndTerritory tOther = (BackEndTerritory) other;
             return tOther.index == this.index;
         }
         return false;
