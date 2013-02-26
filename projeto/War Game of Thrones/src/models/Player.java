@@ -14,7 +14,7 @@ public abstract class Player implements Serializable {
     private int pendingArmies; // Número de exércitos que ele tem mas ainda não posicionou
     private House house;
     private Mission mission;
-    private List<Territory> territories;
+    private List<BackEndTerritory> territories;
     private List<CardTerritory> cards;
     private StatisticPlayerManager statistic;
     private boolean maySwapCards;
@@ -22,7 +22,7 @@ public abstract class Player implements Serializable {
     public Player(String name) {
         this.name = name;
         this.pendingArmies = 0;
-        this.territories = new ArrayList<Territory>();
+        this.territories = new ArrayList<BackEndTerritory>();
         this.cards = new ArrayList<CardTerritory>();
         this.statistic = new StatisticPlayerManager();
         this.maySwapCards = false;
@@ -80,7 +80,7 @@ public abstract class Player implements Serializable {
         this.pendingArmies -= amount;
     }
 
-    public List<Territory> getTerritories() {
+    public List<BackEndTerritory> getTerritories() {
         return territories;
     }
 
@@ -98,7 +98,7 @@ public abstract class Player implements Serializable {
     
     public int numArmies() {
         int count = 0;
-        for (Territory territory : this.getTerritories()) {
+        for (BackEndTerritory territory : this.getTerritories()) {
             count += territory.getNumArmies();
         }
         return count;
@@ -112,12 +112,12 @@ public abstract class Player implements Serializable {
         return this.getTerritories().size();
     }
             
-    public void addTerritory(Territory territory) {
+    public void addTerritory(BackEndTerritory territory) {
         territories.add(territory);
         territory.setOwner(this);
     }
     
-    public void addArmiesInTerritory (Territory territory) {
+    public void addArmiesInTerritory (BackEndTerritory territory) {
         territory.increaseArmies(pendingArmies);
     }
 
@@ -125,7 +125,7 @@ public abstract class Player implements Serializable {
         cards.add(card);
     }
 
-    public void removeTerritory(Territory territory) {
+    public void removeTerritory(BackEndTerritory territory) {
         territories.remove(territory);
     }
 
@@ -133,7 +133,7 @@ public abstract class Player implements Serializable {
         cards.remove(card);
     }
 
-    public boolean moveArmies(Territory origin, Territory target, int amount) {
+    public boolean moveArmies(BackEndTerritory origin, BackEndTerritory target, int amount) {
         if (origin.getOwner() == this && target.getOwner() == this && origin.isNeighbour(target)) {
             return origin.transferArmies(target, amount);
         }
@@ -144,7 +144,7 @@ public abstract class Player implements Serializable {
      * Distribui os exércitos pendentes para um território, desde que tenha exércitos suficientes
      * e que o território escolhido seja do jogador.
      */
-    public boolean distributeArmies(Territory target, int amount) {
+    public boolean distributeArmies(BackEndTerritory target, int amount) {
         if (pendingArmies >= amount && target.getOwner() == this) {
             target.increaseArmies(amount);
             pendingArmies -= amount;

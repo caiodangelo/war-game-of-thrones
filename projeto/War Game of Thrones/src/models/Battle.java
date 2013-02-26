@@ -11,8 +11,8 @@ import java.util.Random;
  */
 public class Battle {
 
-    protected Territory attacker;
-    protected Territory defender;
+    protected BackEndTerritory attacker;
+    protected BackEndTerritory defender;
     protected int numberAttackers;
     protected int numberDefenders;
     protected Integer[] attackersDices;
@@ -23,7 +23,7 @@ public class Battle {
     protected boolean concluded;
     protected boolean conquested;
 
-    public Battle(Territory attacker, Territory defender, int numberAttackers, int numberDefenders) {
+    public Battle(BackEndTerritory attacker, BackEndTerritory defender, int numberAttackers, int numberDefenders) {
         this.attacker = attacker;
         this.defender = defender;
         this.numberAttackers = numberAttackers;
@@ -110,7 +110,7 @@ public class Battle {
         }
     }
 
-    public Territory getAttacker() {
+    public BackEndTerritory getAttacker() {
         return attacker;
     }
 
@@ -126,7 +126,7 @@ public class Battle {
         return conquested;
     }
 
-    public Territory getDefender() {
+    public BackEndTerritory getDefender() {
         return defender;
     }
 

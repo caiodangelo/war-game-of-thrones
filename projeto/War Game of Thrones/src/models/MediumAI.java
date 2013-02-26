@@ -192,7 +192,7 @@ public class MediumAI extends Difficulty {
     }
 
     @Override
-    public int moveAfterConquest(Territory origin, Territory conquered, int numberCanMove) {
+    public int moveAfterConquest(BackEndTerritory origin, BackEndTerritory conquered, int numberCanMove) {
         if (origin.getNumArmies() >= 6) {
             return numberCanMove;
         }
@@ -213,10 +213,10 @@ public class MediumAI extends Difficulty {
          * tiver algum vizinho cujo proprietario seja o proprio jogador, desde que esse territorio vizinho
          * tenha exercitos para movimentar, para que a movimentação seja util
          */
-        for (Territory myTerritory : player.getTerritories()) {
+        for (BackEndTerritory myTerritory : player.getTerritories()) {
             if (myTerritory.getNumArmies() == 1) {
-                List<Territory> neighbours = myTerritory.getNeighbours();
-                for (Territory territory : neighbours) {
+                List<BackEndTerritory> neighbours = myTerritory.getNeighbours();
+                for (BackEndTerritory territory : neighbours) {
                     if ((territory.getOwner().equals(player)) && (territory.getNumArmiesCanMoveThisRound() >= 1)) {
                         return true;
                     }
@@ -232,11 +232,11 @@ public class MediumAI extends Difficulty {
         int dangerousEnemyArmies = 0;
         int numArmies;
         if (keepMoving()) {
-            Territory origin;
-            Territory destiny;
-            for (Territory territory : player.getTerritories()) {
+            BackEndTerritory origin;
+            BackEndTerritory destiny;
+            for (BackEndTerritory territory : player.getTerritories()) {
                 if (keepMoving() && territory.getNumArmiesCanMoveThisRound() >= 1) {
-                    for (Territory neighbour : territory.getNeighbours()) {
+                    for (BackEndTerritory neighbour : territory.getNeighbours()) {
                         if (neighbour.getOwner().equals(player)) {
                             numberFriendNeighbours++;
                         } else {
@@ -247,7 +247,7 @@ public class MediumAI extends Difficulty {
                     }
                     //Se houver algum inimigo com um num de exercitos muito grande (razao > 1,5), AI player não fará a movimentação
                     if ((territory.getNumArmies() / dangerousEnemyArmies) <= 1.5) {
-                        for (Territory neighbour : territory.getNeighbours()) {
+                        for (BackEndTerritory neighbour : territory.getNeighbours()) {
                             if (neighbour.getOwner().equals(player) && neighbour.getNumArmies() <= territory.getNumArmies()) {
                                 origin = territory;
                                 destiny = neighbour;

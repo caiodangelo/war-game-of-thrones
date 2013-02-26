@@ -18,9 +18,9 @@ public class CardTerritory {
     public static final int JOKER = 4;
 
     private int type;
-    private Territory territory;
+    private BackEndTerritory territory;
 
-    public CardTerritory(int geometricFigure, Territory territory) {
+    public CardTerritory(int geometricFigure, BackEndTerritory territory) {
         this.type = geometricFigure;
         this.territory = territory;
     }
@@ -33,11 +33,11 @@ public class CardTerritory {
         this.type = type;
     }
 
-    public Territory getTerritory() {
+    public BackEndTerritory getTerritory() {
         return territory;
     }
 
-    public void setTerritory(Territory territory) {
+    public void setTerritory(BackEndTerritory territory) {
         this.territory = territory;
     }
 

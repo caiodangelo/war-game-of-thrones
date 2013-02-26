@@ -1,9 +1,7 @@
 package gui;
 
 import de.lessvoid.nifty.Nifty;
-import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.NiftyMethodInvoker;
-import de.lessvoid.nifty.controls.CheckBoxStateChangedEvent;
 import de.lessvoid.nifty.controls.DropDown;
 import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.controls.Menu;
@@ -11,11 +9,10 @@ import de.lessvoid.nifty.controls.MenuItemActivatedEvent;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.tools.SizeValue;
-import main.Army;
 import main.ArmyRenderComponent;
-import main.AudioManager;
 import main.DiceManager;
 import main.Territory;
+import models.BackEndTerritory;
 import models.Battle;
 import models.Board;
 import models.Player;
@@ -106,8 +103,8 @@ public class ContextMenuController {
     private void showRearrangePopup(Screen screen){
         selectUnitsDropdown.clear();
         Player owner = originTerritory.getBackEndTerritory().getOwner();
-        models.Territory origin = originTerritory.getBackEndTerritory();
-        int unitsCount = origin.getNumArmies() - 1;
+        BackEndTerritory origin = originTerritory.getBackEndTerritory();
+        int unitsCount = origin.getNumArmiesCanMoveThisRound();
         for(int i = 1; i <= unitsCount; i++)
             selectUnitsDropdown.addItem(new UnitCount(i));
         PopupManager.showPopup(n, screen, rearrangePopup);
@@ -122,7 +119,7 @@ public class ContextMenuController {
         //set player names and colors
         Label atkPlayerName = attackPopup.findNiftyControl("atkPlayerName", Label.class);
         Label defPlayerName = attackPopup.findNiftyControl("defPlayerName", Label.class);
-        models.Territory backAtkTer = originTerritory.getBackEndTerritory(), 
+        BackEndTerritory backAtkTer = originTerritory.getBackEndTerritory(), 
                 backDefTer = destTerritory.getBackEndTerritory();
         Player attacker = backAtkTer.getOwner();
         Player defender = backDefTer.getOwner();
@@ -198,7 +195,7 @@ public class ContextMenuController {
                 parent.showAlert("Você não possui exércitos suficientes para atacar!");
         }
         else if(option == MENU_DISTRIBUTE){
-            if (availableUnits > 1) {
+            if (currentTemp.getBackEndTerritory().getNumArmiesCanMoveThisRound() > 0) {
                 onAtkSequence = false;
                 originTerritory = currentTemp;
                 if (!distributing && mayShowRearrangeConfirmation)
@@ -206,7 +203,7 @@ public class ContextMenuController {
                 else
                     showRearrangeInfo();
             } else
-                parent.showAlert("Você não possui exércitos suficientes para movimentar!");
+                parent.showAlert("Não há mais exércitos que podem ser movidos deste território!");
         }
         PopupManager.closePopup(n, contextMenu);
     }
@@ -220,6 +217,7 @@ public class ContextMenuController {
     public void rearrangeOK() {
         int armiesToMove = selectUnitsDropdown.getSelection().getCount();
         originTerritory.getBackEndTerritory().decreaseArmies(armiesToMove);
+        originTerritory.getBackEndTerritory().setMovedArmies(armiesToMove);
         ArmyRenderComponent armyRenderer = (ArmyRenderComponent) originTerritory.getArmy().getComponent("army-renderer");
         armyRenderer.setOrigin(originTerritory);
         armyRenderer.setDestiny(destTerritory);

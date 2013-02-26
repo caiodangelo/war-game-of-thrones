@@ -197,7 +197,7 @@ public class Map extends Entity{
     @Override
     public void onAdded() {
         Scene scene = getScene();
-        models.Territory[] backEndTerritories = Board.getInstance().getTerritories();
+        models.BackEndTerritory[] backEndTerritories = Board.getInstance().getTerritories();
         for(int i = 0; i < territoryPositions.length; i++){
             Territory t = new Territory(this, territoryPositions[i], imgs[i], backEndTerritories[i]);
             scene.addEntity(t);

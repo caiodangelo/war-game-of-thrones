@@ -10,17 +10,16 @@ import de.lessvoid.nifty.controls.Slider;
 import de.lessvoid.nifty.controls.SliderChangedEvent;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.ImageRenderer;
-import de.lessvoid.nifty.render.NiftyImage;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.Color;
 import java.util.HashMap;
 import java.util.List;
 import main.AudioManager;
-import main.GameScene;
 import main.Territory;
 import main.TurnHelper;
 import main.WarScenes;
+import models.BackEndTerritory;
 import models.Board;
 import models.House;
 import models.Player;
@@ -33,7 +32,7 @@ public class InGameGUIController implements ScreenController{
 
     private StatusPanelControl [] statusPanels;
     private Label playerStatusName, playerStatusCards, playerStatusUnits, playerStatusTerritories, infoTerritories, 
-            ravenMessage, alert;
+            ravenMessage, alert, territoryName;
     private Screen s;
     private Nifty n;
     private Board b;
@@ -41,12 +40,13 @@ public class InGameGUIController implements ScreenController{
     
     private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel, 
             optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup,
-            alertPopup;
+            alertPopup, territoryNamePopup;
     private boolean mouseOverObjective = false;
     
     private ContextMenuController ctxMenuCtrl;
     private static InGameGUIController instance;
     private HashMap<Integer, String> turnsOrder;
+    private HashMap<String, String> regionsColors;
     
     public InGameGUIController(){
             turnsOrder = new HashMap();
@@ -56,6 +56,13 @@ public class InGameGUIController implements ScreenController{
             turnsOrder.put(3, "quarto");
             turnsOrder.put(4, "quinto");
             turnsOrder.put(5, "sexto");
+            regionsColors = new HashMap();
+            regionsColors.put("Além da Muralha", "\\#FFFFFF#");
+            regionsColors.put("Cidades Livres", "\\#660066#");
+            regionsColors.put("O Norte", "\\#66CCFF#");
+            regionsColors.put("O Sul", "\\#66CC00#");
+            regionsColors.put("Tridente", "\\#CCCC00#");
+            regionsColors.put("O Mar Dothraki", "\\#FF6600#");
             instance = this;
     }
     
@@ -87,7 +94,7 @@ public class InGameGUIController implements ScreenController{
         infoTerritories = infoTerritoriesPopup.findNiftyControl("infoTerritories", Label.class);
         alertPopup = n.createPopup("alertPopup");
         alert = alertPopup.findNiftyControl("alert", Label.class);
-
+        
         ravenMessage = screen.findNiftyControl("ravenMessage", Label.class);
         infoPanel = screen.findElementByName("infoPanel");
         nextTurnConfirmPopup = n.createPopup("nextTurnConfirmationPopup");
@@ -100,6 +107,11 @@ public class InGameGUIController implements ScreenController{
     public void showAlert(String text) {
         alert.setText(text);
         PopupManager.showPopup(n, s, alertPopup);
+    }
+    
+    public void showTerritoryName(Territory t) {
+//        territoryName.setText(t.getBackEndTerritory().getName());
+//        n.showPopup(s, null, territoryNamePopup);
     }
     
     @Override
@@ -210,8 +222,8 @@ public class InGameGUIController implements ScreenController{
         if (pendingArmies > 0)
             showAlert("Você ainda possui "+pendingArmies+" exércitos para distribuir!");
         else {
-            TurnHelper.getInstance().changeTurn();
             ctxMenuCtrl.setDistributing(false);
+            TurnHelper.getInstance().changeTurn();
         }
     }
     
@@ -347,8 +359,10 @@ public class InGameGUIController implements ScreenController{
         Player currPlayer = b.getCurrentPlayer();
         String turn = turnsOrder.get(b.getPlayerOrder(currPlayer));
         content += currPlayer.getName()+"! Os turnos foram sorteados e você é o "+turn+" a jogar!\n\nSeus territórios são:\n";
-        for (models.Territory t : currPlayer.getTerritories()) {
-            content += "\n"+t.getName();
+        String colorCode;
+        for (BackEndTerritory t : currPlayer.getTerritories()) {
+            colorCode = regionsColors.get(t.getRegion().getName());
+            content += "\n"+colorCode+t.getName()+colorCode;
         }
         infoTerritories.setText(content);
         PopupManager.showPopup(n, s, infoTerritoriesPopup);
@@ -357,9 +371,9 @@ public class InGameGUIController implements ScreenController{
     public void closeInfoTerritoriesPopup(){
         PopupManager.closePopup(n, infoTerritoriesPopup);
         Player curr = b.getCurrentPlayer();
-        List<models.Territory> ts = b.getCurrentPlayer().getTerritories();
+        List<BackEndTerritory> ts = b.getCurrentPlayer().getTerritories();
         
-        for(models.Territory t : ts){
+        for(BackEndTerritory t : ts){
             t.setNumArmies(1);
         }
         setInfoLabelText("Você ainda possui "+getCurrentPlayer().getPendingArmies()+" exército(s) para distribuir.");

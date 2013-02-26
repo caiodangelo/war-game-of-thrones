@@ -29,10 +29,11 @@ public class Board implements Serializable {
     protected int numberOfSwaps;
     protected StatisticGameManager statistic;
     private Region[] regions;
-    private Territory[] territories;
+    private BackEndTerritory[] territories;
     private ArrayList<House> houses;
     private ArrayList<Mission> missions;
-    private boolean isOnInitialSetup;
+    private boolean onInitialSetup;
+    private boolean onFirstTurn;
 
     protected Board() {
         instance = this;
@@ -40,7 +41,7 @@ public class Board implements Serializable {
         currentPlayer = 0;
         numberOfSwaps = 0;
         statistic = new StatisticGameManager();
-        isOnInitialSetup = true;
+        onInitialSetup = true;
         houses = new ArrayList<House>();
         missions = new ArrayList<Mission>();
         
@@ -60,63 +61,63 @@ public class Board implements Serializable {
 
         //alem da muralha
         Region current = regions[0];
-        territories = new Territory[39];
+        territories = new BackEndTerritory[39];
         int tIndex = 0;
         TerritoriesGraphStructure struct = TerritoriesGraphStructure.getInstance();
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.COSTA_GELADA, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.FLORESTA_ASSOMBRADA, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.SEMPRE_INVERNO, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.ILHA_DOS_URSOS, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.SKAGOS, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.COSTA_GELADA, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.FLORESTA_ASSOMBRADA, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.SEMPRE_INVERNO, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.ILHA_DOS_URSOS, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.SKAGOS, struct));
 
         //cidades livres
         current = regions[1];
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.COSTA_LARANJA, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.TERRAS_DISPUTADAS, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.CAMPOS_DOURADOS, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.COLINAS_DE_NORVOS, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.COSTA_BRAVOSIANA, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.FLORESTA_DE_QOHOR, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.THE_FLATLANDS, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.VALIRIA, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.COSTA_LARANJA, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.TERRAS_DISPUTADAS, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.CAMPOS_DOURADOS, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.COLINAS_DE_NORVOS, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.COSTA_BRAVOSIANA, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.FLORESTA_DE_QOHOR, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.THE_FLATLANDS, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.VALIRIA, struct));
 
         //o norte
         current = regions[2];
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.A_DADIVA, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.BARROWLANDS, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.COSTA_PEDREGOSA, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.MATA_DE_LOBOS, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.PENHASCO_SOMBRIO, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.THE_HILLS, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.WINTERFELL, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.A_DADIVA, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.BARROWLANDS, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.COSTA_PEDREGOSA, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.MATA_DE_LOBOS, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.PENHASCO_SOMBRIO, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.THE_HILLS, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.WINTERFELL, struct));
 
         //o sul
         current = regions[3];
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.ARVORE, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.DORNE, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.JARDIM_DE_CIMA, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.MATA_DO_REI, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.MONTE_CHIFRE, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.TARTH, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.TERRAS_DA_TEMPESTADE, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.ARVORE, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.DORNE, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.JARDIM_DE_CIMA, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.MATA_DO_REI, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.MONTE_CHIFRE, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.TARTH, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.TERRAS_DA_TEMPESTADE, struct));
 
         //tridente
         current = regions[4];
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.MONTANHAS_DA_LUA, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.CAPE_KRAKENTT, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.GARGALO, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.VALE_DE_ARRYN, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.PORTO_REAL, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.ROCHEDO_CASTERLY, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.TERRAS_FLUVIAIS, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.MONTANHAS_DA_LUA, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.CAPE_KRAKENTT, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.GARGALO, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.VALE_DE_ARRYN, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.PORTO_REAL, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.ROCHEDO_CASTERLY, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.TERRAS_FLUVIAIS, struct));
 
         //o mar dothraki
         current = regions[5];
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.GHISCAR, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.DESERTO_VERMELHO, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.MAR_DOTHRAKI, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.OROS, struct));
-        current.addTerritory(territories[tIndex++] = new Territory(TerritoryID.FOOTPRINT, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.GHISCAR, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.DESERTO_VERMELHO, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.MAR_DOTHRAKI, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.OROS, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.FOOTPRINT, struct));
     }
 
     public void createMissions() {
@@ -154,7 +155,7 @@ public class Board implements Serializable {
         }
     }
     
-    public Territory[] getTerritories() {
+    public BackEndTerritory[] getTerritories() {
         return territories;
     }
     
@@ -236,7 +237,11 @@ public class Board implements Serializable {
     }
 
     public boolean isOnInitialSetup() {
-        return isOnInitialSetup;
+        return onInitialSetup;
+    }
+    
+    public boolean isOnFirstTurn() {
+        return onFirstTurn;
     }
 
 //    public List<House> getAbsentHouses() {
@@ -271,16 +276,18 @@ public class Board implements Serializable {
     }
 
     public void changePlayer() {
-        int oldPlayer = this.currentPlayer;
-
-        int playersCount = this.getPlayers().size();
-        if (oldPlayer == this.getPlayers().size() - 1) {
+        if (currentPlayer == getPlayers().size() - 1) {
             currentPlayer = 0;
-            isOnInitialSetup = false;
-        } else {
+            if (onInitialSetup) {
+                onInitialSetup = false;
+                onFirstTurn = true;
+            }
+            else if (onFirstTurn)
+                onFirstTurn = false;
+        } else
             currentPlayer++;
-        }
-        addPlayerArmies();
+        if (!onFirstTurn)
+            addPlayerArmies();
     }
 
     private void addPlayerArmies(Player curr) {

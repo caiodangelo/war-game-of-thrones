@@ -18,12 +18,12 @@ public class Region implements Serializable {
     protected static final int CIDADES_LIVRES = 7;
             
     private String name;
-    private List<Territory> territories;
+    private List<BackEndTerritory> territories;
     private int bonus;
 
     public Region(String name, int bonus) {
         this.name = name;
-        this.territories = new ArrayList<Territory>();
+        this.territories = new ArrayList<BackEndTerritory>();
         this.bonus = bonus;
     }
 
@@ -43,23 +43,23 @@ public class Region implements Serializable {
         this.bonus = bonus;
     }
 
-    public boolean addTerritory(Territory territory) {
+    public boolean addTerritory(BackEndTerritory territory) {
         territory.setRegion(this);
         return territories.add(territory);
     }
 
-    public List<Territory> getTerritories() {
+    public List<BackEndTerritory> getTerritories() {
         return territories;
     }
 
     /**
      * Retorna os territórios desta região que fazem fronteiras com outras regiões
      */
-    public List<Territory> getBorderTerritories() {
-        List<Territory> borders = new ArrayList<Territory>();
-        for (Territory territory : territories) {
-            List<Territory> neighbours = territory.getNeighbours();
-            for (Territory neighbour : neighbours) {
+    public List<BackEndTerritory> getBorderTerritories() {
+        List<BackEndTerritory> borders = new ArrayList<BackEndTerritory>();
+        for (BackEndTerritory territory : territories) {
+            List<BackEndTerritory> neighbours = territory.getNeighbours();
+            for (BackEndTerritory neighbour : neighbours) {
                 if (neighbour.getRegion() != this && !borders.contains(neighbour)) {
                     borders.add(territory);
                 }
@@ -69,12 +69,12 @@ public class Region implements Serializable {
     }
 
     /**
-     * Se um único {@link Player} possuir todos os {@link Territory} desta região, ele
+     * Se um único {@link Player} possuir todos os {@link BackEndTerritory} desta região, ele
      * será retornado. Caso contrário, o método retornará null.
      */
     public Player getOwner() {
         Player owner = null;
-        for (Territory territory : territories) {
+        for (BackEndTerritory territory : territories) {
             if (owner != null && owner != territory.getOwner()) {
                 return null;
             }
@@ -99,12 +99,12 @@ public class Region implements Serializable {
     }
 
     /**
-     * Retorna true se todos os {@link Territory} desta região pertencerem a um
+     * Retorna true se todos os {@link BackEndTerritory} desta região pertencerem a um
      * único {@link Player}, e false se não.
      * @param p O {@link Player} que se deseja verificar se é dono da região toda.
      */
     public boolean conqueredByPlayer(Player p){
-        for(Territory playerTerr : territories){
+        for(BackEndTerritory playerTerr : territories){
             if(!playerTerr.getOwner().equals(p))
                 return false;
         }

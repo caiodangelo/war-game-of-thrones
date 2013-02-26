@@ -3,7 +3,7 @@ package ai.features;
 import ai.Feature;
 import models.Board;
 import models.Player;
-import models.Territory;
+import models.BackEndTerritory;
 
 /**
  * The Hinterland Feature returns the percentage of the territories of the actual player
@@ -29,7 +29,7 @@ public class HinterlandFeature extends Feature {
     @Override
     public double calculate(Board gameState, Player player) {
         double numberHinterlands = 0.0;
-        for (Territory territory : player.getTerritories()) {
+        for (BackEndTerritory territory : player.getTerritories()) {
             if (territory.isHinterland()) {
                 numberHinterlands++;
             }

@@ -48,18 +48,19 @@ public class GameScene extends Scene{
         InGameGUIController.getInstance().showInfoTerritories();
         showPlayerTurnMsg();
         b = Board.getInstance();
-//        turnMsg.activate(b.getPlayer(0).getName());
         ctrl = InGameGUIController.getInstance();
         helper = new TurnHelper(this, ctrl);
+//        GameEndingAnimation a = new GameEndingAnimation();
+//        addEntity(a);
+//        a.activate(b.getCurrentPlayer());
     }
     
     public void showPlayerTurnMsg(){
         Board b = Board.getInstance();
         Player p = b.getCurrentPlayer();
-        String playerName = p.getName();
         Color c = p.getHouse().getColor();
         
-        turnMsg.activate(playerName, c);
+        turnMsg.activate(p, c);
     }
 
     @Override
@@ -88,19 +89,23 @@ public class GameScene extends Scene{
         else{
             ctrl.updatePlayersData();
             if(territory.getBackEndTerritory().getOwner() == curr){
-                models.Territory t = territory.getBackEndTerritory();
+                models.BackEndTerritory t = territory.getBackEndTerritory();
                 t.increaseArmies(1);
                 curr.removePendingArmies(1);
                 pendingArmies--;
             } 
             if(pendingArmies == 0) {
                 ctrl.setInfoLabelText(null);
-                if ( b.isOnInitialSetup())
+                if (b.isOnInitialSetup())
                     helper.changeTurn();
             }
             else
                 ctrl.setInfoLabelText("Você ainda possui "+curr.getPendingArmies()+" exército(s) para distribuir.");
         }
+    }
+    
+    void handleMouseOverTerritory(Territory territory) {
+        ctrl.showTerritoryName(territory);
     }
     
 }

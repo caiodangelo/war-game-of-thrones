@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 public class TerritoryTransaction implements Serializable {
 
-    public Territory attacker;
-    public Territory defender;
+    public BackEndTerritory attacker;
+    public BackEndTerritory defender;
     public int numberOfAttackers;
 
     public TerritoryTransaction() {
     }
 
-    public TerritoryTransaction(Territory attacker, Territory defender, int numberOfAttackers) {
+    public TerritoryTransaction(BackEndTerritory attacker, BackEndTerritory defender, int numberOfAttackers) {
         this.attacker = attacker;
         this.defender = defender;
         this.numberOfAttackers = numberOfAttackers;

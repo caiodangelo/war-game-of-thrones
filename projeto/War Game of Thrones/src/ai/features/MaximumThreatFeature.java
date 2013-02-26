@@ -4,7 +4,7 @@ import ai.BattleComputer;
 import ai.Feature;
 import models.Board;
 import models.Player;
-import models.Territory;
+import models.BackEndTerritory;
 
 /**
  * The Maximum Threat Feature returns a measurement of the probability that the actual
@@ -28,9 +28,9 @@ public class MaximumThreatFeature extends Feature {
     @Override
     public double calculate(Board gameState, Player player) {
         double maxProbability = 0;
-        for (Territory territory : player.getTerritories()) {
+        for (BackEndTerritory territory : player.getTerritories()) {
             if (territory.getSurplusArmies() > 0) {
-                for (Territory neighbour : territory.getNeighbours()) {
+                for (BackEndTerritory neighbour : territory.getNeighbours()) {
                     if (neighbour.getOwner() != player) {
                         maxProbability = Math.max(maxProbability, BattleComputer.calculateThreatToTerritory(territory, neighbour));
                     }

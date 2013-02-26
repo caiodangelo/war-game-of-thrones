@@ -178,7 +178,7 @@ public class Mission implements Serializable {
         boolean answer = false;
         Region aux = new Region("", 0);
         List<Region> conqueredRegions = new ArrayList<Region>(); //Regioes que foram conquistadas pelo jogador      
-        List<Territory> territoriesPlayer = player.getTerritories();
+        List<BackEndTerritory> territoriesPlayer = player.getTerritories();
 
         for (Region region : allRegions) {
             if (territoriesPlayer.containsAll(region.getTerritories())) {
@@ -210,11 +210,11 @@ public class Mission implements Serializable {
 
     public boolean isTerritoryMissionCompleted() {
         boolean answer;
-        List<Territory> playerTerritories = this.getPlayer().getTerritories();
+        List<BackEndTerritory> playerTerritories = this.getPlayer().getTerritories();
         answer = (this.getTerritories() == playerTerritories.size());
 
         if ((this.getTerritories() == 18) && (answer)) {
-            for (Territory territory : playerTerritories) {
+            for (BackEndTerritory territory : playerTerritories) {
                 if (!(territory.getNumArmies() >= 2)) {
                     return false;
                 }

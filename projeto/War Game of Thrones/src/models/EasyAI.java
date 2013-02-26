@@ -27,7 +27,7 @@ public class EasyAI extends Difficulty {
     @Override
     protected boolean keepAttacking() {
         int numSurplusArmies = 0;
-        for (Territory territory : player.getTerritories()) {
+        for (BackEndTerritory territory : player.getTerritories()) {
             numSurplusArmies += territory.getSurplusArmies();
         }
         // Entre 0 e 19 exércitos de sobra, ele terá X * 5% de chance a mais de atacar. Ou seja, quanto mais exército
@@ -45,22 +45,22 @@ public class EasyAI extends Difficulty {
      */
     @Override
     public TerritoryTransaction nextAttack() {
-        Territory origin = null;
-        Territory destiny = null;
+        BackEndTerritory origin = null;
+        BackEndTerritory destiny = null;
         if (keepAttacking()) {
             for (int control = 0; control < 100; control++) { // Control serve só como safeguard, caso dê merda e entre em loop infinito.
                 switch (player.getMission().getType()) {
                     case Mission.TYPE_HOUSE: // Pega o primeiro território do adversário que eu posso atacar
-                        for (Territory territory : player.getMission().getHouse().getPlayer().getTerritories()) {
-                            List<Territory> origins = new ArrayList<Territory>();
-                            for (Territory neighbour : territory.getNeighbours()) {
+                        for (BackEndTerritory territory : player.getMission().getHouse().getPlayer().getTerritories()) {
+                            List<BackEndTerritory> origins = new ArrayList<BackEndTerritory>();
+                            for (BackEndTerritory neighbour : territory.getNeighbours()) {
                                 if (neighbour.getOwner() == player && origin.getSurplusArmies() >= 1)
                                     origins.add(neighbour);
                             }
                             if (origins.size() > 0) {
                                 // Escolhe o território de origem com o maior número de exércitos
                                 int maxArmies = 0;
-                                for (Territory possibleOrigin : origins) {
+                                for (BackEndTerritory possibleOrigin : origins) {
                                     if (possibleOrigin.getSurplusArmies() > maxArmies) {
                                         maxArmies = possibleOrigin.getSurplusArmies();
                                         origin = possibleOrigin;
@@ -74,16 +74,16 @@ public class EasyAI extends Difficulty {
                         break;
                     case Mission.TYPE_REGION: // Pega o primeiro território do continente objetivo que eu posso atacar
                         for (Region region : player.getMission().getRegions()) {
-                            for (Territory territory : region.getTerritories()) {
-                                List<Territory> origins = new ArrayList<Territory>();
-                                for (Territory neighbour : territory.getNeighbours()) {
+                            for (BackEndTerritory territory : region.getTerritories()) {
+                                List<BackEndTerritory> origins = new ArrayList<BackEndTerritory>();
+                                for (BackEndTerritory neighbour : territory.getNeighbours()) {
                                     if (neighbour.getOwner() == player && origin.getSurplusArmies() >= 1)
                                         origins.add(neighbour);
                                 }
                                 if (origins.size() > 0) {
                                     // Escolhe o território de origem com o maior número de exércitos
                                     int maxArmies = 0;
-                                    for (Territory possibleOrigin : origins) {
+                                    for (BackEndTerritory possibleOrigin : origins) {
                                         if (possibleOrigin.getSurplusArmies() > maxArmies) {
                                             maxArmies = possibleOrigin.getSurplusArmies();
                                             origin = possibleOrigin;
@@ -103,7 +103,7 @@ public class EasyAI extends Difficulty {
                 // Se não tiver nenhum território que eu possa atacar que satisfaça diretamente meu objetivo, a IA vai
                 // atacar qualquer merda e ver oq vai acontecer
                 destiny = getRandomAttackableTerritory();
-                for (Territory neighbour : destiny.getNeighbours()) {
+                for (BackEndTerritory neighbour : destiny.getNeighbours()) {
                     if (neighbour.getOwner() == player)
                         origin = neighbour;
                 }
@@ -121,7 +121,7 @@ public class EasyAI extends Difficulty {
      * @param qtdPodeMover Um número entre 1 e 3
      */
     @Override
-    public int moveAfterConquest(Territory origin, Territory conquered, int numberCanMove) {
+    public int moveAfterConquest(BackEndTerritory origin, BackEndTerritory conquered, int numberCanMove) {
         return numberCanMove; // A IA fácil acha que é sempre bom mover a porra toda que puder
     }
 
@@ -140,11 +140,11 @@ public class EasyAI extends Difficulty {
     @Override
     public TerritoryTransaction nextMove() {
         if (keepMoving()) {
-            Territory origin = null;
-            Territory destiny = null;
-            for (Territory territory : player.getTerritories()) {
+            BackEndTerritory origin = null;
+            BackEndTerritory destiny = null;
+            for (BackEndTerritory territory : player.getTerritories()) {
                 if (keepMoving() && territory.getNumArmiesCanMoveThisRound() >= 1) {
-                    for (Territory neighbour : territory.getNeighbours()) {
+                    for (BackEndTerritory neighbour : territory.getNeighbours()) {
                         if (neighbour.getOwner() == player && neighbour.getNumArmies() <= territory.getNumArmies()) {
                             // AI fácil acha que só é bom mover para equilibrar o número de exércitos
                             origin = territory;
@@ -159,11 +159,11 @@ public class EasyAI extends Difficulty {
         return null; // Se de algum jeito a AI não escolher nada, retorna null e diz que não quer mover mais.
     }
 
-    private Territory getRandomAttackableTerritory() {
-        List<Territory> defenders = new ArrayList<Territory>();
-        for (Territory territory : player.getTerritories()) {
+    private BackEndTerritory getRandomAttackableTerritory() {
+        List<BackEndTerritory> defenders = new ArrayList<BackEndTerritory>();
+        for (BackEndTerritory territory : player.getTerritories()) {
             if (territory.getSurplusArmies() > 0) {
-                for (Territory neighbour : territory.getNeighbours()) {
+                for (BackEndTerritory neighbour : territory.getNeighbours()) {
                     if (neighbour.getOwner() != player) {
                         defenders.add(neighbour);
                     }

@@ -5,7 +5,7 @@ import ai.Feature;
 import models.Board;
 import models.Player;
 import models.Region;
-import models.Territory;
+import models.BackEndTerritory;
 
 /**
  * The Continent Threat Feature returns a measurement of the threat from the actual
@@ -30,8 +30,8 @@ public class ContinentThreatFeature extends Feature {
         int totalThreats = 0;
         for (Region region : gameState.getRegions()) {
             if (region.getOwner() != null && region.getOwner() != player) {
-                for (Territory border : region.getBorderTerritories()) {
-                    for (Territory neighbour : border.getNeighbours()) {
+                for (BackEndTerritory border : region.getBorderTerritories()) {
+                    for (BackEndTerritory neighbour : border.getNeighbours()) {
                         regionThreat += Math.pow(BattleComputer.calculateThreatToTerritory(neighbour, border), 2);
                         totalThreats++;
                     }

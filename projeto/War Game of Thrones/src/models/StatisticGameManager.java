@@ -115,8 +115,8 @@ public class StatisticGameManager implements Serializable {
         return mostWinnerDefences;
     }
 
-    public ArrayList<Territory> getTerritoryMoreAttacked(ArrayList<Territory> allTerritories) {
-        ArrayList<Territory> territoryMoreAttacked = new ArrayList<Territory>();
+    public ArrayList<BackEndTerritory> getTerritoryMoreAttacked(ArrayList<BackEndTerritory> allTerritories) {
+        ArrayList<BackEndTerritory> territoryMoreAttacked = new ArrayList<BackEndTerritory>();
         int attacksNumber = 0;
         for (int i = 0; i < allTerritories.size(); i++) {
             if(attacksNumber < allTerritories.get(i).getNumAttacks()) {
@@ -132,8 +132,8 @@ public class StatisticGameManager implements Serializable {
         return territoryMoreAttacked;
     }
 
-    public ArrayList<Territory> getTerritoryMoreConquered(ArrayList<Territory> allTerritories) {
-        ArrayList<Territory> territoryMoreConquered = new ArrayList<Territory>();
+    public ArrayList<BackEndTerritory> getTerritoryMoreConquered(ArrayList<BackEndTerritory> allTerritories) {
+        ArrayList<BackEndTerritory> territoryMoreConquered = new ArrayList<BackEndTerritory>();
         int conquestsNumber = 0;
         for (int i = 0; i < allTerritories.size(); i++) {
             if(conquestsNumber < allTerritories.get(i).getNumConquests()) {

@@ -11,7 +11,7 @@ import ai.features.DistanceToFrontierFeature;
 import ai.features.MaximumThreatFeature;
 import models.Board;
 import models.Player;
-import models.Territory;
+import models.BackEndTerritory;
 
 /**
  * Esse evaluator avaliará como vai ficar o jogo quando um jogador posicionar um exército
@@ -22,7 +22,7 @@ import models.Territory;
 public class DistributionEvaluator extends Evaluator {
 
     // O território que será posicionado o próximo exército
-    private Territory territory;
+    private BackEndTerritory territory;
 
     public DistributionEvaluator(Board currentGameState, Player player) {
         super(currentGameState, player);
@@ -35,17 +35,17 @@ public class DistributionEvaluator extends Evaluator {
     @Override
     public Board simulateActionExecution() {
         Board newState = currentGameState.getClone();
-        Territory clonedTerritory = newState.getTerritories()[territory.getIndex()];
+        BackEndTerritory clonedTerritory = newState.getTerritories()[territory.getIndex()];
         Player clonedPlayer = getSimulatedPlayer();
         clonedPlayer.distributeArmies(clonedTerritory, 1);
         return newState;
     }
 
-    public Territory getTerritory() {
+    public BackEndTerritory getTerritory() {
         return territory;
     }
 
-    public void setTerritory(Territory territory) {
+    public void setTerritory(BackEndTerritory territory) {
         this.territory = territory;
     }
 }
