@@ -157,7 +157,7 @@ public class Board implements Serializable {
     public Territory[] getTerritories() {
         return territories;
     }
-
+    
     public static Board getInstance() {
         if (instance == null) {
             instance = new Board();

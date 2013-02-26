@@ -9,25 +9,110 @@ import java.util.List;
  */
 public class MediumAI extends Difficulty {
 
-    /*A IA deve colocar seus exercitos em territorios que são necessarios para completar a
+    /*Missão Região: A IA deve colocar seus exercitos em territorios que são necessarios para completar a
      * sua missão. Caso já tenha mais de 3 exercitos em todos esses territorios, ela 
      * deve colocar em territorios vizinhos aos territorios necessarios para completar a missão.
      * Caso ainda sobre exercitos, ele coloca nos demais.
+     * Missão Território: Tenta equilibrar os exercitos entre os territorios.
+     * Missão Casa: colocar mais exercitos onde há vizinhos cujos donos pertencem a Casa a ser derrotada.
      */
     @Override
     public void distributeArmies() {
+        int numberOfSearches = 0;
         while (player.getPendingArmies() > 0) {
-            
+            switch (player.getMission().getType()) {
+                case Mission.TYPE_REGION:
+                    distributeAccordingRegionMission(numberOfSearches);
+                    break;
+                case Mission.TYPE_TERRITORY:
+                    distributeAccordingTerritoryMission();
+                    break;
+                case Mission.TYPE_HOUSE:
+                    distributeAccordingHouseMission();
+                    break;
+            }  
+            numberOfSearches++;
+        }
+    }
+   
+    public void distributeAccordingHouseMission() {
+        boolean successful = false;
+        int numArmies;
+        House house  = player.getHouse();
+        for (Territory territory : player.getTerritories()) {
+            List<Territory> neighbours = territory.getNeighbours();
+            for (Territory neighbour : neighbours) {
+                if (house.equals(neighbour.getOwner().getHouse())) {
+                    while (!successful) {
+                        if (territory.getNumArmies() > 3) {
+                            numArmies = 3;
+                            successful = player.distributeArmies(territory, numArmies);
+                            numArmies--;
+                        }
+                        else {
+                            numArmies = 6;
+                            successful = player.distributeArmies(territory, numArmies);
+                            numArmies--;                            
+                        }
+                    }
+                }
+                else {
+                    player.distributeArmies(territory, 1);
+                }
+            }
         }
     }
     
+    public void distributeAccordingTerritoryMission() {
+        boolean successful;
+        for (int i = 0; i < player.getTerritories().size(); i++) {
+            Territory territory = player.getTerritories().get(i);
+            successful = distribute(territory, 0);
+            if (! successful) break;
+        }
+    }
+    
+    public void distributeAccordingRegionMission(int numberOfSearches) {
+        ArrayList<Territory> aux = new ArrayList<Territory>();        
+        for (Territory territory : player.getTerritories()) {
+            for (Region region : player.getMission().getRegions()) {
+                if (territory.belongToRegion(region)) //Se o territorio for crucial para completar a missao
+                    distribute(territory, numberOfSearches);
+                else
+                    aux.add(territory); //Adiciona numa lista auxiliar                     
+            }
+        }
+        for (Territory territory : aux) { //Verifica se tem vizinhos que são cruciais para completar a missão
+            List<Territory> neighbours = territory.getNeighbours();
+            for (Territory neighbour : neighbours) {
+                for (Region region : player.getMission().getRegions()) {
+                    if (neighbour.belongToRegion(region))
+                        distribute(territory, numberOfSearches);                        
+                }
+            }
+        }        
+    }
+
     /*
-     * A IA deve continuar atacando se ele tiver num aceitavel de exercitos de sobra.
-     * E deve parar se seus territorios estiverem com num baixos.
+     * Metodo auxiliar que distribui de fato os exercitos. Parametro "num" indica quantas vezes a IA 
+     * já acessou os seus territorios para a distruibuição
      */
-    @Override
-    protected boolean keepAttacking() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public boolean distribute(Territory territory, int numberOfSearches) {
+        int numArmies = territory.getNumArmies();
+        if (numberOfSearches == 0) {
+            if ((numArmies == 1) && (player.getPendingArmies() >= 2)) {
+                return player.distributeArmies(territory, 2);
+            }
+            if ((numArmies == 2) && (player.getPendingArmies() >= 1)) {                
+                return player.distributeArmies(territory, 1);
+            }
+        } 
+        else {
+            if (player.getPendingArmies() > 0) {                
+                return player.distributeArmies(territory, 1);
+            }
+        }
+        return false;
     }
 
     @Override
@@ -84,6 +169,15 @@ public class MediumAI extends Difficulty {
             }
         }
         return null; // Não conseguiu arranjar nenhum esquema de troca
+    }
+    
+    /*
+     * A IA deve continuar atacando se ele tiver num aceitavel de exercitos de sobra.
+     * E deve parar se seus territorios estiverem com num baixos.
+     */
+    @Override
+    protected boolean keepAttacking() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /*

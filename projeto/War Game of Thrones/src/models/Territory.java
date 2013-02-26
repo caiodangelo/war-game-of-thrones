@@ -218,4 +218,13 @@ public class Territory implements Serializable {
     public void setIndex(int index) {
         this.index = index;
     }
+    
+    public boolean belongToRegion (Region region) {
+        for (int i = 0; i < region.getTerritories().size(); i++) {                           
+            if (this.equals(region.getTerritories().get(i))) {
+                return true;
+            }               
+        }
+        return false;
+    }
 }
