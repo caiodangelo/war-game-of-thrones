@@ -48,9 +48,11 @@ public class GameScene extends Scene{
         InGameGUIController.getInstance().showInfoTerritories();
         showPlayerTurnMsg();
         b = Board.getInstance();
-//        turnMsg.activate(b.getPlayer(0).getName());
         ctrl = InGameGUIController.getInstance();
         helper = new TurnHelper(this, ctrl);
+//        GameEndingAnimation a = new GameEndingAnimation();
+//        addEntity(a);
+//        a.activate(b.getCurrentPlayer());
     }
     
     public void showPlayerTurnMsg(){

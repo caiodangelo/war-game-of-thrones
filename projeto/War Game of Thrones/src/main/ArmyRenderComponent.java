@@ -135,8 +135,8 @@ public class ArmyRenderComponent extends ImageRenderComponent {
     }
     
     private void drawCenteredExplosion() {
-        float xDisplacement = explosion.getWidth()/2;
-        float yDisplacement = explosion.getHeight()/2;
+        float xDisplacement = explosion.getWidth()/2f;
+        float yDisplacement = explosion.getHeight()/2f;
         explosion.draw(movingPos.x - xDisplacement, movingPos.y - yDisplacement);
     }
     
