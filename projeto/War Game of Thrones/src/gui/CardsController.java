@@ -15,6 +15,8 @@ import models.RepositoryCardsTerritory;
 import util.PopupManager;
 
 public class CardsController {
+
+    private static boolean DEBUGGING = true;
     
     private Nifty n;
     private Screen s;
@@ -98,6 +100,11 @@ public class CardsController {
         verifyCheckedBoxes();
     }
     
+    public boolean playerMustSawpCards(){
+        Player p = Board.getInstance().getCurrentPlayer();
+        return p.getCards().size() == 5;
+    }
+    
     private void verifyCheckedBoxes(){
         int checkedCount = 0;
         for(CheckBox c : checks){
@@ -105,10 +112,30 @@ public class CardsController {
                 checkedCount++;
         }
         
-        if(checkedCount != 3)
+        if(checkedCount != 3 || RepositoryCardsTerritory.getInstance().isDifferentCards(getSelectedCards()))
             tradeButton.setEnabled(false);
         else
             tradeButton.setEnabled(true);
+    }
+    
+    private List<CardTerritory> getSelectedCards(){
+        Player p = Board.getInstance().getCurrentPlayer();
+        List<CardTerritory> allCards = p.getCards();
+        int cardsCount = allCards.size();
+        
+        if(DEBUGGING)
+            cardsCount = 5;
+
+        List<CardTerritory> selectedCards = new ArrayList<CardTerritory>();
+        for(int i = 0; i < 5; i++){
+            if(checks[i].isChecked() && i < cardsCount){
+                if(DEBUGGING)
+                    selectedCards.add(null);
+                else
+                    selectedCards.add(allCards.get(i));
+            }
+        }
+        return selectedCards;
     }
 
     protected void onCardClick(int index) {
@@ -120,21 +147,9 @@ public class CardsController {
         List<CardTerritory> allCards = p.getCards();
         int cardsCount = allCards.size();
         
-        boolean debugging = true;
-        if(debugging)
-            cardsCount = 5;
-
-        List<CardTerritory> cardsToTrade = new ArrayList<CardTerritory>();
-        for(int i = 0; i < 5; i++){
-            if(checks[i].isChecked() && i < cardsCount){
-                if(debugging)
-                    cardsToTrade.add(null);
-                else
-                    cardsToTrade.add(allCards.get(i));
-            }
-        }
+        List<CardTerritory> cardsToTrade = getSelectedCards();
         
-        if(!debugging){
+        if(!DEBUGGING){
             RepositoryCardsTerritory repo = RepositoryCardsTerritory.getInstance();
             repo.swapCards(cardsToTrade, p);
             System.out.println("player got " + p.getPendingArmies() + " new armies");
