@@ -14,6 +14,11 @@ public class Territory extends Entity{
     private Image territoryImg;
     private Army army;
     private models.BackEndTerritory backEndTerr;
+    private TerritoryHoverImage hoverRenderer;
+
+    public TerritoryHoverImage getHoverRenderer() {
+        return hoverRenderer;
+    }
     
     public Territory(Map m, Vector2f relativePos, String imagePath, models.BackEndTerritory backEndTerr){
         super();
@@ -26,7 +31,8 @@ public class Territory extends Entity{
             Image highlightedImg = new Image(imagePath.replace(".png", "")+"-h.png");
             Image notOwnedImg = new Image(imagePath.replace(".png", "")+"-a.png");
             Image ownedImg = territoryImg;
-            addComponent(new TerritoryHoverImage("hover", highlightedImg, notOwnedImg, ownedImg));
+            hoverRenderer = new TerritoryHoverImage("hover", highlightedImg, notOwnedImg, ownedImg);
+            addComponent(hoverRenderer);
         }catch(SlickException e){
             e.printStackTrace();
         }

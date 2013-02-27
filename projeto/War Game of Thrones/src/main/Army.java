@@ -18,6 +18,7 @@ public class Army extends Entity {
     
     public Army(Map m, Territory territory, Vector2f relativePos, int qty, Scroll s) {
         super();
+        setLayer(1);
         this.territory = territory;
         addComponent(new ArmyPositionSync(m, relativePos));
         try {

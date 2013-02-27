@@ -21,6 +21,7 @@ public class GameScene extends Scene{
     private Board b;
     private InGameGUIController ctrl;
     private TurnHelper helper;
+    private TerritoryName terrName;
     
     public GameScene(){
         super();
@@ -61,6 +62,13 @@ public class GameScene extends Scene{
         b = Board.getInstance();
         ctrl = InGameGUIController.getInstance();
         helper = new TurnHelper(this, ctrl);
+        
+        terrName = new TerritoryName();
+        addEntity(terrName);
+    }
+    
+    public void setHighlightedTerritory(Territory t){
+        terrName.setHighlightedTerritory(t);
     }
     
     public void showPlayerTurnMsg(){

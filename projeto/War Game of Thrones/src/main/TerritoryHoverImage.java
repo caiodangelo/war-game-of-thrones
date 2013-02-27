@@ -28,6 +28,10 @@ public class TerritoryHoverImage extends ImageRenderComponent {
         highlightTerritoryImage = highlightImg;
     }
     
+    public boolean isHighlightedImage() {
+        return highlightedImage;
+    }
+    
     @Override
     public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
         Vector2f pos = owner.position;
@@ -35,10 +39,10 @@ public class TerritoryHoverImage extends ImageRenderComponent {
         if (highlightedImage) {
             Territory tOwner = ((Territory) owner);
             highlightTerritoryImage.draw(pos.x, pos.y, scale);
-            if (main.Main.isShowingTerritoriesNames()) {
-                gr.setColor(Color.black);
-                drawTerritoryName(gr, tOwner.getArmy(), tOwner.getBackEndTerritory().getName());
-            }
+//            if (main.Main.isShowingTerritoriesNames()) {
+//                gr.setColor(Color.black);
+//                drawTerritoryName(gr, tOwner.getArmy(), tOwner.getBackEndTerritory().getName());
+//            }
         }
         else if (owned)
             image.draw(pos.x, pos.y, scale);
@@ -57,6 +61,7 @@ public class TerritoryHoverImage extends ImageRenderComponent {
         if (!dm.dicesOnScreen() && !PopupManager.isAnyPopupOpen() && mouseOver(mouseX, mouseY) && !imagePixelColorIsTransparent((int) (mouseX - owner.position.x), (int) (mouseY - owner.position.y), owner.getScale()) && !Mouse.isGrabbed()){
             highlightedImage = true;
             GameScene scene = (GameScene) owner.getScene();
+            scene.setHighlightedTerritory(tOwner);
             if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON))
                 scene.handleTerritoryClick(tOwner);
         }
