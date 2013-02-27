@@ -99,24 +99,28 @@ public class GameScene extends Scene{
     void handleTerritoryClick(Territory territory) {
         Player curr = b.getCurrentPlayer();
         int pendingArmies = curr.getPendingArmies();
-        if(!b.isOnInitialSetup() && pendingArmies == 0) {
+        if (!b.isOnInitialSetup() && pendingArmies == 0) {
             InGameGUIController.handleTerritoryClick(territory);
         }
-        else{
+        else {
             ctrl.updatePlayersData();
-            if(territory.getBackEndTerritory().getOwner() == curr){
+            if (territory.getBackEndTerritory().getOwner() == curr){
                 models.BackEndTerritory t = territory.getBackEndTerritory();
                 t.increaseArmies(1);
                 curr.removePendingArmies(1);
                 pendingArmies--;
             } 
-            if(pendingArmies == 0) {
-                ctrl.setRavenMessage(curr.getName()+" distribuiu seus exércitos!");
-                if (b.isOnInitialSetup())
+            if (pendingArmies == 0) {
+                if (b.isOnInitialSetup()) {
+                    ctrl.setRavenMessage(curr.getName()+" distribuiu seus exércitos!");
                     helper.changeTurn();
+                }
+                else
+                    ctrl.setRavenMessage(curr.getName()+" está jogando!");
             }
-            else
-                ctrl.setRavenMessage("\\#333333ff#"+curr.getName()+" ainda possui \\#CC0000#"+curr.getPendingArmies()+"\\#333333ff# exército(s) para distribuir.");
+            else {
+                ctrl.setRavenMessage("\\#333333ff#"+curr.getName()+" ainda possui \\#CC0000#"+pendingArmies+"\\#333333ff# exército(s) para distribuir.");
+            }
         }
     }
     

@@ -57,9 +57,9 @@ public class TerritoryNameRenderer extends RenderComponent{
         float fontXPos = armyXCenter - gr.getFont().getWidth(name)/2f;
         float fontYPos;
         if (a.getPosition().y > main.Main.getMapPos().y + main.Main.getMapSize().y/2f)
-            fontYPos = a.getPosition().y - (1.5f * fontHeight);
+            fontYPos = a.getPosition().y - fontHeight;
         else
-            fontYPos = a.getPosition().y + a.getScaledHeight() + (1.5f * fontHeight);
+            fontYPos = a.getPosition().y + a.getScaledHeight();
         
         gr.setColor(Color.black);
         gr.drawString(name, fontXPos, fontYPos);

@@ -9,6 +9,7 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import main.WarScenes;
 import models.StatisticGameManager;
@@ -19,25 +20,29 @@ public class StatisticsScreenController implements ScreenController {
     private Screen s;   
     private DropDown optionsDropdown;
     private String selectedId;
-    private HashMap<String, Integer> options;
+    private HashMap<String, Integer> optionIndexes;
     
     @Override
     public void bind(Nifty nifty, Screen screen) {
         n = nifty;
         s = screen;
         optionsDropdown = screen.findNiftyControl("statisticOptionsDropDown", DropDown.class);
-        options = new HashMap();
-        options.put("Número de ataques e porcentagem de sucesso", 1);
-        options.put("Número de defesas e porcentagem de sucesso", 2);
-        options.put("Média nos dados de ataque", 3);
-        options.put("Média nos dados de defesa", 4);
-        options.put("Número de trocas de cartas", 5);
-        options.put("Exércitos recebidos", 6);
-        options.put("Exércitos perdidos", 7);
-        options.put("Jogador que mais atacou", 8);
-        options.put("Jogador por quem mais foi atacado", 9);
-        ArrayList<String> items = new ArrayList();
-        items.addAll(options.keySet());
+        String[] options = {
+            "Número de ataques e porcentagem de sucesso",
+            "Número de defesas e porcentagem de sucesso",
+            "Média nos dados de ataque",
+            "Média nos dados de defesa",
+            "Número de trocas de cartas",
+            "Exércitos recebidos",
+            "Exércitos perdidos",
+            "Jogador que mais atacou",
+            "Jogador por quem mais foi atacado",
+        };
+        optionIndexes = new HashMap();
+        for (int i = 0; i < options.length; i++) {
+            optionIndexes.put(options[i], i+1);
+        }
+        ArrayList<String> items = new ArrayList(Arrays.asList(options));
         optionsDropdown.addAllItems(items);
         selectedId = "numeroDeTrocasDeCartas";
         s.findElementByName(selectedId).setVisible(true);
@@ -74,7 +79,7 @@ public class StatisticsScreenController implements ScreenController {
     
     @NiftyEventSubscriber(id="statisticOptionsDropDown")
     public void onDropdownSelectionChanged(String id, DropDownSelectionChangedEvent evt){
-        int selected = options.get(optionsDropdown.getSelection());
+        int selected = optionIndexes.get(optionsDropdown.getSelection());
         
         switch (selected) {
             case 1:

@@ -43,8 +43,10 @@ public class InGameGUIController implements ScreenController{
     
     private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel, 
             optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup,
-            alertPopup;
+            alertPopup, cardEarnedPopup;
+    
     private boolean mouseOverObjective = false;
+    private boolean territoryConquered;
     
     private ContextMenuController ctxMenuCtrl;
     private static InGameGUIController instance;
@@ -75,6 +77,10 @@ public class InGameGUIController implements ScreenController{
         return instance;
     }
     
+    public void territoryWasConquered() {
+        territoryConquered = true;
+    }
+    
     @Override
     public void bind(Nifty nifty, Screen screen) {
         s = screen;
@@ -97,6 +103,7 @@ public class InGameGUIController implements ScreenController{
         infoTerritories = infoTerritoriesPopup.findNiftyControl("infoTerritories", Label.class);
         alertPopup = n.createPopup("alertPopup");
         alert = alertPopup.findNiftyControl("alert", Label.class);
+        cardEarnedPopup = n.createPopup("cardEarnedPopup");
         
         ravenMessage = screen.findNiftyControl("ravenMessage", Label.class);
         infoPanel = screen.findElementByName("infoPanel");
@@ -224,12 +231,24 @@ public class InGameGUIController implements ScreenController{
             showAlert("Você ainda possui "+pendingArmies+" exércitos para distribuir!");
         else {
             ctxMenuCtrl.setDistributing(false);
-            TurnHelper.getInstance().changeTurn();
+            if (territoryConquered) {
+                //sortear carta e colocá-la na popup
+                PopupManager.showPopup(n, s, cardEarnedPopup);
+            } else
+                TurnHelper.getInstance().changeTurn();
+            territoryConquered = false;
+            setInfoLabelText(null);
+            ctxMenuCtrl.resetTerritories();
         }
     }
     
     public void dismissNextTurnConfirmation(){
         PopupManager.closePopup(n, nextTurnConfirmPopup);
+    }
+    
+    public void dismissCardEarnedPopup() {
+        TurnHelper.getInstance().changeTurn();
+        PopupManager.closePopup(n, cardEarnedPopup);
     }
     
     //Top Menu event handling
