@@ -82,25 +82,27 @@ public class Battle {
 //            Board.getInstance().getStatistic().setMoreAttacker();
 //            Board.getInstance().getStatistic().setMoreDefender();
         }
-}
+    }
 
     public void concludeAttack() {
         if (attackerDeaths > 0 || defenderDeaths > 0) {
             conquested = defenderDeaths >= defender.getNumArmies();
             attacker.decreaseArmies(attackerDeaths);
             defender.decreaseArmies(defenderDeaths);
-            if (conquested) {
-                defender.setOwner(attacker.getOwner());
-                attacker.decreaseArmies(1);
-                defender.increaseArmies(1);
-                attacker.getOwner().setMaySwapCards(true);
-                //Estatistica
-                defender.increaseNumConquests();
-                //Board.getInstance().getStatistic().setTerritoryMoreConquested(null);
-                //Fim estatistica
-            }
-            concluded = true;
         }
+        concluded = true;
+        if (conquested)
+            defender.setOwner(attacker.getOwner());
+    }
+    
+    public void moveVictoriousArmies(int armiesMoved) {
+        attacker.decreaseArmies(armiesMoved);
+        defender.increaseArmies(armiesMoved);
+        attacker.getOwner().setMaySwapCards(true);
+        //Estatistica
+        defender.increaseNumConquests();
+        //Board.getInstance().getStatistic().setTerritoryMoreConquested(null);
+        //Fim estatistica
     }
 
     public void moveArmiesAfterConquest(int numberArmies) {

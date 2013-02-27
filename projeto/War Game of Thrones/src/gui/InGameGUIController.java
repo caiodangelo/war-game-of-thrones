@@ -13,7 +13,9 @@ import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.Color;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import main.AudioManager;
 import main.Territory;
@@ -32,7 +34,7 @@ public class InGameGUIController implements ScreenController{
 
     private StatusPanelControl [] statusPanels;
     private Label playerStatusName, playerStatusCards, playerStatusUnits, playerStatusTerritories, infoTerritories, 
-            ravenMessage, alert, territoryName;
+            ravenMessage, alert;
     private Screen s;
     private Nifty n;
     private Board b;
@@ -40,7 +42,7 @@ public class InGameGUIController implements ScreenController{
     
     private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel, 
             optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup,
-            alertPopup, territoryNamePopup;
+            alertPopup;
     private boolean mouseOverObjective = false;
     
     private ContextMenuController ctxMenuCtrl;
@@ -74,7 +76,7 @@ public class InGameGUIController implements ScreenController{
     
     @Override
     public void bind(Nifty nifty, Screen screen) {
-        this.s = screen;
+        s = screen;
         n = nifty;
         playerStatusName = screen.findNiftyControl("playerStatusName", Label.class);
         playerStatusCards = screen.findNiftyControl("playerStatusCards", Label.class);
@@ -109,11 +111,6 @@ public class InGameGUIController implements ScreenController{
         PopupManager.showPopup(n, s, alertPopup);
     }
     
-    public void showTerritoryName(Territory t) {
-//        territoryName.setText(t.getBackEndTerritory().getName());
-//        n.showPopup(s, null, territoryNamePopup);
-    }
-    
     @Override
     public void onStartScreen() {  
         b = Board.getInstance();
@@ -129,10 +126,13 @@ public class InGameGUIController implements ScreenController{
         soundVolumeValue.setText(((int) (100 * AudioManager.getInstance().getSoundVolume()))+"");
         CheckBox musicMute = optionsPopup.findNiftyControl("musicMute", CheckBox.class);
         CheckBox soundMute = optionsPopup.findNiftyControl("soundMute", CheckBox.class);
+        CheckBox showTerritories = optionsPopup.findNiftyControl("showTerritories", CheckBox.class);
         if (AudioManager.getInstance().musicIsMuted())
             musicMute.check();
         if (AudioManager.getInstance().soundIsMuted())
             soundMute.check();
+        if (!main.Main.isShowingTerritoriesNames())
+            showTerritories.uncheck();
         Slider musicSlider = optionsPopup.findNiftyControl("musicSlider", Slider.class);
         Slider soundSlider = optionsPopup.findNiftyControl("soundSlider", Slider.class);
         optionsPopup.findNiftyControl("sliderCPUdifficulty", Slider.class).disable();
@@ -353,16 +353,33 @@ public class InGameGUIController implements ScreenController{
         ctxMenuCtrl.cancelAttackPopup();
     }
     
+    public void selectVictoriousArmiesToMove(int winners) {
+        ctxMenuCtrl.selectVictoriousArmiesToMove(s, winners);
+    }
+    
+    public void moveVictoriousArmies() {
+        ctxMenuCtrl.moveVictoriousArmies();
+    }
+    
     public void showInfoTerritories() {
         String content = "\nAtenção, ";
         Board b = Board.getInstance();
         Player currPlayer = b.getCurrentPlayer();
         String turn = turnsOrder.get(b.getPlayerOrder(currPlayer));
-        content += currPlayer.getName()+"! Os turnos foram sorteados e você é o "+turn+" a jogar!\n\nSeus territórios são:\n";
+        content += currPlayer.getName()+"! Os turnos foram sorteados e você é o "+turn+" a jogar!\n\nSeus territórios são:";
         String colorCode;
-        for (BackEndTerritory t : currPlayer.getTerritories()) {
-            colorCode = regionsColors.get(t.getRegion().getName());
-            content += "\n"+colorCode+t.getName()+colorCode;
+        Iterator<String> regionsIterator = regionsColors.keySet().iterator();
+        String currIterationRegion;
+        String tempRegion;
+        while (regionsIterator.hasNext()) {
+            currIterationRegion = regionsIterator.next();
+            colorCode = regionsColors.get(currIterationRegion);
+            content += "\n\n"+colorCode+"Região: "+currIterationRegion+colorCode+"\n";
+            for (BackEndTerritory t : currPlayer.getTerritories()) {
+                tempRegion = t.getRegion().getName();
+                if (currIterationRegion.equals(tempRegion))
+                    content += "\n"+colorCode+t.getName()+colorCode;
+            }
         }
         infoTerritories.setText(content);
         PopupManager.showPopup(n, s, infoTerritoriesPopup);
@@ -376,14 +393,13 @@ public class InGameGUIController implements ScreenController{
         for(BackEndTerritory t : ts){
             t.setNumArmies(1);
         }
-        setInfoLabelText("Você ainda possui "+getCurrentPlayer().getPendingArmies()+" exército(s) para distribuir.");
+        setRavenMessage("\\#333333ff#"+curr.getName()+" ainda possui \\#CC0000#"+curr.getPendingArmies()+"\\#333333ff# exército(s) para distribuir.");
         updatePlayersData();
-        setRavenMessage(curr.getName() + " está distribuindo os exércitos.");
     }
             
     @NiftyEventSubscriber(id = "menuItemid")
-    public void MenuItemClicked(final String id, final MenuItemActivatedEvent event) {
-        ctxMenuCtrl.MenuItemClicked(id, event, s);
+    public void menuItemClicked(final String id, final MenuItemActivatedEvent event) {
+        ctxMenuCtrl.menuItemClicked(id, event, s);
     }
     
     @NiftyEventSubscriber(id="musicSlider")
@@ -418,6 +434,11 @@ public class InGameGUIController implements ScreenController{
             am.muteSound();
         else
             am.unmuteSound();
+    }
+    
+    @NiftyEventSubscriber(id="showTerritories")
+    public void onShowTerritoriesChange(final String id, final CheckBoxStateChangedEvent event) {
+        main.Main.showTerritoriesNames(event.isChecked());
     }
      
     @NiftyEventSubscriber(id="dontShowRearrangeConfirmationAgain")

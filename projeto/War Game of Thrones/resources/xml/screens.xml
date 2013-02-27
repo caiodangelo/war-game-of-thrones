@@ -236,8 +236,8 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 				<panel width="100%" height="3px" childLayout="vertical" backgroundColor="#000"/>
 				<panel width="100%" height="80%" childLayout="horizontal">
 					<panel width="50%" height="100%" childLayout="vertical">
-						<control color="#333333ff" font="resources/fonts/calibri_bold.fnt" marginLeft="10%" marginTop="20%" align="left" textHAlign="left" name="label" text="Geral" width="100%" height="10%"/>
-						<panel marginTop="5%" width="100%" height="7%" childLayout="horizontal">
+						<control color="#333333ff" font="resources/fonts/calibri_bold.fnt" marginTop="20%" textHAlign="left" name="label" text="Geral:" width="100%" height="10%"/>
+						<panel width="100%" height="7%" childLayout="horizontal">
 							<panel marginLeft="5%" width="40%" height="100%" childLayout="center" backgroundColor="#a1bd68">
 								<control color="#333333ff" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Tempo de duração do jogo"/>
 							</panel>
@@ -295,7 +295,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 						</panel>
 					</panel>
 					<panel width="50%" height="100%" childLayout="vertical">
-						<control color="#333333ff" font="resources/fonts/calibri_bold.fnt" marginLeft="10%" marginTop="20%" align="left" textHAlign="left" name="label" text="Por jogador" width="100%" height="10%"/>
+						<control color="#333333ff" font="resources/fonts/calibri_bold.fnt" marginTop="20%" textHAlign="left" name="label" text="Por jogador:" width="100%" height="10%"/>
 						<control valign="bottom" id="statisticOptionsDropDown" name="dropDown" displayItems="9" width="75%" textColor="#ffff" color="#ffff"/>
 						<panel marginTop="5%" width="100%" height="100%" childLayout="center">
 						
@@ -839,7 +839,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 								</panel>
 								<panel width="100%" height="7%" childLayout="horizontal">
 									<panel width="28%" height="100%" childLayout="center" backgroundColor="#7fb0db">
-										<control color="#333333ff" height="100%" width="100%" textHAlign="center" textVAlign="center" name="label" text="Mário Henrique"/>
+										<control color="#333333ff" height="100%" width="100%" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Mário Henrique"/>
 									</panel>
 									<panel width="28%" height="100%" childLayout="center" backgroundColor="#a1bd68">
 										<control color="#333333ff" height="100%" width="100%" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Lucas Nadalutti"/>
@@ -934,6 +934,19 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 						</panel>
 					</panel>
 				</panel>
+				<panel align="center" height="15%" width="40%" childLayout="horizontal">
+					<panel align="left" height="40%" width="50%" childLayout="vertical">
+						<control width="50%" height="100%" name="button" label="Voltar à tela inicial" focusable="false">
+							<interact onClick="backToMainScreen()"/>
+						</control>
+					</panel>
+					<panel align="right" height="40%" width="50%" childLayout="vertical">
+						<control width="50%" height="100%" name="button" label="Sair do jogo" focusable="false">
+							<interact onClick="exitGame()"/>
+						</control>
+					</panel>
+				</panel>
+				
 			</panel>
 		</layer>
 	</screen>
@@ -1143,6 +1156,10 @@ Em cada vez de jogar, o participante pode:&#10;
 					<control color="#333333ff" height="20%" width="100%" name="label" text="Dificuldade dos jogadores&#10;não humanos"/>
 					<control id="sliderCPUdifficulty" name="verticalSlider" height="65%" min ="1.0" max="3.0" initial="1.0" stepSize="1.0" buttonStepSize="1.0"/>
 					<control id="CPUdifficultyValue" color="#333333ff" height="10%" width="100%" name="label" text="Fácil"/>
+					<panel marginTop="5%" width="100%" height="25%" childLayout="vertical">
+						<control align="center" id="showTerritories" name="checkbox" height="30%" width="10%" checked="true"/>
+						<control align="center" wrap="true" color="#333333ff" name="label" text="Mostrar nomes de territórios" height="30%" width="80%"/>
+					</panel>
 				</panel>
 			</panel>
 			<control align="center" name="button" label="OK" focusable="false">
@@ -1257,9 +1274,22 @@ Em cada vez de jogar, o participante pode:&#10;
 		</panel>
 	</popup>
 	
-	<popup id="territoryNamePopup" childLayout="center" backgroundColor="#000a">
-		<panel style="nifty-panel-custom" width="10%" height="10%" childLayout="vertical">
-			<control id="territoryName" color="#333333ff" width="100%" height="100%" align="center" name="label" text=""/>
+	<popup id="takeToConqueredTerritoryPopup" childLayout="center" backgroundColor="#000a">
+		<panel padding="10%" style="nifty-panel-custom" width="25%" height="30%" childLayout="vertical">
+			<control color="#333333ff" font="resources/fonts/calibri_bold.fnt" align="left" textHAlign="left" name="label" text="Mover exércitos" width="100%"/>
+			<panel width="100%" height="3px" childLayout="vertical" backgroundColor="#000"/>
+			<panel width="100%" height="40%" childLayout="vertical">
+				<control font="resources/fonts/calibri_18.fnt" color="#333333ff" align="left" textHAlign="left" name="label" text="Você conquistou o território!" height="50%" width="100%"/>
+				<control warp="true" font="resources/fonts/calibri_18.fnt" color="#333333ff" align="left" textHAlign="left" name="label" text="Selecione quantos exércitos vencedores&#10;você deseja mover:" height="50%" width="100%"/>
+			</panel>
+			<panel childLayout="center" height="30%">
+				<control valign="center" id="dropDownSelectVictoriousArmies" name="dropDown" textColor="#ffff" color="#ffff"/>
+			</panel>
+			<panel align="center" width="40%" height="50%" valign="bottom" childLayout="horizontal">
+				<control name="button" label="Confirmar" focusable="false">
+					<interact onClick="moveVictoriousArmies()"/>
+				</control>
+			</panel>
 		</panel>
 	</popup>
 </nifty>

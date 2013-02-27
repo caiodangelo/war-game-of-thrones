@@ -9,10 +9,12 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import util.Entity;
+import util.ImageRenderComponent;
 
 public class Army extends Entity {
     
     private Territory territory;
+    private ImageRenderComponent irc;
     
     public Army(Map m, Territory territory, Vector2f relativePos, int qty, Scroll s) {
         super();
@@ -22,7 +24,8 @@ public class Army extends Entity {
             String armyImgPath = getHouseImagePath();
             setPosition(new Vector2f(500, 500));
             setScale(m.getScale());
-            addComponent(new ArmyRenderComponent("army-renderer", new Image(armyImgPath)));
+            irc = new ArmyRenderComponent("army-renderer", new Image(armyImgPath));
+            addComponent(irc);
         } catch (SlickException e) {
             Logger.getLogger(Army.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -40,7 +43,8 @@ public class Army extends Entity {
         removeComponent(getComponent("army-renderer"));
         String imgPath = getHouseImagePath();
         try {
-            addComponent(new ArmyRenderComponent("army-renderer", new Image(imgPath)));
+            irc = new ArmyRenderComponent("army-renderer", new Image(imgPath));
+            addComponent(irc);
         } catch (SlickException ex) {
             Logger.getLogger(Army.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -62,5 +66,13 @@ public class Army extends Entity {
         else if (house.equals(Board.TARGARYEN))
             imgPath = "resources/images/pecas/sexto.png";
         return imgPath;
+    }
+    
+    public float getScaledWidth(){
+        return irc.getImageWidth(getScale());
+    }
+    
+    public float getScaledHeight(){
+        return irc.getImageHeight(getScale());
     }
 }

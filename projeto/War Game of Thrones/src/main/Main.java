@@ -16,6 +16,7 @@ public class Main extends NiftyStateBasedGame{
     private static Main instance;
     public static float windowW, windowH;
     private static Vector2f mapPos, mapSize;
+    private static boolean showingTerritoriesNames;
     
     public static Vector2f getMapPos(){
         if(mapPos == null){
@@ -45,6 +46,7 @@ public class Main extends NiftyStateBasedGame{
         int w = dm.getWidth(), h = dm.getHeight();
         windowW = w;
         windowH = h;
+        showingTerritoriesNames = true;
     }
     
     public AppGameContainer getGameContainer(){
@@ -90,5 +92,13 @@ public class Main extends NiftyStateBasedGame{
     
     private static void disableNiftyWarnings(){
         Logger.getLogger("").setLevel(Level.SEVERE);
+    }
+    
+    public static boolean isShowingTerritoriesNames() {
+        return showingTerritoriesNames;
+    }
+    
+    public static void showTerritoriesNames(boolean s) {
+        showingTerritoriesNames = s;
     }
 }

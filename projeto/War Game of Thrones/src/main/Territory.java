@@ -1,5 +1,6 @@
 package main;
 
+import models.BackEndTerritory;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
@@ -10,7 +11,7 @@ public class Territory extends Entity{
     
     private Map map;
     private TerritoryPositionSync syncer;
-    private ImageRenderComponent irc;
+    private Image territoryImg;
     private Army army;
     private models.BackEndTerritory backEndTerr;
     
@@ -21,26 +22,26 @@ public class Territory extends Entity{
         syncer = new TerritoryPositionSync(map, relativePos);
         addComponent(syncer);
         try{
-            Image territoryImg = new Image(imagePath);
+            territoryImg = new Image(imagePath);
             Image highlightedImg = new Image(imagePath.replace(".png", "")+"-h.png");
-            irc = new ImageRenderComponent("territory-renderer", territoryImg);
-            addComponent(irc);
-            addComponent(new TerritoryHoverImage("hover", highlightedImg));
+            Image notOwnedImg = new Image(imagePath.replace(".png", "")+"-a.png");
+            Image ownedImg = territoryImg;
+            addComponent(new TerritoryHoverImage("hover", highlightedImg, notOwnedImg, ownedImg));
         }catch(SlickException e){
             e.printStackTrace();
         }
     }
     
-    public models.BackEndTerritory getBackEndTerritory(){
+    public BackEndTerritory getBackEndTerritory(){
         return backEndTerr;
     }
     
     public float getScaledWidth(){
-        return irc.getImageWidth(getScale());
+        return territoryImg.getWidth() * getScale();
     }
     
     public float getScaledHeight(){
-        return irc.getImageHeight(getScale());
+        return territoryImg.getHeight() * getScale();
     }
     
     public Army getArmy() {

@@ -2,6 +2,7 @@ package main;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.BackEndTerritory;
 import models.Board;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -197,11 +198,11 @@ public class Map extends Entity{
     @Override
     public void onAdded() {
         Scene scene = getScene();
-        models.BackEndTerritory[] backEndTerritories = Board.getInstance().getTerritories();
+        BackEndTerritory[] backEndTerritories = Board.getInstance().getTerritories();
         for(int i = 0; i < territoryPositions.length; i++){
             Territory t = new Territory(this, territoryPositions[i], imgs[i], backEndTerritories[i]);
             scene.addEntity(t);
-            Army a = new Army(this, t, armyPositions[i], ((int) (Math.random()*5)+1), s);
+            Army a = new Army(this, t, armyPositions[i], 0, s);
             scene.addEntity(a);
             t.setArmy(a);
         }

@@ -50,9 +50,6 @@ public class GameScene extends Scene{
         b = Board.getInstance();
         ctrl = InGameGUIController.getInstance();
         helper = new TurnHelper(this, ctrl);
-//        GameEndingAnimation a = new GameEndingAnimation();
-//        addEntity(a);
-//        a.activate(b.getCurrentPlayer());
     }
     
     public void showPlayerTurnMsg(){
@@ -95,17 +92,21 @@ public class GameScene extends Scene{
                 pendingArmies--;
             } 
             if(pendingArmies == 0) {
-                ctrl.setInfoLabelText(null);
+                ctrl.setRavenMessage(curr.getName()+" distribuiu seus exércitos!");
                 if (b.isOnInitialSetup())
                     helper.changeTurn();
             }
             else
-                ctrl.setInfoLabelText("Você ainda possui "+curr.getPendingArmies()+" exército(s) para distribuir.");
+                ctrl.setRavenMessage("\\#333333ff#"+curr.getName()+" ainda possui \\#CC0000#"+curr.getPendingArmies()+"\\#333333ff# exército(s) para distribuir.");
         }
     }
     
-    void handleMouseOverTerritory(Territory territory) {
-        ctrl.showTerritoryName(territory);
+    public void startGameEndingAnimation() {
+        GameEndingAnimation a = new GameEndingAnimation();
+        addEntity(a);
+        a.activate(b.getCurrentPlayer());
+        FireworksManager fm = new FireworksManager();
+        addEntity(fm);
     }
     
 }

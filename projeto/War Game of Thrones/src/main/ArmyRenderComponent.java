@@ -61,6 +61,23 @@ public class ArmyRenderComponent extends ImageRenderComponent {
     
     @Override
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
+        //syncing army copy position
+        float xDifference;
+        float yDifference;
+        if (movingQty > 0) {
+            if ((xDifference = owner.getPosition().x - origin.x) != 0) {
+                origin.x += xDifference;
+                movingPos.x += xDifference;
+                destiny.x += xDifference;
+            }
+            if ((yDifference = owner.getPosition().y - origin.y) != 0) {
+                origin.y += yDifference;
+                movingPos.y += yDifference;
+                destiny.y += yDifference;
+            }
+        }
+        
+        
         if (exploding && explosion.isStopped()) { //animation has ended
             exploding = false;
             movingQty = 0;
@@ -71,7 +88,7 @@ public class ArmyRenderComponent extends ImageRenderComponent {
         else if (!exploding && !distributing) {
             if (movingQty > 0) {
                 if (xSpeed == 0 && ySpeed == 0) {
-                    movingPos = origin;
+                    movingPos = new Vector2f(origin);
                     xSpeed = (destiny.x - origin.x)/80f;
                     ySpeed = (destiny.y - origin.y)/80f;
                 }
@@ -82,7 +99,7 @@ public class ArmyRenderComponent extends ImageRenderComponent {
         else if (distributing) {
             if (movingQty > 0) {
                 if (xSpeed == 0 && ySpeed == 0) {
-                    movingPos = origin;
+                    movingPos = new Vector2f(origin);
                     xSpeed = (destiny.x - origin.x)/80f;
                     ySpeed = (destiny.y - origin.y)/80f;
                 }
@@ -104,13 +121,10 @@ public class ArmyRenderComponent extends ImageRenderComponent {
         this.movingQty = q;
     }
     
-    public void setOrigin(Territory o) {
-        origin = o.getArmy().getPosition();
-    }
-    
-    public void setDestiny(Territory d) {
-        destiny = d.getArmy().getPosition();
-        destinyTerritory = d;
+    public void setMovementTo(Territory dest) {
+        origin = new Vector2f(owner.getPosition());
+        destiny = dest.getArmy().getPosition();
+        destinyTerritory = dest;
     }
     
     public void startExplosion() {
