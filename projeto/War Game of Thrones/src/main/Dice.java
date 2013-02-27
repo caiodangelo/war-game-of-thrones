@@ -19,6 +19,7 @@ public class Dice extends Entity {
     private boolean reachedDestination;
     
     public Dice(Vector2f pos, boolean atk, int r) {
+        setLayer(3);
         position = pos;
         atkDice = atk;
         rolling = true;

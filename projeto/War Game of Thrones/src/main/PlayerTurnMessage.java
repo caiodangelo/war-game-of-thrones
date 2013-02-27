@@ -9,6 +9,7 @@ public class PlayerTurnMessage extends Entity{
     private PlayerTurnMessageRenderer renderer;
     
     public PlayerTurnMessage(){
+        setLayer(3);
         addComponent(renderer = new PlayerTurnMessageRenderer("turnRenderer"));
     }
 

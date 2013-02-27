@@ -8,6 +8,7 @@ import models.Board;
 import models.Player;
 import models.StatisticGameManager;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import util.Scene;
@@ -21,6 +22,7 @@ public class GameScene extends Scene{
     private Board b;
     private InGameGUIController ctrl;
     private TurnHelper helper;
+    private TerritoryName terrName;
     
     public GameScene(){
         super();
@@ -61,6 +63,13 @@ public class GameScene extends Scene{
         b = Board.getInstance();
         ctrl = InGameGUIController.getInstance();
         helper = new TurnHelper(this, ctrl);
+        
+        terrName = new TerritoryName();
+        addEntity(terrName);
+    }
+    
+    public void setHighlightedTerritory(Territory t){
+        terrName.setHighlightedTerritory(t);
     }
     
     public void showPlayerTurnMsg(){
@@ -71,6 +80,8 @@ public class GameScene extends Scene{
         turnMsg.activate(p, c);
     }
 
+    
+    
     @Override
     public void mouseWheelMoved(int newValue) {
         super.mouseWheelMoved(newValue);
@@ -91,24 +102,28 @@ public class GameScene extends Scene{
     void handleTerritoryClick(Territory territory) {
         Player curr = b.getCurrentPlayer();
         int pendingArmies = curr.getPendingArmies();
-        if(!b.isOnInitialSetup() && pendingArmies == 0) {
+        if (!b.isOnInitialSetup() && pendingArmies == 0) {
             InGameGUIController.handleTerritoryClick(territory);
         }
-        else{
+        else {
             ctrl.updatePlayersData();
-            if(territory.getBackEndTerritory().getOwner() == curr){
+            if (territory.getBackEndTerritory().getOwner() == curr){
                 models.BackEndTerritory t = territory.getBackEndTerritory();
                 t.increaseArmies(1);
                 curr.removePendingArmies(1);
                 pendingArmies--;
             } 
-            if(pendingArmies == 0) {
-                ctrl.setRavenMessage(curr.getName()+" distribuiu seus exércitos!");
-                if (b.isOnInitialSetup())
+            if (pendingArmies == 0) {
+                if (b.isOnInitialSetup()) {
+                    ctrl.setRavenMessage(curr.getName()+" distribuiu seus exércitos!");
                     helper.changeTurn();
+                }
+                else
+                    ctrl.setRavenMessage(curr.getName()+" está jogando!");
             }
-            else
-                ctrl.setRavenMessage("\\#333333ff#"+curr.getName()+" ainda possui \\#CC0000#"+curr.getPendingArmies()+"\\#333333ff# exército(s) para distribuir.");
+            else {
+                ctrl.setRavenMessage("\\#333333ff#"+curr.getName()+" ainda possui \\#CC0000#"+pendingArmies+"\\#333333ff# exército(s) para distribuir.");
+            }
         }
     }
     
@@ -119,5 +134,4 @@ public class GameScene extends Scene{
         FireworksManager fm = new FireworksManager();
         addEntity(fm);
     }
-    
 }

@@ -40,5 +40,9 @@ public class CardTerritory {
     public void setTerritory(BackEndTerritory territory) {
         this.territory = territory;
     }
+    
+    public boolean isJoker() {
+        return type == 4;
+    }
 
 }

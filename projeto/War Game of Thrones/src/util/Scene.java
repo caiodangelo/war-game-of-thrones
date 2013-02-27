@@ -4,12 +4,15 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.slick2d.NiftyOverlayBasicGameState;
 import de.lessvoid.nifty.slick2d.input.SlickSlickInputSystem;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import java.util.List;
+import javax.print.attribute.standard.Compression;
 
 public abstract class Scene extends NiftyOverlayBasicGameState{
     
@@ -20,15 +23,16 @@ public abstract class Scene extends NiftyOverlayBasicGameState{
     private static boolean inited = false;
     
     public void addEntity(Entity e){
-        SlickSlickInputSystem s = new SlickSlickInputSystem(this);
-        Scene oldScene = e.getScene();
-        if(oldScene != null)
-            oldScene.removeEntity(e);
-        if(!entities.contains(e)){
-            entities.add(e);
-            e.setScene(this);
-            e.onAdded();
-        }
+        addToEntitiesToBeAdded(e);
+//        SlickSlickInputSystem s = new SlickSlickInputSystem(this);
+//        Scene oldScene = e.getScene();
+//        if(oldScene != null)
+//            oldScene.removeEntity(e);
+//        if(!entities.contains(e)){
+//            entities.add(e);
+//            e.setScene(this);
+//            e.onAdded();
+//        }
     }
     
     public void addToEntitiesToBeAdded(Entity e){
@@ -76,12 +80,17 @@ public abstract class Scene extends NiftyOverlayBasicGameState{
             e.render(container, game, g);
     }
     
+    protected void sortObjectsByLayer(){
+        Collections.sort(entities);
+    }
+    
     @Override
     protected void updateGame(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         float dt = delta / 1000f;
-        for(Entity e : entities)
-            e.update(container, game, dt);
-        for(Entity e : entitiesToBeAdded) {
+        for(int i = 0; i < entities.size(); i++)
+            entities.get(i).update(container, game, dt);
+        for(int i = 0; i < entitiesToBeAdded.size(); i++) {
+            Entity e = entitiesToBeAdded.get(i);
             if(!entities.contains(e)){
                 entities.add(e);
                 e.setScene(this);
@@ -94,6 +103,10 @@ public abstract class Scene extends NiftyOverlayBasicGameState{
                 e.onRemoved();
             }
         }
+        
+        if(!entitiesToBeAdded.isEmpty())
+            sortObjectsByLayer();
+        
         entitiesToBeAdded.clear();
         entitiesToBeRemoved.clear();
         

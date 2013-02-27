@@ -13,19 +13,21 @@ import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.Color;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import main.AudioManager;
+import main.CardPaths;
 import main.GameScene;
 import main.Territory;
 import main.TurnHelper;
 import main.WarScenes;
 import models.BackEndTerritory;
 import models.Board;
+import models.CardTerritory;
 import models.House;
 import models.Player;
+import models.RepositoryCardsTerritory;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -42,11 +44,14 @@ public class InGameGUIController implements ScreenController{
     public static Player [] players;
     
     private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel, 
-            optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup,
-            alertPopup;
+            optionsPopup, helpPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup,
+            alertPopup, cardEarnedPopup;
+    
     private boolean mouseOverObjective = false;
+    private boolean territoryConquered;
     
     private ContextMenuController ctxMenuCtrl;
+    private CardsController cardsCtrl;
     private static InGameGUIController instance;
     private HashMap<Integer, String> turnsOrder;
     private HashMap<String, String> regionsColors;
@@ -75,6 +80,10 @@ public class InGameGUIController implements ScreenController{
         return instance;
     }
     
+    public void territoryWasConquered() {
+        territoryConquered = true;
+    }
+    
     @Override
     public void bind(Nifty nifty, Screen screen) {
         s = screen;
@@ -91,12 +100,14 @@ public class InGameGUIController implements ScreenController{
         tablesIcon = screen.findElementByName("tablesIcon");
         optionsPopup = n.createPopup("optionsPopup");
         helpPopup = n.createPopup("helpPopup");
-        cardsPopup = n.createPopup("cardsPopup");
+//        cardsPopup = n.createPopup("cardsPopup");
         ctxMenuCtrl = new ContextMenuController(n, this);
+        cardsCtrl = new CardsController(n, s, this);
         infoTerritoriesPopup = n.createPopup("infoTerritoriesPopup");
         infoTerritories = infoTerritoriesPopup.findNiftyControl("infoTerritories", Label.class);
         alertPopup = n.createPopup("alertPopup");
         alert = alertPopup.findNiftyControl("alert", Label.class);
+        cardEarnedPopup = n.createPopup("cardEarnedPopup");
         
         ravenMessage = screen.findNiftyControl("ravenMessage", Label.class);
         infoPanel = screen.findElementByName("infoPanel");
@@ -202,7 +213,7 @@ public class InGameGUIController implements ScreenController{
     
     public void showPlayerCards(){
         resetMouseCursor();
-        PopupManager.showPopup(n, s, cardsPopup);
+        cardsCtrl.showPopup();
     }
     
     public void dismissPlayerObjective(){
@@ -210,7 +221,12 @@ public class InGameGUIController implements ScreenController{
     }
     
     public void dismissPlayerCards(){
-        PopupManager.closePopup(n, cardsPopup);
+        cardsCtrl.dissmissPopup();
+    }
+    
+    public void tradePlayerCards(){
+        System.out.println("trade player cards");
+        cardsCtrl.tradeCards();
     }
     
     public void nextPlayerTurnConfirm() {
@@ -219,17 +235,40 @@ public class InGameGUIController implements ScreenController{
     
     public void nextPlayerTurn() {
         PopupManager.closePopup(n, nextTurnConfirmPopup);
-        int pendingArmies = getCurrentPlayer().getPendingArmies();
+        Player curr = getCurrentPlayer();
+        int pendingArmies = curr.getPendingArmies();
         if (pendingArmies > 0)
             showAlert("Você ainda possui "+pendingArmies+" exércitos para distribuir!");
         else {
             ctxMenuCtrl.setDistributing(false);
-            TurnHelper.getInstance().changeTurn();
+            if (curr.mayReceiveCard()) {
+                //sortear carta e colocá-la na popup
+                curr.setMayReceiveCard(false);
+                Element imgElement = cardEarnedPopup.findElementByName("earnedCardImage");
+                ImageRenderer r = imgElement.getRenderer(ImageRenderer.class);
+                CardTerritory c = RepositoryCardsTerritory.getInstance().getFirstCardFromDeck();
+                System.out.println(c);
+                System.out.println(CardPaths.getPath(c));
+                r.setImage(n.createImage(CardPaths.getPath(c), false));
+                PopupManager.showPopup(n, s, cardEarnedPopup);
+            } else
+                TurnHelper.getInstance().changeTurn();
+            territoryConquered = false;
+            setInfoLabelText(null);
+            ctxMenuCtrl.resetTerritories();
         }
     }
     
     public void dismissNextTurnConfirmation(){
         PopupManager.closePopup(n, nextTurnConfirmPopup);
+    }
+    
+    public void dismissCardEarnedPopup() {
+        TurnHelper.getInstance().changeTurn();
+        PopupManager.closePopup(n, cardEarnedPopup);
+        
+        if(cardsCtrl.playerMustSawpCards())
+            cardsCtrl.showPopup();
     }
     
     //Top Menu event handling
@@ -454,5 +493,29 @@ public class InGameGUIController implements ScreenController{
         r.setImage(n.createImage(h.getImgPath(), false));
         Label houseNameLabel = s.findNiftyControl("currHouseName", Label.class);
         houseNameLabel.setText(h.getName());
+    }
+    
+    @NiftyEventSubscriber(id="card0Checkbox")
+    public void onCheckbox0Clicked(final String id, final CheckBoxStateChangedEvent event) {
+        cardsCtrl.onCheckboxClicked(0);
+    }
+    @NiftyEventSubscriber(id="card1Checkbox")
+    public void onCheckbox1Clicked(final String id, final CheckBoxStateChangedEvent event) {
+        cardsCtrl.onCheckboxClicked(1);
+    }
+    @NiftyEventSubscriber(id="card2Checkbox")
+    public void onCheckbox2Clicked(final String id, final CheckBoxStateChangedEvent event) {
+        cardsCtrl.onCheckboxClicked(2);
+    }
+    @NiftyEventSubscriber(id="card3Checkbox")
+    public void onCheckbox3Clicked(final String id, final CheckBoxStateChangedEvent event) {
+        cardsCtrl.onCheckboxClicked(3);
+    }
+    @NiftyEventSubscriber(id="card4Checkbox")
+    public void onCheckbox4Clicked(final String id, final CheckBoxStateChangedEvent event) {
+        cardsCtrl.onCheckboxClicked(4);
+    }
+    public void cardClicked(String index){
+        cardsCtrl.onCardClick(Integer.parseInt(index));
     }
 }

@@ -32,7 +32,10 @@ public class TurnHelper {
         else {
             parent.showPlayerTurnMsg();
             Player curr = b.getCurrentPlayer();
-            ctrl.setRavenMessage(curr.getName() + " está jogando.");
+            if (b.isOnFirstTurn())
+                ctrl.setRavenMessage(curr.getName()+" está jogando.");
+            else
+                ctrl.setRavenMessage("\\#333333ff#"+curr.getName()+" ainda possui \\#CC0000#"+curr.getPendingArmies()+"\\#333333ff# exército(s) para distribuir.");
         }
         ctrl.updatePlayersData();
     }

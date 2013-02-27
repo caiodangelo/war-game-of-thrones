@@ -10,6 +10,7 @@ public class Fireworks extends Entity {
     private Vector2f mapSize;
     
     public Fireworks(Animation a) {
+        setLayer(3);
         mapPos = main.Main.getMapPos();
         mapSize =  main.Main.getMapSize();
         float randomXPos = mapPos.x + (float) (Math.random() * mapSize.x);

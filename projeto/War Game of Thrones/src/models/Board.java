@@ -32,6 +32,7 @@ public class Board implements Serializable {
     private ArrayList<Mission> missions;
     private boolean onInitialSetup;
     private boolean onFirstTurn;
+    private int numberOfSwappedCards;
 
     protected Board() {
         instance = this;
@@ -41,6 +42,7 @@ public class Board implements Serializable {
         onInitialSetup = true;
         houses = new ArrayList<House>();
         missions = new ArrayList<Mission>();
+        numberOfSwappedCards = 0;
         
         if (regions == null) {
             retrieveTerritories();
@@ -93,7 +95,7 @@ public class Board implements Serializable {
         current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.ARVORE, struct));
         current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.DORNE, struct));
         current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.JARDIM_DE_CIMA, struct));
-        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.MATA_DO_REI, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.MATADERREI, struct));
         current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.MONTE_CHIFRE, struct));
         current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.TARTH, struct));
         current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.TERRAS_DA_TEMPESTADE, struct));
@@ -232,6 +234,14 @@ public class Board implements Serializable {
     
     public boolean isOnFirstTurn() {
         return onFirstTurn;
+    }
+    
+    public void incrementNumberOfSwappedCards() {
+        numberOfSwappedCards++;
+    }
+    
+    public int getNumberOfSwappedCards() {
+        return numberOfSwappedCards;
     }
 
 //    public List<House> getAbsentHouses() {

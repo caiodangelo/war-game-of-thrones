@@ -56,7 +56,7 @@ public class RepositoryCardsTerritory {
             deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.GARGALO]));
             deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.GHISCAR]));
             deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.MATA_DE_LOBOS]));
-            deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.MATA_DO_REI]));
+            deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.MATADERREI]));
             deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.MONTANHAS_DA_LUA]));
             deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.SEMPRE_INVERNO]));
             deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.PENHASCO_SOMBRIO]));
@@ -109,7 +109,15 @@ public class RepositoryCardsTerritory {
     public CardTerritory getFirstCardFromDeck() {
         CardTerritory card = deck.removeFirst();
         addCardToRepository(card);
+        if (deck.isEmpty())
+            resetCards();
         return card;
+    }
+    
+    public void resetCards() {
+        deck = getRepository();
+        shuffleCards();
+        setRepository(new LinkedList());
     }
 
     public void initialRaffle() {
@@ -122,12 +130,13 @@ public class RepositoryCardsTerritory {
             for (int i = size - 1; i >= 0; i--) {
                 if (deck.size() != 0) {
                     Player p = board.getPlayer(i);
-                    p.addCard(getFirstCardFromDeck());
+                    CardTerritory card = deck.removeFirst();
+                    addCardToRepository(card);
+                    p.addCard(card);
                 }
             }
         }
-        deck = getRepository();
-        setRepository(new LinkedList());
+        resetCards();
     }
 
     public void removeJokers() {
@@ -143,22 +152,22 @@ public class RepositoryCardsTerritory {
 
     public boolean swapCards(List<CardTerritory> cardsToSwap, Player player) {
         int numberOfSwaps, numberOfArmies;
-        if (player.isMaySwapCards()) {
-            if ((isSameCards(cardsToSwap)) || (isDifferentCards(cardsToSwap))) {
-                for (CardTerritory card : cardsToSwap) {
-                    player.removeCard(card);
-                    for (int i = 0; i < player.getTerritories().size(); i++) {
-                        if (player.getTerritories().get(i).equals(card.getTerritory()))
-                            player.getTerritories().get(i).increaseArmies(2);
-                    }
-                    this.addCardToDeck(card);
+        if ((isSameCards(cardsToSwap)) || (isDifferentCards(cardsToSwap))) {
+            for (CardTerritory card : cardsToSwap) {
+                player.removeCard(card);
+                for (int i = 0; i < player.getTerritories().size(); i++) {
+                    if (player.getTerritories().get(i).equals(card.getTerritory()))
+                        player.getTerritories().get(i).increaseArmies(2);
                 }
-                player.getStatisticPlayerManager().increaseNumberOfCardsSwapped();
-                numberOfSwaps = player.getStatisticPlayerManager().getNumberOfCardsSwapped();
-                numberOfArmies = consultSwapTable(numberOfSwaps);
-                player.addPendingArmies(numberOfArmies);
-                return true;
+                this.addCardToRepository(card);
             }
+            player.getStatisticPlayerManager().increaseNumberOfCardsSwapped();
+            Board b = Board.getInstance();
+            b.incrementNumberOfSwappedCards();
+            numberOfSwaps = b.getNumberOfSwappedCards();
+            numberOfArmies = consultSwapTable(numberOfSwaps);
+            player.addPendingArmies(numberOfArmies);
+            return true;
         }
         return false;
     }
@@ -203,12 +212,11 @@ public class RepositoryCardsTerritory {
     }
 
     public int consultSwapTable(int numberOfSwaps) {
-        if ((numberOfSwaps >= 1) && (numberOfSwaps <= 5)) {
+        if ((numberOfSwaps >= 1) && (numberOfSwaps <= 5))
             return (numberOfSwaps * 2) + 2;
-        } else if (numberOfSwaps == 6) {
+        else if (numberOfSwaps == 6)
             return 15;
-        } else {
+        else
             return ((numberOfSwaps - 6) * 5) + 15;
-        }
     }
 }

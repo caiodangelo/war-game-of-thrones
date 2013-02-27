@@ -84,8 +84,7 @@ public class ContextMenuController {
                         parent.showAlert("Você não pode atacar um território que já possui!");
                     else
                         parent.showAlert("Só é possível atacar territórios vizinhos!");
-                    originTerritory = null;
-                    destTerritory = null;
+                    resetTerritories();
                 }
             }
             else {
@@ -96,8 +95,7 @@ public class ContextMenuController {
                         parent.showAlert("Você não pode levar exércitos para um território que não possui!");
                     else
                         parent.showAlert("Só é possível distribuir para territórios vizinhos!");
-                    originTerritory = null;
-                    destTerritory = null;
+                    resetTerritories();
                 }
             }  
         }
@@ -166,7 +164,7 @@ public class ContextMenuController {
         ArmyRenderComponent comp = (ArmyRenderComponent) originTerritory.getArmy().getComponent("army-renderer");
         comp.setMovementTo(destTerritory);
         comp.setMovingQuantity(atkUnits);
-        originTerritory = destTerritory = null;
+        resetTerritories();
     }
     
     private void showRearrangeInfo(){
@@ -179,7 +177,7 @@ public class ContextMenuController {
     
     protected void dismissRearrangePopup(){
         PopupManager.closePopup(n, rearrangePopup);
-        originTerritory = destTerritory = null;
+        resetTerritories();
     }
     
     protected void menuItemClicked(final String id, final MenuItemActivatedEvent event, final Screen s) {
@@ -213,7 +211,7 @@ public class ContextMenuController {
     
     public void rearrangeConfirmed() {
         distributing = true;
-        originTerritory = null;
+        resetTerritories();
         PopupManager.closePopup(n, rearrangeConfirmationPopup);
     }
 
@@ -236,7 +234,7 @@ public class ContextMenuController {
     
     protected void cancelAttackPopup(){
         PopupManager.closePopup(n, attackPopup);
-        originTerritory = destTerritory = null;
+        resetTerritories();
     }
     
     public void selectVictoriousArmiesToMove(Screen s, int winners) {
@@ -264,6 +262,10 @@ public class ContextMenuController {
     
     public void mayShowRearrangeConfirmationAgain(boolean show) {
         mayShowRearrangeConfirmation = show;
+    }
+    
+    public void resetTerritories() {
+        originTerritory = destTerritory = null;
     }
     
     private static class UnitCount{
