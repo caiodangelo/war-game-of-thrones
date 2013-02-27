@@ -109,7 +109,14 @@ public class RepositoryCardsTerritory {
     public CardTerritory getFirstCardFromDeck() {
         CardTerritory card = deck.removeFirst();
         addCardToRepository(card);
+        if (deck.isEmpty())
+            resetCards();
         return card;
+    }
+    
+    public void resetCards() {
+        deck = getRepository();
+        setRepository(new LinkedList());
     }
 
     public void initialRaffle() {
@@ -126,8 +133,6 @@ public class RepositoryCardsTerritory {
                 }
             }
         }
-        deck = getRepository();
-        setRepository(new LinkedList());
     }
 
     public void removeJokers() {
@@ -151,10 +156,12 @@ public class RepositoryCardsTerritory {
                         if (player.getTerritories().get(i).equals(card.getTerritory()))
                             player.getTerritories().get(i).increaseArmies(2);
                     }
-                    this.addCardToDeck(card);
+                    this.addCardToRepository(card);
                 }
                 player.getStatisticPlayerManager().increaseNumberOfCardsSwapped();
-                numberOfSwaps = player.getStatisticPlayerManager().getNumberOfCardsSwapped();
+                Board b = Board.getInstance();
+                b.incrementNumberOfSwappedCards();
+                numberOfSwaps = b.getNumberOfSwappedCards();
                 numberOfArmies = consultSwapTable(numberOfSwaps);
                 player.addPendingArmies(numberOfArmies);
                 return true;
@@ -203,12 +210,11 @@ public class RepositoryCardsTerritory {
     }
 
     public int consultSwapTable(int numberOfSwaps) {
-        if ((numberOfSwaps >= 1) && (numberOfSwaps <= 5)) {
+        if ((numberOfSwaps >= 1) && (numberOfSwaps <= 5))
             return (numberOfSwaps * 2) + 2;
-        } else if (numberOfSwaps == 6) {
+        else if (numberOfSwaps == 6)
             return 15;
-        } else {
+        else
             return ((numberOfSwaps - 6) * 5) + 15;
-        }
     }
 }
