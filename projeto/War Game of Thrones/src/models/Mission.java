@@ -160,32 +160,32 @@ public class Mission implements Serializable {
         return ((this.getType() == Mission.TYPE_HOUSE) && (this.getHouse().equals(player.getHouse())));
     }
 
-    public boolean isCompletedMission(Board board, ArrayList<Region> allRegions) {
+    public boolean isCompletedMission() {
         switch (this.getType()) {
             case TYPE_REGION:
-                return isRegionMissionCompleted(allRegions);
+                return isRegionMissionCompleted();
 
             case TYPE_TERRITORY:
                 return isTerritoryMissionCompleted();
 
             case TYPE_HOUSE:
-                return isHouseMissionCompleted(board);
+                return isHouseMissionCompleted();
         }
         return false;
     }
 
-    public boolean isRegionMissionCompleted(ArrayList<Region> allRegions) {
+    public boolean isRegionMissionCompleted() {
         boolean answer = false;
         Region aux = new Region("", 0);
         List<Region> conqueredRegions = new ArrayList<Region>(); //Regioes que foram conquistadas pelo jogador      
         List<BackEndTerritory> territoriesPlayer = player.getTerritories();
 
-        for (Region region : allRegions) {
+        for (Region region : Board.getInstance().getRegions()) {
             if (territoriesPlayer.containsAll(region.getTerritories())) {
                 conqueredRegions.add(region);
             }
         }
-
+        
         for (Region regionMission : this.getRegions()) {
             //Para as missões do tipo que tenham que conquistar uma região a sua escolha
             //é definido o nome da região como null
@@ -194,7 +194,7 @@ public class Mission implements Serializable {
                     conqueredRegions.remove(regionMission);
                     answer = true;
                 } else {
-                    return false;
+                    answer = false;
                 }
             } else {
                 aux = regionMission;
@@ -223,8 +223,9 @@ public class Mission implements Serializable {
         return answer;
     }
 
-    public boolean isHouseMissionCompleted(Board board) {
-        Player defeated = null;
+    public boolean isHouseMissionCompleted() {
+        Board board = Board.getInstance();
+        Player defeated = new HumanPlayer("");
         for (int i = 0; i < board.getPlayers().size(); i++) {
             if (board.getPlayer(i).getHouse().equals(this.getHouse())) {
                 defeated = board.getPlayer(i);
