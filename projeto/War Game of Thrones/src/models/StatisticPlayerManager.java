@@ -133,24 +133,32 @@ public class StatisticPlayerManager {
     }
 
     public void averageAttackDices(Integer[] dices) {
-        int allDicesAdded = (int) this.dicesOfAttackAverage * this.numberOfAttackDicesPlayed;
+        float allDicesAdded = this.dicesOfAttackAverage * this.numberOfAttackDicesPlayed;
+        int sum = 0; 
         for (int i = 0; i < dices.length; i++) {
+            sum += dices[i];
             this.numberOfAttackDicesPlayed++;
-            this.dicesOfAttackAverage = (allDicesAdded + dices[i]) / this.numberOfAttackDicesPlayed;
         }
+        float result = (float)(allDicesAdded + sum) / this.numberOfAttackDicesPlayed;
+        this.dicesOfAttackAverage = round(result, 2);
+        
     }
-
+    
     public void averageDefenceDices(Integer[] dices) {
-        int allDicesAdded = (int) this.dicesOfDefenceAverage * this.numberOfDefenceDicesPlayed;
+        float allDicesAdded = this.dicesOfDefenceAverage * this.numberOfDefenceDicesPlayed;
+        int sum = 0;
         for (int i = 0; i < dices.length; i++) {
             this.numberOfDefenceDicesPlayed++;
-            this.dicesOfDefenceAverage = (allDicesAdded + dices[i]) / this.numberOfDefenceDicesPlayed;
-
+            sum += dices[i];
         }
+        float result = (float) (allDicesAdded + sum) / this.numberOfDefenceDicesPlayed;
+        this.dicesOfDefenceAverage = round(result, 2);
     }
 
     public void setSuccessfulAttackPercentage() {
-        this.successfulAttackPercentage = (this.numberOfAttackWins / this.numberOfAttacks) * 100;
+        float result = ((float) this.numberOfAttackWins / (float) this.numberOfAttacks) * 100;
+        System.out.println(result);
+        this.successfulAttackPercentage = round(result, 2);
     }
 
     public void setSuccessfulDefencePercentage() {
@@ -208,4 +216,19 @@ public class StatisticPlayerManager {
         }
         this.moreEnemy = board.getPlayer(indexOfMostAttackedPlayer);
     }
+
+    public int getNumberOfAttackDicesPlayed() {
+        return numberOfAttackDicesPlayed;
+    }
+
+    public int getNumberOfDefenceDicesPlayed() {
+        return numberOfDefenceDicesPlayed;
+    }
+    
+    public float round(double n, int casas) {
+       int mult = (int) Math.pow(10, casas);
+       float temp = (float) (n * mult);
+       temp = Math.round(temp);
+       return temp / mult;
+   }
 }
