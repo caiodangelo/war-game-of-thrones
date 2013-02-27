@@ -56,7 +56,7 @@ public class RepositoryCardsTerritory {
             deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.GARGALO]));
             deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.GHISCAR]));
             deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.MATA_DE_LOBOS]));
-            deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.MATA_DO_REI]));
+            deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.MATADERREI]));
             deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.MONTANHAS_DA_LUA]));
             deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.SEMPRE_INVERNO]));
             deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.PENHASCO_SOMBRIO]));
@@ -116,6 +116,7 @@ public class RepositoryCardsTerritory {
     
     public void resetCards() {
         deck = getRepository();
+        shuffleCards();
         setRepository(new LinkedList());
     }
 
@@ -129,7 +130,9 @@ public class RepositoryCardsTerritory {
             for (int i = size - 1; i >= 0; i--) {
                 if (deck.size() != 0) {
                     Player p = board.getPlayer(i);
-                    p.addCard(getFirstCardFromDeck());
+                    CardTerritory card = deck.removeFirst();
+                    addCardToRepository(card);
+                    p.addCard(card);
                 }
             }
         }

@@ -84,8 +84,8 @@ public class Main extends NiftyStateBasedGame{
         addState(new GameScene());
         addState(new StatisticsScene());
         if(!JUMP_TO_GAME){
-            //enterState(WarScenes.STARTING_SCENE);
-            enterState(WarScenes.STATISTICS_SCENE);
+            enterState(WarScenes.STARTING_SCENE);
+            //enterState(WarScenes.STATISTICS_SCENE);
         } else
             enterState(WarScenes.GAME_SCENE);
     }

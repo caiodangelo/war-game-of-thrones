@@ -96,7 +96,7 @@ public class Board implements Serializable {
         current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.ARVORE, struct));
         current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.DORNE, struct));
         current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.JARDIM_DE_CIMA, struct));
-        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.MATA_DO_REI, struct));
+        current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.MATADERREI, struct));
         current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.MONTE_CHIFRE, struct));
         current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.TARTH, struct));
         current.addTerritory(territories[tIndex++] = new BackEndTerritory(TerritoryID.TERRAS_DA_TEMPESTADE, struct));

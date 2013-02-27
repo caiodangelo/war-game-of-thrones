@@ -8,6 +8,7 @@ import models.Board;
 import models.Player;
 import models.StatisticGameManager;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import util.Scene;
