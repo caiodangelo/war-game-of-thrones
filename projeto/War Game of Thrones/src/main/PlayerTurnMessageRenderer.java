@@ -17,7 +17,7 @@ public class PlayerTurnMessageRenderer extends RenderComponent{
 
     private enum FadeState { FADE_IN, FADE_OUT, CONSTANT, INACTIVE}
     
-    private FadeState state;
+    private FadeState state = FadeState.INACTIVE;
     
     private Color c;
     private String playerName;
@@ -99,7 +99,7 @@ public class PlayerTurnMessageRenderer extends RenderComponent{
     public void activate(Player player, de.lessvoid.nifty.tools.Color color) {
         playerName = player.getName();
         bonus = player.getPendingArmies()+"";
-        c = new Color(color.getRed(), color.getGreen(), color.getBlue());
+        c = new Color(color.getRed(), color.getGreen(), color.getBlue(), 0);
         AudioManager.getInstance().playSound(AudioManager.SWORD_TURN_SOUND);
         setState(FadeState.FADE_IN);
     }

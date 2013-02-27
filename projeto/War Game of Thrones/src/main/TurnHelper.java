@@ -27,10 +27,10 @@ public class TurnHelper {
         for(models.BackEndTerritory t : b.getCurrentPlayer().getTerritories()) {
             t.resetMovedArmies();
         }
-        parent.showPlayerTurnMsg();
         if(b.isOnInitialSetup())
             ctrl.showInfoTerritories();
         else {
+            parent.showPlayerTurnMsg();
             Player curr = b.getCurrentPlayer();
             ctrl.setRavenMessage(curr.getName() + " está jogando.");
         }

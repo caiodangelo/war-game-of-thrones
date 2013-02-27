@@ -166,6 +166,7 @@ public class Board implements Serializable {
 
     public static void reset() {
         instance = null;
+        RepositoryCardsTerritory.reset();
     }
 
     public Board getClone() {

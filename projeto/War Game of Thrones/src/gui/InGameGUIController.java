@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import main.AudioManager;
+import main.GameScene;
 import main.Territory;
 import main.TurnHelper;
 import main.WarScenes;
@@ -395,6 +396,7 @@ public class InGameGUIController implements ScreenController{
         }
         setRavenMessage("\\#333333ff#"+curr.getName()+" ainda possui \\#CC0000#"+curr.getPendingArmies()+"\\#333333ff# exército(s) para distribuir.");
         updatePlayersData();
+        GameScene.getInstance().showPlayerTurnMsg();
     }
             
     @NiftyEventSubscriber(id = "menuItemid")

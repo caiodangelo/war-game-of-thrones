@@ -15,10 +15,21 @@ import util.Scene;
 public class GameScene extends Scene{
     
     private static int mouseWheel;
+    private static GameScene instance;
+    
     private PlayerTurnMessage turnMsg;
     private Board b;
     private InGameGUIController ctrl;
     private TurnHelper helper;
+    
+    public GameScene(){
+        super();
+        instance = this;
+    }
+    
+    public static GameScene getInstance(){
+        return instance;
+    }
     
     
     public static int getMouseWheel(){
@@ -46,14 +57,14 @@ public class GameScene extends Scene{
         turnMsg = new PlayerTurnMessage();
         addEntity(turnMsg);
         InGameGUIController.getInstance().showInfoTerritories();
-        showPlayerTurnMsg();
+//        showPlayerTurnMsg();
         b = Board.getInstance();
         ctrl = InGameGUIController.getInstance();
         helper = new TurnHelper(this, ctrl);
     }
     
     public void showPlayerTurnMsg(){
-        Board b = Board.getInstance();
+        b = Board.getInstance();
         Player p = b.getCurrentPlayer();
         Color c = p.getHouse().getColor();
         

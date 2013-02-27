@@ -30,7 +30,7 @@ import util.PopupManager;
 public class AddPlayerController implements ScreenController{
 
     //DEBUG ONLY
-    private static final boolean ACCEPT_EMPTY_NAMES = true;
+    private static final boolean ACCEPT_INVALID_NAMES = true;
     
     
     private TextField nameField;
@@ -142,12 +142,16 @@ public class AddPlayerController implements ScreenController{
     
     //Elements interaction callbacks
     private void editPlayer(String playerIndex, boolean saveCurrent){
-        if(saveCurrent)
-            saveCurrentPlayerData();
-        currentEditingIndex = Integer.parseInt(playerIndex);
-        PlayerData editedPlayer = createdPlayers.get(currentEditingIndex);
-        availableHouses.add(0, editedPlayer.house);
-        resetDisplay();
+        if(nameFieldInvalid() && !ACCEPT_INVALID_NAMES)
+            showEmptyNameWarning();
+        else {
+            if(saveCurrent)
+                saveCurrentPlayerData();
+            currentEditingIndex = Integer.parseInt(playerIndex);
+            PlayerData editedPlayer = createdPlayers.get(currentEditingIndex);
+            availableHouses.add(0, editedPlayer.house);
+            resetDisplay();
+        }
     }
     
     public void editPlayer(String playerIndex){
@@ -174,7 +178,7 @@ public class AddPlayerController implements ScreenController{
     
     public void addPlayer(){
         if(nameField != null && createdPlayers.size() < 6){
-            if(nameFieldIsEmpty() && !ACCEPT_EMPTY_NAMES){
+            if(nameFieldInvalid() && !ACCEPT_INVALID_NAMES){
                 showEmptyNameWarning();
             } else {
                 updatePlayerImage();
@@ -193,8 +197,10 @@ public class AddPlayerController implements ScreenController{
         }
     }
     
-    private boolean nameFieldIsEmpty(){
-        return nameField.getDisplayedText().isEmpty();
+    private boolean nameFieldInvalid(){
+        String name = nameField.getDisplayedText();
+        int length = name.length();
+        return length < 3 || length > 10;
     }
     
     private void showEmptyNameWarning(){
@@ -230,7 +236,7 @@ public class AddPlayerController implements ScreenController{
     
     public void playButtonPressed() {
         try{
-            if(nameFieldIsEmpty() && !ACCEPT_EMPTY_NAMES)
+            if(nameFieldInvalid() && !ACCEPT_INVALID_NAMES)
                 showEmptyNameWarning();
             else{
                 saveCurrentPlayerData();

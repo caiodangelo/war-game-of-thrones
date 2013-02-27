@@ -18,6 +18,7 @@ public class RepositoryCardsTerritory {
     protected LinkedList<CardTerritory> repository; // Cartas no limbo
     protected static RepositoryCardsTerritory instance;
 
+    
     protected RepositoryCardsTerritory() {
         deck = new LinkedList<CardTerritory>();
             BackEndTerritory allTerritories[] = Board.getInstance().getTerritories();
@@ -63,6 +64,10 @@ public class RepositoryCardsTerritory {
             deck.add(new CardTerritory(CardTerritory.JOKER,null));
             deck.add(new CardTerritory(CardTerritory.JOKER,null));
         repository = new LinkedList<CardTerritory>();
+    }
+    
+    protected static void reset(){
+        instance = null;
     }
 
     public static RepositoryCardsTerritory getInstance() {
