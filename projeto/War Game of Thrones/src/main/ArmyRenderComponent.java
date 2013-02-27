@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -44,13 +45,16 @@ public class ArmyRenderComponent extends ImageRenderComponent {
     @Override
     public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
         Vector2f pos = owner.getPosition();
-        float scale = ((Army) owner).getTerritory().getScale();
+        Army armyOwner = (Army) owner;
+        float scale = armyOwner.getTerritory().getScale();
         image.draw(pos.x, pos.y, scale);
         gr.setColor(Color.white);
-        if (!distributing)
-            gr.drawString((((Army) owner).getQuantity() - movingQty)+"", pos.x, pos.y);
-        else
-            gr.drawString(((Army) owner).getQuantity()+"", pos.x, pos.y);
+        int count = (armyOwner.getQuantity() - movingQty) + (distributing ? 0 : - movingQty);
+        String countText = count + "";
+        Font f = gr.getFont();
+        int textWidth = f.getWidth(countText),
+                textHeight = f.getHeight(countText);
+        gr.drawString(countText, pos.x + (imageCopy.getWidth() * scale-textWidth)/2f, pos.y + (imageCopy.getHeight()/2f * scale-textHeight));
         if (movingQty > 0 && (xSpeed != 0 || ySpeed != 0)) {
             imageCopy.draw(movingPos.x, movingPos.y, scale);
             gr.drawString(movingQty+"", movingPos.x, movingPos.y);

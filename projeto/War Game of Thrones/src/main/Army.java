@@ -55,17 +55,17 @@ public class Army extends Entity {
         String imgPath = "";
         String house = territory.getBackEndTerritory().getOwner().getHouse().getName();
         if (house.equals(Board.BARATHEON))
-            imgPath = "resources/images/pecas/primeiro.png";
+            imgPath = "resources/images/pecas/baratheon.png";
         else if (house.equals(Board.FREE_FOLK))
-            imgPath = "resources/images/pecas/segundo.png";
+            imgPath = "resources/images/pecas/free_folk.png";
         else if (house.equals(Board.GREYJOY))
-            imgPath = "resources/images/pecas/terceiro.png";
+            imgPath = "resources/images/pecas/greyjoy.png";
         else if (house.equals(Board.LANNISTER))
-            imgPath = "resources/images/pecas/quarto.png";
+            imgPath = "resources/images/pecas/lannister.png";
         else if (house.equals(Board.STARK))
-            imgPath = "resources/images/pecas/quinta.png";
+            imgPath = "resources/images/pecas/stark.png";
         else if (house.equals(Board.TARGARYEN))
-            imgPath = "resources/images/pecas/sexto.png";
+            imgPath = "resources/images/pecas/targaryen.png";
         return imgPath;
     }
     

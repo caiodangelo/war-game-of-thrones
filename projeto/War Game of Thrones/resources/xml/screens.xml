@@ -979,7 +979,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 					</panel>
 				</panel>
 				<panel padding="10%,0,0,10%" width="20%" height="80%" childLayout="vertical">
-					<image id="card1" filename="resources/images/cartas/circulo/cape-kraken.png" width="100%" height="100%">
+					<image id="card1" filename="resources/images/cartas/circulo/cape-krakentt.png" width="100%" height="100%">
 						<interact onClick="cardClicked(1)"/>
 					</image>
 					<panel align="center" padding="20%" childLayout="center">
@@ -1331,7 +1331,7 @@ Em cada vez de jogar, o participante pode:&#10;
 			<control color="#333333ff" font="resources/fonts/calibri_bold.fnt" align="left" textHAlign="left" name="label" text="Parabéns!" width="100%" height="10%"/>
 			<panel width="100%" height="3px" childLayout="vertical" backgroundColor="#000"/>
 			<control wrap="true" id="alert" color="#333333ff" width="80%" height="20%" align="center" name="label" text="Você recebeu uma carta por conquistar pelo menos um território nesta rodada!"/>
-			<image align="center" filename="resources/images/cartas/circulo/cape-kraken.png" width="40%" height="60%"/>
+			<image align="center" filename="resources/images/cartas/circulo/cape-krakentt.png" width="40%" height="60%"/>
 			<panel width="100%" height="20%" valign="bottom" childLayout="center">
 				<control align="center" width="30%" name="button" label="OK" focusable="false">
 					<interact onClick="dismissCardEarnedPopup()"/>
