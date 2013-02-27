@@ -247,8 +247,7 @@ public class InGameGUIController implements ScreenController{
                 Element imgElement = cardEarnedPopup.findElementByName("earnedCardImage");
                 ImageRenderer r = imgElement.getRenderer(ImageRenderer.class);
                 CardTerritory c = RepositoryCardsTerritory.getInstance().getFirstCardFromDeck();
-                System.out.println(c);
-                System.out.println(CardPaths.getPath(c));
+                curr.addCard(c);
                 r.setImage(n.createImage(CardPaths.getPath(c), false));
                 PopupManager.showPopup(n, s, cardEarnedPopup);
             } else
