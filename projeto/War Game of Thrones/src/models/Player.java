@@ -152,4 +152,22 @@ public abstract class Player implements Serializable {
         }
         return false;
     }
+    
+    public List<Region> getMoreSubduedRegion() {
+        List<Region> answer = new ArrayList<Region>();
+        int current = 0;
+        int more = 0;
+        Region [] regions = Board.getInstance().getRegions();
+        for (int i = 0; i < regions.length; i++) {
+            for (BackEndTerritory territory : regions[i].getTerritories()) {
+                if (territory.getOwner() == this)
+                    current++;
+            }
+            if (more < current) {
+                answer.add(regions[i]);
+                more = current;
+            }
+        }
+        return answer;
+    }
 }
