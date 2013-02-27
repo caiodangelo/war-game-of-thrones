@@ -79,6 +79,8 @@ public class GameScene extends Scene{
         turnMsg.activate(p, c);
     }
 
+    
+    
     @Override
     public void mouseWheelMoved(int newValue) {
         super.mouseWheelMoved(newValue);
@@ -131,5 +133,4 @@ public class GameScene extends Scene{
         FireworksManager fm = new FireworksManager();
         addEntity(fm);
     }
-    
 }

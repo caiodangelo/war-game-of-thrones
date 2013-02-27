@@ -54,7 +54,7 @@ public class ArmyRenderComponent extends ImageRenderComponent {
         Font f = gr.getFont();
         int textWidth = f.getWidth(countText),
                 textHeight = f.getHeight(countText);
-        gr.drawString(countText, pos.x + (imageCopy.getWidth() * scale-textWidth)/2f, pos.y + (imageCopy.getHeight() * scale-textHeight)/2f);
+        gr.drawString(countText, pos.x + (imageCopy.getWidth() * scale-textWidth)/2f, pos.y + (imageCopy.getHeight()/2f * scale-textHeight));
         if (movingQty > 0 && (xSpeed != 0 || ySpeed != 0)) {
             imageCopy.draw(movingPos.x, movingPos.y, scale);
             gr.drawString(movingQty+"", movingPos.x, movingPos.y);
