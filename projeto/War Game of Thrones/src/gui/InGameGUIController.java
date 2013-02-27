@@ -13,7 +13,6 @@ import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.Color;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -267,6 +266,9 @@ public class InGameGUIController implements ScreenController{
     public void dismissCardEarnedPopup() {
         TurnHelper.getInstance().changeTurn();
         PopupManager.closePopup(n, cardEarnedPopup);
+        
+        if(cardsCtrl.playerMustSawpCards())
+            cardsCtrl.showPopup();
     }
     
     //Top Menu event handling
