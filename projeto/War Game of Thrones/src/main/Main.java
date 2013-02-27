@@ -13,6 +13,7 @@ import util.LibraryLoader;
 public class Main extends NiftyStateBasedGame{
     
     public static boolean JUMP_TO_GAME = false;
+    public static boolean JUMP_TO_STATISTICS = false;
     private static Main instance;
     public static float windowW, windowH;
     private static Vector2f mapPos, mapSize;
@@ -83,9 +84,10 @@ public class Main extends NiftyStateBasedGame{
         addState(new MainScene());
         addState(new GameScene());
         addState(new StatisticsScene());
-        if(!JUMP_TO_GAME){
-            //enterState(WarScenes.STARTING_SCENE);
+        if(JUMP_TO_STATISTICS)
             enterState(WarScenes.STATISTICS_SCENE);
+        else if(!JUMP_TO_GAME){
+            enterState(WarScenes.STARTING_SCENE);
         } else
             enterState(WarScenes.GAME_SCENE);
     }
