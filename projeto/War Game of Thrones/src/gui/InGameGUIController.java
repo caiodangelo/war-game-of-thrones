@@ -49,6 +49,7 @@ public class InGameGUIController implements ScreenController{
     private boolean territoryConquered;
     
     private ContextMenuController ctxMenuCtrl;
+    private CardsController cardsCtrl;
     private static InGameGUIController instance;
     private HashMap<Integer, String> turnsOrder;
     private HashMap<String, String> regionsColors;
@@ -97,8 +98,9 @@ public class InGameGUIController implements ScreenController{
         tablesIcon = screen.findElementByName("tablesIcon");
         optionsPopup = n.createPopup("optionsPopup");
         helpPopup = n.createPopup("helpPopup");
-        cardsPopup = n.createPopup("cardsPopup");
+//        cardsPopup = n.createPopup("cardsPopup");
         ctxMenuCtrl = new ContextMenuController(n, this);
+        cardsCtrl = new CardsController(n, s, this);
         infoTerritoriesPopup = n.createPopup("infoTerritoriesPopup");
         infoTerritories = infoTerritoriesPopup.findNiftyControl("infoTerritories", Label.class);
         alertPopup = n.createPopup("alertPopup");
@@ -209,7 +211,7 @@ public class InGameGUIController implements ScreenController{
     
     public void showPlayerCards(){
         resetMouseCursor();
-        PopupManager.showPopup(n, s, cardsPopup);
+        cardsCtrl.showPopup();
     }
     
     public void dismissPlayerObjective(){
@@ -217,7 +219,12 @@ public class InGameGUIController implements ScreenController{
     }
     
     public void dismissPlayerCards(){
-        PopupManager.closePopup(n, cardsPopup);
+        cardsCtrl.dissmissPopup();
+    }
+    
+    public void tradePlayerCards(){
+        System.out.println("trade player cards");
+        cardsCtrl.tradeCards();
     }
     
     public void nextPlayerTurnConfirm() {
@@ -473,5 +480,29 @@ public class InGameGUIController implements ScreenController{
         r.setImage(n.createImage(h.getImgPath(), false));
         Label houseNameLabel = s.findNiftyControl("currHouseName", Label.class);
         houseNameLabel.setText(h.getName());
+    }
+    
+    @NiftyEventSubscriber(id="card0Checkbox")
+    public void onCheckbox0Clicked(final String id, final CheckBoxStateChangedEvent event) {
+        cardsCtrl.onCheckboxClicked(0);
+    }
+    @NiftyEventSubscriber(id="card1Checkbox")
+    public void onCheckbox1Clicked(final String id, final CheckBoxStateChangedEvent event) {
+        cardsCtrl.onCheckboxClicked(1);
+    }
+    @NiftyEventSubscriber(id="card2Checkbox")
+    public void onCheckbox2Clicked(final String id, final CheckBoxStateChangedEvent event) {
+        cardsCtrl.onCheckboxClicked(2);
+    }
+    @NiftyEventSubscriber(id="card3Checkbox")
+    public void onCheckbox3Clicked(final String id, final CheckBoxStateChangedEvent event) {
+        cardsCtrl.onCheckboxClicked(3);
+    }
+    @NiftyEventSubscriber(id="card4Checkbox")
+    public void onCheckbox4Clicked(final String id, final CheckBoxStateChangedEvent event) {
+        cardsCtrl.onCheckboxClicked(4);
+    }
+    public void cardClicked(String index){
+        cardsCtrl.onCardClick(Integer.parseInt(index));
     }
 }
