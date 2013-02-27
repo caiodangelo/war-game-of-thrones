@@ -167,7 +167,7 @@ public class Battle {
     protected final Integer[] rollDices(int number) {
         Integer[] dices = new Integer[number];
         for (int i = 0; i < dices.length; i++) {
-            dices[i] = new Random().nextInt(5) + 1;
+            dices[i] = new Random().nextInt(6) + 1;
             
         }
         return dices;
