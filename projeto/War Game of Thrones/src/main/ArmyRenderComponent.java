@@ -49,7 +49,7 @@ public class ArmyRenderComponent extends ImageRenderComponent {
         float scale = armyOwner.getTerritory().getScale();
         image.draw(pos.x, pos.y, scale);
         gr.setColor(Color.white);
-        int count = (armyOwner.getQuantity() - movingQty) + (distributing ? 0 : - movingQty);
+        int count = (armyOwner.getQuantity()) + (distributing ? 0 : - movingQty);
         String countText = count + "";
         Font f = gr.getFont();
         int textWidth = f.getWidth(countText),
@@ -57,7 +57,7 @@ public class ArmyRenderComponent extends ImageRenderComponent {
         gr.drawString(countText, pos.x + (imageCopy.getWidth() * scale-textWidth)/2f, pos.y + (imageCopy.getHeight() * scale-textHeight)/2f);
         if (movingQty > 0 && (xSpeed != 0 || ySpeed != 0)) {
             imageCopy.draw(movingPos.x, movingPos.y, scale);
-            gr.drawString(movingQty+"", movingPos.x, movingPos.y);
+            gr.drawString(movingQty+"", movingPos.x + (imageCopy.getWidth() * scale-textWidth)/2f, movingPos.y + (imageCopy.getHeight() * scale-textHeight)/2f);
         }
         if (exploding)
             drawCenteredExplosion();
