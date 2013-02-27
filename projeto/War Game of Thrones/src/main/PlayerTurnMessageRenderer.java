@@ -15,19 +15,29 @@ import util.RenderComponent;
 
 public class PlayerTurnMessageRenderer extends RenderComponent{
 
+    private enum FadeState { FADE_IN, FADE_OUT, CONSTANT, INACTIVE}
+    
+    private FadeState state;
+    
     private Color c;
     private String playerName;
     private String bonus;
     private float elapsed = 0;
-    private static final float DURATION = 5f;
+    private static final float FADE_DURATION = 2.5f, CONST_DURATION = 1f;
     private Vector2f pos;
     private Vector2f mapSize;
+    private AngelCodeFont fnt = null;
     
     public PlayerTurnMessageRenderer(String id){
         super(id);
         Vector2f mapPos = main.Main.getMapPos();
         mapSize =  main.Main.getMapSize();
         pos = new Vector2f(mapPos.x, mapPos.y + mapSize.y/2);
+        try {
+            fnt = new AngelCodeFont("resources/fonts/calibri_80.fnt", "resources/fonts/calibri_80_0.tga");
+        } catch (SlickException ex) {
+            ex.printStackTrace();
+        }
     }
     
     private boolean fadingIn() {
@@ -35,28 +45,17 @@ public class PlayerTurnMessageRenderer extends RenderComponent{
     }
     
     private float getPcgt(){
-        return elapsed / DURATION;
+        return elapsed / (state == FadeState.CONSTANT ? CONST_DURATION : FADE_DURATION);
     }
     
     @Override
     public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
-        if(playerName != null){
-            float pctg = getPcgt();
-            if(fadingIn())
-                c.a = pctg / 0.5f;
-            else
-                c.a = 1 - (pctg - 0.5f) / 0.5f;
+        if(state != FadeState.INACTIVE){
             gr.setColor(c);
-            AngelCodeFont fnt = null;
-            try {
-                fnt = new AngelCodeFont("resources/fonts/calibri_80.fnt", "resources/fonts/calibri_80_0.tga");
-                gr.setFont(fnt);
-            } catch (SlickException ex) {
-                Logger.getLogger(PlayerTurnMessageRenderer.class.getName()).log(Level.SEVERE, null, ex);
-            }
             String turnText = "Vez de " + playerName + "!";
             String initialSetupText = "Distribuição inicial: "+bonus+" exércitos";
             String bonusText = "Exércitos recebidos: "+bonus;
+            gr.setFont(fnt);
             gr.drawString(turnText, pos.x + (mapSize.x - fnt.getWidth(turnText))/2.0f, pos.y);
             //escolher fonte menor para o segundo texto
             if (Board.getInstance().isOnInitialSetup())
@@ -68,20 +67,40 @@ public class PlayerTurnMessageRenderer extends RenderComponent{
 
     @Override
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
-        if (playerName != null) {
-            if(delta < 0.5f) {
-                elapsed += delta;
-                if(elapsed >= DURATION)
-                    playerName = null;
+        if(delta < 0.5f) {
+            switch(state){
+                case FADE_IN:
+                    c.a = getPcgt();
+                    elapsed += delta;
+                    if(elapsed >= FADE_DURATION)
+                        setState(FadeState.CONSTANT);
+                    break;
+                case CONSTANT:
+                    c.a = 1f;
+                    elapsed += delta;
+                    if(elapsed >= CONST_DURATION)
+                        setState(FadeState.FADE_OUT);
+                    break;
+                case FADE_OUT:
+                    c.a = 1f - getPcgt();
+                    elapsed += delta;
+                    if(elapsed >= FADE_DURATION)
+                        setState(FadeState.INACTIVE);
+                    break;
             }
         }
+    }
+    
+    private void setState(FadeState s){
+        this.state = s;
+        elapsed = 0;
     }
 
     public void activate(Player player, de.lessvoid.nifty.tools.Color color) {
         playerName = player.getName();
         bonus = player.getPendingArmies()+"";
         c = new Color(color.getRed(), color.getGreen(), color.getBlue());
-        elapsed = 0;
         AudioManager.getInstance().playSound(AudioManager.SWORD_TURN_SOUND);
+        setState(FadeState.FADE_IN);
     }
 }
