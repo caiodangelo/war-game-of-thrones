@@ -9,17 +9,15 @@ public class CardPaths {
     private static final String CARDS_PATH = "resources/images/cartas/";
     private static final String JOKER_PATH = CARDS_PATH+"coringa.png";
     
-    public static String getPath(int i) {
+    public static String getPath(CardTerritory card) {
         if (paths == null) {
             paths = new String[39];
             fillPaths();
         }
-//        if (card.isJoker())
-//            return JOKER_PATH;
-//        else {
-            return paths[i];
-            //return paths[card.getTerritory().getIndex()];
-        //}
+        if (card.isJoker())
+            return JOKER_PATH;
+        else
+            return paths[card.getTerritory().getIndex()];
     }
     
     private static void fillPaths() {

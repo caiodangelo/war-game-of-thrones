@@ -136,6 +136,7 @@ public class RepositoryCardsTerritory {
                 }
             }
         }
+        resetCards();
     }
 
     public void removeJokers() {
@@ -151,24 +152,22 @@ public class RepositoryCardsTerritory {
 
     public boolean swapCards(List<CardTerritory> cardsToSwap, Player player) {
         int numberOfSwaps, numberOfArmies;
-        if (player.isMaySwapCards()) {
-            if ((isSameCards(cardsToSwap)) || (isDifferentCards(cardsToSwap))) {
-                for (CardTerritory card : cardsToSwap) {
-                    player.removeCard(card);
-                    for (int i = 0; i < player.getTerritories().size(); i++) {
-                        if (player.getTerritories().get(i).equals(card.getTerritory()))
-                            player.getTerritories().get(i).increaseArmies(2);
-                    }
-                    this.addCardToRepository(card);
+        if ((isSameCards(cardsToSwap)) || (isDifferentCards(cardsToSwap))) {
+            for (CardTerritory card : cardsToSwap) {
+                player.removeCard(card);
+                for (int i = 0; i < player.getTerritories().size(); i++) {
+                    if (player.getTerritories().get(i).equals(card.getTerritory()))
+                        player.getTerritories().get(i).increaseArmies(2);
                 }
-                player.getStatisticPlayerManager().increaseNumberOfCardsSwapped();
-                Board b = Board.getInstance();
-                b.incrementNumberOfSwappedCards();
-                numberOfSwaps = b.getNumberOfSwappedCards();
-                numberOfArmies = consultSwapTable(numberOfSwaps);
-                player.addPendingArmies(numberOfArmies);
-                return true;
+                this.addCardToRepository(card);
             }
+            player.getStatisticPlayerManager().increaseNumberOfCardsSwapped();
+            Board b = Board.getInstance();
+            b.incrementNumberOfSwappedCards();
+            numberOfSwaps = b.getNumberOfSwappedCards();
+            numberOfArmies = consultSwapTable(numberOfSwaps);
+            player.addPendingArmies(numberOfArmies);
+            return true;
         }
         return false;
     }

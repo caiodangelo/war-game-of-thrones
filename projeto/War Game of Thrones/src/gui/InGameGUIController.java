@@ -18,14 +18,17 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import main.AudioManager;
+import main.CardPaths;
 import main.GameScene;
 import main.Territory;
 import main.TurnHelper;
 import main.WarScenes;
 import models.BackEndTerritory;
 import models.Board;
+import models.CardTerritory;
 import models.House;
 import models.Player;
+import models.RepositoryCardsTerritory;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -42,7 +45,7 @@ public class InGameGUIController implements ScreenController{
     public static Player [] players;
     
     private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel, 
-            optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup,
+            optionsPopup, helpPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup,
             alertPopup, cardEarnedPopup;
     
     private boolean mouseOverObjective = false;
@@ -233,13 +236,21 @@ public class InGameGUIController implements ScreenController{
     
     public void nextPlayerTurn() {
         PopupManager.closePopup(n, nextTurnConfirmPopup);
-        int pendingArmies = getCurrentPlayer().getPendingArmies();
+        Player curr = getCurrentPlayer();
+        int pendingArmies = curr.getPendingArmies();
         if (pendingArmies > 0)
             showAlert("Você ainda possui "+pendingArmies+" exércitos para distribuir!");
         else {
             ctxMenuCtrl.setDistributing(false);
-            if (territoryConquered) {
+            if (curr.mayReceiveCard()) {
                 //sortear carta e colocá-la na popup
+                curr.setMayReceiveCard(false);
+                Element imgElement = cardEarnedPopup.findElementByName("earnedCardImage");
+                ImageRenderer r = imgElement.getRenderer(ImageRenderer.class);
+                CardTerritory c = RepositoryCardsTerritory.getInstance().getFirstCardFromDeck();
+                System.out.println(c);
+                System.out.println(CardPaths.getPath(c));
+                r.setImage(n.createImage(CardPaths.getPath(c), false));
                 PopupManager.showPopup(n, s, cardEarnedPopup);
             } else
                 TurnHelper.getInstance().changeTurn();

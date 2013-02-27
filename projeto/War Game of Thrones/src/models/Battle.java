@@ -98,7 +98,7 @@ public class Battle {
     public void moveVictoriousArmies(int armiesMoved) {
         attacker.decreaseArmies(armiesMoved);
         defender.increaseArmies(armiesMoved);
-        attacker.getOwner().setMaySwapCards(true);
+        attacker.getOwner().setMayReceiveCard(true);
         //Estatistica
         defender.increaseNumConquests();
         //Board.getInstance().getStatistic().setTerritoryMoreConquested(null);
