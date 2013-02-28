@@ -4,6 +4,7 @@
  */
 package models;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +19,7 @@ public class RepositoryCardsTerritory {
     protected LinkedList<CardTerritory> repository; // Cartas no limbo
     protected static RepositoryCardsTerritory instance;
 
+    
     protected RepositoryCardsTerritory() {
         deck = new LinkedList<CardTerritory>();
             BackEndTerritory allTerritories[] = Board.getInstance().getTerritories();
@@ -55,7 +57,7 @@ public class RepositoryCardsTerritory {
             deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.GARGALO]));
             deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.GHISCAR]));
             deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.MATA_DE_LOBOS]));
-            deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.MATA_DO_REI]));
+            deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.MATADERREI]));
             deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.MONTANHAS_DA_LUA]));
             deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.SEMPRE_INVERNO]));
             deck.add(new CardTerritory(CardTerritory.TRIANGLE,allTerritories[TerritoryID.PENHASCO_SOMBRIO]));
@@ -63,6 +65,10 @@ public class RepositoryCardsTerritory {
             deck.add(new CardTerritory(CardTerritory.JOKER,null));
             deck.add(new CardTerritory(CardTerritory.JOKER,null));
         repository = new LinkedList<CardTerritory>();
+    }
+    
+    protected static void reset(){
+        instance = null;
     }
 
     public static RepositoryCardsTerritory getInstance() {
@@ -104,7 +110,15 @@ public class RepositoryCardsTerritory {
     public CardTerritory getFirstCardFromDeck() {
         CardTerritory card = deck.removeFirst();
         addCardToRepository(card);
+        if (deck.isEmpty())
+            resetCards();
         return card;
+    }
+    
+    public void resetCards() {
+        deck = getRepository();
+        shuffleCards();
+        setRepository(new LinkedList());
     }
 
     public void initialRaffle() {
@@ -117,12 +131,13 @@ public class RepositoryCardsTerritory {
             for (int i = size - 1; i >= 0; i--) {
                 if (deck.size() != 0) {
                     Player p = board.getPlayer(i);
-                    p.addCard(getFirstCardFromDeck());
+                    CardTerritory card = deck.removeFirst();
+                    addCardToRepository(card);
+                    p.addCard(card);
                 }
             }
         }
-        deck = getRepository();
-        setRepository(new LinkedList());
+        resetCards();
     }
 
     public void removeJokers() {
@@ -138,72 +153,74 @@ public class RepositoryCardsTerritory {
 
     public boolean swapCards(List<CardTerritory> cardsToSwap, Player player) {
         int numberOfSwaps, numberOfArmies;
-        if (player.isMaySwapCards()) {
-            if ((isSameCards(cardsToSwap)) || (isDifferentCards(cardsToSwap))) {
-                for (CardTerritory card : cardsToSwap) {
-                    player.removeCard(card);
-                    for (int i = 0; i < player.getTerritories().size(); i++) {
-                        if (player.getTerritories().get(i).equals(card.getTerritory()))
-                            player.getTerritories().get(i).increaseArmies(2);
-                    }
-                    this.addCardToDeck(card);
+        if ((isSameCards(cardsToSwap)) || (isDifferentCards(cardsToSwap))) {
+            for (CardTerritory card : cardsToSwap) {
+                player.removeCard(card);
+                for (int i = 0; i < player.getTerritories().size(); i++) {
+                    if (player.getTerritories().get(i).equals(card.getTerritory()))
+                        player.getTerritories().get(i).increaseArmies(2);
                 }
-                player.getStatisticPlayerManager().increaseNumberOfCardsSwapped();
-                numberOfSwaps = player.getStatisticPlayerManager().getNumberOfCardsSwapped();
-                numberOfArmies = consultSwapTable(numberOfSwaps);
-                player.addPendingArmies(numberOfArmies);
-                return true;
+                this.addCardToRepository(card);
             }
+            player.getStatisticPlayerManager().increaseNumberOfCardsSwapped();
+            Board b = Board.getInstance();
+            b.incrementNumberOfSwappedCards();
+            numberOfSwaps = b.getNumberOfSwappedCards();
+            numberOfArmies = consultSwapTable(numberOfSwaps);
+            player.addPendingArmies(numberOfArmies);
+            return true;
         }
         return false;
     }
 
-    public boolean isSameCards(List<CardTerritory> cards) {
-        int typeCard = 0;
-        List<CardTerritory> aux = cards;
-        for (int i = 0; i < aux.size(); i++) {
-            typeCard = aux.get(i).getType();
-            if (typeCard != CardTerritory.JOKER) {
+    public static boolean checkCardsTradeable(List<CardTerritory> cards){
+        return isDifferentCards(cards) || isSameCards(cards);
+    }
+    
+    public static boolean isSameCards(List<CardTerritory> cards) {
+        List<CardTerritory> aux = new ArrayList<CardTerritory>();
+        aux.addAll(cards);
+        for(int i = 0; i < 3; i++){
+            if(aux.get(i).isJoker())
                 aux.remove(i);
-                break;
-            }
         }
-
-        for (CardTerritory card : aux) {
-            if ((card.getType() != typeCard) && (card.getType() != CardTerritory.JOKER)) {
-                return false;
+        
+        for(int i = 0; i < aux.size() - 1; i++){
+            CardTerritory current = aux.get(i);
+            for(int j = i+1; j < aux.size(); j++){
+                CardTerritory next = aux.get(j);
+                if(current.getType() != next.getType())
+                    return false;
             }
         }
         return true;
     }
 
-    public boolean isDifferentCards(List<CardTerritory> cards) {
-        int typeCard = 0;
-        List<CardTerritory> aux = cards;
-        for (int i = 0; i < aux.size(); i++) {
-            typeCard = aux.get(i).getType();
-            if (typeCard != CardTerritory.JOKER) {
+    public static boolean isDifferentCards(List<CardTerritory> cards) {
+        List<CardTerritory> aux = new ArrayList<CardTerritory>();
+        aux.addAll(cards);
+        for(int i = 0; i < 3; i++){
+            if(aux.get(i).isJoker())
                 aux.remove(i);
-                break;
-            }
         }
-     
-        for (CardTerritory card : aux) {
-            if ((card.getType() == typeCard) && (card.getType() != CardTerritory.JOKER)) {
-                return false;
+        
+        for(int i = 0; i < aux.size() - 1; i++){
+            CardTerritory current = aux.get(i);
+            for(int j = i+1; j < aux.size(); j++){
+                CardTerritory next = aux.get(j);
+                if(current.getType() == next.getType())
+                    return false;
             }
-            typeCard = card.getType();
         }
         return true;
     }
 
     public int consultSwapTable(int numberOfSwaps) {
-        if ((numberOfSwaps >= 1) && (numberOfSwaps <= 5)) {
+        if ((numberOfSwaps >= 1) && (numberOfSwaps <= 5))
             return (numberOfSwaps * 2) + 2;
-        } else if (numberOfSwaps == 6) {
+        else if (numberOfSwaps == 6)
             return 15;
-        } else {
+        else
             return ((numberOfSwaps - 6) * 5) + 15;
-        }
     }
 }

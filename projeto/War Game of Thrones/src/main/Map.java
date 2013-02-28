@@ -2,6 +2,7 @@ package main;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.BackEndTerritory;
 import models.Board;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -125,7 +126,7 @@ public class Map extends Entity{
         new Vector2f(0.2015238f,0.018417018f),
         new Vector2f(0.07379137f,0.012278012f),
         new Vector2f(0.11254149f,0.10594705f),
-        new Vector2f(0.2731575f,0.047270346f),
+        new Vector2f(0.2691575f,0.047270346f),
         
         //cidades livres
         new Vector2f(0.44824007f,0.7193877f),
@@ -142,7 +143,7 @@ public class Map extends Entity{
         new Vector2f(0.16341797f,0.25205404f),
         new Vector2f(0.08772271f,0.22599193f),
         new Vector2f(0.16632037f,0.16617061f),
-        new Vector2f(0.29622382f,0.13422008f),
+        new Vector2f(0.29022382f,0.13022008f),
         new Vector2f(0.10072609f,0.25866047f),
         new Vector2f(0.23365608f,0.22480257f),
         
@@ -150,19 +151,19 @@ public class Map extends Entity{
         new Vector2f(0.07437915f,0.7674639f),
         new Vector2f(0.20208581f,0.7330074f),
         new Vector2f(0.1608717f,0.56206626f),
-        new Vector2f(0.22595693f,0.58453643f),
+        new Vector2f(0.22595693f,0.57953643f),
         new Vector2f(0.13997442f,0.6752012f),
         new Vector2f(0.30410144f,0.61204416f),
         new Vector2f(0.23575366f,0.62234986f),
         
         //o tridente
         new Vector2f(0.23749511f,0.39855742f),
-        new Vector2f(0.111633494f,0.33760673f),
+        new Vector2f(0.111633494f,0.33360673f),
         new Vector2f(0.1666765f,0.33497065f),
-        new Vector2f(0.2891358f,0.39862484f),
+        new Vector2f(0.2851358f,0.39462484f),
         new Vector2f(0.22704646f,0.4968279f),
         new Vector2f(0.11733568f,0.51912457f),
-        new Vector2f(0.1370044f,0.45378765f),
+        new Vector2f(0.1370044f,0.44578765f),
         
         //o mar dothraki
         new Vector2f(0.7260133f,0.83314276f),
@@ -197,11 +198,11 @@ public class Map extends Entity{
     @Override
     public void onAdded() {
         Scene scene = getScene();
-        models.BackEndTerritory[] backEndTerritories = Board.getInstance().getTerritories();
+        BackEndTerritory[] backEndTerritories = Board.getInstance().getTerritories();
         for(int i = 0; i < territoryPositions.length; i++){
             Territory t = new Territory(this, territoryPositions[i], imgs[i], backEndTerritories[i]);
             scene.addEntity(t);
-            Army a = new Army(this, t, armyPositions[i], ((int) (Math.random()*5)+1), s);
+            Army a = new Army(this, t, armyPositions[i], 0, s);
             scene.addEntity(a);
             t.setArmy(a);
         }

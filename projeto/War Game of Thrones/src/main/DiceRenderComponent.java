@@ -26,25 +26,21 @@ public class DiceRenderComponent extends RenderComponent {
     
     public DiceRenderComponent(String id, SpriteSheet ss) {
         super(id);
-        try {
-            sheet = new SpriteSheet("resources/images/dado-atk.png", 451/6, 74);
-            int[] durations = new int[6];
-            for (int i = 0; i < durations.length; i++) {
-                durations[i] = FRAME_DURATION;
-            }
-            numbers = Arrays.asList(0, 1, 2, 3, 4, 5);
-            Collections.shuffle(numbers);
-            int[] diceNumbers = new int[12];
-            for (int i = 0; i < diceNumbers.length; i++) {
-                diceNumbers[i] = numbers.get(i/2);
-                i++;
-                diceNumbers[i] = 0;
-            }
-            anim = new Animation(sheet, diceNumbers, durations);
-            //anim = new Animation(sheet, 80);
-        } catch (SlickException ex) {
-            Logger.getLogger(DiceRenderComponent.class.getName()).log(Level.SEVERE, null, ex);
+        sheet = ss;
+        int[] durations = new int[6];
+        for (int i = 0; i < durations.length; i++) {
+            durations[i] = FRAME_DURATION;
         }
+        numbers = Arrays.asList(0, 1, 2, 3, 4, 5);
+        Collections.shuffle(numbers);
+        int[] diceNumbers = new int[12];
+        for (int i = 0; i < diceNumbers.length; i++) {
+            diceNumbers[i] = numbers.get(i/2);
+            i++;
+            diceNumbers[i] = 0;
+        }
+        anim = new Animation(sheet, diceNumbers, durations);
+        //anim = new Animation(sheet, 80);
     }
     
     @Override

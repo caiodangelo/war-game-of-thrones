@@ -30,7 +30,7 @@ public class MissionTest {
         String name = "Missão Impossível";
         String description = "Com Tom Cruise!";
         mission = new Mission(name, description, Mission.TYPE_TERRITORY);
-        assertEquals(mission.name, name);
+        assertEquals(mission.Mission.this.description, name);
 //        assertEquals(mission.description, description);
         assertEquals(mission.type, Mission.TYPE_TERRITORY);
     }
@@ -81,6 +81,7 @@ public class MissionTest {
 
     @Test
     public void isRegionMissionCompletedDeveRetornarTrueCasoAMissaoDeRegionEstiverCompleta() {
+        Board b = new Board();
         Region theNorth = new Region("The North", Region.O_NORTE);
         Region theSouth = new Region("The South", Region.O_SUL);
         Region tridente = new Region("Tridente", Region.TRIDENTE);
@@ -88,13 +89,13 @@ public class MissionTest {
         Region theEast = new Region("The East", Region.CIDADES_LIVRES);
         Region dothraki = new Region("Dothraki", Region.O_MAR_DOTHRAKI);
         
-        ArrayList<Region> allRegions = new ArrayList<Region>();
-        allRegions.add(theNorth);
-        allRegions.add(theSouth);
-        allRegions.add(tridente);
-        allRegions.add(beyondTheWall);
-        allRegions.add(theEast);
-        allRegions.add(dothraki);        
+        Region [] allRegions = b.getRegions();
+        allRegions[0] = theSouth;
+        allRegions[1] = tridente;
+        allRegions[2] = beyondTheWall;
+        allRegions[3] = theEast;
+        allRegions[4] = dothraki;
+        allRegions[5] = theNorth;
         
         BackEndTerritory winterfell = new BackEndTerritory(null, theNorth);
         BackEndTerritory portoBranco = new BackEndTerritory(null, theNorth);
@@ -143,12 +144,12 @@ public class MissionTest {
         playerStark.addTerritory(monteChifre);
         playerStark.addTerritory(dorne);
         playerStark.addTerritory(tarth);
-
-        assertTrue(missionRegion1.isRegionMissionCompleted(allRegions));
+        assertTrue(missionRegion1.isRegionMissionCompleted());
     }
     
     @Test
     public void isRegionMissionCompletedDeveRetornarFalseCasoAMissaoDeRegionNaoEstiverCompleta() {
+        Board b = new Board();
         Region theNorth = new Region("The North", Region.O_NORTE);
         Region theSouth = new Region("The South", Region.O_SUL);
         Region tridente = new Region("Tridente", Region.TRIDENTE);
@@ -156,13 +157,13 @@ public class MissionTest {
         Region theEast = new Region("The East", Region.CIDADES_LIVRES);
         Region dothraki = new Region("Dothraki", Region.O_MAR_DOTHRAKI);
 
-        ArrayList<Region> allRegions = new ArrayList<Region>();
-        allRegions.add(theNorth);
-        allRegions.add(theSouth);
-        allRegions.add(tridente);
-        allRegions.add(beyondTheWall);
-        allRegions.add(theEast);
-        allRegions.add(dothraki);    
+        Region [] allRegions = b.getRegions();
+        allRegions[0] = theSouth;
+        allRegions[1] = tridente;
+        allRegions[2] = beyondTheWall;
+        allRegions[3] = theEast;
+        allRegions[4] = dothraki;
+        allRegions[5] = theNorth;
         
         BackEndTerritory winterfell = new BackEndTerritory(null, theNorth);
         BackEndTerritory portoBranco = new BackEndTerritory(null, theNorth);
@@ -210,11 +211,12 @@ public class MissionTest {
         playerStark.addTerritory(monteChifre);
         playerStark.addTerritory(tarth);
 
-        assertFalse(missionRegion1.isRegionMissionCompleted(allRegions));
+        assertFalse(missionRegion1.isRegionMissionCompleted());
     }
     
     @Test
     public void isRegionMissionCompletedDeveRetornarTrueCasoAMissaoDeRegionQueContenhaRegiaoNulaEstiverCompleta() {
+        Board b = new  Board();
         Region theNorth = new Region("The North", Region.O_NORTE);
         Region theSouth = new Region("The South", Region.O_SUL);
         Region tridente = new Region("Tridente", Region.TRIDENTE);
@@ -223,15 +225,14 @@ public class MissionTest {
         Region dothraki = new Region("Dothraki", Region.O_MAR_DOTHRAKI);
         Region nulo = new Region(null, 0);
         
-        ArrayList<Region> allRegions = new ArrayList<Region>();
-        allRegions.add(theNorth);
-        allRegions.add(theSouth);
-        allRegions.add(tridente);
-        allRegions.add(beyondTheWall);
-        allRegions.add(theEast);
-        allRegions.add(dothraki);    
-        allRegions.add(nulo);    
-        
+        Region [] allRegions = b.getRegions();
+        allRegions[0] = theSouth;
+        allRegions[1] = tridente;
+        allRegions[2] = beyondTheWall;
+        allRegions[3] = theEast;
+        allRegions[4] = dothraki;
+        allRegions[5] = theNorth;    
+      
         BackEndTerritory winterfell = new BackEndTerritory(null, theNorth);
         BackEndTerritory portoBranco = new BackEndTerritory(null, theNorth);
         BackEndTerritory bosqueProfundo = new BackEndTerritory(null, theNorth);
@@ -275,15 +276,15 @@ public class MissionTest {
         playerStark.addTerritory(forteDoPavor);
         playerStark.addTerritory(pracaDeTorrhen);
         playerStark.addTerritory(karhold);
-        playerStark.addTerritory(portoReal);
-        playerStark.addTerritory(correrio);
-        playerStark.addTerritory(pontaTempestade);
-        playerStark.addTerritory(jardimDeCima);
-        playerStark.addTerritory(monteChifre);
-        playerStark.addTerritory(dorne);
-        playerStark.addTerritory(tarth);
+//        playerStark.addTerritory(portoReal);
+//        playerStark.addTerritory(correrio);
+//        playerStark.addTerritory(pontaTempestade);
+//        playerStark.addTerritory(jardimDeCima);
+//        playerStark.addTerritory(monteChifre);
+//        playerStark.addTerritory(dorne);
+//        playerStark.addTerritory(tarth);
 
-        assertTrue(missionRegion1.isRegionMissionCompleted(allRegions));
+        assertTrue(missionRegion1.isRegionMissionCompleted());
     }
     
     @Test
@@ -514,7 +515,7 @@ public class MissionTest {
         playerStark.addTerritory(portoReal);
         playerStark.addTerritory(correrio);
        
-        assertTrue(missionHouse.isHouseMissionCompleted(board));
+        assertTrue(missionHouse.isHouseMissionCompleted());
     }
     
     @Test
@@ -557,7 +558,7 @@ public class MissionTest {
         playerStark.addTerritory(portoReal);        
         playerLannister.addTerritory(correrio);
        
-        assertFalse(missionHouse.isHouseMissionCompleted(board));
+        assertFalse(missionHouse.isHouseMissionCompleted());
     }
     
     @AfterClass

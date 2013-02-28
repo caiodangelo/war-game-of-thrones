@@ -8,6 +8,7 @@ import models.Board;
 import models.Player;
 import models.StatisticGameManager;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import util.Scene;
@@ -15,10 +16,22 @@ import util.Scene;
 public class GameScene extends Scene{
     
     private static int mouseWheel;
+    private static GameScene instance;
+    
     private PlayerTurnMessage turnMsg;
     private Board b;
     private InGameGUIController ctrl;
     private TurnHelper helper;
+    private TerritoryName terrName;
+    
+    public GameScene(){
+        super();
+        instance = this;
+    }
+    
+    public static GameScene getInstance(){
+        return instance;
+    }
     
     
     public static int getMouseWheel(){
@@ -46,23 +59,29 @@ public class GameScene extends Scene{
         turnMsg = new PlayerTurnMessage();
         addEntity(turnMsg);
         InGameGUIController.getInstance().showInfoTerritories();
-        showPlayerTurnMsg();
+//        showPlayerTurnMsg();
         b = Board.getInstance();
         ctrl = InGameGUIController.getInstance();
         helper = new TurnHelper(this, ctrl);
-//        GameEndingAnimation a = new GameEndingAnimation();
-//        addEntity(a);
-//        a.activate(b.getCurrentPlayer());
+        
+        terrName = new TerritoryName();
+        addEntity(terrName);
+    }
+    
+    public void setHighlightedTerritory(Territory t){
+        terrName.setHighlightedTerritory(t);
     }
     
     public void showPlayerTurnMsg(){
-        Board b = Board.getInstance();
+        b = Board.getInstance();
         Player p = b.getCurrentPlayer();
         Color c = p.getHouse().getColor();
         
         turnMsg.activate(p, c);
     }
 
+    
+    
     @Override
     public void mouseWheelMoved(int newValue) {
         super.mouseWheelMoved(newValue);
@@ -83,29 +102,39 @@ public class GameScene extends Scene{
     void handleTerritoryClick(Territory territory) {
         Player curr = b.getCurrentPlayer();
         int pendingArmies = curr.getPendingArmies();
-        if(!b.isOnInitialSetup() && pendingArmies == 0) {
+        if (!b.isOnInitialSetup() && pendingArmies == 0) {
             InGameGUIController.handleTerritoryClick(territory);
         }
-        else{
+        else {
             ctrl.updatePlayersData();
-            if(territory.getBackEndTerritory().getOwner() == curr){
+            if (territory.getBackEndTerritory().getOwner() == curr){
                 models.BackEndTerritory t = territory.getBackEndTerritory();
                 t.increaseArmies(1);
+                t.resetMovedArmies();
                 curr.removePendingArmies(1);
                 pendingArmies--;
+                if (b.hasGameEnded())
+                    startGameEndingAnimation();
             } 
-            if(pendingArmies == 0) {
-                ctrl.setInfoLabelText(null);
-                if (b.isOnInitialSetup())
+            if (pendingArmies == 0) {
+                if (b.isOnInitialSetup()) {
+                    ctrl.setRavenMessage(curr.getName()+" distribuiu seus exércitos!");
                     helper.changeTurn();
+                }
+                else
+                    ctrl.setRavenMessage(curr.getName()+" está jogando!");
             }
-            else
-                ctrl.setInfoLabelText("Você ainda possui "+curr.getPendingArmies()+" exército(s) para distribuir.");
+            else {
+                ctrl.setRavenMessage("\\#333333ff#"+curr.getName()+" ainda possui \\#CC0000#"+pendingArmies+"\\#333333ff# exército(s) para distribuir.");
+            }
         }
     }
     
-    void handleMouseOverTerritory(Territory territory) {
-        ctrl.showTerritoryName(territory);
+    public void startGameEndingAnimation() {
+        GameEndingAnimation a = new GameEndingAnimation();
+        addEntity(a);
+        a.activate(b.getWinner());
+        FireworksManager fm = new FireworksManager();
+        addEntity(fm);
     }
-    
 }

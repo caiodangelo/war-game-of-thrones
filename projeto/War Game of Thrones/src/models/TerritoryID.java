@@ -34,7 +34,7 @@ public final class TerritoryID {
             ARVORE = 20,
             DORNE = 21,
             JARDIM_DE_CIMA = 22,
-            MATA_DO_REI = 23,
+            MATADERREI = 23,
             MONTE_CHIFRE = 24,
             TARTH = 25,
             TERRAS_DA_TEMPESTADE = 26,

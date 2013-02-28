@@ -14,15 +14,20 @@ import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.Color;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import main.AudioManager;
+import main.CardPaths;
+import main.GameScene;
 import main.Territory;
 import main.TurnHelper;
 import main.WarScenes;
 import models.BackEndTerritory;
 import models.Board;
+import models.CardTerritory;
 import models.House;
 import models.Player;
+import models.RepositoryCardsTerritory;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -32,18 +37,20 @@ public class InGameGUIController implements ScreenController{
 
     private StatusPanelControl [] statusPanels;
     private Label playerStatusName, playerStatusCards, playerStatusUnits, playerStatusTerritories, infoTerritories, 
-            ravenMessage, alert, territoryName;
+            ravenMessage, alert;
     private Screen s;
     private Nifty n;
     private Board b;
     public static Player [] players;
     
     private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel, 
-            optionsPopup, helpPopup, cardsPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup,
-            alertPopup, territoryNamePopup;
+            optionsPopup, helpPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup,
+            alertPopup, cardEarnedPopup;
+    
     private boolean mouseOverObjective = false;
     
     private ContextMenuController ctxMenuCtrl;
+    private CardsController cardsCtrl;
     private static InGameGUIController instance;
     private HashMap<Integer, String> turnsOrder;
     private HashMap<String, String> regionsColors;
@@ -74,7 +81,7 @@ public class InGameGUIController implements ScreenController{
     
     @Override
     public void bind(Nifty nifty, Screen screen) {
-        this.s = screen;
+        s = screen;
         n = nifty;
         playerStatusName = screen.findNiftyControl("playerStatusName", Label.class);
         playerStatusCards = screen.findNiftyControl("playerStatusCards", Label.class);
@@ -88,12 +95,13 @@ public class InGameGUIController implements ScreenController{
         tablesIcon = screen.findElementByName("tablesIcon");
         optionsPopup = n.createPopup("optionsPopup");
         helpPopup = n.createPopup("helpPopup");
-        cardsPopup = n.createPopup("cardsPopup");
         ctxMenuCtrl = new ContextMenuController(n, this);
+        cardsCtrl = new CardsController(n, s, this);
         infoTerritoriesPopup = n.createPopup("infoTerritoriesPopup");
         infoTerritories = infoTerritoriesPopup.findNiftyControl("infoTerritories", Label.class);
         alertPopup = n.createPopup("alertPopup");
         alert = alertPopup.findNiftyControl("alert", Label.class);
+        cardEarnedPopup = n.createPopup("cardEarnedPopup");
         
         ravenMessage = screen.findNiftyControl("ravenMessage", Label.class);
         infoPanel = screen.findElementByName("infoPanel");
@@ -107,11 +115,6 @@ public class InGameGUIController implements ScreenController{
     public void showAlert(String text) {
         alert.setText(text);
         PopupManager.showPopup(n, s, alertPopup);
-    }
-    
-    public void showTerritoryName(Territory t) {
-//        territoryName.setText(t.getBackEndTerritory().getName());
-//        n.showPopup(s, null, territoryNamePopup);
     }
     
     @Override
@@ -129,10 +132,13 @@ public class InGameGUIController implements ScreenController{
         soundVolumeValue.setText(((int) (100 * AudioManager.getInstance().getSoundVolume()))+"");
         CheckBox musicMute = optionsPopup.findNiftyControl("musicMute", CheckBox.class);
         CheckBox soundMute = optionsPopup.findNiftyControl("soundMute", CheckBox.class);
+        CheckBox showTerritories = optionsPopup.findNiftyControl("showTerritories", CheckBox.class);
         if (AudioManager.getInstance().musicIsMuted())
             musicMute.check();
         if (AudioManager.getInstance().soundIsMuted())
             soundMute.check();
+        if (!main.Main.isShowingTerritoriesNames())
+            showTerritories.uncheck();
         Slider musicSlider = optionsPopup.findNiftyControl("musicSlider", Slider.class);
         Slider soundSlider = optionsPopup.findNiftyControl("soundSlider", Slider.class);
         optionsPopup.findNiftyControl("sliderCPUdifficulty", Slider.class).disable();
@@ -201,7 +207,7 @@ public class InGameGUIController implements ScreenController{
     
     public void showPlayerCards(){
         resetMouseCursor();
-        PopupManager.showPopup(n, s, cardsPopup);
+        cardsCtrl.showPopup();
     }
     
     public void dismissPlayerObjective(){
@@ -209,7 +215,12 @@ public class InGameGUIController implements ScreenController{
     }
     
     public void dismissPlayerCards(){
-        PopupManager.closePopup(n, cardsPopup);
+        cardsCtrl.dissmissPopup();
+    }
+    
+    public void tradePlayerCards(){
+        System.out.println("trade player cards");
+        cardsCtrl.tradeCards();
     }
     
     public void nextPlayerTurnConfirm() {
@@ -218,17 +229,40 @@ public class InGameGUIController implements ScreenController{
     
     public void nextPlayerTurn() {
         PopupManager.closePopup(n, nextTurnConfirmPopup);
-        int pendingArmies = getCurrentPlayer().getPendingArmies();
+        Player curr = getCurrentPlayer();
+        int pendingArmies = curr.getPendingArmies();
         if (pendingArmies > 0)
             showAlert("Você ainda possui "+pendingArmies+" exércitos para distribuir!");
         else {
             ctxMenuCtrl.setDistributing(false);
-            TurnHelper.getInstance().changeTurn();
+            if (curr.mayReceiveCard()) {
+                //sortear carta e colocá-la na popup
+                curr.setMayReceiveCard(false);
+                Element imgElement = cardEarnedPopup.findElementByName("earnedCardImage");
+                ImageRenderer r = imgElement.getRenderer(ImageRenderer.class);
+                CardTerritory c = RepositoryCardsTerritory.getInstance().getFirstCardFromDeck();
+                curr.addCard(c);
+                r.setImage(n.createImage(CardPaths.getPath(c), false));
+                PopupManager.showPopup(n, s, cardEarnedPopup);
+            } else{
+                TurnHelper.getInstance().changeTurn();
+                if(cardsCtrl.playerMustSwapCards())
+                    cardsCtrl.showPopup();
+            }
+            setInfoLabelText(null);
+            ctxMenuCtrl.resetTerritories();
         }
     }
     
     public void dismissNextTurnConfirmation(){
         PopupManager.closePopup(n, nextTurnConfirmPopup);
+    }
+    
+    public void dismissCardEarnedPopup() {
+        TurnHelper.getInstance().changeTurn();
+        PopupManager.closePopup(n, cardEarnedPopup);
+        if(cardsCtrl.playerMustSwapCards())
+            cardsCtrl.showPopup();
     }
     
     //Top Menu event handling
@@ -353,17 +387,35 @@ public class InGameGUIController implements ScreenController{
         ctxMenuCtrl.cancelAttackPopup();
     }
     
+    public void selectVictoriousArmiesToMove(int winners) {
+        ctxMenuCtrl.selectVictoriousArmiesToMove(s, winners);
+    }
+    
+    public void moveVictoriousArmies() {
+        ctxMenuCtrl.moveVictoriousArmies();
+    }
+    
     public void showInfoTerritories() {
         String content = "\nAtenção, ";
         Board b = Board.getInstance();
         Player currPlayer = b.getCurrentPlayer();
         String turn = turnsOrder.get(b.getPlayerOrder(currPlayer));
-        content += currPlayer.getName()+"! Os turnos foram sorteados e você é o "+turn+" a jogar!\n\nSeus territórios são:\n";
+        content += currPlayer.getName()+"! Os turnos foram sorteados e você é o "+turn+" a jogar!\n\nSeus territórios são:";
         String colorCode;
-        for (BackEndTerritory t : currPlayer.getTerritories()) {
-            colorCode = regionsColors.get(t.getRegion().getName());
-            content += "\n"+colorCode+t.getName()+colorCode;
+        Iterator<String> regionsIterator = regionsColors.keySet().iterator();
+        String currIterationRegion;
+        String tempRegion;
+        while (regionsIterator.hasNext()) {
+            currIterationRegion = regionsIterator.next();
+            colorCode = regionsColors.get(currIterationRegion);
+            content += "\n\n"+colorCode+"Região: "+currIterationRegion+colorCode+"\n";
+            for (BackEndTerritory t : currPlayer.getTerritories()) {
+                tempRegion = t.getRegion().getName();
+                if (currIterationRegion.equals(tempRegion))
+                    content += "\n"+colorCode+t.getName()+colorCode;
+            }
         }
+        content += "\n\nATENÇÃO!!!!!! Seu objetivo está logo abaixo! Não deixe que nenhum outro jogador o veja!\n\n\nSEU OBJETIVO:\n\n"+currPlayer.getMission().getDescription();
         infoTerritories.setText(content);
         PopupManager.showPopup(n, s, infoTerritoriesPopup);
     }
@@ -376,14 +428,14 @@ public class InGameGUIController implements ScreenController{
         for(BackEndTerritory t : ts){
             t.setNumArmies(1);
         }
-        setInfoLabelText("Você ainda possui "+getCurrentPlayer().getPendingArmies()+" exército(s) para distribuir.");
+        setRavenMessage("\\#333333ff#"+curr.getName()+" ainda possui \\#CC0000#"+curr.getPendingArmies()+"\\#333333ff# exército(s) para distribuir.");
         updatePlayersData();
-        setRavenMessage(curr.getName() + " está distribuindo os exércitos.");
+        GameScene.getInstance().showPlayerTurnMsg();
     }
             
     @NiftyEventSubscriber(id = "menuItemid")
-    public void MenuItemClicked(final String id, final MenuItemActivatedEvent event) {
-        ctxMenuCtrl.MenuItemClicked(id, event, s);
+    public void menuItemClicked(final String id, final MenuItemActivatedEvent event) {
+        ctxMenuCtrl.menuItemClicked(id, event, s);
     }
     
     @NiftyEventSubscriber(id="musicSlider")
@@ -419,6 +471,11 @@ public class InGameGUIController implements ScreenController{
         else
             am.unmuteSound();
     }
+    
+    @NiftyEventSubscriber(id="showTerritories")
+    public void onShowTerritoriesChange(final String id, final CheckBoxStateChangedEvent event) {
+        main.Main.showTerritoriesNames(event.isChecked());
+    }
      
     @NiftyEventSubscriber(id="dontShowRearrangeConfirmationAgain")
     public void onDontShowRearrangeConfirmationAgainChange(final String id, final CheckBoxStateChangedEvent event) {
@@ -431,5 +488,34 @@ public class InGameGUIController implements ScreenController{
         r.setImage(n.createImage(h.getImgPath(), false));
         Label houseNameLabel = s.findNiftyControl("currHouseName", Label.class);
         houseNameLabel.setText(h.getName());
+    }
+    
+    @NiftyEventSubscriber(id="card0Checkbox")
+    public void onCheckbox0Clicked(final String id, final CheckBoxStateChangedEvent event) {
+        cardsCtrl.onCheckboxClicked(0);
+    }
+    @NiftyEventSubscriber(id="card1Checkbox")
+    public void onCheckbox1Clicked(final String id, final CheckBoxStateChangedEvent event) {
+        cardsCtrl.onCheckboxClicked(1);
+    }
+    @NiftyEventSubscriber(id="card2Checkbox")
+    public void onCheckbox2Clicked(final String id, final CheckBoxStateChangedEvent event) {
+        cardsCtrl.onCheckboxClicked(2);
+    }
+    @NiftyEventSubscriber(id="card3Checkbox")
+    public void onCheckbox3Clicked(final String id, final CheckBoxStateChangedEvent event) {
+        cardsCtrl.onCheckboxClicked(3);
+    }
+    @NiftyEventSubscriber(id="card4Checkbox")
+    public void onCheckbox4Clicked(final String id, final CheckBoxStateChangedEvent event) {
+        cardsCtrl.onCheckboxClicked(4);
+    }
+    public void cardClicked(String index){
+        cardsCtrl.onCardClick(Integer.parseInt(index));
+    }
+
+    public void showPendingArmiesMsg() {
+        Player curr = b.getCurrentPlayer();
+        setRavenMessage("\\#333333ff#"+curr.getName()+" ainda possui \\#CC0000#"+curr.getPendingArmies()+"\\#333333ff# exército(s) para distribuir.");
     }
 }

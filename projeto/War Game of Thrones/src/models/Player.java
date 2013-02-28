@@ -17,7 +17,7 @@ public abstract class Player implements Serializable {
     private List<BackEndTerritory> territories;
     private List<CardTerritory> cards;
     private StatisticPlayerManager statistic;
-    private boolean maySwapCards;
+    private boolean mayReceiveCard;
 
     public Player(String name) {
         this.name = name;
@@ -25,7 +25,7 @@ public abstract class Player implements Serializable {
         this.territories = new ArrayList<BackEndTerritory>();
         this.cards = new ArrayList<CardTerritory>();
         this.statistic = new StatisticPlayerManager();
-        this.maySwapCards = false;
+        this.mayReceiveCard = false;
     }
 
     public Player(String name, House house) {
@@ -55,8 +55,8 @@ public abstract class Player implements Serializable {
         return name;
     }
 
-    public boolean isMaySwapCards() {
-        return maySwapCards;
+    public boolean mayReceiveCard() {
+        return mayReceiveCard;
     }
 
     public void setName(String name) {
@@ -92,8 +92,8 @@ public abstract class Player implements Serializable {
         return statistic;
     }
 
-    public void setMaySwapCards(boolean maySwapCards) {
-        this.maySwapCards = maySwapCards;
+    public void setMayReceiveCard(boolean mayReceiveCard) {
+        this.mayReceiveCard = mayReceiveCard;
     }
     
     public int numArmies() {
@@ -151,5 +151,23 @@ public abstract class Player implements Serializable {
             return true;
         }
         return false;
+    }
+    
+    public List<Region> getMoreSubduedRegion() {
+        List<Region> answer = new ArrayList<Region>();
+        int current = 0;
+        int more = 0;
+        Region [] regions = Board.getInstance().getRegions();
+        for (int i = 0; i < regions.length; i++) {
+            for (BackEndTerritory territory : regions[i].getTerritories()) {
+                if (territory.getOwner() == this)
+                    current++;
+            }
+            if (more < current) {
+                answer.add(regions[i]);
+                more = current;
+            }
+        }
+        return answer;
     }
 }

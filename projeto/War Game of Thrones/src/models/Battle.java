@@ -11,6 +11,11 @@ import java.util.Random;
  */
 public class Battle {
 
+    //for debug
+    private static boolean ATK_WIN_ALWAYS = false,
+            ATK_LOSE_ALWAYS = false;
+    
+    
     protected BackEndTerritory attacker;
     protected BackEndTerritory defender;
     protected int numberAttackers;
@@ -33,7 +38,7 @@ public class Battle {
         concluded = false;
         conquested = false;
     }
-
+    
     public void attack() {
         //Estatisticas
         defender.increaseNumAttacks();
@@ -47,8 +52,19 @@ public class Battle {
         defenderPlayer.getStatisticPlayerManager().updateDefenceTable(attackerPlayer);
         defenderPlayer.getStatisticPlayerManager().setMoreEnemy();
         //Fim Estatisticas
-        attackersDices = rollDices(numberAttackers);
-        defendersDices = rollDices(numberDefenders);
+        if(ATK_WIN_ALWAYS){
+            attackersDices = getCheatDices(numberAttackers, 6);
+            defendersDices  = getCheatDices(numberDefenders, 1);
+        } else if(ATK_LOSE_ALWAYS){
+            attackersDices = getCheatDices(numberAttackers, 1);
+            defendersDices  = getCheatDices(numberDefenders, 6);
+        } else {
+            attackersDices = rollDices(numberAttackers);
+            defendersDices = rollDices(numberDefenders);
+        }
+        
+        
+        
         Integer[] tempAttackersDices = Arrays.copyOf(attackersDices, attackersDices.length);
         Integer[] tempDefendersDices = Arrays.copyOf(defendersDices, defendersDices.length);
         //Estatisticas        
@@ -82,25 +98,34 @@ public class Battle {
 //            Board.getInstance().getStatistic().setMoreAttacker();
 //            Board.getInstance().getStatistic().setMoreDefender();
         }
-}
+    }
+    
+    private static Integer[] getCheatDices(int count, int value){
+        Integer [] resp = new Integer[count];
+        for(int i = 0; i < count; i++)
+            resp[i] = value;
+        return resp;
+    }
 
     public void concludeAttack() {
         if (attackerDeaths > 0 || defenderDeaths > 0) {
             conquested = defenderDeaths >= defender.getNumArmies();
             attacker.decreaseArmies(attackerDeaths);
             defender.decreaseArmies(defenderDeaths);
-            if (conquested) {
-                defender.setOwner(attacker.getOwner());
-                attacker.decreaseArmies(1);
-                defender.increaseArmies(1);
-                attacker.getOwner().setMaySwapCards(true);
-                //Estatistica
-                defender.increaseNumConquests();
-                //Board.getInstance().getStatistic().setTerritoryMoreConquested(null);
-                //Fim estatistica
-            }
-            concluded = true;
         }
+        concluded = true;
+        if (conquested)
+            defender.setOwner(attacker.getOwner());
+    }
+    
+    public void moveVictoriousArmies(int armiesMoved) {
+        attacker.decreaseArmies(armiesMoved);
+        defender.increaseArmies(armiesMoved);
+        attacker.getOwner().setMayReceiveCard(true);
+        //Estatistica
+        defender.increaseNumConquests();
+        //Board.getInstance().getStatistic().setTerritoryMoreConquested(null);
+        //Fim estatistica
     }
 
     public void moveArmiesAfterConquest(int numberArmies) {
@@ -165,12 +190,11 @@ public class Battle {
     protected final Integer[] rollDices(int number) {
         Integer[] dices = new Integer[number];
         for (int i = 0; i < dices.length; i++) {
-            dices[i] = new Random().nextInt(5) + 1;
-            
+            dices[i] = new Random().nextInt(6) + 1;
         }
         return dices;
     }
-
+   
     protected boolean compareDices(int attacker, int defender) {
         return attacker > defender;
     }

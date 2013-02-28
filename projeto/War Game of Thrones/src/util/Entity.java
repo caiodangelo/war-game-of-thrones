@@ -8,7 +8,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class Entity {
+public class Entity implements Comparable<Entity> {
 
     public Vector2f position;
     private float scale;
@@ -17,6 +17,15 @@ public class Entity {
     private RenderComponent renderComponent = null;
     private ArrayList<Component> components = null;
     private ArrayList<Component> componentsToAdd = null;
+    private int layer = 0;
+
+    public int getLayer() {
+        return layer;
+    }
+
+    public void setLayer(int layer) {
+        this.layer = layer;
+    }
 
     public Entity() {
         components = new ArrayList<Component>();
@@ -100,5 +109,16 @@ public class Entity {
         if (renderComponent != null) {
             renderComponent.render(gc, sb, gr);
         }
+    }
+
+    @Override
+    public int compareTo(Entity o) {
+        int myLayer = getLayer();
+        int otherLayer = o.getLayer();
+        if(myLayer < otherLayer)
+            return -1;
+        if(myLayer == otherLayer)
+            return 0;
+        return 1;
     }
 }

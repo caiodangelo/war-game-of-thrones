@@ -44,22 +44,18 @@ public class MainScreenController implements ScreenController {
     
     public void showOptions(){
         PopupManager.showPopup(n, s, optionsPopup);
-//        n.showPopup(s, optionsPopup.getId(), null);
     }
     
     public void closeOptions(){
         PopupManager.closePopup(n, optionsPopup);
-//        n.closePopup(optionsPopup.getId());
     }
     
     public void showHelp(){
         PopupManager.showPopup(n, s, helpPopup);
-//        n.showPopup(s, helpPopup.getId(), null);
     }
     
     public void closeHelpPopup(){
         PopupManager.closePopup(n, helpPopup);
-//        n.closePopup(helpPopup.getId());
     }
     
     @NiftyEventSubscriber(id="musicSlider")
@@ -103,9 +99,13 @@ public class MainScreenController implements ScreenController {
             am.unmuteSound();
     }
     
+    @NiftyEventSubscriber(id="showTerritories")
+    public void onShowTerritoriesChange(final String id, final CheckBoxStateChangedEvent event) {
+        main.Main.showTerritoriesNames(event.isChecked());
+    }
+    
     public void exit(){
         PopupManager.showPopup(n, s, exitConfirmPopup);
-//        n.showPopup(s, exitConfirmPopup.getId(), null);
     }
     
     public void exitGame(){
@@ -114,6 +114,5 @@ public class MainScreenController implements ScreenController {
     
     public void dismissExitConfirmation(){
         PopupManager.closePopup(n, exitConfirmPopup);
-//        n.closePopup(exitConfirmPopup.getId());
     }
 }

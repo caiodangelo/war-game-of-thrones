@@ -19,13 +19,13 @@ public class Dice extends Entity {
     private boolean reachedDestination;
     
     public Dice(Vector2f pos, boolean atk, int r) {
+        setLayer(3);
         position = pos;
         atkDice = atk;
         rolling = true;
         result = r;
         SpriteSheet diceSheet;
         try {
-//            SpriteSheet ss = new SpriteSheet("resources/images/dado-atk", 1186/6, 186);
             if (atkDice)
                 diceSheet = new SpriteSheet("resources/images/dado-atk.png", 451/6, 74);
             else

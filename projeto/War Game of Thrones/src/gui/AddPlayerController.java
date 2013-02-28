@@ -30,7 +30,7 @@ import util.PopupManager;
 public class AddPlayerController implements ScreenController{
 
     //DEBUG ONLY
-    private static final boolean ACCEPT_EMPTY_NAMES = true;
+    private static final boolean ACCEPT_INVALID_NAMES = true;
     
     
     private TextField nameField;
@@ -82,12 +82,12 @@ public class AddPlayerController implements ScreenController{
         for(int i = 1; i < playerIcons.length; i++)
             playerIcons[i].hide();
             HouseData houses[] = {
-                                new HouseData("Baratheon", "resources/images/house_logos/baratheon.png", "Veado", new Color("#fbd685")),  
-                                new HouseData("Free Folk", "resources/images/house_logos/free_folk.png", "Urso polar", new Color("#70ebf2")),  
-                                new HouseData("Greyjoy", "resources/images/house_logos/greyjoy.png", "Lula", new Color("#000000")),  
-                                new HouseData("Lannister", "resources/images/house_logos/Lannister.png", "Leão", new Color("#cc0000")),
-                                new HouseData("Stark", "resources/images/house_logos/stark.png", "Lobo", new Color("#999999")),
-                                new HouseData("Targaryen", "resources/images/house_logos/targaryen.png", "Dragão", new Color("#ff6600")),  
+                                new HouseData("Baratheon", "resources/images/house_logos/baratheon.png", "Veado", new Color("#B6B631")),  
+                                new HouseData("Free Folk", "resources/images/house_logos/free_folk.png", "Urso polar", new Color("#6DAC52")),  
+                                new HouseData("Greyjoy", "resources/images/house_logos/greyjoy.png", "Lula", new Color("#5B5B5B")),  
+                                new HouseData("Lannister", "resources/images/house_logos/Lannister.png", "Leão", new Color("#AB2B2B")),
+                                new HouseData("Stark", "resources/images/house_logos/stark.png", "Lobo", new Color("#8E8E8E")),
+                                new HouseData("Targaryen", "resources/images/house_logos/targaryen.png", "Dragão", new Color("#C96826")),  
             };
         createdPlayers = new ArrayList<PlayerData>();
         availableHouses = new ArrayList<HouseData>();
@@ -142,12 +142,16 @@ public class AddPlayerController implements ScreenController{
     
     //Elements interaction callbacks
     private void editPlayer(String playerIndex, boolean saveCurrent){
-        if(saveCurrent)
-            saveCurrentPlayerData();
-        currentEditingIndex = Integer.parseInt(playerIndex);
-        PlayerData editedPlayer = createdPlayers.get(currentEditingIndex);
-        availableHouses.add(0, editedPlayer.house);
-        resetDisplay();
+        if(nameFieldInvalid() && !ACCEPT_INVALID_NAMES)
+            showEmptyNameWarning();
+        else {
+            if(saveCurrent)
+                saveCurrentPlayerData();
+            currentEditingIndex = Integer.parseInt(playerIndex);
+            PlayerData editedPlayer = createdPlayers.get(currentEditingIndex);
+            availableHouses.add(0, editedPlayer.house);
+            resetDisplay();
+        }
     }
     
     public void editPlayer(String playerIndex){
@@ -174,7 +178,7 @@ public class AddPlayerController implements ScreenController{
     
     public void addPlayer(){
         if(nameField != null && createdPlayers.size() < 6){
-            if(nameFieldIsEmpty() && !ACCEPT_EMPTY_NAMES){
+            if(nameFieldInvalid() && !ACCEPT_INVALID_NAMES){
                 showEmptyNameWarning();
             } else {
                 updatePlayerImage();
@@ -193,8 +197,10 @@ public class AddPlayerController implements ScreenController{
         }
     }
     
-    private boolean nameFieldIsEmpty(){
-        return nameField.getDisplayedText().isEmpty();
+    private boolean nameFieldInvalid(){
+        String name = nameField.getDisplayedText();
+        int length = name.length();
+        return length < 3 || length > 10;
     }
     
     private void showEmptyNameWarning(){
@@ -230,7 +236,7 @@ public class AddPlayerController implements ScreenController{
     
     public void playButtonPressed() {
         try{
-            if(nameFieldIsEmpty() && !ACCEPT_EMPTY_NAMES)
+            if(nameFieldInvalid() && !ACCEPT_INVALID_NAMES)
                 showEmptyNameWarning();
             else{
                 saveCurrentPlayerData();

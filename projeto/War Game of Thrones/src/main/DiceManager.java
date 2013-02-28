@@ -148,12 +148,20 @@ public class DiceManager {
         String currPlayerName = Board.getInstance().getCurrentPlayer().getName();
         String attackedPlayerName = defendingTerritory.getBackEndTerritory().getOwner().getName();
         int atkDeaths = battle.getAttackerDeaths();
+        battle.getAttacker().setMovedArmies(atkDeaths);
         int defDeaths = battle.getDefendersDeaths();
+        battle.getDefender().setMovedArmies(defDeaths);
         guiController.setRavenMessage(currPlayerName+" sofreu "+atkDeaths+" baixa(s)! "+attackedPlayerName+" sofreu "+defDeaths+" baixa(s)!");
         battle.concludeAttack();
         if (battle.isConquested()) {
-            InGameGUIController.getInstance().setRavenMessage(currPlayerName+" conquistou o território de "+attackedPlayerName+"!");
-            defendingTerritory.getArmy().changeImage();
+            if (Board.getInstance().hasGameEnded()) {
+                gameScene.startGameEndingAnimation();
+            }
+            else {
+                guiController.selectVictoriousArmiesToMove(battle.getNumberAttackers() - atkDeaths);
+                guiController.setRavenMessage(currPlayerName+" conquistou o território de "+attackedPlayerName+"!");
+                defendingTerritory.getArmy().changeImage();
+            }
         }
     }
     

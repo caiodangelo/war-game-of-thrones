@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -44,16 +45,19 @@ public class ArmyRenderComponent extends ImageRenderComponent {
     @Override
     public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
         Vector2f pos = owner.getPosition();
-        float scale = ((Army) owner).getTerritory().getScale();
+        Army armyOwner = (Army) owner;
+        float scale = armyOwner.getTerritory().getScale();
         image.draw(pos.x, pos.y, scale);
         gr.setColor(Color.white);
-        if (!distributing)
-            gr.drawString((((Army) owner).getQuantity() - movingQty)+"", pos.x, pos.y);
-        else
-            gr.drawString(((Army) owner).getQuantity()+"", pos.x, pos.y);
+        int count = (armyOwner.getQuantity()) + (distributing ? 0 : - movingQty);
+        String countText = count + "";
+        Font f = gr.getFont();
+        int textWidth = f.getWidth(countText),
+                textHeight = f.getHeight(countText);
+        gr.drawString(countText, pos.x + (imageCopy.getWidth() * scale-textWidth)/2f, pos.y + (imageCopy.getHeight() * scale-textHeight)/2f);
         if (movingQty > 0 && (xSpeed != 0 || ySpeed != 0)) {
             imageCopy.draw(movingPos.x, movingPos.y, scale);
-            gr.drawString(movingQty+"", movingPos.x, movingPos.y);
+            gr.drawString(movingQty+"", movingPos.x + (imageCopy.getWidth() * scale-textWidth)/2f, movingPos.y + (imageCopy.getHeight() * scale-textHeight)/2f);
         }
         if (exploding)
             drawCenteredExplosion();
@@ -61,6 +65,23 @@ public class ArmyRenderComponent extends ImageRenderComponent {
     
     @Override
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
+        //syncing army copy position
+        float xDifference;
+        float yDifference;
+        if (movingQty > 0) {
+            if ((xDifference = owner.getPosition().x - origin.x) != 0) {
+                origin.x += xDifference;
+                movingPos.x += xDifference;
+                destiny.x += xDifference;
+            }
+            if ((yDifference = owner.getPosition().y - origin.y) != 0) {
+                origin.y += yDifference;
+                movingPos.y += yDifference;
+                destiny.y += yDifference;
+            }
+        }
+        
+        
         if (exploding && explosion.isStopped()) { //animation has ended
             exploding = false;
             movingQty = 0;
@@ -71,7 +92,7 @@ public class ArmyRenderComponent extends ImageRenderComponent {
         else if (!exploding && !distributing) {
             if (movingQty > 0) {
                 if (xSpeed == 0 && ySpeed == 0) {
-                    movingPos = origin;
+                    movingPos = new Vector2f(origin);
                     xSpeed = (destiny.x - origin.x)/80f;
                     ySpeed = (destiny.y - origin.y)/80f;
                 }
@@ -82,7 +103,7 @@ public class ArmyRenderComponent extends ImageRenderComponent {
         else if (distributing) {
             if (movingQty > 0) {
                 if (xSpeed == 0 && ySpeed == 0) {
-                    movingPos = origin;
+                    movingPos = new Vector2f(origin);
                     xSpeed = (destiny.x - origin.x)/80f;
                     ySpeed = (destiny.y - origin.y)/80f;
                 }
@@ -104,13 +125,10 @@ public class ArmyRenderComponent extends ImageRenderComponent {
         this.movingQty = q;
     }
     
-    public void setOrigin(Territory o) {
-        origin = o.getArmy().getPosition();
-    }
-    
-    public void setDestiny(Territory d) {
-        destiny = d.getArmy().getPosition();
-        destinyTerritory = d;
+    public void setMovementTo(Territory dest) {
+        origin = new Vector2f(owner.getPosition());
+        destiny = dest.getArmy().getPosition();
+        destinyTerritory = dest;
     }
     
     public void startExplosion() {
