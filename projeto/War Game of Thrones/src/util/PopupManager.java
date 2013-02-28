@@ -3,6 +3,7 @@ package util;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
+import org.lwjgl.input.Mouse;
 
 public class PopupManager {
     
@@ -10,6 +11,7 @@ public class PopupManager {
     private static boolean zeroDelayElapsed = true;
     
     public static void showPopup(Nifty n, Screen s, Element popup){
+        Mouse.setGrabbed(false);
         n.showPopup(s, popup.getId(), null);
         openPopups++;
         zeroDelayElapsed = false;

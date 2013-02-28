@@ -48,7 +48,6 @@ public class InGameGUIController implements ScreenController{
             alertPopup, cardEarnedPopup;
     
     private boolean mouseOverObjective = false;
-    private boolean territoryConquered;
     
     private ContextMenuController ctxMenuCtrl;
     private CardsController cardsCtrl;
@@ -78,10 +77,6 @@ public class InGameGUIController implements ScreenController{
         if (instance == null)
             instance = new InGameGUIController();
         return instance;
-    }
-    
-    public void territoryWasConquered() {
-        territoryConquered = true;
     }
     
     @Override
@@ -247,13 +242,11 @@ public class InGameGUIController implements ScreenController{
                 Element imgElement = cardEarnedPopup.findElementByName("earnedCardImage");
                 ImageRenderer r = imgElement.getRenderer(ImageRenderer.class);
                 CardTerritory c = RepositoryCardsTerritory.getInstance().getFirstCardFromDeck();
-                System.out.println(c);
-                System.out.println(CardPaths.getPath(c));
+                curr.addCard(c);
                 r.setImage(n.createImage(CardPaths.getPath(c), false));
                 PopupManager.showPopup(n, s, cardEarnedPopup);
             } else
                 TurnHelper.getInstance().changeTurn();
-            territoryConquered = false;
             setInfoLabelText(null);
             ctxMenuCtrl.resetTerritories();
         }
@@ -421,6 +414,7 @@ public class InGameGUIController implements ScreenController{
                     content += "\n"+colorCode+t.getName()+colorCode;
             }
         }
+        content += "\n\nATENÇÃO!!!!!! Seu objetivo está logo abaixo! Não deixe que nenhum outro jogador o veja!\n\n\nSEU OBJETIVO:\n\n"+currPlayer.getMission().getDescription();
         infoTerritories.setText(content);
         PopupManager.showPopup(n, s, infoTerritoriesPopup);
     }

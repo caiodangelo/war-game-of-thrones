@@ -52,7 +52,7 @@ public class GameEndingAnimationRenderer extends RenderComponent{
             gr.setColor(c);
             AngelCodeFont fnt = null;
             try {
-                fnt = new AngelCodeFont("resources/fonts/calibri_80.fnt", "resources/fonts/calibri_80_0.tga");
+                fnt = new AngelCodeFont("resources/fonts/freckle_face_80.fnt", "resources/fonts/freckle_face_80_0.tga");
                 gr.setFont(fnt);
             } catch (SlickException ex) {
                 Logger.getLogger(PlayerTurnMessageRenderer.class.getName()).log(Level.SEVERE, null, ex);

@@ -11,6 +11,7 @@ import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.tools.SizeValue;
 import main.ArmyRenderComponent;
 import main.DiceManager;
+import main.GameScene;
 import main.Territory;
 import models.BackEndTerritory;
 import models.Battle;
@@ -225,6 +226,9 @@ public class ContextMenuController {
         armyRenderer.startDistribution();
         parent.setRavenMessage(Board.getInstance().getCurrentPlayer().getName()+" moveu "+armiesToMove+" territórios.");
         dismissRearrangePopup();
+        if (Board.getInstance().hasGameEnded()) {
+            GameScene.getInstance().startGameEndingAnimation();
+        }
     }
     
     public void dismissRearrangeConfirmation() {

@@ -8,6 +8,7 @@ import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import java.util.ArrayList;
 import java.util.List;
+import main.CardPaths;
 import models.Board;
 import models.CardTerritory;
 import models.Player;
@@ -16,7 +17,7 @@ import util.PopupManager;
 
 public class CardsController {
 
-    private static boolean DEBUGGING = true;
+    private static boolean DEBUGGING = false;
     
     private Nifty n;
     private Screen s;
@@ -75,23 +76,34 @@ public class CardsController {
         int cardsCount = playerCards.size();
         
         //debug only!
-        cardsCount = 5;
+        if(DEBUGGING)
+            cardsCount = 5;
+        
+        System.out.println("Player has " + playerCards.size() + " cards");
         
         
         boolean mustTrade = cardsCount == 5;
         obligateTradeText.setVisible(mustTrade);
         dissmissButton.setEnabled(!mustTrade);
         
-        
+        System.out.println("update contentes");
         for(int i = 0; i < 5; i++){
+            System.out.println("card " + i);
             Element card = cardsImages[i];
             if(i >= cardsCount){
+                System.out.println("extra card");
                 card.setVisible(false);
                 chkBoxElements[i].setVisible(false);
             }
             else{
+                System.out.println("normal card");
                 card.setVisible(true);
                 chkBoxElements[i].setVisible(true);
+                ImageRenderer r = cardsImages[i].getRenderer(ImageRenderer.class);
+                String path = CardPaths.getPath(playerCards.get(i));
+                System.out.println("renderer is " + r);
+                System.out.println("set render path to " + path);
+                r.setImage(n.createImage(path, mustTrade));
             }
         }
     }

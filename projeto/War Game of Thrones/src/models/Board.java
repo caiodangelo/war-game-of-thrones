@@ -33,6 +33,7 @@ public class Board implements Serializable {
     private boolean onInitialSetup;
     private boolean onFirstTurn;
     private int numberOfSwappedCards;
+    private Player winner;
 
     protected Board() {
         instance = this;
@@ -40,9 +41,11 @@ public class Board implements Serializable {
         currentPlayer = 0;
         statistic = new StatisticGameManager();
         onInitialSetup = true;
+        onFirstTurn = false;
         houses = new ArrayList<House>();
         missions = new ArrayList<Mission>();
         numberOfSwappedCards = 0;
+        winner = null;
         
         if (regions == null) {
             retrieveTerritories();
@@ -329,7 +332,6 @@ public class Board implements Serializable {
     public void raffleMission() {
         int size = players.size();
 
-       // ArrayList<Mission> r = removeMissions();
         shuffleMissions(missions);
 
         for (int i = 0; i < size; i++) {
@@ -339,35 +341,27 @@ public class Board implements Serializable {
                 shuffleMissions(missions);
                 mission = missions.get(0);
             }
+            mission.setPlayer(p);
             p.setMission(missions.remove(0));
         }
     }
 
-//    public ArrayList<Mission> removeMissions() {
-//        //List<House> absentHouses = this.getAbsentHouses();
-//        boolean found = false;
-//        ArrayList<Mission> answer = new ArrayList<Mission>();
-//
-//        answer = missions;
-//
-//        for (int i = 0; i < answer.size(); i++) {
-//            Mission mission = answer.get(i);
-//            if ((mission.getType() == Mission.TYPE_HOUSE)) {
-//                for (int j = 0; j < houses.size(); j++) {
-//                    if (mission.getHouse().equals(houses.get(j))) {
-//                        found = true;
-//                    }
-//                }
-//                if (!found) {
-//                    answer.remove(answer.get(i));
-//                    i--;
-//                }
-//            }
-//        }
-//        return answer;
-//    }
-
     public Region[] getRegions() {
         return regions;
+    }
+    
+    public void checkIfAnyMissionWasCompleted() {
+        for(Player p : players) {
+            if (p.getMission().isCompleted())
+                winner = p;
+        }
+    }
+    
+    public boolean hasGameEnded() {
+        return winner != null;
+    }
+    
+    public Player getWinner() {
+        return winner;
     }
 }

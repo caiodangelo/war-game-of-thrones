@@ -154,10 +154,14 @@ public class DiceManager {
         guiController.setRavenMessage(currPlayerName+" sofreu "+atkDeaths+" baixa(s)! "+attackedPlayerName+" sofreu "+defDeaths+" baixa(s)!");
         battle.concludeAttack();
         if (battle.isConquested()) {
-            guiController.territoryWasConquered();
-            guiController.selectVictoriousArmiesToMove(battle.getNumberAttackers() - atkDeaths);
-            guiController.setRavenMessage(currPlayerName+" conquistou o território de "+attackedPlayerName+"!");
-            defendingTerritory.getArmy().changeImage();
+            if (Board.getInstance().hasGameEnded()) {
+                gameScene.startGameEndingAnimation();
+            }
+            else {
+                guiController.selectVictoriousArmiesToMove(battle.getNumberAttackers() - atkDeaths);
+                guiController.setRavenMessage(currPlayerName+" conquistou o território de "+attackedPlayerName+"!");
+                defendingTerritory.getArmy().changeImage();
+            }
         }
     }
     

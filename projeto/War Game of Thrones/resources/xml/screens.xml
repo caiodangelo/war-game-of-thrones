@@ -1266,7 +1266,7 @@ Em cada vez de jogar, o participante pode:&#10;
 		<panel margin="30px" style="nifty-panel-custom" width="50%" height="50%" childLayout="vertical">
 			<control font="resources/fonts/calibri_bold.fnt" color="#333333ff" height="10%" width="100%" textHAlign="left" name="label" text="Turnos sorteados!"/>
 			<control style="nifty-listbox" width="100%" height="80%" name="scrollPanel" horizontal="false">
-				<panel margin="5px" width="100%" height="200%" childLayout="vertical">
+				<panel margin="5px" width="100%" height="350%" childLayout="vertical">
 					<control id="infoTerritories" textHAlign="left" textVAlign="top" wrap="true" width="90%" height="100%" name="label" text=""/>
 				</panel>
 			</control>

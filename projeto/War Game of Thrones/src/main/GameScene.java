@@ -110,8 +110,11 @@ public class GameScene extends Scene{
             if (territory.getBackEndTerritory().getOwner() == curr){
                 models.BackEndTerritory t = territory.getBackEndTerritory();
                 t.increaseArmies(1);
+                t.resetMovedArmies();
                 curr.removePendingArmies(1);
                 pendingArmies--;
+                if (b.hasGameEnded())
+                    startGameEndingAnimation();
             } 
             if (pendingArmies == 0) {
                 if (b.isOnInitialSetup()) {
@@ -130,7 +133,7 @@ public class GameScene extends Scene{
     public void startGameEndingAnimation() {
         GameEndingAnimation a = new GameEndingAnimation();
         addEntity(a);
-        a.activate(b.getCurrentPlayer());
+        a.activate(b.getWinner());
         FireworksManager fm = new FireworksManager();
         addEntity(fm);
     }

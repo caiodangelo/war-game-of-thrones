@@ -39,7 +39,7 @@ public class FireworksManager extends Entity {
         try {
             s = new SpriteSheet(ANIM_PATHS[(int) (Math.random() * 3)], 896/7, 896/7);
             Fireworks f = new Fireworks(new Animation(s, frames, fireworkDurations));
-            getScene().addToEntitiesToBeAdded(f);
+            getScene().addEntity(f);
         } catch (SlickException ex) {
             Logger.getLogger(FireworksManager.class.getName()).log(Level.SEVERE, null, ex);
         }
