@@ -11,6 +11,11 @@ import java.util.Random;
  */
 public class Battle {
 
+    //for debug
+    private static boolean ATK_WIN_ALWAYS = false,
+            ATK_LOSE_ALWAYS = false;
+    
+    
     protected BackEndTerritory attacker;
     protected BackEndTerritory defender;
     protected int numberAttackers;
@@ -47,8 +52,19 @@ public class Battle {
         defenderPlayer.getStatisticPlayerManager().updateDefenceTable(attackerPlayer);
         defenderPlayer.getStatisticPlayerManager().setMoreEnemy();
         //Fim Estatisticas
-        attackersDices = rollDices(numberAttackers);
-        defendersDices = rollDices(numberDefenders);
+        if(ATK_WIN_ALWAYS){
+            attackersDices = getCheatDices(numberAttackers, 6);
+            defendersDices  = getCheatDices(numberDefenders, 1);
+        } else if(ATK_LOSE_ALWAYS){
+            attackersDices = getCheatDices(numberAttackers, 1);
+            defendersDices  = getCheatDices(numberDefenders, 6);
+        } else {
+            attackersDices = rollDices(numberAttackers);
+            defendersDices = rollDices(numberDefenders);
+        }
+        
+        
+        
         Integer[] tempAttackersDices = Arrays.copyOf(attackersDices, attackersDices.length);
         Integer[] tempDefendersDices = Arrays.copyOf(defendersDices, defendersDices.length);
         //Estatisticas        
@@ -82,6 +98,13 @@ public class Battle {
 //            Board.getInstance().getStatistic().setMoreAttacker();
 //            Board.getInstance().getStatistic().setMoreDefender();
         }
+    }
+    
+    private static Integer[] getCheatDices(int count, int value){
+        Integer [] resp = new Integer[count];
+        for(int i = 0; i < count; i++)
+            resp[i] = value;
+        return resp;
     }
 
     public void concludeAttack() {

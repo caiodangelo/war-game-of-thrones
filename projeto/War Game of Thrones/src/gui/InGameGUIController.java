@@ -95,7 +95,6 @@ public class InGameGUIController implements ScreenController{
         tablesIcon = screen.findElementByName("tablesIcon");
         optionsPopup = n.createPopup("optionsPopup");
         helpPopup = n.createPopup("helpPopup");
-//        cardsPopup = n.createPopup("cardsPopup");
         ctxMenuCtrl = new ContextMenuController(n, this);
         cardsCtrl = new CardsController(n, s, this);
         infoTerritoriesPopup = n.createPopup("infoTerritoriesPopup");
@@ -259,7 +258,6 @@ public class InGameGUIController implements ScreenController{
     public void dismissCardEarnedPopup() {
         TurnHelper.getInstance().changeTurn();
         PopupManager.closePopup(n, cardEarnedPopup);
-        
         if(cardsCtrl.playerMustSawpCards())
             cardsCtrl.showPopup();
     }

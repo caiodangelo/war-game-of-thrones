@@ -75,10 +75,6 @@ public class CardsController {
         
         int cardsCount = playerCards.size();
         
-        //debug only!
-        if(DEBUGGING)
-            cardsCount = 5;
-        
         System.out.println("Player has " + playerCards.size() + " cards");
         
         
@@ -114,6 +110,7 @@ public class CardsController {
     
     public boolean playerMustSawpCards(){
         Player p = Board.getInstance().getCurrentPlayer();
+        System.out.println("size: " + p.getCards().size());
         return p.getCards().size() == 5;
     }
     
@@ -124,10 +121,13 @@ public class CardsController {
                 checkedCount++;
         }
         
-        if(checkedCount != 3 || RepositoryCardsTerritory.getInstance().isDifferentCards(getSelectedCards()))
-            tradeButton.setEnabled(false);
-        else
+        List<CardTerritory> selected = getSelectedCards();
+        
+        if(checkedCount == 3 && 
+                (RepositoryCardsTerritory.isDifferentCards(selected) ||  RepositoryCardsTerritory.isSameCards(selected)))
             tradeButton.setEnabled(true);
+        else
+            tradeButton.setEnabled(false);
     }
     
     private List<CardTerritory> getSelectedCards(){
@@ -135,16 +135,11 @@ public class CardsController {
         List<CardTerritory> allCards = p.getCards();
         int cardsCount = allCards.size();
         
-        if(DEBUGGING)
-            cardsCount = 5;
 
         List<CardTerritory> selectedCards = new ArrayList<CardTerritory>();
         for(int i = 0; i < 5; i++){
             if(checks[i].isChecked() && i < cardsCount){
-                if(DEBUGGING)
-                    selectedCards.add(null);
-                else
-                    selectedCards.add(allCards.get(i));
+                selectedCards.add(allCards.get(i));
             }
         }
         return selectedCards;
@@ -161,11 +156,9 @@ public class CardsController {
         
         List<CardTerritory> cardsToTrade = getSelectedCards();
         
-        if(!DEBUGGING){
-            RepositoryCardsTerritory repo = RepositoryCardsTerritory.getInstance();
-            repo.swapCards(cardsToTrade, p);
-            System.out.println("player got " + p.getPendingArmies() + " new armies");
-            dissmissPopup();
-        }
+        RepositoryCardsTerritory repo = RepositoryCardsTerritory.getInstance();
+        repo.swapCards(cardsToTrade, p);
+        System.out.println("player got " + p.getPendingArmies() + " new armies");
+        dissmissPopup();
     }
 }

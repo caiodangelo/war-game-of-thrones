@@ -4,6 +4,7 @@
  */
 package models;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -172,9 +173,11 @@ public class RepositoryCardsTerritory {
         return false;
     }
 
-    public boolean isSameCards(List<CardTerritory> cards) {
+    public static boolean isSameCards(List<CardTerritory> cards) {
         int typeCard = 0;
-        List<CardTerritory> aux = cards;
+//        List<CardTerritory> aux = cards;
+        List<CardTerritory> aux = new ArrayList<CardTerritory>();
+        aux.addAll(cards);
         for (int i = 0; i < aux.size(); i++) {
             typeCard = aux.get(i).getType();
             if (typeCard != CardTerritory.JOKER) {
@@ -191,9 +194,11 @@ public class RepositoryCardsTerritory {
         return true;
     }
 
-    public boolean isDifferentCards(List<CardTerritory> cards) {
+    public static boolean isDifferentCards(List<CardTerritory> cards) {
         int typeCard = 0;
-        List<CardTerritory> aux = cards;
+//        List<CardTerritory> aux = cards;
+        List<CardTerritory> aux = new ArrayList<CardTerritory>();
+        aux.addAll(cards);
         for (int i = 0; i < aux.size(); i++) {
             typeCard = aux.get(i).getType();
             if (typeCard != CardTerritory.JOKER) {
