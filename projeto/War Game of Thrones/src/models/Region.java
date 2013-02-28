@@ -99,6 +99,32 @@ public class Region implements Serializable {
     }
 
     /**
+     * Retorna uma nota ajustada para esta Region, que é a nota da Region dada pelo método getRating,
+     * e ajustada com os números de exércitos e territórios do jogador na Region.
+     *
+     * Quanto mais exércitos e territórios, ou seja, quanto mais próximo o jogador estiver de conquistar esta
+     * Region, maior será sua nota ajustada.
+     *
+     * @param player O {@link Player} que quer calcular sua noa na Region
+     * @return A nota ajustada da Region para o {@link Player} fornecido
+     */
+    public double getAdjustedRating(Player player) {
+        int armiesInRegion = 0;
+        int playerArmiesInRegion = 0;
+        List<BackEndTerritory> playerTerritoriesHere = new ArrayList<BackEndTerritory>();
+        for (BackEndTerritory territory : getTerritories()) {
+            armiesInRegion += territory.getNumArmies();
+            if (territory.getOwner() == player) {
+                playerTerritoriesHere.add(territory);
+                playerArmiesInRegion += territory.getNumArmies();
+            }
+        }
+        double armiesFactor = playerArmiesInRegion / armiesInRegion;
+        double territoryFactor = playerTerritoriesHere.size() / territories.size();
+        return getRating() * (armiesFactor * territoryFactor);
+    }
+
+    /**
      * Retorna true se todos os {@link BackEndTerritory} desta região pertencerem a um
      * único {@link Player}, e false se não.
      * @param p O {@link Player} que se deseja verificar se é dono da região toda.

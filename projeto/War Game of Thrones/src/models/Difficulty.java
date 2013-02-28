@@ -2,7 +2,7 @@ package models;
 
 import java.util.List;
 
-abstract class Difficulty {
+public abstract class Difficulty {
 
     public AIPlayer player;
 

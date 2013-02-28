@@ -14,6 +14,22 @@ public class ExtremeAI extends Difficulty {
 
     @Override
     public void distributeArmies() {
+        // First of all, set the new targetRegion for the Player.
+        // The targetRegion is the best (in general, the easiest to conquer) region
+        // that's not currently owned by the player.
+        List<Region> regionsNotOwnedByPlayer = new ArrayList<Region>();
+        for (Region region : Board.getInstance().getRegions()) {
+            if (region.conqueredByPlayer(player))
+                regionsNotOwnedByPlayer.add(region);
+        }
+        double maxRegionRating = Double.NEGATIVE_INFINITY;
+        for (Region region : regionsNotOwnedByPlayer) {
+            double newRating = region.getAdjustedRating(player);
+            maxRegionRating = Math.max(maxRegionRating, newRating);
+            if (maxRegionRating == newRating)
+                player.setTargetRegion(region);
+        }
+        // Now we can distribute our armies
         while (player.getPendingArmies() > 0) {
             BackEndTerritory chosen = null;
             double maxRating = 0.0;

@@ -6,8 +6,9 @@ package models;
  */
 public class AIPlayer extends Player {
 
-    Difficulty difficulty;
-    
+    protected Difficulty difficulty;
+    protected Region targetRegion;
+
     public AIPlayer(String name) {
         super(name);
     }
@@ -19,5 +20,21 @@ public class AIPlayer extends Player {
     @Override
     public boolean isAIPlayer() {
         return true;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public Region getTargetRegion() {
+        return targetRegion;
+    }
+
+    public void setTargetRegion(Region targetRegion) {
+        this.targetRegion = targetRegion;
     }
 }
