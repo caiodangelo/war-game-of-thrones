@@ -71,11 +71,56 @@ public class StatisticPlayerManagerTest {
     
     @Test
     public void setSuccessfulAttackPercentageDeveRetornarAPorcentagemDeAtaquesBemSucedidos() {
-        statistic = mock(StatisticPlayerManager.class);
-        when(statistic.getNumberOfAttacks()).thenReturn(32);
-        when(statistic.getNumberOfAttackWins()).thenReturn(32);
-        statistic.setSuccessfulAttackPercentage();
-        assertEquals(statistic.getSuccessfulAttackPercentage(), 0.5f);
+        StatisticPlayerManager estatistica = new StatisticPlayerManager();
+        estatistica.setNumberOfAttacks(32);
+        estatistica.setNumberOfAttackWins(5);
+        estatistica.setSuccessfulAttackPercentage();
+        assertEquals(estatistica.getSuccessfulAttackPercentage(), 15.63f);
+    }
+    
+    @Test
+    public void setSuccessfulDefencePercentageDeveRetornarAPorcentagemDeDefesasBemSucedidos() {
+        StatisticPlayerManager estatistica = new StatisticPlayerManager();
+        estatistica.setNumberOfDefences(32);
+        estatistica.setNumberOfDefenceWins(16);
+        estatistica.setSuccessfulDefencePercentage();
+        assertEquals(estatistica.getSuccessfulDefencePercentage(), 50f);
+    }
+    
+    @Test
+    public void setUpdateTableAtualizaATabelaDeJogadoresAtacadosDoJogadorCorrente(){
+        Board board = new Board();
+        Player a = mock (Player.class);
+        Player b = mock (Player.class);
+        Player c = mock (Player.class);
+        board.addPlayer(a, 0, Board.HUMAN_PLAYER);
+        board.addPlayer(b, 1, Board.HUMAN_PLAYER);
+        board.addPlayer(c, 2, Board.HUMAN_PLAYER);
+        statistic.updateAttackTable(a);
+        statistic.updateAttackTable(a);
+        statistic.updateAttackTable(a);
+        statistic.updateAttackTable(b);
+        statistic.updateAttackTable(c);
+        assertEquals(statistic.getAttackTable()[0], 3);
+        assertEquals(statistic.getAttackTable()[1], 1);
+        assertEquals(statistic.getAttackTable()[2], 1);
+    }
+    
+    @Test
+    public void setYouAttackedMoreRetornaOsJogadoresQueVoceAtacouMais() {
+        Board board = new Board();
+        Player a = mock (Player.class);
+        Player b = mock (Player.class);
+        Player c = mock (Player.class);
+        board.addPlayer(a, 0, Board.HUMAN_PLAYER);
+        board.addPlayer(b, 1, Board.HUMAN_PLAYER);
+        board.addPlayer(c, 2, Board.HUMAN_PLAYER);
+        statistic.updateAttackTable(a);
+        statistic.updateAttackTable(a);
+        statistic.updateAttackTable(a);
+        statistic.updateAttackTable(b);
+        statistic.updateAttackTable(c);
+        assertEquals(statistic.getYouAttackMore(), a);
     }
     
     @AfterClass

@@ -156,13 +156,13 @@ public class StatisticPlayerManager {
     }
 
     public void setSuccessfulAttackPercentage() {
-        float result = ((float) this.numberOfAttackWins / (float) this.numberOfAttacks) * 100;
-        System.out.println(result);
+        float result = (float) this.numberOfAttackWins / (float) this.numberOfAttacks * 100;
         this.successfulAttackPercentage = round(result, 2);
     }
 
     public void setSuccessfulDefencePercentage() {
-        this.successfulDefencePercentage = (this.numberOfDefenceWins / this.numberOfDefences) * 100;
+        float result = (float)this.numberOfDefenceWins / (float)this.numberOfDefences * 100;
+        this.successfulDefencePercentage = round(result, 2);
     }
     
     public void increaseNumberOfCardsSwapped () {
@@ -231,4 +231,22 @@ public class StatisticPlayerManager {
        temp = Math.round(temp);
        return temp / mult;
    }
+
+    public void setNumberOfAttacks(int num) {
+        this.numberOfAttacks = num;
+    }
+
+    public void setNumberOfAttackWins(int num) {
+        this.numberOfAttackWins = num;
+    }
+
+    void setNumberOfDefences(int i) {
+        this.numberOfDefences = i;
+    }
+
+    void setNumberOfDefenceWins(int i) {
+        this.numberOfDefenceWins = i;
+    }
+    
+    
 }
