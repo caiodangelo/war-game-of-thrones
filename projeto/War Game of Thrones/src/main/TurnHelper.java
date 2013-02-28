@@ -24,6 +24,10 @@ public class TurnHelper {
     
     public void changeTurn(){
         b.changePlayer();
+        if (!b.isOnInitialSetup()) {
+            System.out.println(b.getCurrentPlayer().getMission().getName());
+            System.out.println(b.getCurrentPlayer().getMission().isCompleted());
+        }
         for(models.BackEndTerritory t : b.getCurrentPlayer().getTerritories()) {
             t.resetMovedArmies();
         }

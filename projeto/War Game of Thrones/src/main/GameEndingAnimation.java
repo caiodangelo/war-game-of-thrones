@@ -9,6 +9,7 @@ public class GameEndingAnimation extends Entity{
     private GameEndingAnimationRenderer renderer;
     
     public GameEndingAnimation(){
+        setLayer(4);
         addComponent(renderer = new GameEndingAnimationRenderer("gameEndingRenderer"));
     }
 
