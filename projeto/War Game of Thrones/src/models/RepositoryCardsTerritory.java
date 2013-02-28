@@ -173,45 +173,44 @@ public class RepositoryCardsTerritory {
         return false;
     }
 
+    public static boolean checkCardsTradeable(List<CardTerritory> cards){
+        return isDifferentCards(cards) || isSameCards(cards);
+    }
+    
     public static boolean isSameCards(List<CardTerritory> cards) {
-        int typeCard = 0;
-//        List<CardTerritory> aux = cards;
         List<CardTerritory> aux = new ArrayList<CardTerritory>();
         aux.addAll(cards);
-        for (int i = 0; i < aux.size(); i++) {
-            typeCard = aux.get(i).getType();
-            if (typeCard != CardTerritory.JOKER) {
+        for(int i = 0; i < 3; i++){
+            if(aux.get(i).isJoker())
                 aux.remove(i);
-                break;
-            }
         }
-
-        for (CardTerritory card : aux) {
-            if ((card.getType() != typeCard) && (card.getType() != CardTerritory.JOKER)) {
-                return false;
+        
+        for(int i = 0; i < aux.size() - 1; i++){
+            CardTerritory current = aux.get(i);
+            for(int j = i+1; j < aux.size(); j++){
+                CardTerritory next = aux.get(j);
+                if(current.getType() != next.getType())
+                    return false;
             }
         }
         return true;
     }
 
     public static boolean isDifferentCards(List<CardTerritory> cards) {
-        int typeCard = 0;
-//        List<CardTerritory> aux = cards;
         List<CardTerritory> aux = new ArrayList<CardTerritory>();
         aux.addAll(cards);
-        for (int i = 0; i < aux.size(); i++) {
-            typeCard = aux.get(i).getType();
-            if (typeCard != CardTerritory.JOKER) {
+        for(int i = 0; i < 3; i++){
+            if(aux.get(i).isJoker())
                 aux.remove(i);
-                break;
-            }
         }
-     
-        for (CardTerritory card : aux) {
-            if ((card.getType() == typeCard) && (card.getType() != CardTerritory.JOKER)) {
-                return false;
+        
+        for(int i = 0; i < aux.size() - 1; i++){
+            CardTerritory current = aux.get(i);
+            for(int j = i+1; j < aux.size(); j++){
+                CardTerritory next = aux.get(j);
+                if(current.getType() == next.getType())
+                    return false;
             }
-            typeCard = card.getType();
         }
         return true;
     }

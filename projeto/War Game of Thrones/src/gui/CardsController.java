@@ -75,30 +75,22 @@ public class CardsController {
         
         int cardsCount = playerCards.size();
         
-        System.out.println("Player has " + playerCards.size() + " cards");
-        
         
         boolean mustTrade = cardsCount == 5;
         obligateTradeText.setVisible(mustTrade);
         dissmissButton.setEnabled(!mustTrade);
         
-        System.out.println("update contentes");
         for(int i = 0; i < 5; i++){
-            System.out.println("card " + i);
             Element card = cardsImages[i];
             if(i >= cardsCount){
-                System.out.println("extra card");
                 card.setVisible(false);
                 chkBoxElements[i].setVisible(false);
             }
             else{
-                System.out.println("normal card");
                 card.setVisible(true);
                 chkBoxElements[i].setVisible(true);
                 ImageRenderer r = cardsImages[i].getRenderer(ImageRenderer.class);
                 String path = CardPaths.getPath(playerCards.get(i));
-                System.out.println("renderer is " + r);
-                System.out.println("set render path to " + path);
                 r.setImage(n.createImage(path, mustTrade));
             }
         }
@@ -108,9 +100,8 @@ public class CardsController {
         verifyCheckedBoxes();
     }
     
-    public boolean playerMustSawpCards(){
+    public boolean playerMustSwapCards(){
         Player p = Board.getInstance().getCurrentPlayer();
-        System.out.println("size: " + p.getCards().size());
         return p.getCards().size() == 5;
     }
     
@@ -123,8 +114,9 @@ public class CardsController {
         
         List<CardTerritory> selected = getSelectedCards();
         
-        if(checkedCount == 3 && 
-                (RepositoryCardsTerritory.isDifferentCards(selected) ||  RepositoryCardsTerritory.isSameCards(selected)))
+        boolean playerIsDistributing = Board.getInstance().getCurrentPlayer().getPendingArmies() > 0;
+        if(playerIsDistributing && checkedCount == 3 && 
+                (RepositoryCardsTerritory.checkCardsTradeable(selected)))
             tradeButton.setEnabled(true);
         else
             tradeButton.setEnabled(false);
@@ -160,5 +152,6 @@ public class CardsController {
         repo.swapCards(cardsToTrade, p);
         System.out.println("player got " + p.getPendingArmies() + " new armies");
         dissmissPopup();
+        parent.showPendingArmiesMsg();
     }
 }

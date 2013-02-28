@@ -39,7 +39,8 @@ public class TurnHelper {
             if (b.isOnFirstTurn())
                 ctrl.setRavenMessage(curr.getName()+" está jogando.");
             else
-                ctrl.setRavenMessage("\\#333333ff#"+curr.getName()+" ainda possui \\#CC0000#"+curr.getPendingArmies()+"\\#333333ff# exército(s) para distribuir.");
+                ctrl.showPendingArmiesMsg();
+//                ctrl.setRavenMessage("\\#333333ff#"+curr.getName()+" ainda possui \\#CC0000#"+curr.getPendingArmies()+"\\#333333ff# exército(s) para distribuir.");
         }
         ctrl.updatePlayersData();
     }

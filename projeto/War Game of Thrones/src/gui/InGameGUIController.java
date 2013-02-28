@@ -244,8 +244,11 @@ public class InGameGUIController implements ScreenController{
                 curr.addCard(c);
                 r.setImage(n.createImage(CardPaths.getPath(c), false));
                 PopupManager.showPopup(n, s, cardEarnedPopup);
-            } else
+            } else{
                 TurnHelper.getInstance().changeTurn();
+                if(cardsCtrl.playerMustSwapCards())
+                    cardsCtrl.showPopup();
+            }
             setInfoLabelText(null);
             ctxMenuCtrl.resetTerritories();
         }
@@ -258,7 +261,7 @@ public class InGameGUIController implements ScreenController{
     public void dismissCardEarnedPopup() {
         TurnHelper.getInstance().changeTurn();
         PopupManager.closePopup(n, cardEarnedPopup);
-        if(cardsCtrl.playerMustSawpCards())
+        if(cardsCtrl.playerMustSwapCards())
             cardsCtrl.showPopup();
     }
     
@@ -509,5 +512,10 @@ public class InGameGUIController implements ScreenController{
     }
     public void cardClicked(String index){
         cardsCtrl.onCardClick(Integer.parseInt(index));
+    }
+
+    public void showPendingArmiesMsg() {
+        Player curr = b.getCurrentPlayer();
+        setRavenMessage("\\#333333ff#"+curr.getName()+" ainda possui \\#CC0000#"+curr.getPendingArmies()+"\\#333333ff# exército(s) para distribuir.");
     }
 }

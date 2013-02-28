@@ -23,7 +23,7 @@ public class PlayerTurnMessageRenderer extends RenderComponent{
     private String playerName;
     private String bonus;
     private float elapsed = 0;
-    private static final float FADE_DURATION = 2.5f, CONST_DURATION = 1f;
+    private static final float FADE_DURATION = 1.0f, CONST_DURATION = 3.0f;
     private Vector2f pos;
     private Vector2f mapSize;
     private AngelCodeFont fnt = null;
