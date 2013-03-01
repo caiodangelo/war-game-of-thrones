@@ -358,6 +358,7 @@ public class Board implements Serializable {
     }
     
     public boolean hasGameEnded() {
+        checkIfAnyMissionWasCompleted();
         return winner != null;
     }
     

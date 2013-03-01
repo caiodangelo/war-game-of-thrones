@@ -13,6 +13,7 @@ import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.Color;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -404,16 +405,24 @@ public class InGameGUIController implements ScreenController{
         String colorCode;
         Iterator<String> regionsIterator = regionsColors.keySet().iterator();
         String currIterationRegion;
-        String tempRegion;
+        String auxRegion;
+        String auxContent;
+        boolean anyTerritoriesOnRegion = false;
         while (regionsIterator.hasNext()) {
             currIterationRegion = regionsIterator.next();
             colorCode = regionsColors.get(currIterationRegion);
-            content += "\n\n"+colorCode+"Região: "+currIterationRegion+colorCode+"\n";
+            auxContent = "\n\n"+colorCode+"Região: "+currIterationRegion+colorCode+"\n";
             for (BackEndTerritory t : currPlayer.getTerritories()) {
-                tempRegion = t.getRegion().getName();
-                if (currIterationRegion.equals(tempRegion))
-                    content += "\n"+colorCode+t.getName()+colorCode;
+                auxRegion = t.getRegion().getName();
+                if (currIterationRegion.equals(auxRegion)) {
+                    anyTerritoriesOnRegion = true;
+                    auxContent += "\n"+colorCode+t.getName()+colorCode;
+                }
             }
+            if (anyTerritoriesOnRegion)
+                content += auxContent;
+            auxContent = "";
+            anyTerritoriesOnRegion = false;
         }
         content += "\n\nATENÇÃO!!!!!! Seu objetivo está logo abaixo! Não deixe que nenhum outro jogador o veja!\n\n\nSEU OBJETIVO:\n\n"+currPlayer.getMission().getDescription();
         infoTerritories.setText(content);

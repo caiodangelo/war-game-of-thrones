@@ -70,12 +70,13 @@ public class Scroll extends ImageMovementsComponent {
             //zoom checking
             float scale = owner.getScale();
             int mouseWheel = GameScene.getMouseWheel();
+            if (!DiceManager.getInstance().dicesOnScreen()) { //disabling zoom when dices are on screen
+                if (mouseWheel > 0 || input.isKeyDown(Input.KEY_UP))
+                    zoomIn(scale, delta, owner.getPosition());
 
-            if (mouseWheel > 0 || input.isKeyDown(Input.KEY_UP))
-                zoomIn(scale, delta, owner.getPosition());
-
-            if (mouseWheel < 0 || input.isKeyDown(Input.KEY_DOWN))
-                zoomOut(scale, delta, owner.getPosition());
+                if (mouseWheel < 0 || input.isKeyDown(Input.KEY_DOWN))
+                    zoomOut(scale, delta, owner.getPosition());
+            }
             Vector2f position = new Vector2f();
 
             position.x = mapPos.x + (mapSize.x / 2f) - viewX * getImageWidth(owner.getScale());

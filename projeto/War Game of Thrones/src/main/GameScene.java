@@ -113,7 +113,7 @@ public class GameScene extends Scene{
                 t.resetMovedArmies();
                 curr.removePendingArmies(1);
                 pendingArmies--;
-                if (b.hasGameEnded())
+                if (t.getNumArmies() < 3 && b.hasGameEnded()) //checking if 17 territories with 2 armies mission is completed
                     startGameEndingAnimation();
             } 
             if (pendingArmies == 0) {

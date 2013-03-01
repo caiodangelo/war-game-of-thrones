@@ -175,37 +175,23 @@ public class Mission implements Serializable {
     }
 
     public boolean isRegionMissionCompleted() {
-        boolean answer = false;
-        Region aux = new Region("", 0);
-        List<Region> conqueredRegions = new ArrayList<Region>(); //Regioes que foram conquistadas pelo jogador      
-        List<BackEndTerritory> territoriesPlayer = player.getTerritories();
-
-        for (Region region : Board.getInstance().getRegions()) {
-            if (territoriesPlayer.containsAll(region.getTerritories())) {
-                conqueredRegions.add(region);
+        List<Region> tempRegions = new ArrayList<Region>(regions);
+        Region r;
+        for (int i = 0; i < tempRegions.size(); i++) { //evitando concurrent modification
+            r = tempRegions.get(i);
+            if (r.getName() != null && r.conqueredByPlayer(player)) {
+                tempRegions.remove(r);
+                i--;
             }
         }
-        
-        for (Region regionMission : this.getRegions()) {
-            //Para as missões do tipo que tenham que conquistar uma região a sua escolha
-            //é definido o nome da região como null
-            if (regionMission.getName() != null) {
-                if (conqueredRegions.contains(regionMission)) {
-                    conqueredRegions.remove(regionMission);
-                    answer = true;
-                } else {
-                    answer = false;
-                }
-            } else {
-                aux = regionMission;
-            }
+        if (!tempRegions.isEmpty()) {
+            if (tempRegions.size() == 1 && tempRegions.get(0).getName() == null)
+                return true;
+            else
+                return false;
         }
-        // Para as missões que tenham que conquistar uma região a sua escolha
-        if ((aux.getName() == null) && (conqueredRegions.isEmpty())) {
-            answer = false;
-        }
-
-        return answer;
+        else
+            return true;
     }
 
     public boolean isTerritoryMissionCompleted() {

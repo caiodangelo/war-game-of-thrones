@@ -133,9 +133,9 @@ public class ContextMenuController {
         
         int maxAtkUnits = Math.min(3, backAtkTer.getNumArmies() - 1);
         int maxDefUnits = Math.min(3, backDefTer.getNumArmies());
-        for(int i = 1; i <= maxAtkUnits; i++)
+        for(int i = maxAtkUnits; i >= 1; i--)
             atkDropDown.addItem(i);
-        for(int i = 1; i <= maxDefUnits; i++)
+        for(int i = maxDefUnits; i >= 1; i--)
             defDropDown.addItem(i);
         attackPopup.findElementByName("confirmAtkArmiesBtn").enable();
         atkDropDown.enable();

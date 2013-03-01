@@ -12,7 +12,7 @@ import java.util.Random;
 public class Battle {
 
     //for debug
-    private static boolean ATK_WIN_ALWAYS = false,
+    private static boolean ATK_WIN_ALWAYS = true,
             ATK_LOSE_ALWAYS = false;
     
     
