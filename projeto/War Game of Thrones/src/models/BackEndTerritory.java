@@ -69,6 +69,7 @@ public class BackEndTerritory implements Serializable {
     }
 
     public void increaseArmies(int amount) {
+        System.out.println("increase num armies from " + numArmies + " to " + (numArmies + amount));
         numArmies += amount;
     }
 
@@ -143,6 +144,10 @@ public class BackEndTerritory implements Serializable {
     }
 
     public void setOwner(Player owner) {
+        Player previousOwner = getOwner();
+        if(previousOwner != null){
+            previousOwner.removeTerritory(this);
+        } 
         this.owner = owner;
     }
 

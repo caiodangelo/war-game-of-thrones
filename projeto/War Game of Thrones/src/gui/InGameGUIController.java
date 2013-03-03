@@ -418,9 +418,8 @@ public class InGameGUIController implements ScreenController{
         infoTerritories.setText(content);
         PopupManager.showPopup(n, s, infoTerritoriesPopup);
     }
-     
-    public void closeInfoTerritoriesPopup(){
-        PopupManager.closePopup(n, infoTerritoriesPopup);
+    
+    public void startPlayerInitialDistribution(){
         Player curr = b.getCurrentPlayer();
         List<BackEndTerritory> ts = b.getCurrentPlayer().getTerritories();
         
@@ -429,7 +428,21 @@ public class InGameGUIController implements ScreenController{
         }
         setRavenMessage("\\#333333ff#"+curr.getName()+" ainda possui \\#CC0000#"+curr.getPendingArmies()+"\\#333333ff# exército(s) para distribuir.");
         updatePlayersData();
-        GameScene.getInstance().showPlayerTurnMsg();
+        
+        if(!curr.isAIPlayer())
+            GameScene.getInstance().showPlayerTurnMsg();
+        else {
+            AIPlayer ai = (AIPlayer)curr;
+            ai.getDifficulty().distributeArmies();
+            updatePlayersData();
+            TurnHelper.getInstance().changeTurn();
+        }
+                
+    }
+     
+    public void closeInfoTerritoriesPopup(){
+        PopupManager.closePopup(n, infoTerritoriesPopup);
+        startPlayerInitialDistribution();
     }
     
     public void goToStatistics() {

@@ -153,6 +153,7 @@ public class DiceManager {
         battle.getDefender().setMovedArmies(defDeaths);
         guiController.setRavenMessage(currPlayerName+" sofreu "+atkDeaths+" baixa(s)! "+attackedPlayerName+" sofreu "+defDeaths+" baixa(s)!");
         battle.concludeAttack();
+        InGameGUIController.getInstance().updatePlayersData();
         if (battle.isConquested()) {
             if (Board.getInstance().hasGameEnded()) {
                 gameScene.startGameEndingAnimation();

@@ -1,6 +1,7 @@
 package main;
 
 import gui.InGameGUIController;
+import models.AIPlayer;
 import models.Board;
 import models.Player;
 
@@ -24,14 +25,25 @@ public class TurnHelper {
     
     public void changeTurn(){
         b.changePlayer();
+        Player curr = b.getCurrentPlayer();
         for(models.BackEndTerritory t : b.getCurrentPlayer().getTerritories()) {
             t.resetMovedArmies();
         }
-        if(b.isOnInitialSetup())
-            ctrl.showInfoTerritories();
+        if(b.isOnInitialSetup()){
+            if(!curr.isAIPlayer())
+                ctrl.showInfoTerritories();
+            else {
+//                ctrl
+//                AIPlayer ai = (AIPlayer)curr;
+                ctrl.startPlayerInitialDistribution();
+//                ai.getDifficulty().distributeArmies();
+//                ctrl.updatePlayersData();
+//                changeTurn();
+            }
+            
+        }
         else {
             parent.showPlayerTurnMsg();
-            Player curr = b.getCurrentPlayer();
             if (b.isOnFirstTurn())
                 ctrl.setRavenMessage(curr.getName()+" está jogando.");
             else

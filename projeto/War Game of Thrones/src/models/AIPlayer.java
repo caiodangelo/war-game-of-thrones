@@ -28,6 +28,7 @@ public class AIPlayer extends Player {
 
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
+        difficulty.player = this;
     }
 
     public Region getTargetRegion() {

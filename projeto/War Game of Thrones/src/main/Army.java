@@ -37,6 +37,7 @@ public class Army extends Entity {
     }
     
     public int getQuantity() {
+//        System.out.println("get quantity returning " + territory.getBackEndTerritory().getNumArmies());
         return territory.getBackEndTerritory().getNumArmies();
     }
     

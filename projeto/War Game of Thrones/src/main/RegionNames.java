@@ -26,9 +26,10 @@ public class RegionNames extends Entity{
             System.out.println(centers[i]);
 
         //make adjustments
-        centers[0].y /= 3;
+        centers[0].y /= 3 - 0.1f;
         centers[1].y -= 0.01f;
-        centers[2].y -= 0.02f;
+        centers[2].x += 0.05f;
+        centers[2].y -= 0.019f;
         centers[4].x += 0.03f;
         centers[4].y += 0.06f;
         centers[5].y -= 0.05f;

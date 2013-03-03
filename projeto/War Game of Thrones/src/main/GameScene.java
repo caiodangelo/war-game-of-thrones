@@ -55,11 +55,10 @@ public class GameScene extends Scene{
         DiceManager dm = DiceManager.getInstance();
         dm.setGameScene(this);
         
+        b = Board.getInstance();
         turnMsg = new PlayerTurnMessage();
         addEntity(turnMsg);
         ctrl = InGameGUIController.getInstance();
-        ctrl.showInfoTerritories();
-        b = Board.getInstance();
         helper = new TurnHelper(this, ctrl);
         
         terrName = new TerritoryName();
@@ -67,6 +66,10 @@ public class GameScene extends Scene{
         AudioManager.getInstance().playMusic(AudioManager.GAME_RUNNING);
         
         addEntity(new RegionNames(Map.armyPositions, map));
+        if(!b.getCurrentPlayer().isAIPlayer())
+            ctrl.showInfoTerritories();
+        else
+            ctrl.startPlayerInitialDistribution();
     }
     
     public void setHighlightedTerritory(Territory t){

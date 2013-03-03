@@ -5,6 +5,7 @@ import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.controls.CheckBoxStateChangedEvent;
 import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.controls.SliderChangedEvent;
+import de.lessvoid.nifty.controls.Slider;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
@@ -16,6 +17,7 @@ public class MainScreenController implements ScreenController {
     private Nifty n;
     private Screen s;
     private Element exitConfirmPopup, helpPopup, optionsPopup;
+    private static int selectedDifficulty = 1;
     private HashMap<Integer, String> difficulties;
     
     @Override
@@ -31,6 +33,10 @@ public class MainScreenController implements ScreenController {
         difficulties.put(3, "Difícil");
     }
 
+    public static int getIADifficulty(){
+        return selectedDifficulty;
+    }
+    
     @Override
     public void onStartScreen() {    }
 
@@ -77,7 +83,7 @@ public class MainScreenController implements ScreenController {
     
     @NiftyEventSubscriber(id="sliderCPUdifficulty")
     public void onCPUDifficultySliderChange(final String id, final SliderChangedEvent event) {
-        event.getValue();
+        selectedDifficulty = (int)(event.getValue());
         Label CPUDifficultyValue = optionsPopup.findNiftyControl("CPUdifficultyValue", Label.class);
         CPUDifficultyValue.setText(difficulties.get((int) event.getValue()));
     }

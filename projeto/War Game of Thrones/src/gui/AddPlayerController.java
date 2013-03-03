@@ -217,9 +217,29 @@ public class AddPlayerController implements ScreenController{
     }
     
     private Player createBackEndPlayer(PlayerData pd, House h){
+        System.out.println("is human? " + pd.isHuman);
         if(pd.isHuman)
             return new HumanPlayer(pd.name, h);
-        return new AIPlayer(pd.name, h);
+        AIPlayer ai = new AIPlayer(pd.name, h);
+        int difficulty = MainScreenController.getIADifficulty();
+        //easy = 1, medium = 2, hard = 3
+        Difficulty d;
+        System.out.println("create backend player");
+        switch(difficulty){
+            case 1:
+                ai.setDifficulty(new EasyAI());
+                System.out.println("creating easy IA");
+                break;
+            case 2:
+                ai.setDifficulty(new MediumAI());
+                System.out.println("creating medium IA");
+                break;
+            case 3:
+                ai.setDifficulty(new ExtremeAI());
+                System.out.println("creating hard IA");
+                break;
+        }
+        return ai;
     }
     
     public void playButtonPressed() {
@@ -232,7 +252,11 @@ public class AddPlayerController implements ScreenController{
                 Board b = Board.getInstance();
                 int playersCount = createdPlayers.size();
                 for(int i = 0; i < playersCount; i++){
-                    int randomPos = (int)(Math.random()*createdPlayers.size());
+                    int randomPos;
+                    if(RANDOM_PLAYER_ORDER)
+                        randomPos = (int)(Math.random()*createdPlayers.size());
+                    else
+                        randomPos = 0;
                     PlayerData playerData = createdPlayers.remove(randomPos);
                     b.isPlayerCountValid();
                     House h = createBackEndHouse(playerData.house);

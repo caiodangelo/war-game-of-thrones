@@ -2,6 +2,7 @@ package main;
 
 import gui.InGameGUIController;
 import models.Board;
+import models.Player;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
@@ -58,7 +59,9 @@ public class TerritoryHoverImage extends ImageRenderComponent {
         DiceManager dm = DiceManager.getInstance();
         Territory tOwner = (Territory) owner;
         owned = tOwner.getBackEndTerritory().getOwner() == Board.getInstance().getCurrentPlayer();
-        if (!dm.dicesOnScreen() && !PopupManager.isAnyPopupOpen() && mouseOver(mouseX, mouseY) && !imagePixelColorIsTransparent((int) (mouseX - owner.position.x), (int) (mouseY - owner.position.y), owner.getScale()) && !Mouse.isGrabbed()){
+        Player currPlayer = Board.getInstance().getCurrentPlayer();
+        
+        if (!dm.dicesOnScreen() && !PopupManager.isAnyPopupOpen() && mouseOver(mouseX, mouseY) && !imagePixelColorIsTransparent((int) (mouseX - owner.position.x), (int) (mouseY - owner.position.y), owner.getScale()) && !Mouse.isGrabbed() && !currPlayer.isAIPlayer()){
             highlightedImage = true;
             GameScene scene = (GameScene) owner.getScene();
             scene.setHighlightedTerritory(tOwner);

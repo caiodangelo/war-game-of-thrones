@@ -17,7 +17,9 @@ public class EasyAI extends Difficulty {
             int numTerritories = player.getTerritories().size();
             int territoryToDistribute = new Random().nextInt(numTerritories);
             player.distributeArmies(player.getTerritories().get(territoryToDistribute), 1);
+            System.out.println("distribute");
         }
+        
     }
 
     /**
