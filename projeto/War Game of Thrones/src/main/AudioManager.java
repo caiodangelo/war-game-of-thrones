@@ -23,6 +23,7 @@ public class AudioManager {
     public static final int START_GAME = 1;
     public static final int ATTACK_SOUND = 2;
     public static final int SWORD_TURN_SOUND = 3;
+    public static final int GAME_RUNNING = 4;
     
     public AudioManager() {
         try {
@@ -30,6 +31,7 @@ public class AudioManager {
             startGame = new Sound("resources/sounds/raio-start.ogg");
             attackSound = new Sound("resources/sounds/explosion.ogg");
             changeTurnSound = new Sound("resources/sounds/sword-turn.ogg");
+            audioMap.put(GAME_RUNNING, new Music("resources/sounds/game_running.ogg"));
         } catch (SlickException ex) {
             System.out.println(ex.getMessage());
         }

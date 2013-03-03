@@ -8,10 +8,8 @@ import models.Board;
 import models.Player;
 import models.StatisticGameManager;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
-import util.PopupManager;
 import util.Scene;
 
 public class GameScene extends Scene{
@@ -66,6 +64,7 @@ public class GameScene extends Scene{
         
         terrName = new TerritoryName();
         addEntity(terrName);
+        AudioManager.getInstance().playMusic(AudioManager.GAME_RUNNING);
     }
     
     public void setHighlightedTerritory(Territory t){
