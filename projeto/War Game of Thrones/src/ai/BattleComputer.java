@@ -95,8 +95,7 @@ public class BattleComputer {
         return outcomes;
     }
 
-    public static double[] generateAttackOutcomeProbabilities(Board currentGameState, BackEndTerritory attacker, BackEndTerritory defender, int numAttackers) {
-        int numDefenders = Math.min(3, defender.getNumArmies());
+    public static double[] generateAttackOutcomeProbabilities(int numAttackers, int numDefenders) {
         return attackResultProbabilities[numDefenders - 1][numAttackers - 1];
     }
 

@@ -65,7 +65,7 @@ public class AttackEvaluator extends Evaluator {
 
     private void simulateMultiActionExecution() {
         outcomes = BattleComputer.generateAttackOutcomes(currentGameState, attack.attacker, attack.defender, attack.numberOfAttackers);
-        probabilities = BattleComputer.generateAttackOutcomeProbabilities(currentGameState, attack.attacker, attack.defender, attack.numberOfAttackers);
+        probabilities = BattleComputer.generateAttackOutcomeProbabilities(attack.numberOfAttackers, Math.min(3, attack.defender.getNumArmies()));
     }
 
     /**
@@ -97,7 +97,7 @@ public class AttackEvaluator extends Evaluator {
             }
         }
         simulatedRating = rating / probabilitiesSum;
-        return simulatedRating;
+        return simulatedRating * BattleComputer.calculateThreatToTerritory(attack.attacker, attack.defender) * 2;
     }
 
     public TerritoryTransaction getAttack() {
