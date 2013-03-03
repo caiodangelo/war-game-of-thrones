@@ -12,10 +12,6 @@ import java.util.Random;
  */
 public class Battle {
 
-
-    //for debug
-
-
     protected BackEndTerritory attacker;
     protected BackEndTerritory defender;
     protected int numberAttackers;
