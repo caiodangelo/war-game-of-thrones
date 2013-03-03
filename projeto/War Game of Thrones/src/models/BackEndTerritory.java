@@ -17,7 +17,6 @@ public class BackEndTerritory implements Serializable {
     private Region region;
     private Player owner;
     private Board board;
-    private TerritoriesGraphStructure graph;
     protected int numArmies;
     protected int numArmiesCanMoveThisRound;
     protected int numAttacks;  //Num de vezes que o territorio foi atacado
@@ -25,8 +24,12 @@ public class BackEndTerritory implements Serializable {
 
     public BackEndTerritory(int index, TerritoriesGraphStructure strct) {
         this.index = index;
-        this.graph = strct;
+//        this.graph = strct;
         this.board = Board.getInstance();
+    }
+    
+    private TerritoriesGraphStructure getGraph(){
+        return TerritoriesGraphStructure.getInstance();
     }
 
     public BackEndTerritory(String name, Region region) {
@@ -41,7 +44,7 @@ public class BackEndTerritory implements Serializable {
     }
 
     public String getName() {
-        return graph.getNode(index).getString("name");
+        return getGraph().getNode(index).getString("name");
     }
 
     public Region getRegion() {
@@ -156,7 +159,7 @@ public class BackEndTerritory implements Serializable {
      */
     public boolean isNeighbour(BackEndTerritory another) {
         String otherName = another.getName();
-        Iterator neighbours = graph.getNeighborsIterator(index);
+        Iterator neighbours = getGraph().getNeighborsIterator(index);
         while (neighbours.hasNext()) {
             Node next = (Node) neighbours.next();
             if (next.getString("name").equals(otherName))
@@ -172,7 +175,6 @@ public class BackEndTerritory implements Serializable {
     public List<BackEndTerritory> getNeighbours() {
         BackEndTerritory[] allTerritories = board.getTerritories();
         List<BackEndTerritory> resp = new ArrayList<BackEndTerritory>();
-        System.out.println("running for in all territories");
         for (BackEndTerritory t : allTerritories) {
             if (!t.equals(this) && t.isNeighbour(this))
                 resp.add(t);

@@ -342,7 +342,9 @@ public class Board implements Serializable {
                 mission = missions.get(0);
             }
             mission.setPlayer(p);
-            p.setMission(missions.remove(0));
+            Mission m = missions.remove(0);
+            p.setMission(m);
+            System.out.println("set player mission to " + m.getDescription());
         }
     }
 

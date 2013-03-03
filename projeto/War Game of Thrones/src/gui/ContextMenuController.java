@@ -36,7 +36,7 @@ public class ContextMenuController {
     
     private boolean onAtkSequence;
     private boolean distributing;
-    private boolean mayShowRearrangeConfirmation;
+    private static boolean mayShowRearrangeConfirmation;
     
     public ContextMenuController(Nifty n, InGameGUIController parent){
         this.n = n;
@@ -63,6 +63,13 @@ public class ContextMenuController {
         contextMenu.getElementInteraction().getPrimary().setOnClickMethod(new NiftyMethodInvoker(n, "closePopupMenu()", this));
         contextMenu.getElementInteraction().getSecondary().setOnClickMethod(new NiftyMethodInvoker(n, "closePopupMenu()", this));
         contextMenu.getElementInteraction().getTertiary().setOnClickMethod(new NiftyMethodInvoker(n, "closePopupMenu()", this));
+        mayShowRearrangeConfirmation = true;
+    }
+    
+    /**
+     * Faz o aviso sobre distribuição de exércitos ficar visível novamente
+     */
+    public static void reset(){
         mayShowRearrangeConfirmation = true;
     }
     

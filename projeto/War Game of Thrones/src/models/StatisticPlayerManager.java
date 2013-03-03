@@ -4,13 +4,14 @@
  */
 package models;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 /**
  *
  * @author Anderson
  */
-public class StatisticPlayerManager {
+public class StatisticPlayerManager implements Serializable{
 
     private int numberOfAttacks;//DONE
     private float successfulAttackPercentage;//DONE

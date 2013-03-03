@@ -22,9 +22,6 @@ public class RegionNames extends Entity{
             getCenter(territoryCenters, 34, 38)
         };
         
-        for(int i = 0; i < 6; i++)
-            System.out.println(centers[i]);
-
         //make adjustments
         centers[0].y /= 3 - 0.1f;
         centers[1].y -= 0.01f;

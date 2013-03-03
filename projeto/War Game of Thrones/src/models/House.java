@@ -14,7 +14,8 @@ public class House implements Serializable {
     
     private String name;
 
-    private Color color;
+//    private Color color;
+    private float colorR, colorG, colorB, colorA;
     private String symbol;
     private Player player;
     private String imgPath;
@@ -25,7 +26,8 @@ public class House implements Serializable {
 
     public House(String name, Color color, String symbol, String imgPath) {
         this.name = name;
-        this.color = color;
+        setColor(color);
+//        this.color = color;
         this.symbol = symbol;
         this.imgPath = imgPath;
     }
@@ -36,11 +38,14 @@ public class House implements Serializable {
     }
 
     public Color getColor() {
-        return color;
+        return new Color(colorR, colorG, colorB, colorA);
     }
 
     public void setColor(Color color) {
-        this.color = color;
+        colorR = color.getRed();
+        colorG = color.getGreen();
+        colorB = color.getBlue();
+        colorA = color.getAlpha();
     }
 
     public String getName() {

@@ -249,6 +249,7 @@ public class AddPlayerController implements ScreenController{
             else{
                 saveCurrentPlayerData();
                 Board.reset();
+                ContextMenuController.reset();
                 Board b = Board.getInstance();
                 int playersCount = createdPlayers.size();
                 for(int i = 0; i < playersCount; i++){

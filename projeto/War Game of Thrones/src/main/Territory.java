@@ -19,9 +19,10 @@ public class Territory extends Entity{
         return hoverRenderer;
     }
     
-    public Territory(Map m, Vector2f relativePos, String imagePath, models.BackEndTerritory backEndTerr){
+    public Territory(Map m, Vector2f relativePos, String imagePath, BackEndTerritory backEndTerr){
         super();
         this.backEndTerr = backEndTerr;
+        backEndTerr.setNumArmies(1);
         map = m;
         syncer = new TerritoryPositionSync(map, relativePos);
         addComponent(syncer);

@@ -423,9 +423,9 @@ public class InGameGUIController implements ScreenController{
         Player curr = b.getCurrentPlayer();
         List<BackEndTerritory> ts = b.getCurrentPlayer().getTerritories();
         
-        for(BackEndTerritory t : ts){
-            t.setNumArmies(1);
-        }
+//        for(BackEndTerritory t : ts){
+//            t.setNumArmies(1);
+//        }
         setRavenMessage("\\#333333ff#"+curr.getName()+" ainda possui \\#CC0000#"+curr.getPendingArmies()+"\\#333333ff# exército(s) para distribuir.");
         updatePlayersData();
         
