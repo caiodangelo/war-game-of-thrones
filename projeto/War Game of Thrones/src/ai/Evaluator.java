@@ -2,6 +2,7 @@ package ai;
 
 import java.util.ArrayList;
 import java.util.List;
+import models.AIPlayer;
 import models.Board;
 import models.Player;
 
@@ -42,11 +43,13 @@ public abstract class Evaluator {
     public Player getSimulatedPlayer(Board simulatedGameState) {
         Player clonedPlayer = null;
         for (Player newPlayer : simulatedGameState.getPlayers()) {
-            if (player.getName().equals(player.getName())) {
+            if (newPlayer.getHouse().getName().equals(player.getHouse().getName())) {
                 clonedPlayer = newPlayer;
+                ((AIPlayer) clonedPlayer).setTargetRegion(((AIPlayer) player).getTargetRegion());
+                return clonedPlayer;
             }
         }
-        return clonedPlayer;
+        return null;
     }
 
     /**
