@@ -22,8 +22,11 @@ public class BattleSimulation {
     private boolean battleOver;
     private HashMap<Integer, HashMap<Integer, HashMap<Integer, Double>>> knownProbabilities;
 
+    /**
+     * Para testes.
+     */
     public static void main(String[] args) {
-        BattleSimulation teste = new BattleSimulation(5, 5);
+        BattleSimulation teste = new BattleSimulation(8, 3);
         System.out.println(teste.simulate());
     }
 
@@ -127,8 +130,8 @@ public class BattleSimulation {
      */
     private void generateAttack() {
         int attackers = Math.min(numberAttackers, 3);
-//        int defenders = Math.min(numberDefenders, 2);
-        int defenders = Math.min(numberDefenders, 3); // Na regra original só podia defender com 2, e pelas contas que eu fiz era bem mais justo do que poder usar 3
+        int defenders = Math.min(numberDefenders, 2);
+//        int defenders = Math.min(numberDefenders, 3); // Na regra original só podia defender com 2, e pelas contas que eu fiz era bem mais justo do que poder usar 3
         attack = new Attack(attackers, defenders);
     }
 
