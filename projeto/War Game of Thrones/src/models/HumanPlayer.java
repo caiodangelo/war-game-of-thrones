@@ -1,10 +1,12 @@
 package models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author rodrigo
  */
-public class HumanPlayer extends Player {
+public class HumanPlayer extends Player implements Serializable {
 
     public HumanPlayer(String name) {
         super(name);

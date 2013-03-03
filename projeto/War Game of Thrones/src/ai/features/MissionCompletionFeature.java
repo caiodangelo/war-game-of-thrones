@@ -2,6 +2,7 @@ package ai.features;
 
 import ai.Feature;
 import java.util.List;
+import models.BackEndTerritory;
 import models.Board;
 import models.Mission;
 import models.Player;
@@ -40,6 +41,15 @@ public class MissionCompletionFeature extends Feature {
                 }
                 return rating / regions.size();
             case Mission.TYPE_TERRITORY:
+                if (mission.getTerritories() == 17) {
+                    int territoriesWithTwoOrMoreArmies = 0;
+                    for (BackEndTerritory territory : player.getTerritories()) {
+                        if (territory.getNumArmies() >= 2) {
+                            territoriesWithTwoOrMoreArmies++;
+                        }
+                    }
+                    return territoriesWithTwoOrMoreArmies / (player.getTerritories().size() * 1.0);
+                }
                 // Não há cálculo aqui pois missão de território basta conquistar X territórios quaisquer,
                 // e as outras features já se encarregam de conquistar territórios.
                 return 1.0;

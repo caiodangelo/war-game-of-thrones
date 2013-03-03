@@ -1,10 +1,12 @@
 package models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author rodrigo
  */
-public class AIPlayer extends Player {
+public class AIPlayer extends Player implements Serializable {
 
     protected Difficulty difficulty;
     protected Region targetRegion;

@@ -21,7 +21,7 @@ import models.BackEndTerritory;
 public class DistanceToFrontierFeature extends Feature {
 
     public DistanceToFrontierFeature() {
-        importance = 3;
+        importance = 6;
         scaleFactor = 1;
     }
 
