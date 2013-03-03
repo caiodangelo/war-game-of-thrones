@@ -5,7 +5,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import util.Entity;
-import util.ImageRenderComponent;
 
 public class Territory extends Entity{
     
@@ -13,7 +12,7 @@ public class Territory extends Entity{
     private TerritoryPositionSync syncer;
     private Image territoryImg;
     private Army army;
-    private models.BackEndTerritory backEndTerr;
+    private BackEndTerritory backEndTerr;
     private TerritoryHoverImage hoverRenderer;
 
     public TerritoryHoverImage getHoverRenderer() {

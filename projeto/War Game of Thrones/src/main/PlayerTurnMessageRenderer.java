@@ -1,7 +1,5 @@
 package main;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import models.Board;
 import models.Player;
 import org.newdawn.slick.AngelCodeFont;
@@ -19,18 +17,20 @@ public class PlayerTurnMessageRenderer extends RenderComponent{
     
     private FadeState state = FadeState.INACTIVE;
     
-    private Color c;
+    private Color c, bgColor;
     private String playerName;
     private String bonus;
     private float elapsed = 0;
     private static final float FADE_DURATION = 1.0f, CONST_DURATION = 3.0f;
-    private static final int MAX_BG_ALPHA = (int)(0.7f * 255);//153;
+    private static final float MAX_BG_ALPHA = 0.7f;
     private Vector2f pos;
     private Vector2f mapSize;
     private AngelCodeFont fnt = null;
     
     public PlayerTurnMessageRenderer(String id){
         super(id);
+        bgColor = new Color(0x03, 0x03, 0x03, 0);
+        
         Vector2f mapPos = main.Main.getMapPos();
         mapSize =  main.Main.getMapSize();
         pos = new Vector2f(mapPos.x, mapPos.y + mapSize.y/2);
@@ -58,29 +58,28 @@ public class PlayerTurnMessageRenderer extends RenderComponent{
             
             Board b = Board.getInstance();
             
+            //set bg rect position and size
             float x, y, width, height;
-            x = y = width = height = 0;
-            if(!b.isOnFirstTurn()){
-                int fntWidth = fnt.getWidth(bonusText);
-                int fntHeight = fnt.getHeight(turnText);
-                x = pos.x + (mapSize.x - fntWidth)/2.0f;
-                y = pos.y;
-                width = fntWidth + 15f;
-                height = 2 * fntHeight * 1.5f;
-                System.out.println("on first turn");
-            } else if(b.isOnInitialSetup()){
-                System.out.println("on initial setup");
-                int fntWidth = fnt.getWidth(initialSetupText);
-                int fntHeight = fnt.getHeight(turnText);
+            int fntWidth, fntHeight;
+            if(b.isOnInitialSetup()){
+                fntWidth = fnt.getWidth(initialSetupText);
+                fntHeight = fnt.getHeight(turnText);
                 float offsetX = 60;
                 x = pos.x + (mapSize.x - fntWidth)/2.0f - offsetX;
                 y = pos.y;
                 width = fntWidth + 2 * offsetX;
                 height = 2 * fntHeight * 1.5f;
+            } else if(!b.isOnFirstTurn()){
+                fntWidth = fnt.getWidth(bonusText);
+                fntHeight = fnt.getHeight(turnText);
+                x = pos.x + (mapSize.x - fntWidth)/2.0f;
+                y = pos.y;
+                width = fntWidth + 15f;
+                height = 2 * fntHeight * 1.5f;
+                System.out.println("on first turn");
             } else {
-                System.out.println("else");
-                int fntWidth = fnt.getWidth(turnText);
-                int fntHeight = fnt.getHeight(turnText);
+                fntWidth = fnt.getWidth(turnText);
+                fntHeight = fnt.getHeight(turnText);
                 float offsetX = 30;
                 x = pos.x + (mapSize.x - fnt.getWidth(turnText))/2.0f - offsetX;
                 y = pos.y;
@@ -89,7 +88,7 @@ public class PlayerTurnMessageRenderer extends RenderComponent{
             }
             
             //draw background rect
-            Color bgColor = new Color(0x03, 0x03, 0x03, Math.min(c.getAlpha(), MAX_BG_ALPHA));
+            bgColor.a = Math.min(c.a, MAX_BG_ALPHA);
             gr.setColor(bgColor);
             
             gr.fillRoundRect(x, y, width, height, 20);
