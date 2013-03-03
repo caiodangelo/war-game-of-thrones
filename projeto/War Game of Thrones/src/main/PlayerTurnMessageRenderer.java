@@ -24,6 +24,7 @@ public class PlayerTurnMessageRenderer extends RenderComponent{
     private String bonus;
     private float elapsed = 0;
     private static final float FADE_DURATION = 1.0f, CONST_DURATION = 3.0f;
+    private static final int MAX_BG_ALPHA = (int)(0.7f * 255);//153;
     private Vector2f pos;
     private Vector2f mapSize;
     private AngelCodeFont fnt = null;
@@ -51,16 +52,55 @@ public class PlayerTurnMessageRenderer extends RenderComponent{
     @Override
     public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
         if(state != FadeState.INACTIVE){
-            gr.setColor(c);
             String turnText = "Vez de " + playerName + "!";
             String initialSetupText = "Distribuição inicial: "+bonus+" exércitos";
             String bonusText = "Exércitos recebidos: "+bonus;
+            
+            Board b = Board.getInstance();
+            
+            float x, y, width, height;
+            x = y = width = height = 0;
+            if(!b.isOnFirstTurn()){
+                int fntWidth = fnt.getWidth(bonusText);
+                int fntHeight = fnt.getHeight(turnText);
+                x = pos.x + (mapSize.x - fntWidth)/2.0f;
+                y = pos.y;
+                width = fntWidth + 15f;
+                height = 2 * fntHeight * 1.5f;
+                System.out.println("on first turn");
+            } else if(b.isOnInitialSetup()){
+                System.out.println("on initial setup");
+                int fntWidth = fnt.getWidth(initialSetupText);
+                int fntHeight = fnt.getHeight(turnText);
+                float offsetX = 60;
+                x = pos.x + (mapSize.x - fntWidth)/2.0f - offsetX;
+                y = pos.y;
+                width = fntWidth + 2 * offsetX;
+                height = 2 * fntHeight * 1.5f;
+            } else {
+                System.out.println("else");
+                int fntWidth = fnt.getWidth(turnText);
+                int fntHeight = fnt.getHeight(turnText);
+                float offsetX = 30;
+                x = pos.x + (mapSize.x - fnt.getWidth(turnText))/2.0f - offsetX;
+                y = pos.y;
+                width = fntWidth + 2 * offsetX;
+                height = fntHeight + 30;
+            }
+            
+            //draw background rect
+            Color bgColor = new Color(0x03, 0x03, 0x03, Math.min(c.getAlpha(), MAX_BG_ALPHA));
+            gr.setColor(bgColor);
+            
+            gr.fillRoundRect(x, y, width, height, 20);
+            
+            gr.setColor(c);
             gr.setFont(fnt);
             gr.drawString(turnText, pos.x + (mapSize.x - fnt.getWidth(turnText))/2.0f, pos.y);
             //escolher fonte menor para o segundo texto
-            if (Board.getInstance().isOnInitialSetup())
+            if (b.isOnInitialSetup())
                 gr.drawString(initialSetupText, pos.x + (mapSize.x - fnt.getWidth(initialSetupText))/2.0f, pos.y + (fnt.getHeight(turnText) * 1.5f));
-            else if (!Board.getInstance().isOnFirstTurn())
+            else if (!b.isOnFirstTurn())
                 gr.drawString(bonusText, pos.x + (mapSize.x - fnt.getWidth(bonusText))/2.0f, pos.y + (fnt.getHeight(turnText) * 1.5f));
         }
     }
@@ -100,7 +140,7 @@ public class PlayerTurnMessageRenderer extends RenderComponent{
         playerName = player.getName();
         bonus = player.getPendingArmies()+"";
         c = new Color(color.getRed(), color.getGreen(), color.getBlue(), 0);
-        AudioManager.getInstance().playSound(AudioManager.SWORD_TURN_SOUND);
+//        AudioManager.getInstance().playSound(AudioManager.SWORD_TURN_SOUND);
         setState(FadeState.FADE_IN);
     }
 }

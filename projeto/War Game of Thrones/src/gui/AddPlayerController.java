@@ -2,12 +2,7 @@ package gui;
 
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyEventSubscriber;
-import de.lessvoid.nifty.controls.DropDown;
-import de.lessvoid.nifty.controls.TextField;
-import de.lessvoid.nifty.controls.Button;
-import de.lessvoid.nifty.controls.RadioButton;
-import de.lessvoid.nifty.controls.TextFieldChangedEvent;
-import de.lessvoid.nifty.controls.DropDownSelectionChangedEvent;
+import de.lessvoid.nifty.controls.*;
 import de.lessvoid.nifty.effects.EffectEventId;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.ImageRenderer;
@@ -20,19 +15,12 @@ import java.util.List;
 import java.util.ArrayList;
 import de.lessvoid.nifty.controls.Label;
 import main.Main;
-import models.AIPlayer;
-import models.Board;
-import models.House;
-import models.HumanPlayer;
-import models.Player;
+import static main.Constants.*;
+import models.*;
 import util.PopupManager;
 
 public class AddPlayerController implements ScreenController{
 
-    //DEBUG ONLY
-    private static final boolean ACCEPT_INVALID_NAMES = true;
-    
-    
     private TextField nameField;
     private Nifty n;
     private Screen s;

@@ -1,13 +1,9 @@
 package gui;
 
+import static main.Constants.*;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyEventSubscriber;
-import de.lessvoid.nifty.controls.CheckBox;
-import de.lessvoid.nifty.controls.CheckBoxStateChangedEvent;
-import de.lessvoid.nifty.controls.Label;
-import de.lessvoid.nifty.controls.MenuItemActivatedEvent;
-import de.lessvoid.nifty.controls.Slider;
-import de.lessvoid.nifty.controls.SliderChangedEvent;
+import de.lessvoid.nifty.controls.*;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.screen.Screen;
@@ -16,19 +12,8 @@ import de.lessvoid.nifty.tools.Color;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import main.AudioManager;
-import main.CardPaths;
-import main.GameScene;
-import main.Main;
-import main.Territory;
-import main.TurnHelper;
-import main.WarScenes;
-import models.BackEndTerritory;
-import models.Board;
-import models.CardTerritory;
-import models.House;
-import models.Player;
-import models.RepositoryCardsTerritory;
+import main.*;
+import models.*;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -42,7 +27,7 @@ public class InGameGUIController implements ScreenController{
     private Screen s;
     private Nifty n;
     private Board b;
-    public static Player [] players;
+    private Player [] players;
     
     private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel, 
             optionsPopup, helpPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup,
@@ -190,7 +175,7 @@ public class InGameGUIController implements ScreenController{
     }
     
     private void updateCurrentPlayersData(){
-        boolean skippedStartScreen = Main.JUMP_TO_GAME;
+        boolean skippedStartScreen = JUMP_TO_GAME;
         if(!skippedStartScreen){
             Player currPlayer = getCurrentPlayer();
             Color currentPlayerColor = getCurrentPlayerColor();

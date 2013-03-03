@@ -176,6 +176,10 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 							<interact onMouseOver="mouseMovedOverBottomPanel()"/>
 							<image id="tablesIcon" align="right" valign="top" filename="resources/images/icons/tables.png" width="64px" height="64px">
 								<interact onClick="showTables()"/>
+								<effect>
+									<onCustom name="border" border="1px" color="#030303ff" timeType="infinite"/>
+									<onHover name="border" border="1px" color="#ffffffff" timeType="infinite"/>
+								</effect>
 							</image>
 						</panel>
 					</panel>
@@ -207,8 +211,8 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 								</control>
 							</panel>
 							<panel childLayout="horizontal" width="100%">
-								<control align="left" name="button" label="Trocar cartas" width="35%" focusable="false"/>
-								<panel childLayout="center" width="10%"/>
+								<!-- <control align="left" name="button" label="Trocar cartas" width="35%" focusable="false"/>
+								<panel childLayout="center" width="10%"/> -->
 								<control align="right" name="button" label="Passar a vez" width="35%" focusable="false">
 									<interact onClick="nextPlayerTurnConfirm()"/>
 								</control>

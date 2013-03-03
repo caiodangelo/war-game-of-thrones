@@ -1,5 +1,6 @@
 package models;
 
+import static main.Constants.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -11,11 +12,10 @@ import java.util.Random;
  */
 public class Battle {
 
+
     //for debug
-    private static boolean ATK_WIN_ALWAYS = false,
-            ATK_LOSE_ALWAYS = false;
-    
-    
+
+
     protected BackEndTerritory attacker;
     protected BackEndTerritory defender;
     protected int numberAttackers;

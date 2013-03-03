@@ -1,5 +1,6 @@
 package main;
 
+import static main.Constants.*;
 import de.lessvoid.nifty.slick2d.NiftyStateBasedGame;
 import java.awt.DisplayMode;
 import java.util.logging.Level;
@@ -12,8 +13,6 @@ import util.LibraryLoader;
 
 public class Main extends NiftyStateBasedGame{
     
-    public static boolean JUMP_TO_GAME = false;
-    public static boolean JUMP_TO_STATISTICS = false;
     private static Main instance;
     public static float windowW, windowH;
     private static Vector2f mapPos, mapSize;
@@ -72,9 +71,8 @@ public class Main extends NiftyStateBasedGame{
         Main m = getInstance();
         
         AppGameContainer app = new AppGameContainer(m);
-        boolean fullscreen = false;
         m.container = app;
-        app.setDisplayMode((int)windowW, (int)windowH, fullscreen);
+        app.setDisplayMode((int)windowW, (int)windowH, FULLSCREEN);
         app.setTargetFrameRate(60);
         app.start();
     }

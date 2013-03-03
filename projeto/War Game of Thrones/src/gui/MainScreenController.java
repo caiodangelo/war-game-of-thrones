@@ -39,6 +39,7 @@ public class MainScreenController implements ScreenController {
     
     //Button click actions
     public void showAddPlayerMenu(){
+        System.out.println("show add player menu");
         n.gotoScreen("addPlayer");
     }
     
