@@ -36,6 +36,11 @@ public class DistanceToFrontierFeature extends Feature {
 
     private int distanceToNearestEnemyTerritory(BackEndTerritory territory, int totalDistance) {
         int minDistance = Integer.MAX_VALUE;
+        if (totalDistance >= 6) {
+            // Se caiu aqui é pq entrou em recursão infinita, então vamos retornar logo algo
+            // pra não dar StackOverflow.
+            return totalDistance;
+        }
         for (BackEndTerritory neighbour : territory.getNeighbours()) {
             if (neighbour.getOwner() != territory.getOwner()) {
                 return totalDistance;
