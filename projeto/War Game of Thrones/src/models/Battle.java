@@ -110,8 +110,12 @@ public class Battle {
             defender.decreaseArmies(defenderDeaths);
         }
         concluded = true;
-        if (conquested)
-            defender.setOwner(attacker.getOwner());
+        if (conquested){
+            Player atkPlayer = attacker.getOwner();
+            Player defPlayer = defender.getOwner();
+            defPlayer.removeTerritory(defender);
+            atkPlayer.addTerritory(defender);
+        }
     }
     
     public void moveVictoriousArmies(int armiesMoved) {
