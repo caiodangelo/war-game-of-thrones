@@ -1,4 +1,4 @@
-package main;
+package tests;
 
 import de.lessvoid.nifty.Nifty;
 import util.Scene;

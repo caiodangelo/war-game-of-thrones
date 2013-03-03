@@ -5,7 +5,7 @@ public class Constants {
     //slick setup
     public static final boolean JUMP_TO_GAME = false;
     public static final boolean JUMP_TO_STATISTICS = false;
-    public static final boolean FULLSCREEN = true;
+    public static final boolean FULLSCREEN = false;
     
     //attack
     public static final boolean ATK_WIN_ALWAYS = false;
