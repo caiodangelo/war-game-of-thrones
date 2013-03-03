@@ -11,6 +11,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import util.PopupManager;
 import util.Scene;
 
 public class GameScene extends Scene{
@@ -58,10 +59,9 @@ public class GameScene extends Scene{
         
         turnMsg = new PlayerTurnMessage();
         addEntity(turnMsg);
-        InGameGUIController.getInstance().showInfoTerritories();
-//        showPlayerTurnMsg();
-        b = Board.getInstance();
         ctrl = InGameGUIController.getInstance();
+        ctrl.showInfoTerritories();
+        b = Board.getInstance();
         helper = new TurnHelper(this, ctrl);
         
         terrName = new TerritoryName();
@@ -131,6 +131,7 @@ public class GameScene extends Scene{
     }
     
     public void startGameEndingAnimation() {
+        ctrl.openEmptyPopup();
         GameEndingAnimation a = new GameEndingAnimation();
         addEntity(a);
         a.activate(b.getWinner());

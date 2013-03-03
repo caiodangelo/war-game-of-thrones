@@ -28,6 +28,7 @@ public class ArmyRenderComponent extends ImageRenderComponent {
     private Image imageCopy;
     private boolean exploding;
     private boolean distributing;
+    boolean specialMovement;
     private Animation explosion;
     
     public ArmyRenderComponent(String id, Image img) {
@@ -93,8 +94,19 @@ public class ArmyRenderComponent extends ImageRenderComponent {
             if (movingQty > 0) {
                 if (xSpeed == 0 && ySpeed == 0) {
                     movingPos = new Vector2f(origin);
-                    xSpeed = (destiny.x - origin.x)/80f;
+                    if (specialMovement) {
+                        int originID = ((Army) owner).getTerritory().getBackEndTerritory().getIndex();
+                        float leftLimit = Main.getMapPos().x;
+                        float rightLimit = Main.getMapPos().x + Main.getMapSize().x;
+                        if (originID == 28)
+                            xSpeed = (Main.getMapSize().x - (Math.min(destiny.x, rightLimit) - Math.max(origin.x, leftLimit)))/80f;
+                        else //originID == 38
+                            xSpeed = ((Math.min(origin.x, rightLimit) - Math.max(destiny.x, leftLimit)) - Main.getMapSize().x)/80f;
+                    }
+                    else
+                        xSpeed = (destiny.x - origin.x)/80f;
                     ySpeed = (destiny.y - origin.y)/80f;
+                    move();
                 }
                 else if (!closeToDestiny())
                     move();
@@ -104,16 +116,38 @@ public class ArmyRenderComponent extends ImageRenderComponent {
             if (movingQty > 0) {
                 if (xSpeed == 0 && ySpeed == 0) {
                     movingPos = new Vector2f(origin);
-                    xSpeed = (destiny.x - origin.x)/80f;
+                    if (specialMovement) {
+                        int originID = ((Army) owner).getTerritory().getBackEndTerritory().getIndex();
+                        float leftLimit = Main.getMapPos().x;
+                        float rightLimit = Main.getMapPos().x + Main.getMapSize().x;
+                        if (originID == 28)
+                            xSpeed = (Main.getMapSize().x - (Math.min(destiny.x, rightLimit) - Math.max(origin.x, leftLimit)))/80f;
+                        else //originID == 38
+                            xSpeed = ((Math.min(origin.x, rightLimit) - Math.max(destiny.x, leftLimit)) - Main.getMapSize().x)/80f;
+                    }
+                    else
+                        xSpeed = (destiny.x - origin.x)/80f;
                     ySpeed = (destiny.y - origin.y)/80f;
+                    move();
                 }
                 else if ((xSpeed < 0 && movingPos.x <= destiny.x) || (xSpeed > 0 && movingPos.x >= destiny.x)) {
-                    destinyTerritory.getBackEndTerritory().increaseArmies(movingQty);
-                    movingQty = 0;
-                    distributing = false;
-                    destiny = null;
-                    xSpeed = 0;
-                    ySpeed = 0;
+                    int originID = ((Army) owner).getTerritory().getBackEndTerritory().getIndex();
+                    if (originID == 28 && destiny.x == Main.getMapPos().x) {
+                        destiny.x = destinyTerritory.getArmy().getPosition().x;
+                        movingPos.x = Main.getMapPos().x + Main.getMapSize().x;
+                    }
+                    else if (originID == 38 && destiny.x == Main.getMapPos().x + Main.getMapSize().x) {
+                        destiny.x = destinyTerritory.getArmy().getPosition().x;
+                        movingPos.x = Main.getMapPos().x;
+                    }
+                    else {
+                        destinyTerritory.getBackEndTerritory().increaseArmies(movingQty);
+                        movingQty = 0;
+                        distributing = false;
+                        destiny = null;
+                        xSpeed = 0;
+                        ySpeed = 0;
+                    }
                 }
                 else
                     move();
@@ -126,8 +160,14 @@ public class ArmyRenderComponent extends ImageRenderComponent {
     }
     
     public void setMovementTo(Territory dest) {
+        int originID = ((Army) owner).getTerritory().getBackEndTerritory().getIndex();
+        int destID = dest.getBackEndTerritory().getIndex();
         origin = new Vector2f(owner.getPosition());
         destiny = dest.getArmy().getPosition();
+        if ((originID == 28 && destID == 38) || (originID == 38 && destID == 28))
+            specialMovement = true;
+        else
+            specialMovement = false;
         destinyTerritory = dest;
     }
     
@@ -141,11 +181,46 @@ public class ArmyRenderComponent extends ImageRenderComponent {
     }
     
     private void move() {
+        if (specialMovement) {
+            Vector2f mapSize = Main.getMapSize();
+            Vector2f mapPos = Main.getMapPos();
+            int originID = ((Army) owner).getTerritory().getBackEndTerritory().getIndex();
+            if (originID == 28) {
+                if (xSpeed > 0) {
+                    xSpeed = xSpeed * -1;
+                    if (origin.x > mapPos.x)
+                        destiny.x = mapPos.x;
+                    else
+                        movingPos.x = mapPos.x + mapSize.x;
+                }
+            }
+            else { //originID == 38
+                if (xSpeed < 0) {
+                    xSpeed = xSpeed * -1;
+                    if (origin.x < mapPos.x + mapSize.x)
+                        destiny.x = mapPos.x + mapSize.x;
+                    else
+                        movingPos.x = mapPos.x;
+                }
+            }
+        }
         movingPos.x += xSpeed;
         movingPos.y += ySpeed;
     }
     
     private boolean closeToDestiny() {
+        int originID = ((Army) owner).getTerritory().getBackEndTerritory().getIndex();
+        float leftLimit = Main.getMapPos().x;
+        float rightLimit = Main.getMapPos().x + Main.getMapSize().x;
+        if ((originID == 28 && destiny.x == leftLimit && movingPos.x <= leftLimit)) {
+            destiny.x = destinyTerritory.getArmy().getPosition().x;
+            movingPos.x = Main.getMapPos().x + Main.getMapSize().x;
+        }
+        else if (originID == 38 && destiny.x == rightLimit && movingPos.x >= rightLimit) {
+            destiny.x = destinyTerritory.getArmy().getPosition().x;
+            movingPos.x = Main.getMapPos().x;
+        }
+        
         float xDistance = Math.abs(destiny.x - movingPos.x);
         float yDistance = Math.abs(destiny.y - movingPos.y);
         float diagonalDistance = (float) Math.sqrt((Math.pow(xDistance, 2) + Math.pow(yDistance, 2)));

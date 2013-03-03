@@ -13,13 +13,13 @@ import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.Color;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import main.AudioManager;
 import main.CardPaths;
 import main.GameScene;
+import main.Main;
 import main.Territory;
 import main.TurnHelper;
 import main.WarScenes;
@@ -46,7 +46,7 @@ public class InGameGUIController implements ScreenController{
     
     private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel, 
             optionsPopup, helpPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup,
-            alertPopup, cardEarnedPopup;
+            alertPopup, cardEarnedPopup, emptyPopup;
     
     private boolean mouseOverObjective = false;
     
@@ -103,6 +103,7 @@ public class InGameGUIController implements ScreenController{
         alertPopup = n.createPopup("alertPopup");
         alert = alertPopup.findNiftyControl("alert", Label.class);
         cardEarnedPopup = n.createPopup("cardEarnedPopup");
+        emptyPopup = n.createPopup("emptyPopup");
         
         ravenMessage = screen.findNiftyControl("ravenMessage", Label.class);
         infoPanel = screen.findElementByName("infoPanel");
@@ -138,7 +139,7 @@ public class InGameGUIController implements ScreenController{
             musicMute.check();
         if (AudioManager.getInstance().soundIsMuted())
             soundMute.check();
-        if (!main.Main.isShowingTerritoriesNames())
+        if (!Main.isShowingTerritoriesNames())
             showTerritories.uncheck();
         Slider musicSlider = optionsPopup.findNiftyControl("musicSlider", Slider.class);
         Slider soundSlider = optionsPopup.findNiftyControl("soundSlider", Slider.class);
@@ -152,6 +153,10 @@ public class InGameGUIController implements ScreenController{
     
     public static void handleTerritoryClick(Territory t){
         instance.ctxMenuCtrl.handleTerritoryClick(instance.s, t);
+    }
+    
+    public void openEmptyPopup() {
+        PopupManager.showPopup(n, s, emptyPopup);
     }
     
     private void retrieveStatusPanels(Screen s){
@@ -185,7 +190,7 @@ public class InGameGUIController implements ScreenController{
     }
     
     private void updateCurrentPlayersData(){
-        boolean skippedStartScreen = main.Main.JUMP_TO_GAME;
+        boolean skippedStartScreen = Main.JUMP_TO_GAME;
         if(!skippedStartScreen){
             Player currPlayer = getCurrentPlayer();
             Color currentPlayerColor = getCurrentPlayerColor();
@@ -296,8 +301,8 @@ public class InGameGUIController implements ScreenController{
     
     public void exitGame(){
         PopupManager.closePopup(n, exitConfirmPopup);
-        main.Main.getInstance().enterState(WarScenes.STARTING_SCENE);
-//        main.Main.getInstance().getGameContainer().exit();
+        Main.getInstance().enterState(WarScenes.STARTING_SCENE);
+//        Main.getInstance().getGameContainer().exit();
     }
     
     public void showTables(){
@@ -332,7 +337,7 @@ public class InGameGUIController implements ScreenController{
     //Popups event handling end
     
     private void resetMouseCursor(){
-        GameContainer c = main.Main.getInstance().getContainer();
+        GameContainer c = Main.getInstance().getContainer();
         c.setDefaultMouseCursor();
     }
     
@@ -343,14 +348,14 @@ public class InGameGUIController implements ScreenController{
     }
     
     public void mouseMovedOverBottomPanel(){
-        Input in = main.Main.getInstance().getContainer().getInput();
+        Input in = Main.getInstance().getContainer().getInput();
         boolean inside = mouseOverLink(in.getMouseX(), in.getMouseY());
         if(inside != mouseOverObjective){
             mouseOverObjective = inside;
             if(!inside)
                 resetMouseCursor();
             else{
-                GameContainer c = main.Main.getInstance().getContainer();
+                GameContainer c = Main.getInstance().getContainer();
                 try {
                     c.setMouseCursor("resources/cursors/aero_link.png", 8, 1);
                 } catch (SlickException ex) {
@@ -441,6 +446,10 @@ public class InGameGUIController implements ScreenController{
         updatePlayersData();
         GameScene.getInstance().showPlayerTurnMsg();
     }
+    
+    public void goToStatistics() {
+        Main.getInstance().enterState(WarScenes.STATISTICS_SCENE);
+    }
             
     @NiftyEventSubscriber(id = "menuItemid")
     public void menuItemClicked(final String id, final MenuItemActivatedEvent event) {
@@ -483,7 +492,7 @@ public class InGameGUIController implements ScreenController{
     
     @NiftyEventSubscriber(id="showTerritories")
     public void onShowTerritoriesChange(final String id, final CheckBoxStateChangedEvent event) {
-        main.Main.showTerritoriesNames(event.isChecked());
+        Main.showTerritoriesNames(event.isChecked());
     }
      
     @NiftyEventSubscriber(id="dontShowRearrangeConfirmationAgain")

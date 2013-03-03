@@ -1339,4 +1339,10 @@ Em cada vez de jogar, o participante pode:&#10;
 			</panel>
 		</panel>
 	</popup>
+	
+	<popup id="emptyPopup" childLayout="center">
+		<panel width="100%" height="100%" childLayout="vertical">
+			<interact onClick="goToStatistics()"/>
+		</panel>
+	</popup>
 </nifty>

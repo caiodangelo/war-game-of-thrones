@@ -1,28 +1,24 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import models.Player;
 import org.newdawn.slick.AngelCodeFont;
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import util.RenderComponent;
 
 public class GameEndingAnimationRenderer extends RenderComponent{
 
-    private Color c;
+    private static final float FADING_IN_DURATION = 5f;
+    private static final float DELAY_TO_SHOW_MESSAGE = -3f;
+    
+    private Color cFirstMessage;
+    private Color cSecondMessage;
     private String playerName;
-    private float elapsed = 0;
-    private static final float DURATION = 5f;
+    private float elapsed = DELAY_TO_SHOW_MESSAGE;
     private Vector2f pos;
     private Vector2f mapSize;
     
@@ -33,34 +29,36 @@ public class GameEndingAnimationRenderer extends RenderComponent{
         pos = new Vector2f(mapPos.x, mapPos.y + mapSize.y/2);
     }
     
-    private boolean fadingIn() {
-        return getPcgt() < 0.5f;
-    }
-    
     private float getPcgt(){
-        return elapsed / DURATION;
+        return elapsed / FADING_IN_DURATION;
     }
     
     @Override
     public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
-        if(playerName != null){
+        if(playerName != null && elapsed >= 0){
             float pctg = getPcgt();
-            if(fadingIn())
-                c.a = pctg / 0.5f;
-            else
-                c.a = 1 - (pctg - 0.5f) / 0.5f;
-            gr.setColor(c);
+            if(elapsed <= FADING_IN_DURATION)
+                cFirstMessage.a = pctg / 0.5f;
+            gr.setColor(cFirstMessage);
             AngelCodeFont fnt = null;
             try {
                 fnt = new AngelCodeFont("resources/fonts/freckle_face_80.fnt", "resources/fonts/freckle_face_80_0.tga");
                 gr.setFont(fnt);
             } catch (SlickException ex) {
-                Logger.getLogger(PlayerTurnMessageRenderer.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
             }
             String winner = playerName+" venceu!";
             String congratulations = "Parabéns!";
-            gr.drawString(winner, pos.x + (mapSize.x - fnt.getWidth(winner))/2.0f, pos.y);
-            gr.drawString(congratulations, pos.x + (mapSize.x - fnt.getWidth(congratulations))/2.0f, pos.y + fnt.getHeight(winner));
+            gr.drawString(congratulations, pos.x + (mapSize.x - fnt.getWidth(congratulations))/2.0f, pos.y);
+            gr.drawString(winner, pos.x + (mapSize.x - fnt.getWidth(winner))/2.0f, pos.y - fnt.getHeight(winner));
+            String clickToStatistics = "Clique em qualquer lugar para ver as estatísticas";
+            elapsed -= 3f;
+            pctg = getPcgt();
+            if (elapsed >= 0 && elapsed <= FADING_IN_DURATION)
+                cSecondMessage.a = pctg / 0.5f;
+            gr.setColor(cSecondMessage);
+            gr.drawString(clickToStatistics, pos.x + (mapSize.x - fnt.getWidth(clickToStatistics))/2.0f, pos.y + fnt.getHeight(winner));
+            elapsed += 3f;
         }
     }
 
@@ -73,8 +71,11 @@ public class GameEndingAnimationRenderer extends RenderComponent{
     public void activate(Player player) {
         playerName = player.getName();
         //c = new Color(color.getRed(), color.getGreen(), color.getBlue());
-        c = new Color(Color.black);
-        elapsed = 0;
+        cFirstMessage = new Color(Color.black);
+        cFirstMessage.a = 0;
+        cSecondMessage = new Color(Color.black);
+        cSecondMessage.a = 0;
+        elapsed = DELAY_TO_SHOW_MESSAGE;
     }
     
 }
