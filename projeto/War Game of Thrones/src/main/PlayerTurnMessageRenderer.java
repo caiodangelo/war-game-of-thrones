@@ -76,7 +76,6 @@ public class PlayerTurnMessageRenderer extends RenderComponent{
                 y = pos.y;
                 width = fntWidth + 15f;
                 height = 2 * fntHeight * 1.5f;
-                System.out.println("on first turn");
             } else {
                 fntWidth = fnt.getWidth(turnText);
                 fntHeight = fnt.getHeight(turnText);

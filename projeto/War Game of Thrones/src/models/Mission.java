@@ -2,6 +2,7 @@ package models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Mission implements Serializable {
@@ -73,14 +74,16 @@ public class Mission implements Serializable {
             switch (type) {
                 case TYPE_TERRITORY:
                     if (territories == 23) {
-                        description = "Seu objetivo é conquistar " + territories + " territórios à sua escolha!";
+                        description = "Seu objetivo é conquistar " + territories + " territórios a sua escolha!";
                     }
                     if (territories == 17) {
-                        description = "Seu objetivo é conquistar " + territories + " territórios à sua escolha com 2 exércitos em cada um deles!";
+                        description = "Seu objetivo é conquistar " + territories + " territórios a sua escolha com 2 exércitos em cada um deles!";
                     }
                     break;
                 case TYPE_HOUSE:
-                    description = "Seu objetivo é destruir todos os exércitos da casa \"" + house.getName() + "\"!";
+                    String houseOwner = getHouseOwner();
+                    description = "Seu objetivo é destruir todos os exércitos da casa \"" + house.getName() +
+                            "\" (" + houseOwner + ")!";
                     break;
                 case TYPE_REGION:
                     description = "Seu objetivo é conquistar completamente os seguintes continentes: ";
@@ -218,5 +221,14 @@ public class Mission implements Serializable {
             }
         }
         return (defeated.getTerritories().isEmpty());
+    }
+
+    private String getHouseOwner() {
+        LinkedList<Player> players = Board.getInstance().getPlayers();
+        for(Player p : players){
+            if(p.getHouse() == this.getHouse())
+                return p.getName();
+        }
+        return null;
     }
 }
