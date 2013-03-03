@@ -28,7 +28,7 @@ public class DistributionEvaluator extends Evaluator {
 
     public DistributionEvaluator(Board currentGameState, Player player) {
         super(currentGameState, player);
-        features.add(new DistanceToFrontierFeature());
+        //features.add(new DistanceToFrontierFeature());
         features.add(new MoreThanOneArmyFeature());
         features.add(new ContinentThreatFeature());
         features.add(new MaximumThreatFeature());
