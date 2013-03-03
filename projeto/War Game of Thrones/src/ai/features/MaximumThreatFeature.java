@@ -21,7 +21,7 @@ import models.BackEndTerritory;
 public class MaximumThreatFeature extends Feature {
 
     public MaximumThreatFeature() {
-        importance = 3;
+        importance = 8;
         scaleFactor = 1;
     }
 

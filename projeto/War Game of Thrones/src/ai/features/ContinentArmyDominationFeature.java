@@ -21,7 +21,7 @@ public class ContinentArmyDominationFeature extends Feature {
 
     public ContinentArmyDominationFeature() {
         scaleFactor = 1;
-        importance = 4;
+        importance = 2;
     }
 
     @Override

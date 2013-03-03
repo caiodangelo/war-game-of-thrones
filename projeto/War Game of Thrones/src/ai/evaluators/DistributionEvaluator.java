@@ -10,6 +10,7 @@ import ai.features.ContinentThreatFeature;
 import ai.features.MoreThanOneArmyFeature;
 import ai.features.DistanceToFrontierFeature;
 import ai.features.MaximumThreatFeature;
+import ai.features.MissionArmiesCompletionFeature;
 import models.Board;
 import models.Player;
 import models.BackEndTerritory;
@@ -32,6 +33,7 @@ public class DistributionEvaluator extends Evaluator {
         features.add(new ContinentThreatFeature());
         features.add(new MaximumThreatFeature());
         features.add(new ContinentArmyDominationFeature());
+        features.add(new MissionArmiesCompletionFeature());
     }
 
     @Override
