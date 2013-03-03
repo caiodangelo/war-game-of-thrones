@@ -1,5 +1,6 @@
 package ai;
 
+import java.util.ArrayList;
 import java.util.List;
 import models.Board;
 import models.Player;
@@ -20,6 +21,7 @@ public abstract class Evaluator {
     public Evaluator(Board currentGameState, Player player) {
         this.currentGameState = currentGameState;
         this.player = player;
+        this.features = new ArrayList<Feature>();
     }
 
     /**
