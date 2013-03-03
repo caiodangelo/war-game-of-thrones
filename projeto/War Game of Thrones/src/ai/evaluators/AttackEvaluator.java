@@ -9,10 +9,12 @@ import ai.Evaluator;
 import ai.Feature;
 import ai.features.ArmiesFeature;
 import ai.features.BestEnemyFeature;
+import ai.features.ContinentDominationFeature;
 import ai.features.ContinentThreatFeature;
 import ai.features.EnemyEstimatedReinforcementsFeature;
 import ai.features.EnemyOccupiedContinentsFeature;
 import ai.features.HinterlandFeature;
+import ai.features.MissionCompletionFeature;
 import ai.features.MoreThanOneArmyFeature;
 import ai.features.OccupiedTerritoriesFeature;
 import ai.features.OwnEstimatedReinforcementsFeature;
@@ -50,6 +52,8 @@ public class AttackEvaluator extends Evaluator {
         features.add(new OwnOccupiedContinentsFeature());
         features.add(new OwnOccupiedRiskCardTerritoriesFeature());
         features.add(new RiskCardsFeature());
+        features.add(new ContinentDominationFeature());
+        features.add(new MissionCompletionFeature());
     }
 
     @Override

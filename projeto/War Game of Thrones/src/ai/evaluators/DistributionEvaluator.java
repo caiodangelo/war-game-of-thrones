@@ -5,6 +5,7 @@
 package ai.evaluators;
 
 import ai.Evaluator;
+import ai.features.ContinentArmyDominationFeature;
 import ai.features.ContinentThreatFeature;
 import ai.features.MoreThanOneArmyFeature;
 import ai.features.DistanceToFrontierFeature;
@@ -30,6 +31,7 @@ public class DistributionEvaluator extends Evaluator {
         features.add(new MoreThanOneArmyFeature());
         features.add(new ContinentThreatFeature());
         features.add(new MaximumThreatFeature());
+        features.add(new ContinentArmyDominationFeature());
     }
 
     @Override

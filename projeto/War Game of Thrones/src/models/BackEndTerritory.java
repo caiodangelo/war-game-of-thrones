@@ -14,7 +14,6 @@ import util.TerritoriesGraphStructure;
 public class BackEndTerritory implements Serializable {
 
     private int index;
-    private String name;
     private Region region;
     private Player owner;
     private Board board;
@@ -31,13 +30,11 @@ public class BackEndTerritory implements Serializable {
     }
 
     public BackEndTerritory(String name, Region region) {
-        this.name = name;
         this.region = region;
         this.board = Board.getInstance();
     }
 
     public BackEndTerritory(String name, Region region, Player player) {
-        this.name = name;
         this.region = region;
         this.owner = player;
         this.board = Board.getInstance();
