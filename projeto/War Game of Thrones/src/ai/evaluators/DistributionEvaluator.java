@@ -38,7 +38,7 @@ public class DistributionEvaluator extends Evaluator {
     public Board simulateActionExecution() {
         Board newState = currentGameState.getClone();
         BackEndTerritory clonedTerritory = newState.getTerritories()[territory.getIndex()];
-        Player clonedPlayer = getSimulatedPlayer();
+        Player clonedPlayer = getSimulatedPlayer(newState);
         clonedPlayer.distributeArmies(clonedTerritory, 1);
         return newState;
     }

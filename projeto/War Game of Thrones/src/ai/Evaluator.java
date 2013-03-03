@@ -39,9 +39,9 @@ public abstract class Evaluator {
         return simulatedGameState;
     }
 
-    public Player getSimulatedPlayer() {
+    public Player getSimulatedPlayer(Board simulatedGameState) {
         Player clonedPlayer = null;
-        for (Player newPlayer : getSimulatedGameState().getPlayers()) {
+        for (Player newPlayer : simulatedGameState.getPlayers()) {
             if (player.getName().equals(player.getName())) {
                 clonedPlayer = newPlayer;
             }
@@ -58,7 +58,7 @@ public abstract class Evaluator {
         double grade = 0;
         double importanceSum = 0;
         for (Feature feature : features) {
-            grade += feature.calculateScaledGrade(getSimulatedGameState(), getSimulatedPlayer());
+            grade += feature.calculateScaledGrade(getSimulatedGameState(), getSimulatedPlayer(getSimulatedGameState()));
             importanceSum += feature.getImportance();
         }
         simulatedRating = grade / importanceSum;

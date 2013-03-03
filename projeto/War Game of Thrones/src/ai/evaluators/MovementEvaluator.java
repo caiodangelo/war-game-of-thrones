@@ -38,7 +38,7 @@ public class MovementEvaluator extends Evaluator {
         Board newState = currentGameState.getClone();
         BackEndTerritory clonedOriginTerritory = newState.getTerritories()[originTerritory.getIndex()];
         BackEndTerritory clonedDestinyTerritory = newState.getTerritories()[destinyTerritory.getIndex()];
-        Player clonedPlayer = getSimulatedPlayer();
+        Player clonedPlayer = getSimulatedPlayer(newState);
         clonedPlayer.moveArmies(clonedOriginTerritory, clonedDestinyTerritory, 1);
         return newState;
     }
