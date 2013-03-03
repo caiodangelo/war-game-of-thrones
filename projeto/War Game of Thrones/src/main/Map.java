@@ -120,7 +120,7 @@ public class Map extends Entity{
         new Vector2f(0.7306485f,0.31473213f),
     };
     
-    public final static Vector2f [] armyPositions = {
+    protected final static Vector2f [] armyPositions = {
         //além da muralha
         new Vector2f(0.13075313f,0.015347515f),
         new Vector2f(0.2015238f,0.018417018f),

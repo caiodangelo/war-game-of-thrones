@@ -65,6 +65,8 @@ public class GameScene extends Scene{
         terrName = new TerritoryName();
         addEntity(terrName);
         AudioManager.getInstance().playMusic(AudioManager.GAME_RUNNING);
+        
+        addEntity(new RegionNames(Map.armyPositions, map));
     }
     
     public void setHighlightedTerritory(Territory t){
