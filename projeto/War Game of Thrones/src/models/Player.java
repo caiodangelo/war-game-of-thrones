@@ -24,7 +24,7 @@ public abstract class Player implements Serializable {
         this.pendingArmies = 0;
         this.territories = new ArrayList<BackEndTerritory>();
         this.cards = new ArrayList<CardTerritory>();
-        this.statistic = new StatisticPlayerManager();
+        this.statistic = new StatisticPlayerManager(this);
         this.mayReceiveCard = false;
     }
 

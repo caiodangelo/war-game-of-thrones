@@ -110,14 +110,14 @@ public class StatisticsScreenController implements ScreenController {
         //who the given player most attacked
         for (int i = 0; i < players.length; i++) {
             s.findNiftyControl("who-you-attacked-most-player"+(i+1), Label.class).setText((players[i].getName()));
-            s.findNiftyControl("who-you-attacked-most"+(i+1), Label.class).setText((players[i].getStatisticPlayerManager().getYouAttackMore().getName()));
+            s.findNiftyControl("who-you-attacked-most"+(i+1), Label.class).setText((players[i].getStatisticPlayerManager().getYouAttackMore().get(0).getName()));
             s.findNiftyControl("who-you-attacked-most-attacks"+(i+1), Label.class).setText((players[i].getStatisticPlayerManager().getMostAttacks()+""));
         }
         
         //who most attacked the given player
         for (int i = 0; i < players.length; i++) {
             s.findNiftyControl("who-attacked-you-most-player"+(i+1), Label.class).setText((players[i].getName()));
-            s.findNiftyControl("who-attacked-you-most"+(i+1), Label.class).setText((players[i].getStatisticPlayerManager().getMoreEnemy().getName()));
+            s.findNiftyControl("who-attacked-you-most"+(i+1), Label.class).setText((players[i].getStatisticPlayerManager().getMoreEnemy().get(0).getName()));
             s.findNiftyControl("who-attacked-you-most-attacks"+(i+1), Label.class).setText((players[i].getStatisticPlayerManager().getMostDefences()+""));
         }
     }
