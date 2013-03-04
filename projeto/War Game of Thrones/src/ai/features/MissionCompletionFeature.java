@@ -19,7 +19,7 @@ public class MissionCompletionFeature extends Feature {
 
     public MissionCompletionFeature() {
         scaleFactor = 1;
-        importance = 3;
+        importance = 5;
     }
 
     @Override
@@ -37,7 +37,8 @@ public class MissionCompletionFeature extends Feature {
                 List<Region> regions = mission.getRegions();
                 double rating = 0.0;
                 for (Region region : regions) {
-                    rating += region.getAdjustedRating(player);
+                    if (region.getName() != null)
+                        rating += region.getAdjustedRating(player);
                 }
                 return rating / regions.size();
             case Mission.TYPE_TERRITORY:

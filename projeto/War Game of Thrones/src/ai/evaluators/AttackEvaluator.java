@@ -75,6 +75,7 @@ public class AttackEvaluator extends Evaluator {
      */
     @Override
     public double evaluate() {
+        try {
         double rating = 0.0;
         simulateMultiActionExecution();
         for (int i = 0; i < outcomes.size(); i++) {
@@ -96,6 +97,11 @@ public class AttackEvaluator extends Evaluator {
         }
         simulatedRating = rating;
         return simulatedRating;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("Deu merda");
+            return 0.0;
+        }
     }
 
     public TerritoryTransaction getAttack() {
