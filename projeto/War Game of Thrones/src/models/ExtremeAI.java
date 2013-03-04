@@ -15,7 +15,6 @@ public class ExtremeAI extends Difficulty implements Serializable{
 
     @Override
     public void distributeArmies() {
-        System.out.println("distribuiting armies called for player " + player);
         // First of all, set the new targetRegion for the Player.
         // The targetRegion is the best (in general, the easiest to conquer) region
         // that's not currently owned by the player.
@@ -28,9 +27,7 @@ public class ExtremeAI extends Difficulty implements Serializable{
         for (Region region : regionsNotOwnedByPlayer) {
             double newRating = region.getAdjustedRating(player);
             maxRegionRating = Math.max(maxRegionRating, newRating);
-            System.out.println("max region rating" + maxRegionRating + " newRating " + newRating);
             if (maxRegionRating == newRating){
-                System.out.println("entrou no if, setou target region para " + region);
                 player.setTargetRegion(region);
             }
         }

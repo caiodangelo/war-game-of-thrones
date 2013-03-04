@@ -13,6 +13,7 @@ import util.Scene;
 public class Map extends Entity{
     
     private Scroll s;
+    private Territory [] territories;
     
     private static final String [] imgs = {
         //além da muralha
@@ -199,12 +200,22 @@ public class Map extends Entity{
     public void onAdded() {
         Scene scene = getScene();
         BackEndTerritory[] backEndTerritories = Board.getInstance().getTerritories();
+        territories = new Territory[territoryPositions.length];
         for(int i = 0; i < territoryPositions.length; i++){
             Territory t = new Territory(this, territoryPositions[i], imgs[i], backEndTerritories[i]);
+            territories[i] = t;
             scene.addEntity(t);
             Army a = new Army(this, t, armyPositions[i], 0, s);
             scene.addEntity(a);
             t.setArmy(a);
         }
+    }
+    
+    public Territory getFrontEndTerritory(BackEndTerritory tBack){
+        for(Territory tFront : territories){
+            if(tFront.getBackEndTerritory().equals(tBack))
+                return tFront;
+        }
+        return null;
     }
 }

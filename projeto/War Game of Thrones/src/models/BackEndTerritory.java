@@ -72,7 +72,6 @@ public class BackEndTerritory implements Serializable {
     }
 
     public void increaseArmies(int amount) {
-        System.out.println("increase num armies from " + numArmies + " to " + (numArmies + amount));
         numArmies += amount;
     }
 

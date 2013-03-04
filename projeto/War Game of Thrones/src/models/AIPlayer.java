@@ -34,12 +34,10 @@ public class AIPlayer extends Player implements Serializable {
     }
 
     public Region getTargetRegion() {
-        System.out.println("GET TARGET REGION RETURNING " + targetRegion + " on " + toString());
         return targetRegion;
     }
 
     public void setTargetRegion(Region targetRegion) {
-        System.out.println("SET TARGET REGION TO " + targetRegion + " on " + toString());
         this.targetRegion = targetRegion;
     }
 }

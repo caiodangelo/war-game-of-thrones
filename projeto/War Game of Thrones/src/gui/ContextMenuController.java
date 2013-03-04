@@ -6,6 +6,7 @@ import de.lessvoid.nifty.controls.DropDown;
 import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.controls.Menu;
 import de.lessvoid.nifty.controls.MenuItemActivatedEvent;
+import de.lessvoid.nifty.effects.impl.Show;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.tools.SizeValue;
@@ -37,9 +38,11 @@ public class ContextMenuController {
     private boolean onAtkSequence;
     private boolean distributing;
     private static boolean mayShowRearrangeConfirmation;
+    private Screen s;
     
-    public ContextMenuController(Nifty n, InGameGUIController parent){
+    public ContextMenuController(Nifty n, Screen s, InGameGUIController parent){
         this.n = n;
+        this.s = s;
         this.parent = parent;
         
         rearrangeConfirmationPopup = n.createPopup("rearrangeConfirmationPopup");
@@ -92,6 +95,7 @@ public class ContextMenuController {
                         parent.showAlert("Você não pode atacar um território que já possui!");
                     else
                         parent.showAlert("Só é possível atacar territórios vizinhos!");
+                    System.out.println("reset 1");
                     resetTerritories();
                 }
             }
@@ -103,6 +107,7 @@ public class ContextMenuController {
                         parent.showAlert("Você não pode levar exércitos para um território que não possui!");
                     else
                         parent.showAlert("Só é possível distribuir para territórios vizinhos!");
+                    System.out.println("reset 2");
                     resetTerritories();
                 }
             }  
@@ -150,29 +155,61 @@ public class ContextMenuController {
         defDropDown.disable();
     }
     
+    public void showIAAttackPopup(Territory origin, Territory dest, int count){
+        System.out.println("show IA Attack popup from " + origin + " to " + dest);
+        this.originTerritory = origin;
+        this.destTerritory = dest;
+        System.out.println("origin territory " + this.originTerritory);
+        System.out.println("dest territory " + this.destTerritory);
+        showAttackPopup(s);
+        atkDropDown.selectItem(count);
+        Player defender = dest.getBackEndTerritory().getOwner();
+        
+        if(defender.isAIPlayer()){
+            confirmDefUnits();
+        } else {
+            confirmAtkUnits();
+        }
+    }
+    
     public void confirmAtkUnits(){
         attackPopup.findElementByName("confirmAtkArmiesBtn").disable();
         atkDropDown.disable();
         attackPopup.findElementByName("confirmDefArmiesBtn").enable();
         defDropDown.enable();
+        
+        BackEndTerritory backDefTer = destTerritory.getBackEndTerritory();
+        Player defender = backDefTer.getOwner();
+        if(defender.isAIPlayer())
+            confirmDefUnits();
     }
     
     public void confirmDefUnits(){
-        PopupManager.closePopup(n, attackPopup);
-        int atkUnits = atkDropDown.getSelection();
-        int defUnits = defDropDown.getSelection();
-        currentBattle = new Battle(originTerritory.getBackEndTerritory(), destTerritory.getBackEndTerritory(), atkUnits, defUnits);
-        currentBattle.attack();
-        DiceManager dm = DiceManager.getInstance();
-        dm.setBattle(currentBattle);
-        parent.setRavenMessage(currentBattle.getAttacker().getOwner().getName()+" está atacando "+currentBattle.getDefender().getOwner().getName()+"!");
-        dm.showDices(atkUnits, defUnits);
-        dm.setAttackingTerritory(originTerritory);
-        dm.setDefendingTerritory(destTerritory);
-        ArmyRenderComponent comp = (ArmyRenderComponent) originTerritory.getArmy().getComponent("army-renderer");
-        comp.setMovementTo(destTerritory);
-        comp.setMovingQuantity(atkUnits);
-        resetTerritories();
+        try{
+            System.out.println("confirm def units");
+            PopupManager.closePopup(n, attackPopup);
+            System.out.println("close atk popup");
+            int atkUnits = atkDropDown.getSelection();
+            int defUnits = defDropDown.getSelection();
+            BackEndTerritory originBack = originTerritory.getBackEndTerritory();
+            BackEndTerritory destBack = destTerritory.getBackEndTerritory();
+            currentBattle = new Battle(originBack, destBack, atkUnits, defUnits);
+            currentBattle.attack();
+            DiceManager dm = DiceManager.getInstance();
+            dm.setBattle(currentBattle);
+            parent.setRavenMessage(currentBattle.getAttacker().getOwner().getName()+" está atacando "+currentBattle.getDefender().getOwner().getName()+"!");
+            dm.showDices(atkUnits, defUnits);
+            dm.setAttackingTerritory(originTerritory);
+            dm.setDefendingTerritory(destTerritory);
+            ArmyRenderComponent comp = (ArmyRenderComponent) originTerritory.getArmy().getComponent("army-renderer");
+            comp.setMovementTo(destTerritory);
+            comp.setMovingQuantity(atkUnits);
+            System.out.println("reset 3");
+            resetTerritories();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
     
     private void showRearrangeInfo(){
@@ -185,6 +222,7 @@ public class ContextMenuController {
     
     protected void dismissRearrangePopup(){
         PopupManager.closePopup(n, rearrangePopup);
+        System.out.println("reset 4");
         resetTerritories();
     }
     
@@ -219,20 +257,37 @@ public class ContextMenuController {
     
     public void rearrangeConfirmed() {
         distributing = true;
+        System.out.println("reset 5");
         resetTerritories();
         PopupManager.closePopup(n, rearrangeConfirmationPopup);
     }
 
     public void rearrangeOK() {
-        int armiesToMove = selectUnitsDropdown.getSelection().getCount();
-        originTerritory.getBackEndTerritory().decreaseArmies(armiesToMove);
-        originTerritory.getBackEndTerritory().setMovedArmies(armiesToMove);
-        ArmyRenderComponent armyRenderer = (ArmyRenderComponent) originTerritory.getArmy().getComponent("army-renderer");
+//        int armiesToMove = selectUnitsDropdown.getSelection().getCount();
+//        originTerritory.getBackEndTerritory().decreaseArmies(armiesToMove);
+//        originTerritory.getBackEndTerritory().setMovedArmies(armiesToMove);
+//        ArmyRenderComponent armyRenderer = (ArmyRenderComponent) originTerritory.getArmy().getComponent("army-renderer");
+//        armyRenderer.setMovingQuantity(armiesToMove);
+//        armyRenderer.setMovementTo(destTerritory);
+//        armyRenderer.startDistribution();
+//        parent.setRavenMessage(Board.getInstance().getCurrentPlayer().getName()+" moveu "+armiesToMove+" territórios.");
+        performeRearrange(originTerritory, destTerritory, selectUnitsDropdown.getSelection().getCount());
+        dismissRearrangePopup();
+//        if (Board.getInstance().hasGameEnded()) {
+//            GameScene.getInstance().startGameEndingAnimation();
+//        }
+    }
+    
+    public void performeRearrange(Territory origin, Territory dest, int count){
+        int armiesToMove = count;
+        origin.getBackEndTerritory().decreaseArmies(armiesToMove);
+        origin.getBackEndTerritory().setMovedArmies(armiesToMove);
+        ArmyRenderComponent armyRenderer = (ArmyRenderComponent) origin.getArmy().getComponent("army-renderer");
         armyRenderer.setMovingQuantity(armiesToMove);
-        armyRenderer.setMovementTo(destTerritory);
+        armyRenderer.setMovementTo(dest);
         armyRenderer.startDistribution();
         parent.setRavenMessage(Board.getInstance().getCurrentPlayer().getName()+" moveu "+armiesToMove+" territórios.");
-        dismissRearrangePopup();
+//        dismissRearrangePopup();
         if (Board.getInstance().hasGameEnded()) {
             GameScene.getInstance().startGameEndingAnimation();
         }
@@ -240,11 +295,13 @@ public class ContextMenuController {
     
     public void dismissRearrangeConfirmation() {
         originTerritory = null;
+        System.out.println("dismiss rearrange, set origin to null");
         PopupManager.closePopup(n, rearrangeConfirmationPopup);
     }
     
     protected void cancelAttackPopup(){
         PopupManager.closePopup(n, attackPopup);
+        System.out.println("reset 6");
         resetTerritories();
     }
     

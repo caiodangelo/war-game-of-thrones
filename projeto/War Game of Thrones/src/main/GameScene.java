@@ -22,6 +22,7 @@ public class GameScene extends Scene{
     private InGameGUIController ctrl;
     private TurnHelper helper;
     private TerritoryName terrName;
+    private Map map;
     
     public GameScene(){
         super();
@@ -46,7 +47,7 @@ public class GameScene extends Scene{
     public void enterState(GameContainer container, StateBasedGame game) throws SlickException { 
         super.enterState(container, game);
         StatisticGameManager.getInstance().setInitTime(new Date());
-        Map map = new Map();
+        map = new Map();
         addEntity(map);
         //Left button was pressed to play but this record must be erased.
         container.getInput().clearMousePressedRecord();
@@ -70,6 +71,10 @@ public class GameScene extends Scene{
             ctrl.showInfoTerritories();
         else
             ctrl.startPlayerInitialDistribution();
+    }
+    
+    public Map getMap(){
+        return map;
     }
     
     public void setHighlightedTerritory(Territory t){
