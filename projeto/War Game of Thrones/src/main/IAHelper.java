@@ -23,11 +23,12 @@ public class IAHelper {
         Difficulty d = p.getDifficulty();
         if(!b.isOnFirstTurn()){
             System.out.println("IA distributing");
-            d.distributeArmies();
+//            d.distributeArmies();
+            GameScene.getInstance().startAIDistributionAnim(p, this);
         } else
             System.out.println("not on first turn");
         
-        next();
+//        next();
 //        turnHelper.changeTurn();
     }
     

@@ -4,6 +4,7 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.tools.Color;
 import gui.InGameGUIController;
 import java.util.Date;
+import models.AIPlayer;
 import models.Board;
 import models.Player;
 import models.StatisticGameManager;
@@ -23,6 +24,7 @@ public class GameScene extends Scene{
     private TurnHelper helper;
     private TerritoryName terrName;
     private Map map;
+    private MapMover mapMover;
     
     public GameScene(){
         super();
@@ -72,7 +74,8 @@ public class GameScene extends Scene{
         else
             ctrl.startPlayerInitialDistribution();
         
-        addEntity(new MapMover(map));
+        mapMover = new MapMover(map);
+        addEntity(mapMover);
     }
     
     public Map getMap(){
@@ -148,5 +151,11 @@ public class GameScene extends Scene{
         a.activate(b.getWinner());
         FireworksManager fm = new FireworksManager();
         addEntity(fm);
+    }
+    
+    protected void startAIDistributionAnim(AIPlayer p, IAHelper helper){
+        IAArmyDistributor dist = new IAArmyDistributor(this, p, helper, map, mapMover);
+        addEntity(dist);
+        dist.start();
     }
 }

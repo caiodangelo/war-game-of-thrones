@@ -35,8 +35,11 @@ public class TurnHelper {
         if(b.isOnInitialSetup()){
             if(!curr.isAIPlayer())
                 ctrl.showInfoTerritories();
-            else 
-                ctrl.startPlayerInitialDistribution();
+            else{
+                iaHelper = new IAHelper(this, (AIPlayer)curr);
+                iaHelper.handleIAStart();
+            } 
+//                ctrl.startPlayerInitialDistribution();
         }
         else {
             parent.showPlayerTurnMsg();

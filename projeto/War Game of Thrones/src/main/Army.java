@@ -15,11 +15,17 @@ public class Army extends Entity {
     
     private Territory territory;
     private ImageRenderComponent irc;
+    private Vector2f originalRelativePos;
+    
+    protected Vector2f getOriginalRelativePos(){
+        return originalRelativePos;
+    }
     
     public Army(Map m, Territory territory, Vector2f relativePos, int qty, Scroll s) {
         super();
         setLayer(1);
         this.territory = territory;
+        this.originalRelativePos = relativePos.copy();
         addComponent(new ArmyPositionSync(m, relativePos));
         try {
             String armyImgPath = getHouseImagePath();

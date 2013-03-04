@@ -19,33 +19,40 @@ public class MapMover extends Entity{
     private Vector2f start, end, moveVector;
     private float startScale = 0;
     
+    private MovementCompleteListener listener;
+    
     public MapMover(Map map){
         this.map = map;
         scrollComponent = map.getScroll();
+    }
+    
+    public void activate(Vector2f destPosition, MovementCompleteListener l){
+        state = ScrollState.MOVING;
+        start = new Vector2f(scrollComponent.viewX, scrollComponent.viewY);
+        end = destPosition;
+        moveVector = sub(end, start);
+        moveVector.normalise();
+        moveVector.scale(SPEED);
+        state =  ScrollState.MOVING;
+        startScale = map.getScale();
+        this.listener = l;
     }
     
     @Override
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
         super.update(gc, sb, delta);
         if(state == ScrollState.WAITING){
-            Input in = gc.getInput();
-//            System.out.println(map.getMouseRelativePosition(in));
-            if(in.isKeyDown(Input.KEY_D)){
-                start = new Vector2f(scrollComponent.viewX, scrollComponent.viewY);
-                //random value
-                end = map.getMouseRelativePosition(in);
-                moveVector = sub(end, start);
-                moveVector.normalise();
-                moveVector.scale(SPEED);
-                state =  ScrollState.MOVING;
-                startScale = map.getScale();
-            }
+//            Input in = gc.getInput();
+//            if(in.isKeyDown(Input.KEY_D)){
+//                Vector2f dest = map.getMouseRelativePosition(in);
+//                activate(dest, null);
+//            }
         } else {
             
             if(reachedDestiny()){
                 scrollComponent.viewX = end.x;
                 scrollComponent.viewY = end.y;
-                state = ScrollState.WAITING;
+                terminate();
                 return;
             }
             float moveX = moveVector.x * delta;
@@ -55,11 +62,16 @@ public class MapMover extends Entity{
             scrollComponent.viewY += moveY;
             float newScale = (END_SCALE - startScale) * getPctgComplete() + startScale;
             map.setScale(newScale);
-            if(mapOutofBounds()){
-                state = ScrollState.WAITING;
-            }
+            if(mapOutofBounds())
+                terminate();
             
         }
+    }
+    
+    private void terminate(){
+        state = ScrollState.WAITING;
+        if(listener != null)
+            listener.onMovementComplete();
     }
     
     public float getPctgComplete(){

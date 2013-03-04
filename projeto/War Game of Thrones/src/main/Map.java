@@ -15,6 +15,10 @@ public class Map extends Entity{
     
     private Scroll s;
     private Territory [] territories;
+
+    public Territory[] getTerritories() {
+        return territories;
+    }
     
     private static final String [] imgs = {
         //além da muralha

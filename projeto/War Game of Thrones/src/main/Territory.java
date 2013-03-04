@@ -15,6 +15,10 @@ public class Territory extends Entity{
     private BackEndTerritory backEndTerr;
     private TerritoryHoverImage hoverRenderer;
 
+    public Vector2f getArmyRelativePos() {
+        return army.getOriginalRelativePos();
+    }
+
     public TerritoryHoverImage getHoverRenderer() {
         return hoverRenderer;
     }
