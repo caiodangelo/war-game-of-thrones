@@ -25,39 +25,48 @@ public class MissionArmiesCompletionFeature extends Feature {
 
     @Override
     public double calculate(Board gameState, Player player) {
-        List<BackEndTerritory> missionTerritories = new ArrayList<BackEndTerritory>();
-        Mission mission = player.getMission();
-        switch (mission.getType()) {
-            case Mission.TYPE_HOUSE:
-                Player enemy = mission.getHouse().getPlayer();
-                for (BackEndTerritory enemyTerritory : enemy.getTerritories()) {
-                    missionTerritories.add(enemyTerritory);
-                }
-                break;
-            case Mission.TYPE_REGION:
-                List<Region> regions = mission.getRegions();
-                for (Region region : regions) {
-                    missionTerritories.addAll(region.getTerritories());
-                }
-                break;
-            case Mission.TYPE_TERRITORY:
-                for (BackEndTerritory territory : gameState.getTerritories()) {
-                    if (territory.getOwner() != player) {
-                        missionTerritories.add(territory);
+        try {
+            List<BackEndTerritory> missionTerritories = new ArrayList<BackEndTerritory>();
+            Mission mission = player.getMission();
+            switch (mission.getType()) {
+                case Mission.TYPE_HOUSE:
+                    Player enemy = null;
+                    for (Player possibleEnemy : gameState.getPlayers()) {
+                        if (possibleEnemy.getHouse().getName().equals(mission.getHouse()))
+                            enemy = player;
+                    }
+                    if (enemy != null)
+                        for (BackEndTerritory enemyTerritory : enemy.getTerritories()) {
+                            missionTerritories.add(enemyTerritory);
+                        }
+                    break;
+                case Mission.TYPE_REGION:
+                    List<Region> regions = mission.getRegions();
+                    for (Region region : regions) {
+                        missionTerritories.addAll(region.getTerritories());
+                    }
+                    break;
+                case Mission.TYPE_TERRITORY:
+                    for (BackEndTerritory territory : gameState.getTerritories()) {
+                        if (territory.getOwner() != player) {
+                            missionTerritories.add(territory);
+                        }
+                    }
+                    break;
+            }
+            double armiesNeighbourToMissionTerritories = 0.0;
+            List<BackEndTerritory> territoriesNeighbourToMissionTerritories = new ArrayList<BackEndTerritory>();
+            for (BackEndTerritory territory : missionTerritories) {
+                for (BackEndTerritory neighbour : territory.getNeighbours()) {
+                    if (neighbour.getOwner() == player && !territoriesNeighbourToMissionTerritories.contains(neighbour)) {
+                        territoriesNeighbourToMissionTerritories.add(neighbour);
+                        armiesNeighbourToMissionTerritories += neighbour.getNumArmies();
                     }
                 }
-                break;
-        }
-        double armiesNeighbourToMissionTerritories = 0.0;
-        List<BackEndTerritory> territoriesNeighbourToMissionTerritories = new ArrayList<BackEndTerritory>();
-        for (BackEndTerritory territory : missionTerritories) {
-            for (BackEndTerritory neighbour : territory.getNeighbours()) {
-                if (neighbour.getOwner() == player && !territoriesNeighbourToMissionTerritories.contains(neighbour)) {
-                    territoriesNeighbourToMissionTerritories.add(neighbour);
-                    armiesNeighbourToMissionTerritories += neighbour.getNumArmies();
-                }
             }
+            return armiesNeighbourToMissionTerritories / (player.numArmies() * 1.0);
+        } catch (Exception ex) {
+            return 1.0;
         }
-        return armiesNeighbourToMissionTerritories / (player.numArmies() * 1.0);
     }
 }

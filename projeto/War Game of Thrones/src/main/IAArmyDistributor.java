@@ -51,8 +51,8 @@ public class IAArmyDistributor extends Entity implements MovementCompleteListene
         if(next != null){
             mover.activate(next.getArmyRelativePos(), this);
         } else {
-            //if ended, recentralize
-            TurnHelper.getInstance().changeTurn();
+            helper.next();
+//            TurnHelper.getInstance().changeTurn();
         }
     }
     

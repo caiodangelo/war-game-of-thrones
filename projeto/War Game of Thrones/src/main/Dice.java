@@ -17,6 +17,7 @@ public class Dice extends Entity {
     private int result;
     private boolean rolling;
     private boolean reachedDestination;
+    private boolean isAIDice = false;
     
     public Dice(Vector2f pos, boolean atk, int r) {
         setLayer(3);
@@ -63,5 +64,13 @@ public class Dice extends Entity {
     
     public boolean hasReachedDestination() {
         return reachedDestination;
+    }
+
+    public boolean isIsAIDice() {
+        return isAIDice;
+    }
+
+    public void setIsAIDice(boolean isAIDice) {
+        this.isAIDice = isAIDice;
     }
 }

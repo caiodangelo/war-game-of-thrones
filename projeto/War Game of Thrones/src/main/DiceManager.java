@@ -2,12 +2,14 @@ package main;
 
 import gui.InGameGUIController;
 import java.util.ArrayList;
+import models.AIPlayer;
 import models.Battle;
 import models.Board;
+import models.Difficulty;
 import org.newdawn.slick.geom.Vector2f;
 
 public class DiceManager {
-    
+
     private static final Vector2f FIRST_ATK_DICE_POSITION = new Vector2f(Main.windowW * 0.45f, Main.windowH * 0.4f);
     private static final Vector2f SECOND_ATK_DICE_POSITION = new Vector2f(Main.windowW * 0.45f, Main.windowH * 0.5f);
     private static final Vector2f THIRD_ATK_DICE_POSITION = new Vector2f(Main.windowW * 0.45f, Main.windowH * 0.6f);
@@ -16,7 +18,6 @@ public class DiceManager {
     private static final Vector2f THIRD_DEF_DICE_POSITION = new Vector2f(Main.windowW * 0.55f, Main.windowH * 0.6f);
     public static final Vector2f[] ATK_POSITIONS = {FIRST_ATK_DICE_POSITION, SECOND_ATK_DICE_POSITION, THIRD_ATK_DICE_POSITION};
     public static final Vector2f[] DEF_POSITIONS = {FIRST_DEF_DICE_POSITION, SECOND_DEF_DICE_POSITION, THIRD_DEF_DICE_POSITION};
-    
     private static DiceManager instance;
     private GameScene gameScene;
     private Battle battle;
@@ -26,29 +27,29 @@ public class DiceManager {
     private Territory defendingTerritory;
     private ArrayList<Dice> atkDices;
     private ArrayList<Dice> defDices;
-    
+
     public DiceManager() {
         atkDices = new ArrayList();
         defDices = new ArrayList();
     }
-    
+
     public static DiceManager getInstance() {
         if (instance == null)
             instance = new DiceManager();
-        return instance;   
+        return instance;
     }
-    
+
     public void setGameScene(GameScene gs) {
         gameScene = gs;
     }
-    
+
     public void checkIfAllDicesAreSet() {
         boolean dicesSet = true;
         for (Dice ad : atkDices) {
-            dicesSet = dicesSet && (!ad.isRolling());
+            dicesSet = dicesSet && (!ad.isRolling() || ad.isIsAIDice());
         }
         for (Dice dd : defDices) {
-            dicesSet = dicesSet && (!dd.isRolling());
+            dicesSet = dicesSet && (!dd.isRolling() || dd.isIsAIDice());
         }
         if (dicesSet) {
             int pos = 0;
@@ -84,7 +85,7 @@ public class DiceManager {
             }
         }
     }
-    
+
     public Dice getHigherResultDice(ArrayList<Dice> list) {
         if (list.isEmpty() || list == null)
             return null;
@@ -98,11 +99,11 @@ public class DiceManager {
         }
         return winner;
     }
-    
+
     public boolean dicesOnScreen() {
         return dicesOnScreen;
     }
-    
+
     public void showDices(int atk, int def) {
         Dice d;
         System.out.println("DICE MANAGER SHOW DICES");
@@ -110,15 +111,17 @@ public class DiceManager {
             d = new Dice(ATK_POSITIONS[i], true, battle.getAttackersDices()[i]);
             atkDices.add(d);
             gameScene.addEntity(d);
+            d.setIsAIDice(battle.getAttacker().getOwner() instanceof AIPlayer);
         }
         for (int i = 0; i < def; i++) {
             d = new Dice(DEF_POSITIONS[i], false, battle.getDefendersDices()[i]);
             defDices.add(d);
             gameScene.addEntity(d);
+            d.setIsAIDice(battle.getDefender().getOwner() instanceof AIPlayer);
         }
         dicesOnScreen = true;
     }
-    
+
     public void checkIfAllDicesReachedDestination() {
         boolean dicesReachedDest = true;
         for (Dice ad : atkDices) {
@@ -135,11 +138,11 @@ public class DiceManager {
         }
         attackingTerritory = null;
     }
-    
+
     public void removeDices() {
         System.out.println("DICE MANAGER REMOVE DICES");
         atkDices.addAll(defDices); //concatennating
-        for(Dice d : atkDices) {
+        for (Dice d : atkDices) {
             gameScene.removeEntity(d);
         }
         atkDices.clear();
@@ -153,39 +156,47 @@ public class DiceManager {
         battle.getAttacker().setMovedArmies(atkDeaths);
         int defDeaths = battle.getDefendersDeaths();
         battle.getDefender().setMovedArmies(defDeaths);
-        guiController.setRavenMessage(currPlayerName+" sofreu "+atkDeaths+" baixa(s)! "+attackedPlayerName+" sofreu "+defDeaths+" baixa(s)!");
+        guiController.setRavenMessage(currPlayerName + " sofreu " + atkDeaths + " baixa(s)! " + attackedPlayerName + " sofreu " + defDeaths + " baixa(s)!");
         battle.concludeAttack();
         InGameGUIController.getInstance().updatePlayersData();
         if (battle.isConquested()) {
             if (Board.getInstance().hasGameEnded()) {
                 gameScene.startGameEndingAnimation();
-            }
-            else {
-                guiController.selectVictoriousArmiesToMove(battle.getNumberAttackers() - atkDeaths);
-                guiController.setRavenMessage(currPlayerName+" conquistou o território de "+attackedPlayerName+"!");
+            } else {
+                if (battle.getAttacker().getOwner() instanceof AIPlayer) {
+                    Difficulty difficulty = ((AIPlayer) battle.getAttacker().getOwner()).getDifficulty();
+                    int armiesToMove = difficulty.moveAfterConquest(battle.getAttacker(), battle.getDefender(), battle.getNumberAttackers() - atkDeaths);
+                    battle.moveVictoriousArmies(armiesToMove);
+                    battle.getAttacker().setMovedArmies(armiesToMove);
+                } else {
+                    guiController.selectVictoriousArmiesToMove(battle.getNumberAttackers() - atkDeaths);
+                }
+                guiController.setRavenMessage(currPlayerName + " conquistou o território de " + attackedPlayerName + "!");
                 defendingTerritory.getArmy().changeImage();
             }
         }
+        if (Board.getInstance().getCurrentPlayer() instanceof AIPlayer) {
+            TurnHelper.getInstance().getIaHelper().next();
+        }
     }
-    
+
     public boolean allDicesOnCorrectPosition() {
         return dicesOnCorrectPosition;
     }
-    
+
     public void setAttackingTerritory(Territory attacker) {
         attackingTerritory = attacker;
     }
-    
+
     public void setDefendingTerritory(Territory defender) {
         defendingTerritory = defender;
     }
-    
+
     public void setBattle(Battle b) {
         battle = b;
     }
-    
+
     public Battle getBattle() {
         return battle;
     }
-
 }

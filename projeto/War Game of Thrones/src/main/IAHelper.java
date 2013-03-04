@@ -6,6 +6,7 @@ import models.AIPlayer;
 import models.Board;
 import models.Difficulty;
 import models.TerritoryTransaction;
+import org.newdawn.slick.geom.Vector2f;
 
 public class IAHelper {
 
@@ -50,6 +51,9 @@ public class IAHelper {
             Territory dest = m.getFrontEndTerritory(tt.defender);
             int count = tt.numberOfAttackers;
             System.out.println("B atk with " + count + " from " + origin + " to " +dest);
+            MapMover mover = new MapMover(GameScene.getInstance().getMap());
+            Vector2f pos = mover.getCenter(origin.getPosition(), dest.getPosition());
+//            mover.activate(pos, null);
             ctrl.showIAAttackPopup(origin, dest, count);
         } else {
             System.out.println("else");

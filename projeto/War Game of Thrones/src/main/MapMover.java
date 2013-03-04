@@ -90,6 +90,10 @@ public class MapMover extends Entity{
             return 1;
         return Math.min(currDist / originalDist, 1f);
     }
+
+    public Vector2f getCenter(Vector2f pos1, Vector2f pos2) {
+        return new Vector2f((pos1.x + pos2.x) / 2, (pos1.y + pos2.y) / 2);
+    }
     
     private boolean mapOutofBounds(){
         boolean validateX = scrollComponent.validateViewX();

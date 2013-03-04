@@ -76,30 +76,29 @@ public class AttackEvaluator extends Evaluator {
     @Override
     public double evaluate() {
         try {
-        double rating = 0.0;
-        simulateMultiActionExecution();
-        for (int i = 0; i < outcomes.size(); i++) {
-            Board gameState = outcomes.get(i);
-            double probability = probabilities[i];
-            for (Feature feature : features) {
+            double rating = 0.0;
+            simulateMultiActionExecution();
+            for (int i = 0; i < outcomes.size(); i++) {
+                Board gameState = outcomes.get(i);
+                double probability = probabilities[i];
                 double grade = 0;
                 double importanceSum = 0;
-                Player simulatedPlayer = null;
-                for (Player newPlayer : gameState.getPlayers()) {
-                    if (newPlayer.getHouse().getName().equals(player.getHouse().getName())) {
-                        simulatedPlayer = newPlayer;
+                for (Feature feature : features) {
+                    Player simulatedPlayer = null;
+                    for (Player newPlayer : gameState.getPlayers()) {
+                        if (newPlayer.getHouse().getName().equals(player.getHouse().getName())) {
+                            simulatedPlayer = newPlayer;
+                        }
                     }
+                    grade += feature.calculateScaledGrade(gameState, simulatedPlayer);
+                    importanceSum += feature.getImportance();
                 }
-                grade += feature.calculateScaledGrade(gameState, simulatedPlayer);
-                importanceSum += feature.getImportance();
                 rating += (grade / importanceSum) * probability;
             }
-        }
-        simulatedRating = rating;
-        return simulatedRating;
+            simulatedRating = rating;
+            return simulatedRating;
         } catch (Exception ex) {
-            ex.printStackTrace();
-            System.out.println("Deu merda");
+            System.out.println("Error on evaluate attack");
             return 0.0;
         }
     }

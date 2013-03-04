@@ -2,6 +2,7 @@ package gui;
 
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyMethodInvoker;
+import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.controls.DropDown;
 import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.controls.Menu;
@@ -159,6 +160,8 @@ public class ContextMenuController {
         System.out.println("show IA Attack popup from " + origin + " to " + dest);
         this.originTerritory = origin;
         this.destTerritory = dest;
+        Button cancelBtn = attackPopup.findNiftyControl("cancelAtkBtn", Button.class);
+        cancelBtn.setEnabled(false);
         System.out.println("origin territory " + this.originTerritory);
         System.out.println("dest territory " + this.destTerritory);
         showAttackPopup(s);

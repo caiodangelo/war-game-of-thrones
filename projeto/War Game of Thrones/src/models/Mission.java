@@ -216,11 +216,11 @@ public class Mission implements Serializable {
         Board board = Board.getInstance();
         Player defeated = new HumanPlayer("");
         for (int i = 0; i < board.getPlayers().size(); i++) {
-            if (board.getPlayer(i).getHouse().equals(this.getHouse())) {
+            if (board.getPlayer(i).getHouse().getName().equals(this.getHouse().getName())) {
                 defeated = board.getPlayer(i);
             }
         }
-        return (defeated.getTerritories().isEmpty());
+        return (defeated.getTerritories().isEmpty() || defeated.numArmies() == 0);
     }
 
     private String getHouseOwner() {

@@ -48,6 +48,8 @@ public class Battle {
         defenderPlayer.getStatisticPlayerManager().updateDefenceTable(attackerPlayer);
         defenderPlayer.getStatisticPlayerManager().setMoreEnemy();
         //Fim Estatisticas
+
+        // Que diabos é isso aqui????
         if(ATK_WIN_ALWAYS){
             attackersDices = getCheatDices(numberAttackers, 6);
             defendersDices  = getCheatDices(numberDefenders, 1);

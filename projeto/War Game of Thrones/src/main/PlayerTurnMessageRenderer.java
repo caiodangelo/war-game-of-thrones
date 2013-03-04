@@ -21,7 +21,7 @@ public class PlayerTurnMessageRenderer extends RenderComponent{
     private String playerName;
     private String bonus;
     private float elapsed = 0;
-    private static final float FADE_DURATION = 1.0f, CONST_DURATION = 3.0f;
+    private static final float FADE_DURATION = 1.0f, CONST_DURATION = 1.0f;
     private static final float MAX_BG_ALPHA = 0.7f;
     private Vector2f pos;
     private Vector2f mapSize;

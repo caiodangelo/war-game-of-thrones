@@ -1,5 +1,6 @@
 package models;
 
+import ai.BattleComputer;
 import ai.evaluators.AttackEvaluator;
 import ai.evaluators.DistributionEvaluator;
 import ai.evaluators.MovementEvaluator;
@@ -11,7 +12,7 @@ import java.util.List;
  *
  * @author rodrigo
  */
-public class ExtremeAI extends Difficulty implements Serializable{
+public class ExtremeAI extends Difficulty implements Serializable {
 
     @Override
     public void distributeArmies() {
@@ -27,7 +28,7 @@ public class ExtremeAI extends Difficulty implements Serializable{
         for (Region region : regionsNotOwnedByPlayer) {
             double newRating = region.getAdjustedRating(player);
             maxRegionRating = Math.max(maxRegionRating, newRating);
-            if (maxRegionRating == newRating){
+            if (maxRegionRating == newRating) {
                 player.setTargetRegion(region);
             }
         }
@@ -112,7 +113,8 @@ public class ExtremeAI extends Difficulty implements Serializable{
 
     @Override
     public int moveAfterConquest(BackEndTerritory origin, BackEndTerritory conquered, int numberCanMove) {
-        int numberToMove = 0;
+        int numberToMove = 1;
+        numberCanMove--;
         while (numberCanMove > 0) {
             MovementEvaluator evaluator = new MovementEvaluator(Board.getInstance(), player);
             evaluator.setOriginTerritory(origin);
@@ -120,8 +122,8 @@ public class ExtremeAI extends Difficulty implements Serializable{
             double rating = evaluator.evaluate();
             if (rating > evaluator.evaluateCurrentGameState()) {
                 numberToMove++;
-                numberCanMove--;
             }
+            numberCanMove--;
         }
         return numberToMove;
     }
@@ -162,8 +164,7 @@ public class ExtremeAI extends Difficulty implements Serializable{
         }
         if (maxRating > currentRating) {
             return new TerritoryTransaction(origin, destiny, 1);
-        }
-        else {
+        } else {
             return null; // Se não for melhor mover, retorna null e deixa tudo como está.
         }
     }
@@ -194,6 +195,8 @@ public class ExtremeAI extends Difficulty implements Serializable{
                 chosenAttack = attack;
             }
         }
+        double battleChance = BattleComputer.calculateThreatToTerritory(chosenAttack.attacker, chosenAttack.defender);
+        maxRating *= 1 + (battleChance - 0.500);
         if (maxRating > currentRating) {
             return chosenAttack;
         }

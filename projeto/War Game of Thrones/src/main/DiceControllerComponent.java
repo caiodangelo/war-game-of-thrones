@@ -15,7 +15,7 @@ public class DiceControllerComponent extends Component {
         Input input = gc.getInput();
         float mouseX = input.getAbsoluteMouseX();
         float mouseY = input.getAbsoluteMouseY();
-        if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && mouseOver(mouseX, mouseY))
+        if ((input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && mouseOver(mouseX, mouseY)) || ((Dice) owner).isIsAIDice())
             ((Dice) owner).setRolling(false);
     }
     
