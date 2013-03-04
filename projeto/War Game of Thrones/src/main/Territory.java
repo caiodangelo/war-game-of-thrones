@@ -58,4 +58,8 @@ public class Territory extends Entity{
         this.army = a;
     }
     
+    @Override
+    public String toString(){
+        return "FRONT_END: " + getBackEndTerritory().getName();
+    }
 }

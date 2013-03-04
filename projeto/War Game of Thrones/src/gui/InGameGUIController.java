@@ -81,7 +81,7 @@ public class InGameGUIController implements ScreenController{
         tablesIcon = screen.findElementByName("tablesIcon");
         optionsPopup = n.createPopup("optionsPopup");
         helpPopup = n.createPopup("helpPopup");
-        ctxMenuCtrl = new ContextMenuController(n, this);
+        ctxMenuCtrl = new ContextMenuController(n, s, this);
         cardsCtrl = new CardsController(n, s, this);
         infoTerritoriesPopup = n.createPopup("infoTerritoriesPopup");
         infoTerritories = infoTerritoriesPopup.findNiftyControl("infoTerritories", Label.class);
@@ -241,6 +241,7 @@ public class InGameGUIController implements ScreenController{
                     cardsCtrl.showPopup();
             }
             setInfoLabelText(null);
+            System.out.println("reset 7");
             ctxMenuCtrl.resetTerritories();
         }
     }
@@ -533,5 +534,9 @@ public class InGameGUIController implements ScreenController{
     public void showPendingArmiesMsg() {
         Player curr = b.getCurrentPlayer();
         setRavenMessage("\\#333333ff#"+curr.getName()+" ainda possui \\#CC0000#"+curr.getPendingArmies()+"\\#333333ff# exército(s) para distribuir.");
+    }
+
+    public ContextMenuController getContextMenuController() {
+        return ctxMenuCtrl;
     }
 }

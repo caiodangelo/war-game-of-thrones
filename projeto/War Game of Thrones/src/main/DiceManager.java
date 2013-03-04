@@ -105,6 +105,7 @@ public class DiceManager {
     
     public void showDices(int atk, int def) {
         Dice d;
+        System.out.println("DICE MANAGER SHOW DICES");
         for (int i = 0; i < atk; i++) {
             d = new Dice(ATK_POSITIONS[i], true, battle.getAttackersDices()[i]);
             atkDices.add(d);
@@ -136,6 +137,7 @@ public class DiceManager {
     }
     
     public void removeDices() {
+        System.out.println("DICE MANAGER REMOVE DICES");
         atkDices.addAll(defDices); //concatennating
         for(Dice d : atkDices) {
             gameScene.removeEntity(d);

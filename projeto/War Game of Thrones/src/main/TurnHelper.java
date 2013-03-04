@@ -3,7 +3,9 @@ package main;
 import gui.InGameGUIController;
 import models.AIPlayer;
 import models.Board;
+import models.Difficulty;
 import models.Player;
+import models.TerritoryTransaction;
 
 public class TurnHelper {
     
@@ -11,6 +13,7 @@ public class TurnHelper {
     private Board b;
     private InGameGUIController ctrl;
     private static TurnHelper instance;
+    private IAHelper iaHelper;
     
     public TurnHelper(GameScene parent, InGameGUIController ctrl){
         instance = this;
@@ -32,15 +35,8 @@ public class TurnHelper {
         if(b.isOnInitialSetup()){
             if(!curr.isAIPlayer())
                 ctrl.showInfoTerritories();
-            else {
-//                ctrl
-//                AIPlayer ai = (AIPlayer)curr;
+            else 
                 ctrl.startPlayerInitialDistribution();
-//                ai.getDifficulty().distributeArmies();
-//                ctrl.updatePlayersData();
-//                changeTurn();
-            }
-            
         }
         else {
             parent.showPlayerTurnMsg();
@@ -48,7 +44,13 @@ public class TurnHelper {
                 ctrl.setRavenMessage(curr.getName()+" está jogando.");
             else
                 ctrl.setRavenMessage("\\#333333ff#"+curr.getName()+" recebeu \\#CC0000#"+curr.getPendingArmies()+"\\#333333ff# exército(s) para distribuir.");
+            if(curr.isAIPlayer()){
+                iaHelper = new IAHelper(this, (AIPlayer)curr);
+                iaHelper.handleIAStart();
+            }
         }
         ctrl.updatePlayersData();
     }
+
+    
 }
