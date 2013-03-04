@@ -6,6 +6,7 @@ package models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -115,34 +116,36 @@ public class StatisticGameManager implements Serializable {
         return mostWinnerDefences;
     }
 
-    public ArrayList<BackEndTerritory> getTerritoryMoreAttacked(ArrayList<BackEndTerritory> allTerritories) {
+    public ArrayList<BackEndTerritory> getTerritoryMoreAttacked() {
+        BackEndTerritory[] allTerritories = Board.getInstance().getTerritories();
         ArrayList<BackEndTerritory> territoryMoreAttacked = new ArrayList<BackEndTerritory>();
         int attacksNumber = 0;
-        for (int i = 0; i < allTerritories.size(); i++) {
-            if(attacksNumber < allTerritories.get(i).getNumAttacks()) {
-                attacksNumber = allTerritories.get(i).getNumAttacks();
+        for (int i = 0; i < allTerritories.length; i++) {
+            if(attacksNumber < allTerritories[i].getNumAttacks()) {
+                attacksNumber = allTerritories[i].getNumAttacks();
                 territoryMoreAttacked.clear();
-                territoryMoreAttacked.add(allTerritories.get(i));
+                territoryMoreAttacked.add(allTerritories[i]);
             } else {
-                if(attacksNumber == allTerritories.get(i).getNumAttacks()) {
-                    territoryMoreAttacked.add(allTerritories.get(i));
+                if(attacksNumber == allTerritories[i].getNumAttacks()) {
+                    territoryMoreAttacked.add(allTerritories[i]);
                 }
             }
         }
         return territoryMoreAttacked;
     }
 
-    public ArrayList<BackEndTerritory> getTerritoryMoreConquered(ArrayList<BackEndTerritory> allTerritories) {
+    public ArrayList<BackEndTerritory> getTerritoryMoreConquered() {
+        BackEndTerritory[] allTerritories = Board.getInstance().getTerritories();
         ArrayList<BackEndTerritory> territoryMoreConquered = new ArrayList<BackEndTerritory>();
         int conquestsNumber = 0;
-        for (int i = 0; i < allTerritories.size(); i++) {
-            if(conquestsNumber < allTerritories.get(i).getNumConquests()) {
-                conquestsNumber = allTerritories.get(i).getNumConquests();
+        for (int i = 0; i < allTerritories.length; i++) {
+            if(conquestsNumber < allTerritories[i].getNumConquests()) {
+                conquestsNumber = allTerritories[i].getNumConquests();
                 territoryMoreConquered.clear();
-                territoryMoreConquered.add(allTerritories.get(i));
+                territoryMoreConquered.add(allTerritories[i]);
             } else {
-                if(conquestsNumber == allTerritories.get(i).getNumConquests()) {
-                    territoryMoreConquered.add(allTerritories.get(i));
+                if(conquestsNumber == allTerritories[i].getNumConquests()) {
+                    territoryMoreConquered.add(allTerritories[i]);
                 }
             }
         }

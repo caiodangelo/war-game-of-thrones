@@ -189,6 +189,18 @@ public class StatisticPlayerManager implements Serializable{
         int index = board.getPlayers().indexOf(player);
         this.defenceTable[index]++;
     }
+    
+    public int getMostAttacks() {
+        Board board = Board.getInstance();
+        LinkedList<Player> players = board.getPlayers();
+        int mostAttacks = this.attackTable[0];
+        for (int i = 1; i < players.size(); i++) {
+            if (this.attackTable[i] > mostAttacks) {
+                mostAttacks = this.attackTable[i];
+            }
+        }
+        return mostAttacks;
+    }
 
     public void setYouAttackedMore() {
         Board board = Board.getInstance();
@@ -203,15 +215,27 @@ public class StatisticPlayerManager implements Serializable{
         }
         this.youAttackMore = board.getPlayer(indexOfMostAttackedPlayer);
     }
+    
+    public int getMostDefences() {
+        Board board = Board.getInstance();
+        LinkedList<Player> players = board.getPlayers();
+        int mostDefences = this.defenceTable[0];
+        for (int i = 1; i < players.size(); i++) {
+            if (this.defenceTable[i] > mostDefences) {
+                mostDefences = this.defenceTable[i];
+            }
+        }
+        return mostDefences;
+    }
 
     public void setMoreEnemy() {
         Board board = Board.getInstance();
         LinkedList<Player> players = board.getPlayers();
         int indexOfMostAttackedPlayer = 0;
-        int mostAttacks = this.defenceTable[indexOfMostAttackedPlayer];
+        int mostDefences = this.defenceTable[indexOfMostAttackedPlayer];
         for (int i = 1; i < players.size(); i++) {
-            if (this.defenceTable[i] > mostAttacks) {
-                mostAttacks = this.defenceTable[i];
+            if (this.defenceTable[i] > mostDefences) {
+                mostDefences = this.defenceTable[i];
                 indexOfMostAttackedPlayer = i;
             }
         }
