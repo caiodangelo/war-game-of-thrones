@@ -435,15 +435,7 @@ public class InGameGUIController implements ScreenController {
         setRavenMessage("\\#333333ff#" + curr.getName() + " ainda possui \\#CC0000#" + curr.getPendingArmies() + "\\#333333ff# exército(s) para distribuir.");
         updatePlayersData();
 
-//        if(!curr.isAIPlayer())
         GameScene.getInstance().showPlayerTurnMsg();
-//        else {
-//            AIPlayer ai = (AIPlayer)curr;
-//            ai.getDifficulty().distributeArmies();
-//            updatePlayersData();
-//            TurnHelper.getInstance().changeTurn();
-//        }
-
     }
 
     public void closeInfoTerritoriesPopup() {

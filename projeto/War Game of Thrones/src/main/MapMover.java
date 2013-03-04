@@ -17,7 +17,7 @@ public class MapMover extends Entity{
     private enum ScrollState {WAITING, MOVING}
     private ScrollState state = ScrollState.WAITING;
     
-    private static final float SPEED = 0.1f;
+    private static final float SPEED = 0.5f;
     private static final float END_SCALE = 1.5f;
     private Vector2f start, end, moveVector;
     private float startScale = 0, endScale;

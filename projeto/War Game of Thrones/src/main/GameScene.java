@@ -70,13 +70,15 @@ public class GameScene extends Scene{
         AudioManager.getInstance().playMusic(AudioManager.GAME_RUNNING);
         
         addEntity(new RegionNames(Map.armyPositions, map));
+
+        mapMover = new MapMover(map);
+        addEntity(mapMover);
+        
         if(!b.getCurrentPlayer().isAIPlayer())
             ctrl.showInfoTerritories();
         else
             ctrl.startPlayerInitialDistribution();
         
-        mapMover = new MapMover(map);
-        addEntity(mapMover);
     }
     
     public Map getMap(){
@@ -154,7 +156,7 @@ public class GameScene extends Scene{
         addEntity(fm);
     }
     
-    protected void startAIDistributionAnim(AIPlayer p, IAHelper helper){
+    public void startAIDistributionAnim(AIPlayer p, IAHelper helper){
         AIArmyDistributor dist = new AIArmyDistributor(this, p, helper, map, mapMover);
         addEntity(dist);
         dist.start();
