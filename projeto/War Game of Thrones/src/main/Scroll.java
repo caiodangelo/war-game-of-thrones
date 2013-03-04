@@ -106,6 +106,14 @@ public class Scroll extends ImageMovementsComponent {
         return resp;
     }
     
+    public boolean validateViewX(){
+        return viewX <= getMaxViewX() && viewX >= getMinViewX();
+    }
+    
+    public boolean validateViewY(){
+        return viewY <= getMaxViewY() && viewY >= getMinViewY();
+    }
+    
     private void checkView(){
         float maxX = getMaxViewX();
         float maxY = getMaxViewY();

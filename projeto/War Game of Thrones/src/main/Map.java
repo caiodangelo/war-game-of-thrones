@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import models.BackEndTerritory;
 import models.Board;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import util.Entity;
@@ -188,6 +189,10 @@ public class Map extends Entity{
         }
     }
     
+    public Scroll getScroll(){
+        return s;
+    }
+    
     public float getScaledWidth(){
         return s.getImageWidth(getScale());
     }
@@ -217,5 +222,16 @@ public class Map extends Entity{
                 return tFront;
         }
         return null;
+    }
+    
+    public Vector2f screenToMapPosition(float x, float y){
+        Vector2f myPos = getPosition();
+        x = (x - myPos.x) / getScaledWidth();
+        y = (y - myPos.y) / getScaledHeight();
+        return new Vector2f(x, y);
+    }
+    
+    public Vector2f getMouseRelativePosition(Input in){
+        return screenToMapPosition(in.getMouseX(), in.getMouseY());
     }
 }

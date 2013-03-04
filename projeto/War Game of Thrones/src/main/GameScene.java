@@ -71,6 +71,8 @@ public class GameScene extends Scene{
             ctrl.showInfoTerritories();
         else
             ctrl.startPlayerInitialDistribution();
+        
+        addEntity(new MapMover(map));
     }
     
     public Map getMap(){
