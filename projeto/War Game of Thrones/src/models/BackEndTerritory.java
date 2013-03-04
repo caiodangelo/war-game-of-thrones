@@ -26,6 +26,8 @@ public class BackEndTerritory implements Serializable {
         this.index = index;
 //        this.graph = strct;
         this.board = Board.getInstance();
+        this.numAttacks = 0;
+        this.numConquests = 0;
     }
     
     private TerritoriesGraphStructure getGraph(){
@@ -226,5 +228,13 @@ public class BackEndTerritory implements Serializable {
             }               
         }
         return false;
+    }
+
+    public void setNumAttacks(int numAttacks) {
+        this.numAttacks = numAttacks;
+    }
+
+    public void setNumConquests(int numConquests) {
+        this.numConquests = numConquests;
     }
 }

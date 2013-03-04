@@ -5,7 +5,6 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -23,14 +22,13 @@ public class StatisticPlayerManagerTest {
     
     @BeforeClass
     public void setUp() {
-        House a = new House();
         player = mock(Player.class);      
-        when(player.getStatisticPlayerManager()).thenReturn(statistic);
+        when(player.getStatisticPlayerManager()).thenReturn(statistic); 
     }
     
     @Test
     public void averageAttackTablesDeveRetornarAMediaDosDados () {
-        statistic = new StatisticPlayerManager();
+        statistic = new StatisticPlayerManager(player);
         Integer [] dice= {3,4,6};
         statistic.averageAttackDices(dice);
         assertEquals(statistic.getDicesOfAttackAverage(), 4.33f);
@@ -38,7 +36,7 @@ public class StatisticPlayerManagerTest {
     
     @Test
     public void averageDefenceTablesDeveRetornarAMediaDosDados () {
-        statistic = new StatisticPlayerManager();
+        statistic = new StatisticPlayerManager(player);
         Integer [] dice= {2,1,5};
         statistic.averageDefenceDices(dice);
         assertEquals(statistic.getDicesOfDefenceAverage(), 2.67f);
@@ -46,7 +44,7 @@ public class StatisticPlayerManagerTest {
     
     @Test
     public void averageAttackTablesDeveRetornarAMediaDosDadosComMaisDeUmDadoJogado () {
-        statistic = new StatisticPlayerManager();
+        statistic = new StatisticPlayerManager(player);
         Integer [] dice1= {3,6,5};
         statistic.averageAttackDices(dice1);
         Integer [] dice2= {1,1,1};
@@ -59,7 +57,7 @@ public class StatisticPlayerManagerTest {
     
     @Test
     public void averageDefenceTablesDeveRetornarAMediaDosDadosComMaisDeUmDadoJogado() {
-        statistic = new StatisticPlayerManager();
+        statistic = new StatisticPlayerManager(player);
         Integer [] dice1= {3,6,6};
         statistic.averageDefenceDices(dice1);
         Integer [] dice2= {1,2,1};
@@ -71,7 +69,7 @@ public class StatisticPlayerManagerTest {
     
     @Test
     public void setSuccessfulAttackPercentageDeveRetornarAPorcentagemDeAtaquesBemSucedidos() {
-        StatisticPlayerManager estatistica = new StatisticPlayerManager();
+        StatisticPlayerManager estatistica = new StatisticPlayerManager(player);
         estatistica.setNumberOfAttacks(32);
         estatistica.setNumberOfAttackWins(5);
         estatistica.setSuccessfulAttackPercentage();
@@ -80,7 +78,7 @@ public class StatisticPlayerManagerTest {
     
     @Test
     public void setSuccessfulDefencePercentageDeveRetornarAPorcentagemDeDefesasBemSucedidos() {
-        StatisticPlayerManager estatistica = new StatisticPlayerManager();
+        StatisticPlayerManager estatistica = new StatisticPlayerManager(player);
         estatistica.setNumberOfDefences(32);
         estatistica.setNumberOfDefenceWins(16);
         estatistica.setSuccessfulDefencePercentage();
@@ -88,7 +86,7 @@ public class StatisticPlayerManagerTest {
     }
     
     @Test
-    public void setUpdateTableAtualizaATabelaDeJogadoresAtacadosDoJogadorCorrente(){
+    public void setUpdateAttackTableAtualizaATabelaDeJogadoresAtacadosDoJogadorCorrente(){
         Board board = new Board();
         Player a = mock (Player.class);
         Player b = mock (Player.class);
@@ -107,6 +105,28 @@ public class StatisticPlayerManagerTest {
     }
     
     @Test
+    public void setUpdateDefenceTableAtualizaATabelaDeJogadoresAtacadosDoJogadorCorrente(){
+        Board board = new Board();
+        statistic = new StatisticPlayerManager(player);
+        Player a = mock (Player.class);
+        Player b = mock (Player.class);
+        Player c = mock (Player.class);
+        board.addPlayer(a, 0, Board.HUMAN_PLAYER);
+        board.addPlayer(b, 1, Board.HUMAN_PLAYER);
+        board.addPlayer(c, 2, Board.HUMAN_PLAYER);
+        board.addPlayer(player, 3, Board.HUMAN_PLAYER);
+        statistic.updateDefenceTable(a);
+        statistic.updateDefenceTable(a);
+        statistic.updateDefenceTable(a);
+        statistic.updateDefenceTable(b);
+        statistic.updateDefenceTable(c);
+        assertEquals(statistic.getDefenceTable()[0], 3);
+        assertEquals(statistic.getDefenceTable()[1], 1);
+        assertEquals(statistic.getDefenceTable()[2], 1);
+        assertEquals(statistic.getDefenceTable()[3], 0);
+    }
+    
+    @Test
     public void setYouAttackedMoreRetornaOsJogadoresQueVoceAtacouMais() {
         Board board = new Board();
         Player a = mock (Player.class);
@@ -115,12 +135,57 @@ public class StatisticPlayerManagerTest {
         board.addPlayer(a, 0, Board.HUMAN_PLAYER);
         board.addPlayer(b, 1, Board.HUMAN_PLAYER);
         board.addPlayer(c, 2, Board.HUMAN_PLAYER);
+        board.addPlayer(player, 3, Board.HUMAN_PLAYER);
         statistic.updateAttackTable(a);
         statistic.updateAttackTable(a);
         statistic.updateAttackTable(a);
         statistic.updateAttackTable(b);
         statistic.updateAttackTable(c);
-        assertEquals(statistic.getYouAttackMore(), a);
+        ArrayList<Player> answer = new ArrayList<Player>();
+        answer.add(a);
+        
+        statistic.setYouAttackedMore();
+        assertEquals(statistic.getYouAttackMore(), answer);
+    }
+    
+    @Test
+    public void setMoreEnemyRetornaOsJogadoresQueTeAtacaramMais() {
+        Board board = new Board();
+        Player a = mock (Player.class);
+        Player b = mock (Player.class);
+        Player c = mock (Player.class);
+        board.addPlayer(a, 0, Board.HUMAN_PLAYER);
+        board.addPlayer(b, 1, Board.HUMAN_PLAYER);
+        board.addPlayer(c, 2, Board.HUMAN_PLAYER);
+        board.addPlayer(player, 3, Board.HUMAN_PLAYER);
+        statistic.updateDefenceTable(b);
+        statistic.updateDefenceTable(c);
+        ArrayList<Player> answer = new ArrayList<Player>();
+        answer.add(b);
+        answer.add(c);
+        
+        statistic.setMoreEnemy();
+        assertEquals(statistic.getMoreEnemy(), answer);
+    }
+    
+    @Test
+    public void setMoreEnemyNaoDeveRetornaOProprioJogador() {
+        Board board = new Board();
+        Player a = mock (Player.class);
+        Player b = mock (Player.class);
+        Player c = mock (Player.class);
+        board.addPlayer(a, 0, Board.HUMAN_PLAYER);
+        board.addPlayer(b, 1, Board.HUMAN_PLAYER);
+        board.addPlayer(c, 2, Board.HUMAN_PLAYER);
+        board.addPlayer(player, 3, Board.HUMAN_PLAYER);
+        ArrayList<Player> answer = new ArrayList<Player>();
+        answer.add(a);
+        answer.add(b);
+        answer.add(c);
+        answer.add(player);
+        
+        statistic.setMoreEnemy();
+        assertNotEquals(statistic.getMoreEnemy(), answer);
     }
     
     @AfterClass

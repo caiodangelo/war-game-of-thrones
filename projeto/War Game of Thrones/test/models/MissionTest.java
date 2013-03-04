@@ -30,7 +30,7 @@ public class MissionTest {
         String name = "Missão Impossível";
         String description = "Com Tom Cruise!";
         mission = new Mission(name, description, Mission.TYPE_TERRITORY);
-        assertEquals(mission.Mission.this.description, name);
+        assertEquals(mission.description, name);
 //        assertEquals(mission.description, description);
         assertEquals(mission.type, Mission.TYPE_TERRITORY);
     }
