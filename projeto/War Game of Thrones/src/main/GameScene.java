@@ -10,6 +10,7 @@ import models.Player;
 import models.StatisticGameManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import util.Scene;
 
@@ -158,4 +159,9 @@ public class GameScene extends Scene{
         addEntity(dist);
         dist.start();
     }
+    
+    public void resetMapPosition(){
+        mapMover.activate(new Vector2f(0.5f, 0.5f), 1.2f, null);
+    }
+           
 }

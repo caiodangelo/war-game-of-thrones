@@ -11,13 +11,16 @@ public class MapMover extends Entity{
 
     private Map map;
     private Scroll scrollComponent;
+
+   
+
     private enum ScrollState {WAITING, MOVING}
     private ScrollState state = ScrollState.WAITING;
     
     private static final float SPEED = 0.1f;
     private static final float END_SCALE = 2.0f;
     private Vector2f start, end, moveVector;
-    private float startScale = 0;
+    private float startScale = 0, endScale;
     
     private MovementCompleteListener listener;
     
@@ -27,6 +30,10 @@ public class MapMover extends Entity{
     }
     
     public void activate(Vector2f destPosition, MovementCompleteListener l){
+        activate(destPosition, END_SCALE,l);
+    }
+    
+    public void activate(Vector2f destPosition, float endScale, MovementCompleteListener l) {
         state = ScrollState.MOVING;
         start = new Vector2f(scrollComponent.viewX, scrollComponent.viewY);
         end = destPosition;
@@ -35,7 +42,8 @@ public class MapMover extends Entity{
         moveVector.scale(SPEED);
         state =  ScrollState.MOVING;
         startScale = map.getScale();
-        this.listener = l;
+        this.endScale = endScale;
+        this.listener = l; 
     }
     
     @Override
@@ -60,7 +68,7 @@ public class MapMover extends Entity{
             scrollComponent.zoomIn(map.getScale(), 1/60f, map.getPosition());
             scrollComponent.viewX += moveX;
             scrollComponent.viewY += moveY;
-            float newScale = (END_SCALE - startScale) * getPctgComplete() + startScale;
+            float newScale = (endScale - startScale) * getPctgComplete() + startScale;
             map.setScale(newScale);
             if(mapOutofBounds())
                 terminate();

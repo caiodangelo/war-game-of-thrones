@@ -1,5 +1,6 @@
 package main;
 
+import gui.InGameGUIController;
 import java.util.LinkedList;
 import java.util.Queue;
 import models.AIPlayer;
@@ -7,6 +8,7 @@ import models.BackEndTerritory;
 import models.Difficulty;
 import models.Region;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import util.Entity;
 
@@ -18,14 +20,12 @@ public class IAArmyDistributor extends Entity implements MovementCompleteListene
     private Map m;
     private MapMover mover;
     private LinkedList<Territory> territoriesToZoom;
-    private GameScene myScene;
     
     public IAArmyDistributor(GameScene scene, AIPlayer p, IAHelper helper, Map m, MapMover mover){
         this.player = p;
         this.helper = helper;
         this.mover = mover;
         this.m = m;
-        myScene = scene;
         d = player.getDifficulty();
     }
 
@@ -42,7 +42,7 @@ public class IAArmyDistributor extends Entity implements MovementCompleteListene
             }
         }
         territoriesToZoom = sortList(territoriesToZoom);
-        myScene.showPlayerTurnMsg();
+        InGameGUIController.getInstance().startPlayerInitialDistribution();
         processNextZoom();
     }
     
@@ -51,6 +51,7 @@ public class IAArmyDistributor extends Entity implements MovementCompleteListene
         if(next != null){
             mover.activate(next.getArmyRelativePos(), this);
         } else {
+            //if ended, recentralize
             TurnHelper.getInstance().changeTurn();
         }
     }

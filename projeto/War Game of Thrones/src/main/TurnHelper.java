@@ -33,9 +33,10 @@ public class TurnHelper {
             t.resetMovedArmies();
         }
         if(b.isOnInitialSetup()){
-            if(!curr.isAIPlayer())
+            if(!curr.isAIPlayer()){
                 ctrl.showInfoTerritories();
-            else{
+                parent.resetMapPosition();
+            }else{
                 iaHelper = new IAHelper(this, (AIPlayer)curr);
                 iaHelper.handleIAStart();
             } 
