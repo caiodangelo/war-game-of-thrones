@@ -75,19 +75,17 @@ public class AttackEvaluator extends Evaluator {
      */
     @Override
     public double evaluate() {
-        double probabilitiesSum = 0.0;
         double rating = 0.0;
         simulateMultiActionExecution();
         for (int i = 0; i < outcomes.size(); i++) {
             Board gameState = outcomes.get(i);
             double probability = probabilities[i];
-            probabilitiesSum += probability;
             for (Feature feature : features) {
                 double grade = 0;
                 double importanceSum = 0;
                 Player simulatedPlayer = null;
                 for (Player newPlayer : gameState.getPlayers()) {
-                    if (player.getName().equals(player.getName())) {
+                    if (newPlayer.getHouse().getName().equals(player.getHouse().getName())) {
                         simulatedPlayer = newPlayer;
                     }
                 }
@@ -96,8 +94,8 @@ public class AttackEvaluator extends Evaluator {
                 rating += (grade / importanceSum) * probability;
             }
         }
-        simulatedRating = rating / probabilitiesSum;
-        return simulatedRating * BattleComputer.calculateThreatToTerritory(attack.attacker, attack.defender) * 2;
+        simulatedRating = rating;
+        return simulatedRating;
     }
 
     public TerritoryTransaction getAttack() {
