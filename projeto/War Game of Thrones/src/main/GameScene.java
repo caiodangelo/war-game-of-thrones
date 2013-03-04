@@ -155,9 +155,21 @@ public class GameScene extends Scene{
     }
     
     protected void startAIDistributionAnim(AIPlayer p, IAHelper helper){
-        IAArmyDistributor dist = new IAArmyDistributor(this, p, helper, map, mapMover);
+        AIArmyDistributor dist = new AIArmyDistributor(this, p, helper, map, mapMover);
         addEntity(dist);
         dist.start();
+    }
+
+    protected void startAIMovementAnim(AIPlayer p) {
+        AIArmyMovementer move = new AIArmyMovementer(p, mapMover);
+        addEntity(move);
+        move.start();
+    }
+
+    protected void startAIAttackerAnim(AIPlayer p) {
+        AIArmyAttacker attacker = new AIArmyAttacker(p, mapMover);
+        addEntity(attacker);
+        attacker.start();
     }
     
     public void resetMapPosition(){

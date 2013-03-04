@@ -24,6 +24,7 @@ public class MissionCompletionFeature extends Feature {
 
     @Override
     public double calculate(Board gameState, Player player) {
+        try {
         Mission mission = player.getMission();
         int playerArmies = 0;
         for (Player enemy : gameState.getPlayers()) {
@@ -31,7 +32,11 @@ public class MissionCompletionFeature extends Feature {
         }
         switch (mission.getType()) {
             case Mission.TYPE_HOUSE:
-                Player enemy = mission.getHouse().getPlayer();
+                Player enemy = null;
+                for (Player possibleEnemy : gameState.getPlayers()) {
+                    if (possibleEnemy.getHouse().getName().equals(mission.getHouse()))
+                        enemy = player;
+                }
                 return ((enemy.numArmies() / playerArmies) + (enemy.getTerritories().size() / gameState.getTerritories().length)) / -2.0;
             case Mission.TYPE_REGION:
                 List<Region> regions = mission.getRegions();
@@ -56,5 +61,8 @@ public class MissionCompletionFeature extends Feature {
                 return 1.0;
         }
         return 1.0; // Se for outra missão desconhecida retorna 1 que não vai afetar em nada.
+        } catch (Exception ex) {
+            return 1.0;
+        }
     }
 }

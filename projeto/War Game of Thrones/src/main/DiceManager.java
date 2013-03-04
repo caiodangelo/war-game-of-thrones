@@ -176,7 +176,7 @@ public class DiceManager {
             }
         }
         if (Board.getInstance().getCurrentPlayer() instanceof AIPlayer) {
-            TurnHelper.getInstance().getIaHelper().next();
+            GameScene.getInstance().startAIAttackerAnim((AIPlayer) Board.getInstance().getCurrentPlayer());
         }
     }
 

@@ -18,7 +18,7 @@ public class MapMover extends Entity{
     private ScrollState state = ScrollState.WAITING;
     
     private static final float SPEED = 0.1f;
-    private static final float END_SCALE = 2.0f;
+    private static final float END_SCALE = 1.5f;
     private Vector2f start, end, moveVector;
     private float startScale = 0, endScale;
     
@@ -91,10 +91,6 @@ public class MapMover extends Entity{
         return Math.min(currDist / originalDist, 1f);
     }
 
-    public Vector2f getCenter(Vector2f pos1, Vector2f pos2) {
-        return new Vector2f((pos1.x + pos2.x) / 2, (pos1.y + pos2.y) / 2);
-    }
-    
     private boolean mapOutofBounds(){
         boolean validateX = scrollComponent.validateViewX();
         boolean validateY = scrollComponent.validateViewY();

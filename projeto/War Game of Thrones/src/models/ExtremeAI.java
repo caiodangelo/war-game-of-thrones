@@ -177,7 +177,8 @@ public class ExtremeAI extends Difficulty implements Serializable {
                 for (BackEndTerritory neighbour : territory.getNeighbours()) {
                     if (neighbour.getOwner() != player) {
                         TerritoryTransaction attack = new TerritoryTransaction(territory, neighbour, Math.min(3, territory.getSurplusArmies()));
-                        attacks.add(attack);
+                        if (attack.isValid())
+                            attacks.add(attack);
                     }
                 }
             }

@@ -16,4 +16,8 @@ public class TerritoryTransaction implements Serializable {
         this.defender = defender;
         this.numberOfAttackers = numberOfAttackers;
     }
+
+    public boolean isValid() {
+        return attacker.getSurplusArmies() > 0 && attacker.getSurplusArmies() >= numberOfAttackers && defender.getNumArmies() > 0;
+    }
 }

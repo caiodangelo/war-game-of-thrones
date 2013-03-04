@@ -31,6 +31,7 @@ public class Battle {
         this.numberDefenders = numberDefenders;
         valid = attacker.isNeighbour(defender) && attacker.getOwner() != defender.getOwner();
         valid = valid && isArmiesCountValid() && attacker.getNumArmies() > numberAttackers && defender.getNumArmies() >= numberDefenders;
+        valid = valid && attacker.getSurplusArmies() > 0;
         concluded = false;
         conquested = false;
     }
