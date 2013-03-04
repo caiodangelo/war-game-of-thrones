@@ -14,8 +14,10 @@ public class MapMover extends Entity{
     private enum ScrollState {WAITING, MOVING}
     private ScrollState state = ScrollState.WAITING;
     
-    private final float speed = 0.1f;
+    private static final float SPEED = 0.1f;
+    private static final float END_SCALE = 2.0f;
     private Vector2f start, end, moveVector;
+    private float startScale = 0;
     
     public MapMover(Map map){
         this.map = map;
@@ -34,8 +36,9 @@ public class MapMover extends Entity{
                 end = map.getMouseRelativePosition(in);
                 moveVector = sub(end, start);
                 moveVector.normalise();
-                moveVector.scale(speed);
+                moveVector.scale(SPEED);
                 state =  ScrollState.MOVING;
+                startScale = map.getScale();
             }
         } else {
             
@@ -47,13 +50,25 @@ public class MapMover extends Entity{
             }
             float moveX = moveVector.x * delta;
             float moveY = moveVector.y * delta;
+            scrollComponent.zoomIn(map.getScale(), 1/60f, map.getPosition());
             scrollComponent.viewX += moveX;
             scrollComponent.viewY += moveY;
+            float newScale = (END_SCALE - startScale) * getPctgComplete() + startScale;
+            map.setScale(newScale);
             if(mapOutofBounds()){
                 state = ScrollState.WAITING;
             }
             
         }
+    }
+    
+    public float getPctgComplete(){
+        float originalDist = end.distance(start);
+        Vector2f curPos = new Vector2f(scrollComponent.viewX, scrollComponent.viewY);
+        float currDist = curPos.distance(start);
+        if(originalDist == 0)
+            return 1;
+        return Math.min(currDist / originalDist, 1f);
     }
     
     private boolean mapOutofBounds(){
@@ -71,7 +86,4 @@ public class MapMover extends Entity{
         
         return originalSignX != currSignX || originalSignY != currSignY;
     }
-    
-    
-
 }

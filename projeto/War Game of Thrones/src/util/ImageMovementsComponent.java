@@ -10,7 +10,7 @@ public class ImageMovementsComponent extends ImageRenderComponent {
         super(id, img);
     }
 
-    protected void zoomIn(float scale, float delta, Vector2f position) {
+    public void zoomIn(float scale, float delta, Vector2f position) {
         zoom(scale, delta, 1, position);
     }
 
@@ -39,7 +39,7 @@ public class ImageMovementsComponent extends ImageRenderComponent {
         setUpdates(scale, position);
     }
     
-    protected void setUpdates(float scale, Vector2f position) {
+    public void setUpdates(float scale, Vector2f position) {
         Vector2f mapPos = Main.getMapPos();
         Vector2f mapSize = Main.getMapSize();
         Vector2f newPos = owner.getPosition();
