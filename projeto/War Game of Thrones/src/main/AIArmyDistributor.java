@@ -21,6 +21,7 @@ public class AIArmyDistributor extends Entity implements MovementCompleteListene
     private Map m;
     private MapMover mover;
     private LinkedList<Territory> territoriesToZoom;
+    private int pendingArmies;
 
     public AIArmyDistributor(GameScene scene, AIPlayer p, IAHelper helper, Map m, MapMover mover) {
         this.player = p;
@@ -32,6 +33,8 @@ public class AIArmyDistributor extends Entity implements MovementCompleteListene
 
     public void start() {
         System.out.println("IA ARMY DISTRIBUTOR START");
+        InGameGUIController.getInstance().startPlayerInitialDistribution();
+        pendingArmies = player.getPendingArmies();
         d.distributeArmies();
         Territory[] frontTerr = m.getTerritories();
         territoriesToZoom = new LinkedList<Territory>();
@@ -43,13 +46,14 @@ public class AIArmyDistributor extends Entity implements MovementCompleteListene
             }
         }
         territoriesToZoom = sortList(territoriesToZoom);
-        InGameGUIController.getInstance().startPlayerInitialDistribution();
         processNextZoom();
     }
 
     private void processNextZoom() {
         Territory next = territoriesToZoom.poll();
         if (next != null) {
+            pendingArmies -= next.getBackEndTerritory().getNumArmies() - 1;
+            InGameGUIController.getInstance().showRemainingPendingArmies(player, pendingArmies);
             mover.activate(next.getArmyRelativePos(), this);
         } else if (Board.getInstance().isOnInitialSetup()) {
             TurnHelper.getInstance().changeTurn();

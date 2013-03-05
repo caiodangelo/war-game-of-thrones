@@ -51,6 +51,8 @@ public class ArmyRenderComponent extends ImageRenderComponent {
         image.draw(pos.x, pos.y, scale);
         gr.setColor(Color.white);
         int count = (armyOwner.getQuantity()) + (distributing ? 0 : - movingQty);
+        if(count <= 0)
+            count = armyOwner.getQuantity();
         String countText = count + "";
         Font f = gr.getFont();
         int textWidth = f.getWidth(countText),

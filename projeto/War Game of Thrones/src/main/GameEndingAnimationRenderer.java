@@ -1,5 +1,6 @@
 package main;
 
+import gui.InGameGUIController;
 import models.Player;
 import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Color;
@@ -12,8 +13,8 @@ import util.RenderComponent;
 
 public class GameEndingAnimationRenderer extends RenderComponent{
 
-    private static final float FADING_IN_DURATION = 5f;
-    private static final float DELAY_TO_SHOW_MESSAGE = -3f;
+    private static final float FADING_IN_DURATION = 7f;
+    private static final float DELAY_TO_SHOW_MESSAGE = -1f;
     
     private Color cFirstMessage;
     private Color cSecondMessage;
@@ -52,13 +53,16 @@ public class GameEndingAnimationRenderer extends RenderComponent{
             gr.drawString(congratulations, pos.x + (mapSize.x - fnt.getWidth(congratulations))/2.0f, pos.y);
             gr.drawString(winner, pos.x + (mapSize.x - fnt.getWidth(winner))/2.0f, pos.y - fnt.getHeight(winner));
             String clickToStatistics = "Clique em qualquer lugar para ver as estatísticas";
-            elapsed -= 3f;
+            elapsed -= 1f;
             pctg = getPcgt();
             if (elapsed >= 0 && elapsed <= FADING_IN_DURATION)
                 cSecondMessage.a = pctg / 0.5f;
+            System.out.println("AAA"+cSecondMessage.a);
+            if (cSecondMessage.a >= 1f)
+                InGameGUIController.getInstance().mayGoToStatistics();
             gr.setColor(cSecondMessage);
             gr.drawString(clickToStatistics, pos.x + (mapSize.x - fnt.getWidth(clickToStatistics))/2.0f, pos.y + fnt.getHeight(winner));
-            elapsed += 3f;
+            elapsed += 1f;
         }
     }
 
@@ -70,7 +74,7 @@ public class GameEndingAnimationRenderer extends RenderComponent{
 
     public void activate(Player player) {
         playerName = player.getName();
-        //c = new Color(color.getRed(), color.getGreen(), color.getBlue());
+        AudioManager.getInstance().stopMusic(AudioManager.GAME_RUNNING);
         cFirstMessage = new Color(Color.black);
         cFirstMessage.a = 0;
         cSecondMessage = new Color(Color.black);

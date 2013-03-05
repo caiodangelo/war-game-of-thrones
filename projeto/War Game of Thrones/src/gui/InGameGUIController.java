@@ -27,7 +27,7 @@ public class InGameGUIController implements ScreenController {
     private Screen s;
     private Nifty n;
     private Board b;
-    private Player[] players;
+    private List<Player> players;
     private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel,
             optionsPopup, helpPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup,
             alertPopup, cardEarnedPopup, emptyPopup;
@@ -37,7 +37,8 @@ public class InGameGUIController implements ScreenController {
     private static InGameGUIController instance;
     private HashMap<Integer, String> turnsOrder;
     private HashMap<String, String> regionsColors;
-
+    private boolean mayGoToStatistics;
+    
     public InGameGUIController() {
         turnsOrder = new HashMap();
         turnsOrder.put(0, "primeiro");
@@ -53,6 +54,7 @@ public class InGameGUIController implements ScreenController {
         regionsColors.put("O Sul", "\\#66CC00#");
         regionsColors.put("Tridente", "\\#CCCC00#");
         regionsColors.put("O Mar Dothraki", "\\#FF6600#");
+        mayGoToStatistics = false;
         instance = this;
     }
 
@@ -100,13 +102,17 @@ public class InGameGUIController implements ScreenController {
         alert.setText(text);
         PopupManager.showPopup(n, s, alertPopup);
     }
+    
+    public void mayGoToStatistics() {
+        mayGoToStatistics = true;
+    }
 
     @Override
     public void onStartScreen() {
-        ctxMenuCtrl = new ContextMenuController(n, s, this);
         b = Board.getInstance();
-        List<Player> playersList = Board.getInstance().getPlayers();
-        players = playersList.toArray(new Player[0]);
+        ctxMenuCtrl = new ContextMenuController(n, s, this);
+        List<Player> playersList = b.getPlayers();
+        players = playersList;
 
         retrieveStatusPanels(s);
         updatePlayersData();
@@ -144,23 +150,23 @@ public class InGameGUIController implements ScreenController {
     }
 
     private void retrieveStatusPanels(Screen s) {
-        int playersCount = players.length;
+        int playersCount = players.size();
         statusPanels = new StatusPanelControlImpl[playersCount];
         for (int i = 0; i < 6; i++) {
             StatusPanelControl spc = s.findNiftyControl("player" + i + "Status", StatusPanelControl.class);
-            if (i >= playersCount)
-                spc.getElement().setVisible(false);
-            else
+            boolean visible = i < playersCount;
+            if (visible)
                 statusPanels[i] = spc;
+            spc.getElement().setVisible(visible);
         }
     }
 
     public void updatePlayersData() {
-        for (int i = 0; i < players.length; i++) {
+        for (int i = 0; i < players.size(); i++) {
             StatusPanelControl spc = statusPanels[i];
-            Player current = players[i];
+            Player current = players.get(i);
             spc.updateData(current.getName(), current.numCards(), current.numArmies(), current.numTerritories());
-            spc.setNameColor(players[i].getHouse().getColor());
+            spc.setNameColor(players.get(i).getHouse().getColor());
         }
         updateCurrentPlayersData();
     }
@@ -432,10 +438,14 @@ public class InGameGUIController implements ScreenController {
 //        for(BackEndTerritory t : ts){
 //            t.setNumArmies(1);
 //        }
-        setRavenMessage("\\#333333ff#" + curr.getName() + " ainda possui \\#CC0000#" + curr.getPendingArmies() + "\\#333333ff# exército(s) para distribuir.");
+        showRemainingPendingArmies(curr, curr.getPendingArmies());
         updatePlayersData();
 
         GameScene.getInstance().showPlayerTurnMsg();
+    }
+    
+    public void showRemainingPendingArmies(Player p, int count){
+        setRavenMessage("\\#333333ff#" + p.getName() + " ainda possui \\#CC0000#" + count + "\\#333333ff# exército(s) para distribuir.");
     }
 
     public void closeInfoTerritoriesPopup() {
@@ -444,7 +454,8 @@ public class InGameGUIController implements ScreenController {
     }
 
     public void goToStatistics() {
-        Main.getInstance().enterState(WarScenes.STATISTICS_SCENE);
+        if (mayGoToStatistics)
+            Main.getInstance().enterState(WarScenes.STATISTICS_SCENE);
     }
 
     @NiftyEventSubscriber(id = "menuItemid")

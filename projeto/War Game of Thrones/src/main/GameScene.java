@@ -49,7 +49,7 @@ public class GameScene extends Scene{
     @Override
     public void enterState(GameContainer container, StateBasedGame game) throws SlickException { 
         super.enterState(container, game);
-        StatisticGameManager.getInstance().setInitTime(new Date());
+        StatisticGameManager.getInstance().startGameTimer();
         map = new Map();
         addEntity(map);
         //Left button was pressed to play but this record must be erased.

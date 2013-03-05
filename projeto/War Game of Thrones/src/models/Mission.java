@@ -200,6 +200,7 @@ public class Mission implements Serializable {
     public boolean isTerritoryMissionCompleted() {
         int count = 0;
         List<BackEndTerritory> playerTerritories = this.getPlayer().getTerritories();
+//<<<<<<< HEAD
         if(this.getTerritories() == 23)
             return playerTerritories.size() >= 23;
        
@@ -210,6 +211,18 @@ public class Mission implements Serializable {
             }
             if(count >= 17) return true;
             else return false;
+//=======
+//        answer = (this.getTerritories() <= playerTerritories.size());
+//
+//        if (this.getTerritories() == 17 && answer) {
+//            int territorieswith2OrMoreArmies = 0;
+//            for (BackEndTerritory territory : playerTerritories) {
+//                if (territory.getNumArmies() >= 2) {
+//                    territorieswith2OrMoreArmies++;
+//                }
+//            }
+//            answer = territorieswith2OrMoreArmies >= 17;
+//>>>>>>> 1f10fa157c27e3ccab59173922a14f94ae509757
         }
         return false;
     }

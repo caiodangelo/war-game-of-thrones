@@ -14,11 +14,13 @@ public class MapMover extends Entity{
 
    
 
-    private enum ScrollState {WAITING, MOVING}
+    private enum ScrollState {WAITING, MOVING, COMPLETE_DELAY}
     private ScrollState state = ScrollState.WAITING;
     
-    private static final float SPEED = 0.5f;
+    private static final float SPEED = 0.1f;
     private static final float END_SCALE = 1.5f;
+    private static final float COMPLETE_WAIT = 0.5f;
+    private float elapsed = 0;
     private Vector2f start, end, moveVector;
     private float startScale = 0, endScale;
     
@@ -49,37 +51,48 @@ public class MapMover extends Entity{
     @Override
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
         super.update(gc, sb, delta);
-        if(state == ScrollState.WAITING){
+        switch(state){
+            case WAITING:
 //            Input in = gc.getInput();
 //            if(in.isKeyDown(Input.KEY_D)){
 //                Vector2f dest = map.getMouseRelativePosition(in);
 //                activate(dest, null);
 //            }
-        } else {
-            
-            if(reachedDestiny()){
-                scrollComponent.viewX = end.x;
-                scrollComponent.viewY = end.y;
-                terminate();
-                return;
-            }
-            float moveX = moveVector.x * delta;
-            float moveY = moveVector.y * delta;
-            scrollComponent.zoomIn(map.getScale(), 1/60f, map.getPosition());
-            scrollComponent.viewX += moveX;
-            scrollComponent.viewY += moveY;
-            float newScale = (endScale - startScale) * getPctgComplete() + startScale;
-            map.setScale(newScale);
-            if(mapOutofBounds())
-                terminate();
-            
+                break;
+            case MOVING:
+                if(reachedDestiny()){
+                    scrollComponent.viewX = end.x;
+                    scrollComponent.viewY = end.y;
+                    terminate();
+                    return;
+                }
+                float moveX = moveVector.x * delta;
+                float moveY = moveVector.y * delta;
+                scrollComponent.zoomIn(map.getScale(), 1/60f, map.getPosition());
+                scrollComponent.viewX += moveX;
+                scrollComponent.viewY += moveY;
+                float newScale = (endScale - startScale) * getPctgComplete() + startScale;
+                map.setScale(newScale);
+                if(mapOutofBounds())
+                    terminate();
+                break;
+            case COMPLETE_DELAY:
+                elapsed += delta;
+                if(elapsed >= COMPLETE_WAIT){
+                    state = ScrollState.WAITING;
+                    if(listener != null){
+                        MovementCompleteListener temp = listener;
+                        listener = null;
+                        temp.onMovementComplete();
+                    }
+                }
+                break;
         }
     }
     
     private void terminate(){
-        state = ScrollState.WAITING;
-        if(listener != null)
-            listener.onMovementComplete();
+        state = ScrollState.COMPLETE_DELAY;
+        elapsed = 0;
     }
     
     public float getPctgComplete(){

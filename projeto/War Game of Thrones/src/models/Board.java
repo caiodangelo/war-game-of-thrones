@@ -262,22 +262,6 @@ public class Board implements Serializable {
         return numberOfSwappedCards;
     }
 
-//    public List<House> getAbsentHouses() {
-//        List<House> absentHouses = new ArrayList<House>();
-//        List<House> presentHouses = getHouses();
-//
-//        if (players.size() != 6) {
-//            for (House house : houses) {
-//                if (!presentHouses.contains(house)) {
-//                    absentHouses.add(house);
-//                }
-//            }
-//            return absentHouses;
-//        } else {
-//            return null;
-//        }
-//    }
-
     public Player nextPlayer(Player player) {
         int i;
         for (i = 0; i < this.getPlayers().size(); i++) {
@@ -305,7 +289,7 @@ public class Board implements Serializable {
         } else
             currentPlayer++;
         if (!onFirstTurn)
-            addPlayerArmies();
+            addPlayerArmies(getCurrentPlayer());
     }
 
     private void addPlayerArmies(Player curr) {
@@ -318,11 +302,10 @@ public class Board implements Serializable {
                 System.out.println("receiving " + r.getBonus() + " from " + r);
             }
         }
+        //minimum of received territories is 3
+        if (pendingArmies < 3)
+            pendingArmies = 3;
         curr.setPendingArmies(pendingArmies);
-    }
-
-    private void addPlayerArmies() {
-        addPlayerArmies(getCurrentPlayer());
     }
 
     public StatisticGameManager getStatistic() {
@@ -337,7 +320,7 @@ public class Board implements Serializable {
             }
             player.getCards().clear();
         }
-        addPlayerArmies();
+        addPlayerArmies(getCurrentPlayer());
     }
 
     public void shuffleMissions(ArrayList<Mission> mission) {
@@ -376,6 +359,8 @@ public class Board implements Serializable {
     
     public boolean hasGameEnded() {
         checkIfAnyMissionWasCompleted();
+        if (winner != null)
+            StatisticGameManager.getInstance().setPlayTime();
         return winner != null;
     }
     

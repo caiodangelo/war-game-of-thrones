@@ -1,10 +1,9 @@
 package models;
 
-import static main.Constants.*;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.Random;
+import static main.Constants.*;
 
 /**
  *
@@ -50,7 +49,6 @@ public class Battle {
         defenderPlayer.getStatisticPlayerManager().setMoreEnemy();
         //Fim Estatisticas
 
-        // Que diabos é isso aqui????
         if(ATK_WIN_ALWAYS){
             attackersDices = getCheatDices(numberAttackers, 6);
             defendersDices  = getCheatDices(numberDefenders, 1);

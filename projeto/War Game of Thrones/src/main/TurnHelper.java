@@ -35,7 +35,7 @@ public class TurnHelper {
         if (b.isOnInitialSetup()) {
             if (!curr.isAIPlayer()) {
                 ctrl.showInfoTerritories();
-                parent.resetMapPosition();
+//                parent.resetMapPosition();
             } else {
                 iaHelper = new IAHelper(this, (AIPlayer) curr);
                 iaHelper.handleIAStart();
@@ -46,7 +46,7 @@ public class TurnHelper {
             if (b.isOnFirstTurn())
                 ctrl.setRavenMessage(curr.getName() + " está jogando.");
             else
-                ctrl.setRavenMessage("\\#333333ff#" + curr.getName() + " recebeu \\#CC0000#" + curr.getPendingArmies() + "\\#333333ff# exército(s) para distribuir.");
+                ctrl.setRavenMessage(curr.getName() + " recebeu \\#CC0000#" + curr.getPendingArmies() + "\\#333333ff# exército(s) para distribuir.");
             if (curr.isAIPlayer()) {
                 iaHelper = new IAHelper(this, (AIPlayer) curr);
                 iaHelper.handleIAStart();
@@ -54,7 +54,7 @@ public class TurnHelper {
         }
         ctrl.updatePlayersData();
     }
-
+    
     public IAHelper getIaHelper() {
         return iaHelper;
     }

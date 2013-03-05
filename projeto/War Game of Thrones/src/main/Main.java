@@ -1,10 +1,10 @@
 package main;
 
-import static main.Constants.*;
 import de.lessvoid.nifty.slick2d.NiftyStateBasedGame;
 import java.awt.DisplayMode;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static main.Constants.*;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
