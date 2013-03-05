@@ -153,5 +153,6 @@ public class CardsController {
         System.out.println("player got " + p.getPendingArmies() + " new armies");
         dissmissPopup();
         parent.showPendingArmiesMsg();
+        parent.updatePlayersData();
     }
 }
