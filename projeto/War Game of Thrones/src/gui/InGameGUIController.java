@@ -37,7 +37,8 @@ public class InGameGUIController implements ScreenController {
     private static InGameGUIController instance;
     private HashMap<Integer, String> turnsOrder;
     private HashMap<String, String> regionsColors;
-
+    private boolean mayGoToStatistics;
+    
     public InGameGUIController() {
         turnsOrder = new HashMap();
         turnsOrder.put(0, "primeiro");
@@ -53,6 +54,7 @@ public class InGameGUIController implements ScreenController {
         regionsColors.put("O Sul", "\\#66CC00#");
         regionsColors.put("Tridente", "\\#CCCC00#");
         regionsColors.put("O Mar Dothraki", "\\#FF6600#");
+        mayGoToStatistics = false;
         instance = this;
     }
 
@@ -99,6 +101,10 @@ public class InGameGUIController implements ScreenController {
     public void showAlert(String text) {
         alert.setText(text);
         PopupManager.showPopup(n, s, alertPopup);
+    }
+    
+    public void mayGoToStatistics() {
+        mayGoToStatistics = true;
     }
 
     @Override
@@ -444,7 +450,8 @@ public class InGameGUIController implements ScreenController {
     }
 
     public void goToStatistics() {
-        Main.getInstance().enterState(WarScenes.STATISTICS_SCENE);
+        if (mayGoToStatistics)
+            Main.getInstance().enterState(WarScenes.STATISTICS_SCENE);
     }
 
     @NiftyEventSubscriber(id = "menuItemid")

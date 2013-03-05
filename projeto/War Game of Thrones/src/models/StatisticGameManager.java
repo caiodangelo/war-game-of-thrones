@@ -151,8 +151,8 @@ public class StatisticGameManager implements Serializable {
         return territoryMoreConquered;
     }
     
-    public void setInitTime(Date d) {
-        initTime = d;
+    public void startGameTimer() {
+        initTime = new Date();
     }
     
     public void setPlayTime() {

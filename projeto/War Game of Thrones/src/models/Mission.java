@@ -200,14 +200,16 @@ public class Mission implements Serializable {
     public boolean isTerritoryMissionCompleted() {
         boolean answer;
         List<BackEndTerritory> playerTerritories = this.getPlayer().getTerritories();
-        answer = (this.getTerritories() == playerTerritories.size());
+        answer = (this.getTerritories() <= playerTerritories.size());
 
-        if ((this.getTerritories() == 17) && (answer)) {
+        if (this.getTerritories() == 17 && answer) {
+            int territorieswith2OrMoreArmies = 0;
             for (BackEndTerritory territory : playerTerritories) {
-                if (!(territory.getNumArmies() >= 2)) {
-                    return false;
+                if (territory.getNumArmies() >= 2) {
+                    territorieswith2OrMoreArmies++;
                 }
             }
+            answer = territorieswith2OrMoreArmies >= 17;
         }
         return answer;
     }
