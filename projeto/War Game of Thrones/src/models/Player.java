@@ -67,13 +67,9 @@ public abstract class Player implements Serializable {
         return pendingArmies;
     }
 
-    public void setPendingArmies(int pendingArmies) {
-        this.pendingArmies = pendingArmies;
-    }
-
     public void addPendingArmies(int amount) {
         this.pendingArmies += amount;
-        this.statistic.increaseReceivedArmies(pendingArmies);
+        this.statistic.increaseReceivedArmies(amount);
     }
 
     public void removePendingArmies(int amount) {

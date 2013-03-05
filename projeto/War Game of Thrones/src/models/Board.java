@@ -305,7 +305,7 @@ public class Board implements Serializable {
         //minimum of received territories is 3
         if (pendingArmies < 3)
             pendingArmies = 3;
-        curr.setPendingArmies(pendingArmies);
+        curr.addPendingArmies(pendingArmies);
     }
 
     public StatisticGameManager getStatistic() {
