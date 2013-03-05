@@ -109,7 +109,6 @@ public class InGameGUIController implements ScreenController {
 
     @Override
     public void onStartScreen() {
-        System.out.println("on start screen");
         b = Board.getInstance();
         ctxMenuCtrl = new ContextMenuController(n, s, this);
         List<Player> playersList = b.getPlayers();
@@ -152,7 +151,6 @@ public class InGameGUIController implements ScreenController {
 
     private void retrieveStatusPanels(Screen s) {
         int playersCount = players.size();
-        System.out.println("retrieve status panel, players count is " + players.size());
         statusPanels = new StatusPanelControlImpl[playersCount];
         for (int i = 0; i < 6; i++) {
             StatusPanelControl spc = s.findNiftyControl("player" + i + "Status", StatusPanelControl.class);
