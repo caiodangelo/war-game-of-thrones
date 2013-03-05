@@ -33,41 +33,41 @@ public class Mission implements Serializable {
         }
     }
 
-    public Mission(String desc, int type, int territories) {
-        this.description = desc;
-        this.type = type;
-        this.territories = territories;
-    }
-
-    public Mission(String desc, int type, List<Region> regions) {
-        this.description = desc;
-        this.type = type;
-        this.regions = regions;
-    }
-
-    public Mission(String desc, int type, House house) {
-        this.description = desc;
-        this.type = type;
-        this.house = house;
-    }
+//    public Mission(String desc, int type, int territories) {
+//        this.description = desc;
+//        this.type = type;
+//        this.territories = territories;
+//    }
+//
+//    public Mission(String desc, int type, List<Region> regions) {
+//        this.description = desc;
+//        this.type = type;
+//        this.regions = regions;
+//    }
+//
+//    public Mission(String desc, int type, House house) {
+//        this.description = desc;
+//        this.type = type;
+//        this.house = house;
+//    }
     
-    @Deprecated
-    public Mission(String desc, String description, int type) {
-        this.description = desc;
-        this.type = type;
-//        this.description = description;
-        // Inicializa apenas a lista dos objetivos em questão
-        switch (type) {
-            case TYPE_TERRITORY:
-                break;
-            case TYPE_REGION:
-                regions = new ArrayList<Region>();
-                break;
-            case TYPE_HOUSE:
-                house = new House();
-                break;
-        }
-    }
+//    @Deprecated
+//    public Mission(String desc, String description, int type) {
+//        this.description = desc;
+//        this.type = type;
+////        this.description = description;
+//        // Inicializa apenas a lista dos objetivos em questão
+//        switch (type) {
+//            case TYPE_TERRITORY:
+//                break;
+//            case TYPE_REGION:
+//                regions = new ArrayList<Region>();
+//                break;
+//            case TYPE_HOUSE:
+//                house = new House();
+//                break;
+//        }
+//    }
 
     public String getDescription() {
         if (description == null || description.equals("")) {
@@ -198,18 +198,20 @@ public class Mission implements Serializable {
     }
 
     public boolean isTerritoryMissionCompleted() {
-        boolean answer;
+        int count = 0;
         List<BackEndTerritory> playerTerritories = this.getPlayer().getTerritories();
-        answer = (this.getTerritories() == playerTerritories.size());
-
-        if ((this.getTerritories() == 17) && (answer)) {
+        if(this.getTerritories() == 23)
+            return playerTerritories.size() >= 23;
+       
+        if (this.getTerritories() == 17) {
             for (BackEndTerritory territory : playerTerritories) {
-                if (!(territory.getNumArmies() >= 2)) {
-                    return false;
-                }
+                if (territory.getNumArmies() >= 2) 
+                    count++;                
             }
+            if(count >= 17) return true;
+            else return false;
         }
-        return answer;
+        return false;
     }
 
     public boolean isHouseMissionCompleted() {

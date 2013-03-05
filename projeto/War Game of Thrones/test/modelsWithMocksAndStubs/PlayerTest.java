@@ -1,10 +1,11 @@
-package models;
+package modelsWithMocksAndStubs;
 
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
+import models.*;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

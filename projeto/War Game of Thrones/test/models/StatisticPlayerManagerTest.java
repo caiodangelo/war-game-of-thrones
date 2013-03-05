@@ -79,10 +79,10 @@ public class StatisticPlayerManagerTest {
     @Test
     public void setSuccessfulDefencePercentageDeveRetornarAPorcentagemDeDefesasBemSucedidos() {
         StatisticPlayerManager estatistica = new StatisticPlayerManager(player);
-        estatistica.setNumberOfDefences(32);
-        estatistica.setNumberOfDefenceWins(16);
+        estatistica.setNumberOfDefences(96);
+        estatistica.setNumberOfDefenceWins(45);
         estatistica.setSuccessfulDefencePercentage();
-        assertEquals(estatistica.getSuccessfulDefencePercentage(), 50f);
+        assertEquals(estatistica.getSuccessfulDefencePercentage(), 46,88f);
     }
     
     @Test

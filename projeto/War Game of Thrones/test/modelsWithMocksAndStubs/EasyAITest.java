@@ -1,5 +1,6 @@
-package models;
+package modelsWithMocksAndStubs;
 
+import models.*;
 import java.util.ArrayList;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;

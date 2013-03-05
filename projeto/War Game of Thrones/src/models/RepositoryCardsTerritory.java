@@ -180,9 +180,11 @@ public class RepositoryCardsTerritory {
     public static boolean isSameCards(List<CardTerritory> cards) {
         List<CardTerritory> aux = new ArrayList<CardTerritory>();
         aux.addAll(cards);
-        for(int i = 0; i < 3; i++){
-            if(aux.get(i).isJoker())
+        for(int i = 0; i < aux.size(); i++){
+            if(aux.get(i).isJoker()) {
                 aux.remove(i);
+                i--;
+            }
         }
         
         for(int i = 0; i < aux.size() - 1; i++){
@@ -199,11 +201,13 @@ public class RepositoryCardsTerritory {
     public static boolean isDifferentCards(List<CardTerritory> cards) {
         List<CardTerritory> aux = new ArrayList<CardTerritory>();
         aux.addAll(cards);
-        for(int i = 0; i < 3; i++){
-            if(aux.get(i).isJoker())
+        for(int i = 0; i < aux.size(); i++){
+            if(aux.get(i).isJoker()){
                 aux.remove(i);
+                i--;
+            }
         }
-        
+        System.out.println(cards.size());
         for(int i = 0; i < aux.size() - 1; i++){
             CardTerritory current = aux.get(i);
             for(int j = i+1; j < aux.size(); j++){

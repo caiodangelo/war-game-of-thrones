@@ -124,36 +124,51 @@ public class Board implements Serializable {
 
     public void createMissions() {
         Region empty = new Region(null, 0);
-        ArrayList<Region> allRegions1 = new ArrayList<Region>();
-        allRegions1.add(regions[0]);
-        allRegions1.add(regions[3]);
-        allRegions1.add(empty);
-        missions.add(new Mission("", Mission.TYPE_REGION, allRegions1));
-        ArrayList<Region> allRegions2 = new ArrayList<Region>();
-        allRegions2.add(regions[1]);
-        allRegions2.add(regions[0]);
-        missions.add(new Mission("", Mission.TYPE_REGION, allRegions2));
-        ArrayList<Region> allRegions3 = new ArrayList<Region>();
-        allRegions3.add(regions[2]);
-        allRegions3.add(regions[5]);
-        allRegions3.add(empty);
-        missions.add(new Mission("", Mission.TYPE_REGION, allRegions3));
-        ArrayList<Region> allRegions4 = new ArrayList<Region>();
-        allRegions4.add(regions[1]);
-        allRegions4.add(regions[4]);
-        missions.add(new Mission("", Mission.TYPE_REGION, allRegions4));
-        ArrayList<Region> allRegions5 = new ArrayList<Region>();
-        allRegions5.add(regions[2]);
-        allRegions5.add(regions[3]);
-        missions.add(new Mission("", Mission.TYPE_REGION, allRegions5));
-        ArrayList<Region> allRegions6 = new ArrayList<Region>();
-        allRegions6.add(regions[4]);
-        allRegions6.add(regions[5]);
-        missions.add(new Mission("", Mission.TYPE_REGION, allRegions6));
-        missions.add(new Mission("", Mission.TYPE_TERRITORY, 23));
-        missions.add(new Mission("", Mission.TYPE_TERRITORY, 17));
+        
+        Mission mission1 = new Mission("", Mission.TYPE_REGION); 
+        mission1.addRegion(regions[0]); //Além da Muralha
+        mission1.addRegion(regions[3]); //O Sul
+        mission1.addRegion(empty);      // À sua escolha
+        missions.add(mission1);
+        
+        Mission mission2 = new Mission("", Mission.TYPE_REGION); 
+        mission2.addRegion(regions[1]); //Cidades Livres
+        mission2.addRegion(regions[0]); //Além da Muralha
+        missions.add(mission2);
+        
+        Mission mission3 = new Mission("", Mission.TYPE_REGION); 
+        mission3.addRegion(regions[2]); //O Norte
+        mission3.addRegion(regions[5]); //O Mar Dothraki
+        mission3.addRegion(empty);      // À sua escolha
+        missions.add(mission3);
+        
+        Mission mission4 = new Mission("", Mission.TYPE_REGION);
+        mission4.addRegion(regions[1]); //Cidades Livres
+        mission4.addRegion(regions[4]); //Tridente
+        missions.add(mission4);
+        
+        Mission mission5 = new Mission("", Mission.TYPE_REGION);
+        mission5.addRegion(regions[2]); //O Norte
+        mission5.addRegion(regions[3]); //O Sul
+        missions.add(mission5);
+        
+        Mission mission6 = new Mission("", Mission.TYPE_REGION); 
+        mission6.addRegion(regions[4]); //Tridente
+        mission6.addRegion(regions[5]); //O Mar Dothraki
+        missions.add(mission6);
+        
+        Mission mission7 = new Mission("", Mission.TYPE_TERRITORY);
+        mission7.setTerritories(23);
+        missions.add(mission7);
+        
+        Mission mission8 = new Mission("", Mission.TYPE_TERRITORY);
+        mission8.setTerritories(17);
+        missions.add(mission8);
+        
         for (int i = 0; i < houses.size(); i++) {
-            missions.add(new Mission("", Mission.TYPE_HOUSE, houses.get(i)));
+            Mission mission = new Mission("", Mission.TYPE_HOUSE);
+            mission.setHouse(houses.get(i));
+            missions.add(mission);
         }
     }
     
