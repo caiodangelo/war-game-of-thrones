@@ -215,7 +215,6 @@ public class InGameGUIController implements ScreenController {
     }
 
     public void tradePlayerCards() {
-        System.out.println("trade player cards");
         cardsCtrl.tradeCards();
     }
 
