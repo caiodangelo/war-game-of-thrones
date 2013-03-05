@@ -54,7 +54,7 @@ public class TurnHelper {
         }
         ctrl.updatePlayersData();
     }
-
+    
     public IAHelper getIaHelper() {
         return iaHelper;
     }

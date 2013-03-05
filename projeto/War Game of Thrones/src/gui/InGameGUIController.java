@@ -438,10 +438,14 @@ public class InGameGUIController implements ScreenController {
 //        for(BackEndTerritory t : ts){
 //            t.setNumArmies(1);
 //        }
-        setRavenMessage("\\#333333ff#" + curr.getName() + " ainda possui \\#CC0000#" + curr.getPendingArmies() + "\\#333333ff# exército(s) para distribuir.");
+        showRemainingPendingArmies(curr, curr.getPendingArmies());
         updatePlayersData();
 
         GameScene.getInstance().showPlayerTurnMsg();
+    }
+    
+    public void showRemainingPendingArmies(Player p, int count){
+        setRavenMessage("\\#333333ff#" + p.getName() + " ainda possui \\#CC0000#" + count + "\\#333333ff# exército(s) para distribuir.");
     }
 
     public void closeInfoTerritoriesPopup() {
