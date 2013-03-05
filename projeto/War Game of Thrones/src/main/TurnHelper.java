@@ -35,7 +35,7 @@ public class TurnHelper {
         if (b.isOnInitialSetup()) {
             if (!curr.isAIPlayer()) {
                 ctrl.showInfoTerritories();
-                parent.resetMapPosition();
+//                parent.resetMapPosition();
             } else {
                 iaHelper = new IAHelper(this, (AIPlayer) curr);
                 iaHelper.handleIAStart();

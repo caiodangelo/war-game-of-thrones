@@ -32,6 +32,7 @@ public class AIArmyDistributor extends Entity implements MovementCompleteListene
 
     public void start() {
         System.out.println("IA ARMY DISTRIBUTOR START");
+        InGameGUIController.getInstance().startPlayerInitialDistribution();
         d.distributeArmies();
         Territory[] frontTerr = m.getTerritories();
         territoriesToZoom = new LinkedList<Territory>();
@@ -43,7 +44,6 @@ public class AIArmyDistributor extends Entity implements MovementCompleteListene
             }
         }
         territoriesToZoom = sortList(territoriesToZoom);
-        InGameGUIController.getInstance().startPlayerInitialDistribution();
         processNextZoom();
     }
 
