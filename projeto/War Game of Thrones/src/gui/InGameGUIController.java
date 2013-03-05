@@ -27,7 +27,7 @@ public class InGameGUIController implements ScreenController {
     private Screen s;
     private Nifty n;
     private Board b;
-    private Player[] players;
+    private List<Player> players;
     private Element objectivePopup, exitConfirmPopup, tablesPopup, objectiveLabel, viewCardsLabel,
             optionsPopup, helpPopup, infoPanel, nextTurnConfirmPopup, tablesIcon, infoTerritoriesPopup,
             alertPopup, cardEarnedPopup, emptyPopup;
@@ -109,10 +109,11 @@ public class InGameGUIController implements ScreenController {
 
     @Override
     public void onStartScreen() {
-        ctxMenuCtrl = new ContextMenuController(n, s, this);
+        System.out.println("on start screen");
         b = Board.getInstance();
-        List<Player> playersList = Board.getInstance().getPlayers();
-        players = playersList.toArray(new Player[0]);
+        ctxMenuCtrl = new ContextMenuController(n, s, this);
+        List<Player> playersList = b.getPlayers();
+        players = playersList;
 
         retrieveStatusPanels(s);
         updatePlayersData();
@@ -150,23 +151,24 @@ public class InGameGUIController implements ScreenController {
     }
 
     private void retrieveStatusPanels(Screen s) {
-        int playersCount = players.length;
+        int playersCount = players.size();
+        System.out.println("retrieve status panel, players count is " + players.size());
         statusPanels = new StatusPanelControlImpl[playersCount];
         for (int i = 0; i < 6; i++) {
             StatusPanelControl spc = s.findNiftyControl("player" + i + "Status", StatusPanelControl.class);
-            if (i >= playersCount)
-                spc.getElement().setVisible(false);
-            else
+            boolean visible = i < playersCount;
+            if (visible)
                 statusPanels[i] = spc;
+            spc.getElement().setVisible(visible);
         }
     }
 
     public void updatePlayersData() {
-        for (int i = 0; i < players.length; i++) {
+        for (int i = 0; i < players.size(); i++) {
             StatusPanelControl spc = statusPanels[i];
-            Player current = players[i];
+            Player current = players.get(i);
             spc.updateData(current.getName(), current.numCards(), current.numArmies(), current.numTerritories());
-            spc.setNameColor(players[i].getHouse().getColor());
+            spc.setNameColor(players.get(i).getHouse().getColor());
         }
         updateCurrentPlayersData();
     }
