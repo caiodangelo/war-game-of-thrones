@@ -1195,7 +1195,7 @@ Em cada vez de jogar, o participante pode:&#10;
 					<control id="CPUdifficultyValue" color="#333333ff" height="10%" width="100%" name="label" text="Fácil"/>
 					<panel marginTop="5%" width="100%" height="25%" childLayout="vertical">
 						<control align="center" id="showTerritories" name="checkbox" height="30%" width="10%" checked="true"/>
-						<control align="center" wrap="true" color="#333333ff" name="label" text="Mostrar nomes de territórios" height="30%" width="80%"/>
+						<control align="center" wrap="true" color="#333333ff" name="label" text="Mostrar nomes de territórios e regiões" height="30%" width="80%"/>
 					</panel>
 				</panel>
 			</panel>
