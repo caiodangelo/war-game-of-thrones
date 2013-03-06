@@ -32,7 +32,7 @@ public class RegionNames extends Entity{
         centers[5].y -= 0.05f;
         
         
-        regions[0] = new RegionData(centers[0], "Além da muralha");
+        regions[0] = new RegionData(centers[0], "Além da Muralha");
         regions[1] = new RegionData(centers[1], "Cidades Livres");
         regions[2] = new RegionData(centers[2], "O Norte");
         regions[3] = new RegionData(centers[3], "O Sul");

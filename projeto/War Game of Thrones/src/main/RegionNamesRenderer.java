@@ -1,5 +1,6 @@
 package main;
 
+import gui.InGameGUIController;
 import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -31,19 +32,21 @@ public class RegionNamesRenderer extends RenderComponent{
 
     @Override
     public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
-        float mapWidth = map.getScaledWidth();
-        float mapHeight = map.getScaledHeight();
-        for(RegionNames.RegionData data : parent.regions){
-            Vector2f relativePos = data.regionCenter;
-            Vector2f mapPos = map.getPosition();
-            String name = data.name;
-            int fontWidth = fnt.getWidth(name);
-            int fontHeight = fnt.getHeight(name);
-            float x = mapPos.x + relativePos.x * mapWidth - fontWidth/2f;
-            float y = mapPos.y + relativePos.y * mapHeight - fontHeight/2f;
-            gr.setColor(Color.black);
-            gr.setFont(fnt);
-            gr.drawString(name, x, y);
+        if (Main.isShowingTerritoriesNames()) {
+            float mapWidth = map.getScaledWidth();
+            float mapHeight = map.getScaledHeight();
+            for(RegionNames.RegionData data : parent.regions){
+                Vector2f relativePos = data.regionCenter;
+                Vector2f mapPos = map.getPosition();
+                String name = data.name;
+                int fontWidth = fnt.getWidth(name);
+                int fontHeight = fnt.getHeight(name);
+                float x = mapPos.x + relativePos.x * mapWidth - fontWidth/2f;
+                float y = mapPos.y + relativePos.y * mapHeight - fontHeight/2f;
+                gr.setColor(Color.black);
+                gr.setFont(fnt);
+                gr.drawString(name, x, y);
+            }
         }
     }
 
