@@ -164,9 +164,9 @@ public class RepositoryCardsTerritoryTest {
     
     @Test
     public void isSameCardsDeveSerTrueQuandoTodasAsCartasForemIguais(){
-        CardTerritory card1 = repositoryCards.deck.get(15);
+        CardTerritory card1 = repositoryCards.deck.get(14);
         CardTerritory card2 = repositoryCards.deck.get(16);
-        CardTerritory card3 = repositoryCards.deck.get(17);
+        CardTerritory card3 = repositoryCards.deck.get(23);
         
         List<CardTerritory> cards = new ArrayList<CardTerritory>();
         cards.add(card1);
@@ -177,9 +177,9 @@ public class RepositoryCardsTerritoryTest {
     
     @Test
     public void isSameCardsDeveSerFalseQuandoAlgumaCartaForDiferente(){
-        CardTerritory card1 = repositoryCards.deck.get(2);
+        CardTerritory card1 = repositoryCards.deck.get(14);
         CardTerritory card2 = repositoryCards.deck.get(16);
-        CardTerritory card3 = repositoryCards.deck.get(17);
+        CardTerritory card3 = repositoryCards.deck.get(1);
         
         List<CardTerritory> cards = new ArrayList<CardTerritory>();
         cards.add(card1);

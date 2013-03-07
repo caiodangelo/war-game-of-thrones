@@ -367,4 +367,8 @@ public class Board implements Serializable {
     public Player getWinner() {
         return winner;
     }
+    
+    public ArrayList<Mission> getMissions(){
+        return missions;
+    }
 }
