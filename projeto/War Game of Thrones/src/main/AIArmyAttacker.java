@@ -36,14 +36,25 @@ public class AIArmyAttacker extends Entity implements MovementCompleteListener {
     }
 
     private void processNextZoom() {
-        if (!player.getMission().isCompleted()) {
-            nextAttack = difficulty.nextAttack();
-            if (nextAttack != null) {
-                Territory destiny = map.getFrontEndTerritory(nextAttack.defender);
-                mover.activate(destiny.getArmyRelativePos(), this);
-            } else {
-                GameScene.getInstance().startAIMovementAnim(player);
+        try{
+            if (!player.getMission().isCompleted()) {
+                System.out.println("ia obj not complete");
+                nextAttack = difficulty.nextAttack();
+                System.out.println("next attack is " + nextAttack);
+                if (nextAttack != null) {
+                    System.out.println("ia next attack not null");
+                    Territory destiny = map.getFrontEndTerritory(nextAttack.defender);
+                    mover.activate(destiny.getArmyRelativePos(), this);
+                } else {
+                    System.out.println("ia next attack null");
+                    GameScene.getInstance().startAIMovementAnim(player);
+                }
             }
+            else
+                System.out.println("ia obj complete");
+            
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 

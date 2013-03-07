@@ -160,23 +160,21 @@ public class Mission implements Serializable {
     }
 
     public boolean isRegionMissionCompleted() {
-        List<Region> tempRegions = new ArrayList<Region>(regions);
-        Region r;
-        for (int i = 0; i < tempRegions.size(); i++) { //evitando concurrent modification
-            r = tempRegions.get(i);
-            if (r.getName() != null && r.conqueredByPlayer(player)) {
-                tempRegions.remove(r);
-                i--;
+        Region[] allRegions = Board.getInstance().getRegions();
+        List<Region> missionRegions = new ArrayList<Region>(regions);
+        boolean conqueredRegionOfChoice = false;
+        for (int i = 0; i < allRegions.length; i++) {
+            if (allRegions[i].conqueredByPlayer(player)) {
+                if (!missionRegions.remove(allRegions[i]))
+                    conqueredRegionOfChoice = true;
             }
         }
-        if (!tempRegions.isEmpty()) {
-            if (tempRegions.size() == 1 && tempRegions.get(0).getName() == null)
-                return true;
-            else
-                return false;
-        }
-        else
+        if (missionRegions.isEmpty())
             return true;
+        else if ((missionRegions.size() == 1 && missionRegions.get(0).getName() == null))
+            return conqueredRegionOfChoice;
+        else
+            return false;
     }
 
     public boolean isTerritoryMissionCompleted() {

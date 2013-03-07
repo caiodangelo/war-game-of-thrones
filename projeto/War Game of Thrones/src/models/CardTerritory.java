@@ -6,11 +6,13 @@
 
 package models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author anderson
  */
-public class CardTerritory {
+public class CardTerritory implements Serializable{
 
     public static final int SQUARE = 1;
     public static final int CIRCLE = 2;

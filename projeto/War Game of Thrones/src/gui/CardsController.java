@@ -3,6 +3,7 @@ package gui;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.controls.CheckBox;
+import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.screen.Screen;
@@ -17,8 +18,6 @@ import util.PopupManager;
 
 public class CardsController {
 
-    private static boolean DEBUGGING = false;
-    
     private Nifty n;
     private Screen s;
     private InGameGUIController parent;
@@ -26,7 +25,8 @@ public class CardsController {
     private Element [] cardsImages, chkBoxElements;
     private CheckBox [] checks;
     
-    private Element cardsPopup, obligateTradeText;
+    private Element cardsPopup;
+    private Label obligateTradeText;
     private Button tradeButton, dissmissButton;
     
     public CardsController(Nifty n, Screen s, InGameGUIController parent){
@@ -52,7 +52,15 @@ public class CardsController {
         //buttons
         dissmissButton = cardsPopup.findNiftyControl("dismissCardsButton", Button.class);
         tradeButton = cardsPopup.findNiftyControl("tradeCardsButton", Button.class);
-        obligateTradeText = cardsPopup.findElementByName("obligateTradeText");
+        obligateTradeText = cardsPopup.findNiftyControl("obligateTradeText", Label.class);
+    }
+    
+    private void showObligateText(){
+        showMessage("Você já tem 5 cartas e deverá fazer uma troca.");
+    }
+    
+    private void hideObligateText(){
+        obligateTradeText.getElement().setVisible(false);
     }
     
     public void showPopup(){
@@ -62,10 +70,13 @@ public class CardsController {
     }
     
     public void dissmissPopup(){
-        for(CheckBox c : checks){
-            c.uncheck();
-        }
+        resetPopup();
         PopupManager.closePopup(n, cardsPopup);
+    }
+    
+    private void resetPopup(){
+        for(CheckBox c : checks)
+            c.uncheck();
     }
     
     public void updateContents(){
@@ -77,7 +88,10 @@ public class CardsController {
         
         
         boolean mustTrade = cardsCount == 5;
-        obligateTradeText.setVisible(mustTrade);
+        if(mustTrade)
+            showObligateText();
+        else
+            hideObligateText();
         dissmissButton.setEnabled(!mustTrade);
         
         for(int i = 0; i < 5; i++){
@@ -105,6 +119,10 @@ public class CardsController {
         return p.getCards().size() == 5;
     }
     
+    private void showCantTradeMessage(){
+        showMessage("Você só pode fazer trocas no início da rodada.");
+    }
+    
     private void verifyCheckedBoxes(){
         int checkedCount = 0;
         for(CheckBox c : checks){
@@ -114,10 +132,18 @@ public class CardsController {
         
         List<CardTerritory> selected = getSelectedCards();
         
+        hideObligateText();
+        
         boolean playerIsDistributing = Board.getInstance().getCurrentPlayer().getPendingArmies() > 0;
-        if(playerIsDistributing && checkedCount == 3 && 
-                (RepositoryCardsTerritory.checkCardsTradeable(selected)))
-            tradeButton.setEnabled(true);
+        if(checkedCount == 3 && 
+                (RepositoryCardsTerritory.checkCardsTradeable(selected))){
+            if(playerIsDistributing)
+                tradeButton.setEnabled(true);
+            else{
+                tradeButton.setEnabled(false);
+                showCantTradeMessage();
+            }
+        }
         else
             tradeButton.setEnabled(false);
     }
@@ -144,15 +170,24 @@ public class CardsController {
     protected void tradeCards() {
         Player p = Board.getInstance().getCurrentPlayer();
         List<CardTerritory> allCards = p.getCards();
-        int cardsCount = allCards.size();
         
         List<CardTerritory> cardsToTrade = getSelectedCards();
-        
+        int oldArmies = p.getPendingArmies();
         RepositoryCardsTerritory repo = RepositoryCardsTerritory.getInstance();
         repo.swapCards(cardsToTrade, p);
-        System.out.println("player got " + p.getPendingArmies() + " new armies");
-        dissmissPopup();
+        int newArmies = p.getPendingArmies() - oldArmies;
+//        dissmissPopup();
         parent.showPendingArmiesMsg();
         parent.updatePlayersData();
+        
+        resetPopup();
+        this.updateContents();
+        this.verifyCheckedBoxes();
+        showMessage("Você conseguiu " + newArmies + " unidades!");
+    }
+    
+    private void showMessage(String msg){
+        obligateTradeText.setText(msg);
+        obligateTradeText.getElement().setVisible(true);
     }
 }

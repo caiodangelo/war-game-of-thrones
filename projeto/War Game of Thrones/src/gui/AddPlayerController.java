@@ -73,7 +73,7 @@ public class AddPlayerController implements ScreenController{
                                 new HouseData("Baratheon", "resources/images/house_logos/baratheon.png", "Veado", new Color("#B6B631")),  
                                 new HouseData("Free Folk", "resources/images/house_logos/free_folk.png", "Urso polar", new Color("#6DAC52")),  
                                 new HouseData("Greyjoy", "resources/images/house_logos/greyjoy.png", "Lula", new Color("#5B5B5B")),  
-                                new HouseData("Lannister", "resources/images/house_logos/Lannister.png", "Leão", new Color("#AB2B2B")),
+                                new HouseData("Lannister", "resources/images/house_logos/lannister.png", "Leão", new Color("#AB2B2B")),
                                 new HouseData("Stark", "resources/images/house_logos/stark.png", "Lobo", new Color("#8E8E8E")),
                                 new HouseData("Targaryen", "resources/images/house_logos/targaryen.png", "Dragão", new Color("#C96826")),  
             };

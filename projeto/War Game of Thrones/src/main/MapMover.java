@@ -2,7 +2,6 @@ package main;
 
 import static main.VectorOps.*;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import util.Entity;
@@ -96,18 +95,16 @@ public class MapMover extends Entity{
     }
     
     public float getPctgComplete(){
-        float originalDist = end.distance(start);
+        float originalDistSquared = end.distanceSquared(start);
         Vector2f curPos = new Vector2f(scrollComponent.viewX, scrollComponent.viewY);
-        float currDist = curPos.distance(start);
-        if(originalDist == 0)
+        float currDistSquared = curPos.distanceSquared(start);
+        if(originalDistSquared == 0)
             return 1;
-        return Math.min(currDist / originalDist, 1f);
+        return (float)Math.min(Math.sqrt(currDistSquared / originalDistSquared), 1f);
     }
 
     private boolean mapOutofBounds(){
-        boolean validateX = scrollComponent.validateViewX();
-        boolean validateY = scrollComponent.validateViewY();
-        return !validateX && !validateY;
+        return !scrollComponent.validateViewX() && !scrollComponent.validateViewY();
     }
     
     private boolean reachedDestiny(){

@@ -52,7 +52,11 @@ public class EasyAI extends Difficulty {
             for (int control = 0; control < 100; control++) { // Control serve só como safeguard, caso dê merda e entre em loop infinito.
                 switch (player.getMission().getType()) {
                     case Mission.TYPE_HOUSE: // Pega o primeiro território do adversário que eu posso atacar
-                        for (BackEndTerritory territory : player.getMission().getHouse().getPlayer().getTerritories()) {
+                        Mission playerMission = player.getMission();
+                        House targetHouse = playerMission.getHouse();
+                        Player targetPlayer = targetHouse.getPlayer();
+                        List<BackEndTerritory> terr = targetPlayer.getTerritories();
+                        for (BackEndTerritory territory : terr) {
                             List<BackEndTerritory> origins = new ArrayList<BackEndTerritory>();
                             for (BackEndTerritory neighbour : territory.getNeighbours()) {
                                 if (neighbour.getOwner() == player && origin.getSurplusArmies() >= 1)
