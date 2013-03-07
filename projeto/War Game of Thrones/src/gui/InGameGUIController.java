@@ -9,6 +9,7 @@ import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.Color;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -117,24 +118,31 @@ public class InGameGUIController implements ScreenController {
         retrieveStatusPanels(s);
         updatePlayersData();
 
+        Slider musicSlider = optionsPopup.findNiftyControl("musicSlider", Slider.class);
+        musicSlider.setValue(1 - AudioManager.getInstance().getMusicVolume());
+        Slider soundSlider = optionsPopup.findNiftyControl("soundSlider", Slider.class);
+        soundSlider.setValue(1 - AudioManager.getInstance().getSoundVolume());
+        Slider AIMovementsSpeed = optionsPopup.findNiftyControl("sliderCPUMovementSpeed", Slider.class);
+        AIMovementsSpeed.setValue(11 - Math.round(Main.getInstance().getAIMapMovementsSpeed() * 10));
+        
         Label musicVolumeValue = optionsPopup.findNiftyControl("musicVolumeValue", Label.class);
         musicVolumeValue.setText(((int) (100 * AudioManager.getInstance().getMusicVolume())) + "");
         Label soundVolumeValue = optionsPopup.findNiftyControl("soundVolumeValue", Label.class);
         soundVolumeValue.setText(((int) (100 * AudioManager.getInstance().getSoundVolume())) + "");
+        Label AIMovementsSpeedValue = optionsPopup.findNiftyControl("CPUmovementSpeedValue", Label.class);
+        System.out.println(Main.getInstance().getAIMapMovementsSpeed() * 10);
+        System.out.println(Math.round(Main.getInstance().getAIMapMovementsSpeed() * 10));
+        AIMovementsSpeedValue.setText(Math.round(Main.getInstance().getAIMapMovementsSpeed() * 10)+"");
+        
         CheckBox musicMute = optionsPopup.findNiftyControl("musicMute", CheckBox.class);
-        CheckBox soundMute = optionsPopup.findNiftyControl("soundMute", CheckBox.class);
-        CheckBox showTerritories = optionsPopup.findNiftyControl("showTerritories", CheckBox.class);
         if (AudioManager.getInstance().musicIsMuted())
             musicMute.check();
+        CheckBox soundMute = optionsPopup.findNiftyControl("soundMute", CheckBox.class);
         if (AudioManager.getInstance().soundIsMuted())
             soundMute.check();
+        CheckBox showTerritories = optionsPopup.findNiftyControl("showTerritories", CheckBox.class);
         if (!Main.isShowingTerritoriesNames())
             showTerritories.uncheck();
-        Slider musicSlider = optionsPopup.findNiftyControl("musicSlider", Slider.class);
-        Slider soundSlider = optionsPopup.findNiftyControl("soundSlider", Slider.class);
-        optionsPopup.findNiftyControl("sliderCPUdifficulty", Slider.class).disable();
-        musicSlider.setValue(1 - AudioManager.getInstance().getMusicVolume());
-        soundSlider.setValue(1 - AudioManager.getInstance().getSoundVolume());
     }
 
     @Override
@@ -484,6 +492,14 @@ public class InGameGUIController implements ScreenController {
         AudioManager.getInstance().changeSoundVolume(newVolume);
         Label soundVolumeValue = optionsPopup.findNiftyControl("soundVolumeValue", Label.class);
         soundVolumeValue.setText(((int) (newVolume * 100)) + "");
+    }
+    
+    @NiftyEventSubscriber(id="sliderCPUMovementSpeed")
+    public void onCPUDifficultySliderChange(final String id, final SliderChangedEvent event) {
+        float selectedAIMovementsSpeed = event.getValue()/10f;
+        Main.getInstance().setAIMapMovementsSpeed(1.1f - selectedAIMovementsSpeed);
+        Label AIMovementsSpeedValue = optionsPopup.findNiftyControl("CPUmovementSpeedValue", Label.class);
+        AIMovementsSpeedValue.setText((11 - (Math.round(selectedAIMovementsSpeed * 10)))+"");
     }
 
     @NiftyEventSubscriber(id = "musicMute")
