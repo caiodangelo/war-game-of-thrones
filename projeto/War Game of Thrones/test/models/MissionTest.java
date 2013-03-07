@@ -29,14 +29,19 @@ public class MissionTest {
         b = Board.getInstance();
         
         stark = new House();
+        stark.setName("Stark");
         p1 = new HumanPlayer(null, stark);
         b.addPlayer(p1, 0, Board.HUMAN_PLAYER);
         b.addHouse(stark);
+        
         lannister = new House();
+        lannister.setName("Lannister");
         p2 = new HumanPlayer(null, lannister);
         b.addPlayer(p2, 0, Board.HUMAN_PLAYER);
-        greyjoy = new House();
         b.addHouse(lannister);
+        
+        greyjoy = new House();
+        greyjoy.setName("Greyjoy");
         p3 = new HumanPlayer(null, stark);
         b.addPlayer(p3, 0, Board.HUMAN_PLAYER);
         b.addHouse(greyjoy);
@@ -97,8 +102,6 @@ public class MissionTest {
     @Test
     public void isRegionMissionCompletedDeveRetornarTrueCasoAMissaoDeRegionEstiverCompleta() {
         Mission missionRegion1 = b.getMissions().get(1);        
-//        missionRegion1.addRegion(b.getRegions()[0]);
-//        missionRegion1.addRegion(b.getRegions()[1]);
         
         Player playerStark = new HumanPlayer(null);
         playerStark.setMission(missionRegion1);
@@ -153,39 +156,39 @@ public class MissionTest {
 //        assertFalse(missionRegion.isRegionMissionCompleted());
 //    }
     
-//    @Test
-//    public void isRegionMissionCompletedDeveRetornarTrueCasoAMissaoDeRegionQueContenhaRegiaoNulaEstiverCompleta() {
-//        Mission missionRegion = b.getMissions().get(0);        
-//        
-//        Player playerStark = new HumanPlayer(null);
-//        playerStark.setMission(missionRegion);
-//        missionRegion.setPlayer(playerStark);
-//        
-//        playerStark.addTerritory(b.getTerritories()[0]);
-//        playerStark.addTerritory(b.getTerritories()[1]);
-//        playerStark.addTerritory(b.getTerritories()[2]);
-//        playerStark.addTerritory(b.getTerritories()[3]);
-//        playerStark.addTerritory(b.getTerritories()[4]);
-//        playerStark.addTerritory(b.getTerritories()[5]);
-//        playerStark.addTerritory(b.getTerritories()[6]);
-//        playerStark.addTerritory(b.getTerritories()[7]);
-//        playerStark.addTerritory(b.getTerritories()[8]);
-//        playerStark.addTerritory(b.getTerritories()[9]);
-//        playerStark.addTerritory(b.getTerritories()[10]);
-//        playerStark.addTerritory(b.getTerritories()[11]);
-//        playerStark.addTerritory(b.getTerritories()[12]);
-//        playerStark.addTerritory(b.getTerritories()[13]);
-//        playerStark.addTerritory(b.getTerritories()[14]);
-//        playerStark.addTerritory(b.getTerritories()[15]);
-//        playerStark.addTerritory(b.getTerritories()[16]);
-//        playerStark.addTerritory(b.getTerritories()[17]);
-//        playerStark.addTerritory(b.getTerritories()[18]);
-//        playerStark.addTerritory(b.getTerritories()[19]);
-//        playerStark.addTerritory(b.getTerritories()[30]);
-//        playerStark.addTerritory(b.getTerritories()[31]);
-//        
-//        assertTrue(missionRegion.isRegionMissionCompleted());
-//    }
+    @Test
+    public void isRegionMissionCompletedDeveRetornarTrueCasoAMissaoDeRegionQueContenhaRegiaoNulaEstiverCompleta() {
+        Mission missionRegion = b.getMissions().get(0);        
+        
+        Player playerStark = new HumanPlayer(null);
+        playerStark.setMission(missionRegion);
+        missionRegion.setPlayer(playerStark);
+        
+        playerStark.addTerritory(b.getTerritories()[0]);
+        playerStark.addTerritory(b.getTerritories()[1]);
+        playerStark.addTerritory(b.getTerritories()[2]);
+        playerStark.addTerritory(b.getTerritories()[3]);
+        playerStark.addTerritory(b.getTerritories()[4]);
+        playerStark.addTerritory(b.getTerritories()[5]);
+        playerStark.addTerritory(b.getTerritories()[6]);
+        playerStark.addTerritory(b.getTerritories()[7]);
+        playerStark.addTerritory(b.getTerritories()[8]);
+        playerStark.addTerritory(b.getTerritories()[9]);
+        playerStark.addTerritory(b.getTerritories()[10]);
+        playerStark.addTerritory(b.getTerritories()[11]);
+        playerStark.addTerritory(b.getTerritories()[12]);
+        playerStark.addTerritory(b.getTerritories()[13]);
+        playerStark.addTerritory(b.getTerritories()[14]);
+        playerStark.addTerritory(b.getTerritories()[15]);
+        playerStark.addTerritory(b.getTerritories()[16]);
+        playerStark.addTerritory(b.getTerritories()[17]);
+        playerStark.addTerritory(b.getTerritories()[18]);
+        playerStark.addTerritory(b.getTerritories()[19]);
+        playerStark.addTerritory(b.getTerritories()[30]);
+        playerStark.addTerritory(b.getTerritories()[31]);
+        
+        assertTrue(missionRegion.isRegionMissionCompleted());
+    }
     
     @Test
     public void isTerritoryMissionCompletedDeveRetornarTrueCasoAMissaoDeTerritorioEstiverCompleta() {
@@ -239,75 +242,27 @@ public class MissionTest {
     
     @Test
     public void isHouseMissionCompletedDeveRetornarTrueCasoAMissaoDeCasaEstiverCompleta() {   
-        Mission missionHouse = b.getMissions().get(8);
+        Mission missionHouse = b.getMissions().get(9);
         missionHouse.setHouse(lannister);
         
-        Player playerStark = new HumanPlayer("Robb Stark");
-        Player playerLannister = new HumanPlayer("tyrion");
-        Player playerGreyjoy = new HumanPlayer("Theon");
-//        board.addPlayer(playerStark, 0, Board.HUMAN_PLAYER);
-//        board.addPlayer(playerLannister, 1, Board.HUMAN_PLAYER);
-//        board.addPlayer(playerGreyjoy, 2, Board.HUMAN_PLAYER);
-//        
-        playerStark.setMission(missionHouse);
-        missionHouse.setPlayer(playerStark);
-
-        playerStark.setHouse(stark);
-        playerLannister.setHouse(lannister);
-        playerGreyjoy.setHouse(greyjoy);
+        p1.setMission(missionHouse); //P1 é Stark
+        missionHouse.setPlayer(p1);
         
-        playerStark.addTerritory(winterfell);
-        playerStark.addTerritory(portoBranco);
-        playerStark.addTerritory(bosqueProfundo);
-        playerStark.addTerritory(forteDoPavor);       
-        playerStark.addTerritory(portoReal);
-        playerStark.addTerritory(correrio);
-       
         assertTrue(missionHouse.isHouseMissionCompleted());
     }
     
-//    @Test
-//    public void isHouseMissionCompletedDeveRetornarFalseCasoAMissaoDeCasaNaoEstiverCompleta() {   
-//        Board board = new Board();
-//        Region theNorth = new Region("The North", Region.O_NORTE);
-//        Region theSouth = new Region("The South", Region.O_SUL);       
-//        
-//        BackEndTerritory winterfell = new BackEndTerritory(null, theNorth);
-//        BackEndTerritory portoBranco = new BackEndTerritory(null, theNorth);
-//        BackEndTerritory bosqueProfundo = new BackEndTerritory(null, theNorth);
-//        BackEndTerritory forteDoPavor = new BackEndTerritory(null, theNorth);        
-//        BackEndTerritory portoReal = new BackEndTerritory(null, theNorth);
-//        BackEndTerritory correrio = new BackEndTerritory(null, theNorth);
-//        
-//        House stark = new House();
-//        House lannister = new House();
-//        House greyjoy = new House();
-//        Mission missionHouse = new Mission(null, Mission.TYPE_HOUSE);
-//        missionHouse.setHouse(lannister);
-//        
-//        Player playerStark = new HumanPlayer("Robb Stark");
-//        Player playerLannister = new HumanPlayer("tyrion");
-//        Player playerGreyjoy = new HumanPlayer("Theon");
-//        board.addPlayer(playerStark, 0, Board.HUMAN_PLAYER);
-//        board.addPlayer(playerLannister, 1, Board.HUMAN_PLAYER);
-//        board.addPlayer(playerGreyjoy, 2, Board.HUMAN_PLAYER);
-//        
-//        playerStark.setMission(missionHouse);
-//        missionHouse.setPlayer(playerStark);
-//
-//        playerStark.setHouse(stark);
-//        playerLannister.setHouse(lannister);
-//        playerGreyjoy.setHouse(greyjoy);
-//        
-//        playerStark.addTerritory(winterfell);
-//        playerStark.addTerritory(portoBranco);
-//        playerStark.addTerritory(bosqueProfundo);
-//        playerStark.addTerritory(forteDoPavor);       
-//        playerStark.addTerritory(portoReal);        
-//        playerLannister.addTerritory(correrio);
-//       
-//        assertFalse(missionHouse.isHouseMissionCompleted());
-//    }
+    @Test
+    public void isHouseMissionCompletedDeveRetornarFalseCasoAMissaoDeCasaNaoEstiverCompleta() {   
+        Mission missionHouse = b.getMissions().get(9);
+        missionHouse.setHouse(lannister);
+        
+        p1.setMission(missionHouse); //P1 é Stark
+        missionHouse.setPlayer(p1);
+        
+        p2.addTerritory(b.getTerritories()[0]); //P2 é Lannister
+        
+        assertTrue(missionHouse.isHouseMissionCompleted());
+    }
     
     @AfterClass
     public void cleanUp() {

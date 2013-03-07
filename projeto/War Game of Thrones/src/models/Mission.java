@@ -51,24 +51,6 @@ public class Mission implements Serializable {
 //        this.house = house;
 //    }
     
-//    @Deprecated
-//    public Mission(String desc, String description, int type) {
-//        this.description = desc;
-//        this.type = type;
-////        this.description = description;
-//        // Inicializa apenas a lista dos objetivos em questão
-//        switch (type) {
-//            case TYPE_TERRITORY:
-//                break;
-//            case TYPE_REGION:
-//                regions = new ArrayList<Region>();
-//                break;
-//            case TYPE_HOUSE:
-//                house = new House();
-//                break;
-//        }
-//    }
-
     public String getDescription() {
         if (description == null || description.equals("")) {
             switch (type) {
