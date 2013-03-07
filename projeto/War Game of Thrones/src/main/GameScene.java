@@ -163,6 +163,7 @@ public class GameScene extends Scene{
     }
 
     protected void startAIMovementAnim(AIPlayer p) {
+        System.out.println("start ai movement anim");
         AIArmyMovementer move = new AIArmyMovementer(p, mapMover);
         addEntity(move);
         move.start();

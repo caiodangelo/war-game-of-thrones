@@ -174,6 +174,10 @@ public class InGameGUIController implements ScreenController {
     private Player getCurrentPlayer() {
         return b.getCurrentPlayer();
     }
+    
+    private boolean currentPlayerIsHuman(){
+        return !getCurrentPlayer().isAIPlayer();
+    }
 
     private Color getCurrentPlayerColor() {
         return getCurrentPlayer().getHouse().getColor();
@@ -194,16 +198,20 @@ public class InGameGUIController implements ScreenController {
     }
 
     public void showPlayerObjective() {
-        resetMouseCursor();
-        Label description = objectivePopup.findNiftyControl("objectiveDescLabel", Label.class);
-        String objectiveStr = getCurrentPlayer().getMission().getDescription();
-        description.setText(objectiveStr);
-        PopupManager.showPopup(n, s, objectivePopup);
+        if(currentPlayerIsHuman()){
+            resetMouseCursor();
+            Label description = objectivePopup.findNiftyControl("objectiveDescLabel", Label.class);
+            String objectiveStr = getCurrentPlayer().getMission().getDescription();
+            description.setText(objectiveStr);
+            PopupManager.showPopup(n, s, objectivePopup);
+        }
     }
 
     public void showPlayerCards() {
-        resetMouseCursor();
-        cardsCtrl.showPopup();
+        if(currentPlayerIsHuman()){
+            resetMouseCursor();
+            cardsCtrl.showPopup();
+        }
     }
 
     public void dismissPlayerObjective() {
