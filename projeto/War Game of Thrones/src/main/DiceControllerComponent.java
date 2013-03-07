@@ -1,5 +1,7 @@
 package main;
 
+
+import static main.Constants.*;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
@@ -7,16 +9,14 @@ import util.Component;
 
 public class DiceControllerComponent extends Component {
     
-    public DiceControllerComponent() {
-        
-    }
-    
+    @Override
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
+        Dice diceOwner = (Dice)owner;
         Input input = gc.getInput();
         float mouseX = input.getAbsoluteMouseX();
         float mouseY = input.getAbsoluteMouseY();
-        if ((input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && mouseOver(mouseX, mouseY)) || ((Dice) owner).isIsAIDice())
-            ((Dice) owner).setRolling(false);
+        if ((input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && (SINGLE_CLICK_STOP_DICES || mouseOver(mouseX, mouseY))) || diceOwner.isIsAIDice())
+            diceOwner.setRolling(false);
     }
     
     private boolean mouseOver(float x, float y) {

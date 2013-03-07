@@ -257,12 +257,12 @@ public class BoardTest {
         allHouses.add(targaryen);
         board.setHouses(allHouses);
 
-        Mission missionStark = new Mission(null, null, Mission.TYPE_HOUSE);
-        Mission missionLannister = new Mission(null, null, Mission.TYPE_HOUSE);
-        Mission missionBaratheon = new Mission(null, null, Mission.TYPE_HOUSE);
-        Mission missionT = new Mission(null, null, Mission.TYPE_HOUSE);
-        Mission missionRegion = new Mission(null, null, Mission.TYPE_REGION);
-        Mission missionTerritory = new Mission(null, null, Mission.TYPE_TERRITORY);
+        Mission missionStark = new Mission(null, Mission.TYPE_HOUSE);
+        Mission missionLannister = new Mission(null, Mission.TYPE_HOUSE);
+        Mission missionBaratheon = new Mission(null, Mission.TYPE_HOUSE);
+        Mission missionT = new Mission( null, Mission.TYPE_HOUSE);
+        Mission missionRegion = new Mission(null, Mission.TYPE_REGION);
+        Mission missionTerritory = new Mission( null, Mission.TYPE_TERRITORY);
 
         missionStark.setHouse(stark);
         missionLannister.setHouse(lannister);

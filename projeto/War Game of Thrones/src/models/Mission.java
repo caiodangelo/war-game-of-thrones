@@ -51,24 +51,6 @@ public class Mission implements Serializable {
 //        this.house = house;
 //    }
     
-//    @Deprecated
-//    public Mission(String desc, String description, int type) {
-//        this.description = desc;
-//        this.type = type;
-////        this.description = description;
-//        // Inicializa apenas a lista dos objetivos em questão
-//        switch (type) {
-//            case TYPE_TERRITORY:
-//                break;
-//            case TYPE_REGION:
-//                regions = new ArrayList<Region>();
-//                break;
-//            case TYPE_HOUSE:
-//                house = new House();
-//                break;
-//        }
-//    }
-
     public String getDescription() {
         if (description == null || description.equals("")) {
             switch (type) {
@@ -198,7 +180,6 @@ public class Mission implements Serializable {
     public boolean isTerritoryMissionCompleted() {
         int count = 0;
         List<BackEndTerritory> playerTerritories = this.getPlayer().getTerritories();
-//<<<<<<< HEAD
         if(this.getTerritories() == 23)
             return playerTerritories.size() >= 23;
        
@@ -209,18 +190,6 @@ public class Mission implements Serializable {
             }
             if(count >= 17) return true;
             else return false;
-//=======
-//        answer = (this.getTerritories() <= playerTerritories.size());
-//
-//        if (this.getTerritories() == 17 && answer) {
-//            int territorieswith2OrMoreArmies = 0;
-//            for (BackEndTerritory territory : playerTerritories) {
-//                if (territory.getNumArmies() >= 2) {
-//                    territorieswith2OrMoreArmies++;
-//                }
-//            }
-//            answer = territorieswith2OrMoreArmies >= 17;
-//>>>>>>> 1f10fa157c27e3ccab59173922a14f94ae509757
         }
         return false;
     }
