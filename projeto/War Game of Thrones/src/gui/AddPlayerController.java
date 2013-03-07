@@ -162,7 +162,7 @@ public class AddPlayerController implements ScreenController{
     }
     
     private void addBlankPlayerData(){
-        PlayerData dummy = new PlayerData("", true, availableHouses.get(0), null);
+        PlayerData dummy = new PlayerData("", true, availableHouses.get(0), AIDifficulty.EASY);
         createdPlayers.add(dummy);
         currentEditingIndex = createdPlayers.size() - 1;
     }
