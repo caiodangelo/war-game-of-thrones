@@ -57,7 +57,6 @@ public class GameEndingAnimationRenderer extends RenderComponent{
             pctg = getPcgt();
             if (elapsed >= 0 && elapsed <= FADING_IN_DURATION)
                 cSecondMessage.a = pctg / 0.5f;
-            System.out.println("AAA"+cSecondMessage.a);
             if (cSecondMessage.a >= 1f)
                 InGameGUIController.getInstance().mayGoToStatistics();
             gr.setColor(cSecondMessage);
