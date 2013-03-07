@@ -119,11 +119,15 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 								<control name="radioButton" id="humanRadioBtn" group="RadioGroup-1"/>
 								<control name="label" text="Humano" width="20%"/>
 								<control name="radioButton" id="cpuRadioBtn" group="RadioGroup-1"/>
-								<control name="label" text="Computador"/>
+								<control name="label" text="Computador" width="20%"/>
+								<control width="20%" id="dropDownAIDifficulty" name="dropDown" textColor="#ffff" color="#ffff"/>
 						</panel>
-						
-						<control align="left" name="label" text="Casa: "/>
-						<control valign="bottom" id="dropDown2" name="dropDown" textColor="#ffff" color="#ffff"/>
+						<panel width="100%" childLayout="horizontal">
+							<panel width="50%" childLayout="vertical">
+								<control align="left" name="label" text="Casa: "/>
+								<control width="100%" valign="bottom" id="dropDown2" name="dropDown" textColor="#ffff" color="#ffff"/>
+							</panel>
+						</panel>
 					</panel>
 					<panel align="center" height="10%" childLayout="vertical"/>
 					<panel valign="bottom" align="center" width="65%" childLayout="center">
