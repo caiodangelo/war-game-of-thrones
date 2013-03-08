@@ -11,6 +11,7 @@ import ai.features.MoreThanOneArmyFeature;
 import ai.features.DistanceToFrontierFeature;
 import ai.features.MaximumThreatFeature;
 import ai.features.MissionArmiesCompletionFeature;
+import ai.features.MostAttackableEnemyFeature;
 import ai.features.NeighbourTerritoriesFeature;
 import models.Board;
 import models.Player;
@@ -36,6 +37,7 @@ public class DistributionEvaluator extends Evaluator {
         features.add(new ContinentArmyDominationFeature());
         features.add(new MissionArmiesCompletionFeature());
         features.add(new NeighbourTerritoriesFeature());
+        features.add(new MostAttackableEnemyFeature());
     }
 
     @Override
