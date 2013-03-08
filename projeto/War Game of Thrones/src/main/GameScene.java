@@ -119,12 +119,16 @@ public class GameScene extends Scene {
             ctrl.updatePlayersData();
             if (territory.getBackEndTerritory().getOwner() == curr) {
                 models.BackEndTerritory t = territory.getBackEndTerritory();
-                t.increaseArmies(1);
-                t.resetMovedArmies();
-                curr.removePendingArmies(t, 1);
-                pendingArmies--;
-                if (t.getNumArmies() < 3 && b.hasGameEnded()) //checking if 17 territories with 2 armies mission is completed
-                    startGameEndingAnimation();
+                if (curr.removePendingArmies(t)) {
+                    t.increaseArmies(1);
+                    t.resetMovedArmies();
+                    pendingArmies--;
+                    if (t.getNumArmies() < 3 && b.hasGameEnded()) //checking if 17 territories with 2 armies mission is completed
+                        startGameEndingAnimation();
+                }
+                else {
+                    ctrl.showAlert("Exércitos recebidos por conquista de região devem ser colocados na região conquistada!");
+                }
             }
             if (pendingArmies == 0) {
                 for (models.BackEndTerritory t : b.getCurrentPlayer().getTerritories()) {

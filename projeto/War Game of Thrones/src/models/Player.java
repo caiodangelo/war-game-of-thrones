@@ -99,14 +99,19 @@ public abstract class Player implements Serializable {
         this.generalPendingArmies += amount;
     }
 
-    public void removePendingArmies(BackEndTerritory territory, int amount) {
+    public boolean removePendingArmies(BackEndTerritory territory) {
         Region r = territory.getRegion();
         int numArmies = this.pendingArmiesForRegion.get(r);
-        if (numArmies > 0) {
-            this.pendingArmiesForRegion.put(r, numArmies - amount);
-        } else
-            this.generalPendingArmies -= amount;
-        this.totalPendingArmies -= amount;
+        if (numArmies == 0 && generalPendingArmies == 0)
+            return false;
+        else {
+            if (numArmies > 0)
+                this.pendingArmiesForRegion.put(r, numArmies - 1);
+            else
+                this.generalPendingArmies -= 1;
+            this.totalPendingArmies -= 1;
+        }
+        return true;
     }
 
     public List<BackEndTerritory> getTerritories() {
