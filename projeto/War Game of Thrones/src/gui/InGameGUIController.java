@@ -607,7 +607,7 @@ public class InGameGUIController implements ScreenController {
     }
     
     public String getBonusArmiesString(){
-        String resp = "";
+        String resp = "\n";
         Player p = getCurrentPlayer();
         HashMap<Region, Integer> pendings = p.getPendingArmiesForRegion();
         Set<Region> regs = pendings.keySet();
@@ -625,7 +625,7 @@ public class InGameGUIController implements ScreenController {
         }
         //if there was any bonus, close parenthesis
         if(!first)
-            resp += ")";
-        return resp;
+            return resp + ")";
+        return "";
     }
 }
