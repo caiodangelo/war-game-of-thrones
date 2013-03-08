@@ -53,7 +53,7 @@ public class ExtremeAI extends Difficulty implements Serializable {
                     }
                 }
                 if (chosen != null) {
-                    player.removePendingArmies(chosen, 1);
+                    player.removePendingArmies(chosen);
                     chosen.increaseArmies(1);
                     increaseTerritoryDistribution(distribution, chosen, 1);
                     pendingArmiesForRegion--;
@@ -77,7 +77,7 @@ public class ExtremeAI extends Difficulty implements Serializable {
             }
             if (chosen != null) {
                 System.out.println("Distribuindo 1 exército");
-                player.removePendingArmies(chosen, 1);
+                player.removePendingArmies(chosen);
                 chosen.increaseArmies(1);
                 increaseTerritoryDistribution(distribution, chosen, 1);
             } else
