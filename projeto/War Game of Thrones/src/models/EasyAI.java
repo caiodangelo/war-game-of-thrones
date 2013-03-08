@@ -66,7 +66,9 @@ public class EasyAI extends Difficulty {
                         for (BackEndTerritory territory : territories) {
                             List<BackEndTerritory> origins = new ArrayList<BackEndTerritory>();
                             for (BackEndTerritory neighbour : territory.getNeighbours()) {
-                                if (neighbour.getOwner() == player && origin.getSurplusArmies() >= 1)
+                                Player neighbourOwner = neighbour.getOwner();
+                                int surplusArmies = origin.getSurplusArmies();
+                                if (neighbourOwner == player && surplusArmies >= 1)
                                     origins.add(neighbour);
                             }
                             if (origins.size() > 0) {
