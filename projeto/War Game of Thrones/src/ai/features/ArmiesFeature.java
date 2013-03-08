@@ -16,7 +16,7 @@ import models.Player;
 public class ArmiesFeature extends Feature {
 
     public ArmiesFeature() {
-        importance = 2;
+        importance = 1;
         scaleFactor = 1;
     }
     

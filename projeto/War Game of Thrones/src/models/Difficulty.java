@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,7 +24,61 @@ public abstract class Difficulty {
      * Pergunta à IA se ela quer trocar suas cartas. Se ela quiser, retornará um array de 3 cartas,
      * senão, retornará nulo.
      */
-    abstract public List<CardTerritory> tradeCards();
+    public final List<CardTerritory> tradeCards() {
+        if (player.numCards() >= 3) {
+            boolean keepTrying = player.numCards() >= 5;
+            do {
+                List<CardTerritory> cards = new ArrayList<CardTerritory>();
+                int triangleCards = 0, circleCards = 0, squareCards = 0, jokerCards = 0;
+                for (CardTerritory card : player.getCards()) {
+                    switch (card.getType()) {
+                        case CardTerritory.CIRCLE:
+                            circleCards++;
+                            break;
+                        case CardTerritory.TRIANGLE:
+                            triangleCards++;
+                            break;
+                        case CardTerritory.SQUARE:
+                            squareCards++;
+                            break;
+                        case CardTerritory.JOKER:
+                            jokerCards++;
+                            break;
+                    }
+                }
+                int selectedType = getCardSelectedType(triangleCards, circleCards, squareCards, jokerCards);
+                switch (selectedType) {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                        for (CardTerritory card : player.getCards()) {
+                            if (card.getType() == selectedType) {
+                                cards.add(card);
+                            }
+                        }
+                        if (cards.size() >= 3)
+                            return cards;
+                        break;
+                    case 5:
+                        boolean[] chosenTypes = new boolean[4];
+                        for (int i = 0; i < chosenTypes.length; i++) {
+                            chosenTypes[i] = false;
+                        }
+                        for (CardTerritory card : player.getCards()) {
+                            if (!chosenTypes[card.getType() - 1]) {
+                                cards.add(card);
+                                chosenTypes[card.getType() - 1] = true;
+                            }
+                        }
+                        if (cards.size() >= 3)
+                            return cards;
+                        break;
+                }
+            } while (keepTrying);
+        }
+        return null; // Não conseguiu arranjar nenhum esquema de troca
+    }
 
     /**
      * Pergunta à IA qual o próximo ataque dela. A classe AttackData contém o

@@ -19,7 +19,7 @@ import models.Region;
 public class MissionArmiesCompletionFeature extends Feature {
 
     public MissionArmiesCompletionFeature() {
-        importance = 10;
+        importance = 6;
         scaleFactor = 1;
     }
 
@@ -66,6 +66,7 @@ public class MissionArmiesCompletionFeature extends Feature {
             }
             return armiesNeighbourToMissionTerritories / (player.numArmies() * 1.0);
         } catch (Exception ex) {
+            ex.printStackTrace();
             return 1.0;
         }
     }

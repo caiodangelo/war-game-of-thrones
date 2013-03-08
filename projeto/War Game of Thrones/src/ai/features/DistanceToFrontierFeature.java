@@ -31,7 +31,7 @@ public class DistanceToFrontierFeature extends Feature {
         for (BackEndTerritory t : player.getTerritories()) {
             sumArmiesDistances += t.getNumArmies() * distanceToNearestEnemyTerritory(t, 1);
         }
-        return (player.numArmies() * 1.0) / sumArmiesDistances;
+        return (player.numArmies() * -1.0) / sumArmiesDistances;
     }
 
     private int distanceToNearestEnemyTerritory(BackEndTerritory territory, int totalDistance) {

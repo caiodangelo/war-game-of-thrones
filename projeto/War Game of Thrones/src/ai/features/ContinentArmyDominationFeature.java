@@ -20,8 +20,8 @@ import models.Region;
 public class ContinentArmyDominationFeature extends Feature {
 
     public ContinentArmyDominationFeature() {
+        importance = 5;
         scaleFactor = 1;
-        importance = 2;
     }
 
     @Override

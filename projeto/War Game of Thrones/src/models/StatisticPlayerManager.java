@@ -165,7 +165,7 @@ public class StatisticPlayerManager implements Serializable{
     }
 
     public void setSuccessfulDefencePercentage() {
-        float result = (float)this.numberOfDefenceWins / (float)this.numberOfDefences * 100;
+        float result = (float) this.numberOfDefenceWins / (float) this.numberOfDefences * 100;
         this.successfulDefencePercentage = round(result, 2);
     }
     

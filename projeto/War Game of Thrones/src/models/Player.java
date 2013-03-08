@@ -43,8 +43,8 @@ public abstract class Player implements Serializable {
         this.house = house;
         house.setPlayer(this);
     }
-    
-    public abstract boolean isAIPlayer ();
+
+    public abstract boolean isAIPlayer();
 
     public House getHouse() {
         return house;
@@ -94,37 +94,46 @@ public abstract class Player implements Serializable {
         this.totalPendingArmies += amount;
         this.statistic.increaseReceivedArmies(amount);
     }
-    
+
     public void addGeneralPendingArmies(int amount) {
         this.generalPendingArmies += amount;
     }
 
     public void removePendingArmies(BackEndTerritory territory, int amount) {
         int numArmies = this.pendingArmiesForRegion.get(territory.getRegion());
-        if(numArmies < 0) {
-            this.totalPendingArmies -= amount;
+        if (numArmies > 0) {
             this.pendingArmiesForRegion.put(territory.getRegion(), numArmies - amount);
-        }
+        } else
+            this.generalPendingArmies -= amount;
         this.totalPendingArmies -= amount;
-        this.generalPendingArmies -= amount;
     }
 
     public List<BackEndTerritory> getTerritories() {
         return territories;
     }
 
+    public List<BackEndTerritory> getTerritoriesThatCanAttack() {
+        List<BackEndTerritory> attackables = new ArrayList<BackEndTerritory>();
+        for (BackEndTerritory territory : territories) {
+            if (territory.getSurplusArmies() >= 1) {
+                attackables.add(territory);
+            }
+        }
+        return attackables;
+    }
+
     public List<CardTerritory> getCards() {
         return cards;
     }
-    
-    public StatisticPlayerManager getStatisticPlayerManager () {
+
+    public StatisticPlayerManager getStatisticPlayerManager() {
         return statistic;
     }
 
     public void setMayReceiveCard(boolean mayReceiveCard) {
         this.mayReceiveCard = mayReceiveCard;
     }
-    
+
     public int numArmies() {
         int count = 0;
         for (BackEndTerritory territory : this.getTerritories()) {
@@ -132,21 +141,21 @@ public abstract class Player implements Serializable {
         }
         return count;
     }
-    
+
     public int numCards() {
         return this.getCards().size();
     }
-    
+
     public int numTerritories() {
         return this.getTerritories().size();
     }
-            
+
     public void addTerritory(BackEndTerritory territory) {
         territories.add(territory);
         territory.setOwner(this);
     }
-    
-    public void addArmiesInTerritory (BackEndTerritory territory) {
+
+    public void addArmiesInTerritory(BackEndTerritory territory) {
         territory.increaseArmies(totalPendingArmies);
     }
 
@@ -181,12 +190,12 @@ public abstract class Player implements Serializable {
         }
         return false;
     }
-    
+
     public List<Region> getMoreSubduedRegion() {
         List<Region> answer = new ArrayList<Region>();
         int current = 0;
         int more = 0;
-        Region [] regions = Board.getInstance().getRegions();
+        Region[] regions = Board.getInstance().getRegions();
         for (int i = 0; i < regions.length; i++) {
             for (BackEndTerritory territory : regions[i].getTerritories()) {
                 if (territory.getOwner() == this)

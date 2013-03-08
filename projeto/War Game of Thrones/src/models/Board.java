@@ -294,8 +294,8 @@ public class Board implements Serializable {
 
     private void addPlayerArmies(Player curr) {
         int territoryCount = curr.getTerritories().size();
-        int totalPendingArmies = curr.getTotalPendingArmies();
-        int generalPendingArmies = curr.getGeneralPendingArmies();
+        int totalPendingArmies = 0;
+        int generalPendingArmies = 0;
         totalPendingArmies += territoryCount / 2;
         generalPendingArmies += territoryCount / 2;
         curr.addGeneralPendingArmies(generalPendingArmies);

@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ai.features;
 
 import ai.Feature;
@@ -17,7 +12,7 @@ import models.BackEndTerritory;
 public class MoreThanOneArmyFeature extends Feature {
 
     public MoreThanOneArmyFeature() {
-        importance = 4;
+        importance = 6;
         scaleFactor = 1;
     }
 

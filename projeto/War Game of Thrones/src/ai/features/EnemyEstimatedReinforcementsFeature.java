@@ -18,7 +18,7 @@ import models.Region;
 public class EnemyEstimatedReinforcementsFeature extends Feature {
 
     public EnemyEstimatedReinforcementsFeature() {
-        importance = 2;
+        importance = 6;
     }
 
     @Override

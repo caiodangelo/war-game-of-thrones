@@ -35,7 +35,32 @@ public class ExtremeAI extends Difficulty implements Serializable {
             }
         }
         // Now we can distribute our armies
-        while (player.getTotalPendingArmies() > 0) {
+        for (Region region : Board.getInstance().getRegions()) {
+            int pendingArmiesForRegion = player.getPendingArmiesForRegion().get(region);
+            while (pendingArmiesForRegion > 0 && player.getTotalPendingArmies() > 0) {
+                BackEndTerritory chosen = null;
+                double maxRating = Double.NEGATIVE_INFINITY;
+                for (BackEndTerritory territory : player.getTerritories()) {
+                    if (territory.belongToRegion(region)) {
+                        DistributionEvaluator evaluator = new DistributionEvaluator(Board.getInstance(), player);
+                        evaluator.setTerritory(territory);
+                        double rating = evaluator.evaluate();
+                        maxRating = Math.max(maxRating, rating);
+                        if (maxRating == rating) {
+                            chosen = territory;
+                        }
+                    }
+                }
+                if (chosen != null) {
+                    player.removePendingArmies(chosen, 1);
+                    chosen.increaseArmies(1);
+                    increaseTerritoryDistribution(distribution, chosen, 1);
+                    pendingArmiesForRegion--;
+                } else
+                    break;
+            }
+        }
+        while (player.getGeneralPendingArmies() > 0 && player.getTotalPendingArmies() > 0) {
             BackEndTerritory chosen = null;
             double maxRating = 0.0;
             for (BackEndTerritory territory : player.getTerritories()) {
@@ -47,8 +72,12 @@ public class ExtremeAI extends Difficulty implements Serializable {
                     chosen = territory;
                 }
             }
-            player.distributeArmies(chosen, 1);
-            increaseTerritoryDistribution(distribution, chosen, 1);
+            if (chosen != null) {
+                player.removePendingArmies(chosen, 1);
+                chosen.increaseArmies(1);
+                increaseTerritoryDistribution(distribution, chosen, 1);
+            } else
+                break;
         }
         return distribution;
     }
@@ -59,60 +88,6 @@ public class ExtremeAI extends Difficulty implements Serializable {
         // é mais fácil dizer que a IA quer sempre atacar, e caso ela não queira, retornar null no
         // nextAttack.
         return true;
-    }
-
-    @Override
-    public List<CardTerritory> tradeCards() {
-        if (player.numCards() >= 3) {
-            List<CardTerritory> cards = new ArrayList<CardTerritory>();
-            int triangleCards = 0, circleCards = 0, squareCards = 0, jokerCards = 0;
-            for (CardTerritory card : player.getCards()) {
-                switch (card.getType()) {
-                    case CardTerritory.CIRCLE:
-                        circleCards++;
-                        break;
-                    case CardTerritory.TRIANGLE:
-                        triangleCards++;
-                        break;
-                    case CardTerritory.SQUARE:
-                        squareCards++;
-                        break;
-                    case CardTerritory.JOKER:
-                        jokerCards++;
-                        break;
-                }
-            }
-            int selectedType = getCardSelectedType(triangleCards, circleCards, squareCards, jokerCards);
-            switch (selectedType) {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                    for (CardTerritory card : player.getCards()) {
-                        if (card.getType() == selectedType) {
-                            cards.add(card);
-                        }
-                    }
-                    if (cards.size() >= 3)
-                        return cards;
-                    break;
-                case 5:
-                    boolean[] chosenTypes = new boolean[4];
-                    for (int i = 0; i < chosenTypes.length; i++) {
-                        chosenTypes[i] = false;
-                    }
-                    for (CardTerritory card : player.getCards()) {
-                        if (!chosenTypes[card.getType() - 1]) {
-                            cards.add(card);
-                            chosenTypes[card.getType() - 1] = true;
-                        }
-                    }
-                    if (cards.size() >= 3)
-                        return cards;
-                    break;
-            }
-        }
-        return null; // Não conseguiu arranjar nenhum esquema de troca
     }
 
     @Override
