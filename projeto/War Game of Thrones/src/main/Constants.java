@@ -29,4 +29,6 @@ public class Constants {
      */
     public static boolean ACCEPT_INVALID_NAMES = true;
     
+    public static boolean ACCEPT_LESS_THAN_3_PLAYERS = true;
+    
 }

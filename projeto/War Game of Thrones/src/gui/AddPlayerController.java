@@ -183,7 +183,8 @@ public class AddPlayerController implements ScreenController{
     }
     
     public void addPlayer(){
-        if(nameField != null && createdPlayers.size() < 6){
+        int playersCount = createdPlayers.size();
+        if(nameField != null && playersCount < 6){
             if(nameFieldInvalid() && !ACCEPT_INVALID_NAMES){
                 showEmptyNameWarning();
             } else {
@@ -192,7 +193,9 @@ public class AddPlayerController implements ScreenController{
                 addBlankPlayerData();
 
                 resetDisplay();
-                playButton.enable();
+                System.out.println("players count " + playersCount);
+                if(ACCEPT_LESS_THAN_3_PLAYERS || createdPlayers.size() >= 3)
+                    playButton.enable();
                 playerIcons[currentEditingIndex].show();
                 updatePlayerImage();
             }
@@ -223,7 +226,8 @@ public class AddPlayerController implements ScreenController{
             editPlayer(currentEditingIndex + "", false);
             addButton.enable();
             addButton.setText("+Adicionar Jogador");
-            if(createdPlayers.size() == 1)
+            int playersCount = createdPlayers.size();
+            if(createdPlayers.size() == 1 || (!ACCEPT_LESS_THAN_3_PLAYERS && playersCount < 3))
                 playButton.disable();
             resetDisplay();
             

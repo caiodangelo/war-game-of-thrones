@@ -294,11 +294,8 @@ public class Board implements Serializable {
 
     private void addPlayerArmies(Player curr) {
         int territoryCount = curr.getTerritories().size();
-        int totalPendingArmies = 0;
-        int generalPendingArmies = 0;
-        totalPendingArmies += territoryCount / 2;
-        generalPendingArmies += territoryCount / 2;
-        curr.addGeneralPendingArmies(generalPendingArmies);
+        int generalPendingArmies = territoryCount / 2;
+        int totalPendingArmies = territoryCount / 2;
        
         for (Region r : regions) {
             if (r.conqueredByPlayer(curr)) {
@@ -308,8 +305,11 @@ public class Board implements Serializable {
             }
         }
         //minimum of received territories is 3
-        if (totalPendingArmies < 3)
+        if (totalPendingArmies < 3) {
+            generalPendingArmies = 3;
             totalPendingArmies = 3;
+        }
+        curr.addGeneralPendingArmies(generalPendingArmies);
         curr.addTotalPendingArmies(totalPendingArmies);
     }
 
