@@ -37,6 +37,7 @@ public class ExtremeAI extends Difficulty implements Serializable {
         // Now we can distribute our armies
         for (Region region : Board.getInstance().getRegions()) {
             int pendingArmiesForRegion = player.getPendingArmiesForRegion().get(region);
+            System.out.println("Exércitos de " + region.getName() + ": " + pendingArmiesForRegion);
             while (pendingArmiesForRegion > 0 && player.getTotalPendingArmies() > 0) {
                 BackEndTerritory chosen = null;
                 double maxRating = Double.NEGATIVE_INFINITY;
@@ -60,6 +61,8 @@ public class ExtremeAI extends Difficulty implements Serializable {
                     break;
             }
         }
+        System.out.println("Exércitos gerais: " + player.getGeneralPendingArmies());
+        System.out.println("Exércitos totais: " + player.getTotalPendingArmies());
         while (player.getGeneralPendingArmies() > 0 && player.getTotalPendingArmies() > 0) {
             BackEndTerritory chosen = null;
             double maxRating = 0.0;
@@ -73,12 +76,15 @@ public class ExtremeAI extends Difficulty implements Serializable {
                 }
             }
             if (chosen != null) {
+                System.out.println("Distribuindo 1 exército");
                 player.removePendingArmies(chosen, 1);
                 chosen.increaseArmies(1);
                 increaseTerritoryDistribution(distribution, chosen, 1);
             } else
                 break;
         }
+        System.out.println("Exércitos gerais: " + player.getGeneralPendingArmies());
+        System.out.println("Exércitos totais: " + player.getTotalPendingArmies());
         return distribution;
     }
 
@@ -98,8 +104,8 @@ public class ExtremeAI extends Difficulty implements Serializable {
             MovementEvaluator evaluator = new MovementEvaluator(Board.getInstance(), player);
             evaluator.setOriginTerritory(origin);
             evaluator.setDestinyTerritory(conquered);
-            double rating = evaluator.evaluate();
-            if (rating > evaluator.evaluateCurrentGameState()) {
+            double rating = evaluator.evaluate() * 1.1;
+            if (rating >= evaluator.evaluateCurrentGameState()) {
                 numberToMove++;
             }
             numberCanMove--;

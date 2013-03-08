@@ -12,7 +12,7 @@ import models.BackEndTerritory;
 public class MoreThanOneArmyFeature extends Feature {
 
     public MoreThanOneArmyFeature() {
-        importance = 6;
+        importance = 5;
         scaleFactor = 1;
     }
 
