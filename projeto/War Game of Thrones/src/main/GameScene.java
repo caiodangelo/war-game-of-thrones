@@ -25,6 +25,7 @@ public class GameScene extends Scene {
     private TerritoryName terrName;
     private Map map;
     private MapMover mapMover;
+    private RegionNames regionNames;
 
     public GameScene() {
         super();
@@ -64,9 +65,8 @@ public class GameScene extends Scene {
         terrName = new TerritoryName();
         addEntity(terrName);
         AudioManager.getInstance().playMusic(AudioManager.GAME_RUNNING);
-
-        addEntity(new RegionNames(Map.armyPositions, map));
-
+        regionNames = new RegionNames(Map.armyPositions, map);
+        addEntity(regionNames);
         mapMover = new MapMover(map);
         addEntity(mapMover);
 
@@ -142,6 +142,7 @@ public class GameScene extends Scene {
     }
 
     public void startGameEndingAnimation() {
+        removeEntity(regionNames);
         ctrl.openEmptyPopup();
         GameEndingAnimation a = new GameEndingAnimation();
         addEntity(a);
