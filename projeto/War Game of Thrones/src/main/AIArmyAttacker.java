@@ -3,6 +3,7 @@ package main;
 import gui.ContextMenuController;
 import gui.InGameGUIController;
 import models.AIPlayer;
+import models.Board;
 import models.Difficulty;
 import models.TerritoryTransaction;
 import org.newdawn.slick.GameContainer;
@@ -36,7 +37,7 @@ public class AIArmyAttacker extends Entity implements MovementCompleteListener {
     }
 
     private void processNextZoom() {
-        if (!player.getMission().isCompleted()) {
+        if (!Board.getInstance().hasGameEnded()) {
             System.out.println("ia obj not complete");
             nextAttack = difficulty.nextAttack();
             System.out.println("next attack is " + nextAttack);
