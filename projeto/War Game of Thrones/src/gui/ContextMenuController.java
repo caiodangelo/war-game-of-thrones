@@ -261,7 +261,6 @@ public class ContextMenuController {
     public void rearrangeConfirmed() {
         distributing = true;
         System.out.println("reset 5");
-        resetTerritories();
         PopupManager.closePopup(n, rearrangeConfirmationPopup);
     }
 

@@ -23,7 +23,7 @@ public class InGameGUIController implements ScreenController {
 
     private StatusPanelControl[] statusPanels;
     private Label playerStatusName, playerStatusCards, playerStatusUnits, playerStatusTerritories, infoTerritories,
-            ravenMessage, alert;
+            ravenMessage, alert, nextTradeLabel;
     private Screen s;
     private Nifty n;
     private Board b;
@@ -75,6 +75,7 @@ public class InGameGUIController implements ScreenController {
         objectivePopup = n.createPopup("objectivePopup");
         exitConfirmPopup = n.createPopup("quitConfirmationPopup");
         tablesPopup = n.createPopup("tablesPopup");
+        nextTradeLabel = tablesPopup.findNiftyControl("nextTradeLabel", Label.class);
         objectiveLabel = screen.findElementByName("seeObjectiveButton");
         viewCardsLabel = screen.findElementByName("seeCardsButton");
         tablesIcon = screen.findElementByName("tablesIcon");
@@ -326,6 +327,8 @@ public class InGameGUIController implements ScreenController {
 
     public void showTables() {
         resetMouseCursor();
+        int nextTradeCount = RepositoryCardsTerritory.getInstance().getNextSwapReward();
+        nextTradeLabel.setText("Próxima troca: " + nextTradeCount + " exércitos");
         PopupManager.showPopup(n, s, tablesPopup);
     }
 

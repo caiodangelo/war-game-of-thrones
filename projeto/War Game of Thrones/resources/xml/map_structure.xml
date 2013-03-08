@@ -172,7 +172,6 @@
 <!-- A Costa Gelada -->
 <edge source="a-costa-gelada" target="ilha-dos-ursos"></edge>
 <edge source="a-costa-gelada" target="a-floresta-assombrada"></edge>
-<edge source="a-costa-gelada" target="a-dadiva"></edge>
 
 <!-- A Floresta Assombrada -->
 <edge source="a-floresta-assombrada" target="skagos"></edge>
