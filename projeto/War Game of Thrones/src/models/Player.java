@@ -112,6 +112,16 @@ public abstract class Player implements Serializable {
         return territories;
     }
 
+    public List<BackEndTerritory> getTerritoriesThatCanAttack() {
+        List<BackEndTerritory> attackables = new ArrayList<BackEndTerritory>();
+        for (BackEndTerritory territory : territories) {
+            if (territory.getSurplusArmies() >= 1) {
+                attackables.add(territory);
+            }
+        }
+        return attackables;
+    }
+
     public List<CardTerritory> getCards() {
         return cards;
     }

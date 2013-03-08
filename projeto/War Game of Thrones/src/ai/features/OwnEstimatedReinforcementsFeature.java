@@ -18,7 +18,7 @@ import models.Region;
 public class OwnEstimatedReinforcementsFeature extends Feature {
 
     public OwnEstimatedReinforcementsFeature() {
-        importance = 3;
+        importance = 5;
         scaleFactor = 20; // Imaginando que o jogador possua todos os territórios, ele receberá no máximo 20 exércitos, sem contar as bonificações.
     }
 

@@ -17,7 +17,8 @@ import models.Player;
 public class BestEnemyFeature extends Feature {
 
     public BestEnemyFeature() {
-        importance = 3;
+        importance = 5;
+        scaleFactor = 1;
     }
 
     @Override

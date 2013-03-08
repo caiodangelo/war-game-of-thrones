@@ -22,7 +22,7 @@ import models.BackEndTerritory;
 public class HinterlandFeature extends Feature {
 
     public HinterlandFeature() {
-        importance = 2;
+        importance = 3;
         scaleFactor = 1;
     }
 

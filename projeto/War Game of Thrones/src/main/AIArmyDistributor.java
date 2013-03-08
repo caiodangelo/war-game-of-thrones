@@ -3,11 +3,14 @@ package main;
 import gui.InGameGUIController;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import models.AIPlayer;
 import models.BackEndTerritory;
 import models.Board;
+import models.CardTerritory;
 import models.Difficulty;
 import models.Region;
+import models.RepositoryCardsTerritory;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 import util.Entity;
@@ -34,6 +37,15 @@ public class AIArmyDistributor extends Entity implements MovementCompleteListene
     public void start() {
         System.out.println("IA ARMY DISTRIBUTOR START");
         InGameGUIController.getInstance().startPlayerInitialDistribution();
+        List<CardTerritory> trade = player.getDifficulty().tradeCards();
+        if (trade != null && RepositoryCardsTerritory.checkCardsTradeable(trade)) {
+            System.out.println("IA TRADE CARDS");
+            int oldArmies = player.getTotalPendingArmies();
+            RepositoryCardsTerritory.getInstance().swapCards(trade, player);
+            int newArmies = player.getTotalPendingArmies() - oldArmies;
+            InGameGUIController.getInstance().updatePlayersData();
+            InGameGUIController.getInstance().setRavenMessage(player.getName() + " trocou suas cartas e conseguiu " + newArmies + " exércitos");
+        }
         pendingArmies = player.getTotalPendingArmies();
         armiesPlaced = d.distributeArmies();
         d.distributeArmies();

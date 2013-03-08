@@ -47,8 +47,10 @@ public class ExtremeAI extends Difficulty implements Serializable {
                     chosen = territory;
                 }
             }
-            player.distributeArmies(chosen, 1);
-            increaseTerritoryDistribution(distribution, chosen, 1);
+            if (chosen != null) {
+                player.distributeArmies(chosen, 1);
+                increaseTerritoryDistribution(distribution, chosen, 1);
+            }
         }
         return distribution;
     }
