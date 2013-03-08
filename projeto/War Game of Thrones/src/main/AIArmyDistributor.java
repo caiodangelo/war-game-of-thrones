@@ -46,6 +46,7 @@ public class AIArmyDistributor extends Entity implements MovementCompleteListene
             InGameGUIController.getInstance().updatePlayersData();
             InGameGUIController.getInstance().setRavenMessage(player.getName() + " trocou suas cartas e conseguiu " + newArmies + " exércitos");
         }
+        System.out.println("IA WON'T TRADE CARDS");
         pendingArmies = player.getTotalPendingArmies();
         armiesPlaced = d.distributeArmies();
         Territory[] frontTerr = m.getTerritories();

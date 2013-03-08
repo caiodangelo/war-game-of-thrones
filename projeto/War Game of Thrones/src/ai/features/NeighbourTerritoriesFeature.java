@@ -17,7 +17,7 @@ import models.Player;
 public class NeighbourTerritoriesFeature extends Feature {
 
     public NeighbourTerritoriesFeature() {
-        importance = 3;
+        importance = 2;
         scaleFactor = 1;
     }
 
@@ -37,7 +37,9 @@ public class NeighbourTerritoriesFeature extends Feature {
                 }
                 rating += (partialRating / enemyTerritories.size());
             }
-            return rating / player.getTerritoriesThatCanAttack().size();
+            if (player.getTerritoriesThatCanAttack().size() > 0)
+                return rating / player.getTerritoriesThatCanAttack().size();
+            return 0.0;
         } catch (Exception ex) {
             ex.printStackTrace();
             return 0.0;

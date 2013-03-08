@@ -35,7 +35,32 @@ public class ExtremeAI extends Difficulty implements Serializable {
             }
         }
         // Now we can distribute our armies
-        while (player.getTotalPendingArmies() > 0) {
+        for (Region region : Board.getInstance().getRegions()) {
+            int pendingArmiesForRegion = player.getPendingArmiesForRegion().get(region);
+            while (pendingArmiesForRegion > 0 && player.getTotalPendingArmies() > 0) {
+                BackEndTerritory chosen = null;
+                double maxRating = Double.NEGATIVE_INFINITY;
+                for (BackEndTerritory territory : player.getTerritories()) {
+                    if (territory.belongToRegion(region)) {
+                        DistributionEvaluator evaluator = new DistributionEvaluator(Board.getInstance(), player);
+                        evaluator.setTerritory(territory);
+                        double rating = evaluator.evaluate();
+                        maxRating = Math.max(maxRating, rating);
+                        if (maxRating == rating) {
+                            chosen = territory;
+                        }
+                    }
+                }
+                if (chosen != null) {
+                    player.removePendingArmies(chosen, 1);
+                    chosen.increaseArmies(1);
+                    increaseTerritoryDistribution(distribution, chosen, 1);
+                    pendingArmiesForRegion--;
+                } else
+                    break;
+            }
+        }
+        while (player.getGeneralPendingArmies() > 0 && player.getTotalPendingArmies() > 0) {
             BackEndTerritory chosen = null;
             double maxRating = 0.0;
             for (BackEndTerritory territory : player.getTerritories()) {
@@ -48,9 +73,11 @@ public class ExtremeAI extends Difficulty implements Serializable {
                 }
             }
             if (chosen != null) {
-                if (player.distributeArmies(chosen, 1))
-                    increaseTerritoryDistribution(distribution, chosen, 1);
-            }
+                player.removePendingArmies(chosen, 1);
+                chosen.increaseArmies(1);
+                increaseTerritoryDistribution(distribution, chosen, 1);
+            } else
+                break;
         }
         return distribution;
     }
