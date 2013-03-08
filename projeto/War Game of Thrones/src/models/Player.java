@@ -2,7 +2,9 @@ package models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import main.Territory;
 
 /**
  *
@@ -11,7 +13,9 @@ import java.util.List;
 public abstract class Player implements Serializable {
 
     private String name;
-    private int pendingArmies; // Número de exércitos que ele tem mas ainda não posicionou
+    private int totalPendingArmies; // Número total de exércitos que ele tem mas ainda não posicionou
+    private int generalPendingArmies; // Número de exércitos que ele pode colocar em qualquer territrio mas ainda não posicionou
+    private HashMap<Region, Integer> pendingArmiesForRegion; // Número de exércitos que ele só pode colocar em cada região mas ainda não posicionou
     private House house;
     private Mission mission;
     private List<BackEndTerritory> territories;
@@ -21,7 +25,13 @@ public abstract class Player implements Serializable {
 
     public Player(String name) {
         this.name = name;
-        this.pendingArmies = 0;
+        this.totalPendingArmies = 0;
+        this.generalPendingArmies = 0;
+        this.pendingArmiesForRegion = new HashMap<Region, Integer>();
+        Board board = Board.getInstance();
+        for (int i = 0; i < board.getRegions().length; i++) {
+            this.pendingArmiesForRegion.put(board.getRegions()[i], 0);
+        }
         this.territories = new ArrayList<BackEndTerritory>();
         this.cards = new ArrayList<CardTerritory>();
         this.statistic = new StatisticPlayerManager(this);
@@ -63,17 +73,39 @@ public abstract class Player implements Serializable {
         this.name = name;
     }
 
-    public int getPendingArmies() {
-        return pendingArmies;
+    public int getTotalPendingArmies() {
+        return totalPendingArmies;
     }
 
-    public void addPendingArmies(int amount) {
-        this.pendingArmies += amount;
+    public int getGeneralPendingArmies() {
+        return generalPendingArmies;
+    }
+
+    public HashMap<Region, Integer> getPendingArmiesForRegion() {
+        return pendingArmiesForRegion;
+    }
+
+    public void setPendingArmiesForRegion(Region region, int armies) {
+        this.pendingArmiesForRegion.put(region, armies);
+    }
+
+    public void addTotalPendingArmies(int amount) {
+        this.totalPendingArmies += amount;
         this.statistic.increaseReceivedArmies(amount);
     }
+    
+    public void addGeneralPendingArmies(int amount) {
+        this.generalPendingArmies += amount;
+    }
 
-    public void removePendingArmies(int amount) {
-        this.pendingArmies -= amount;
+    public void removePendingArmies(BackEndTerritory territory, int amount) {
+        int numArmies = this.pendingArmiesForRegion.get(territory.getRegion());
+        if(numArmies < 0) {
+            this.totalPendingArmies -= amount;
+            this.pendingArmiesForRegion.put(territory.getRegion(), numArmies - amount);
+        }
+        this.totalPendingArmies -= amount;
+        this.generalPendingArmies -= amount;
     }
 
     public List<BackEndTerritory> getTerritories() {
@@ -114,7 +146,7 @@ public abstract class Player implements Serializable {
     }
     
     public void addArmiesInTerritory (BackEndTerritory territory) {
-        territory.increaseArmies(pendingArmies);
+        territory.increaseArmies(totalPendingArmies);
     }
 
     public void addCard(CardTerritory card) {
@@ -141,9 +173,9 @@ public abstract class Player implements Serializable {
      * e que o território escolhido seja do jogador.
      */
     public boolean distributeArmies(BackEndTerritory target, int amount) {
-        if (pendingArmies >= amount && target.getOwner() == this) {
+        if (totalPendingArmies >= amount && target.getOwner() == this) {
             target.increaseArmies(amount);
-            pendingArmies -= amount;
+            totalPendingArmies -= amount;
             return true;
         }
         return false;

@@ -118,7 +118,7 @@ public class GameScene extends Scene{
 
     void handleTerritoryClick(Territory territory) {
         Player curr = b.getCurrentPlayer();
-        int pendingArmies = curr.getPendingArmies();
+        int pendingArmies = curr.getTotalPendingArmies();
         if (!b.isOnInitialSetup() && pendingArmies == 0) {
             InGameGUIController.handleTerritoryClick(territory);
         }
@@ -128,7 +128,7 @@ public class GameScene extends Scene{
                 models.BackEndTerritory t = territory.getBackEndTerritory();
                 t.increaseArmies(1);
                 t.resetMovedArmies();
-                curr.removePendingArmies(1);
+                curr.removePendingArmies(t, 1);
                 pendingArmies--;
                 if (t.getNumArmies() < 3 && b.hasGameEnded()) //checking if 17 territories with 2 armies mission is completed
                     startGameEndingAnimation();

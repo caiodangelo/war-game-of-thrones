@@ -33,7 +33,7 @@ public class ExtremeAI extends Difficulty implements Serializable {
             }
         }
         // Now we can distribute our armies
-        while (player.getPendingArmies() > 0) {
+        while (player.getTotalPendingArmies() > 0) {
             BackEndTerritory chosen = null;
             double maxRating = 0.0;
             for (BackEndTerritory territory : player.getTerritories()) {

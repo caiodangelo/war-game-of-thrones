@@ -38,7 +38,7 @@ public class PlayerTest {
     @Test
     public void construtorDeveInicializarVariaveis() {
         player = new HumanPlayer(null);
-        assertEquals(player.getPendingArmies(), 0);
+        assertEquals(player.getTotalPendingArmies(), 0);
         assertNotNull(player.getTerritories());
     }
     

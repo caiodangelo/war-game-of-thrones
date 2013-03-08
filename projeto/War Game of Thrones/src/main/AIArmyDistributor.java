@@ -34,7 +34,7 @@ public class AIArmyDistributor extends Entity implements MovementCompleteListene
     public void start() {
         System.out.println("IA ARMY DISTRIBUTOR START");
         InGameGUIController.getInstance().startPlayerInitialDistribution();
-        pendingArmies = player.getPendingArmies();
+        pendingArmies = player.getTotalPendingArmies();
         d.distributeArmies();
         Territory[] frontTerr = m.getTerritories();
         territoriesToZoom = new LinkedList<Territory>();
