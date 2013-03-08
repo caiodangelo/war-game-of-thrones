@@ -12,6 +12,7 @@ import de.lessvoid.nifty.tools.Color;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import main.*;
 import models.*;
 import org.newdawn.slick.GameContainer;
@@ -585,5 +586,19 @@ public class InGameGUIController implements ScreenController {
 
     public ContextMenuController getContextMenuController() {
         return ctxMenuCtrl;
+    }
+    
+    public void debugPendingArmies(){
+        Player p = getCurrentPlayer();
+        int total = p.getTotalPendingArmies();
+        int general = p.getGeneralPendingArmies();
+        HashMap<Region, Integer> pendings = p.getPendingArmiesForRegion();
+        Set<Region> regs = pendings.keySet();
+        System.out.println("Total armies: " + total);
+        System.out.println("General armies: " + general);
+        for(Region r : regs){
+            int count = pendings.get(r);
+            System.out.println(count + " armies for " + r.getName());
+        }
     }
 }
