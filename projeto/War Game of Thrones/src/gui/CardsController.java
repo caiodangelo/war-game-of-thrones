@@ -183,7 +183,7 @@ public class CardsController {
         resetPopup();
         this.updateContents();
         this.verifyCheckedBoxes();
-        showMessage("Você conseguiu " + newArmies + " unidades!");
+        showMessage("Você conseguiu " + newArmies + " exércitos!");
     }
 
     private void showMessage(String msg) {

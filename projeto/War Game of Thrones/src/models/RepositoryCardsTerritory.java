@@ -67,6 +67,8 @@ public class RepositoryCardsTerritory {
         repository = new LinkedList<CardTerritory>();
     }
     
+
+    
     protected static void reset(){
         instance = null;
     }
@@ -227,5 +229,10 @@ public class RepositoryCardsTerritory {
             return 15;
         else
             return ((numberOfSwaps - 6) * 5) + 15;
+    }
+    
+    public int getNextSwapReward(){
+        int numberOfSwaps = Board.getInstance().getNumberOfSwappedCards();
+        return consultSwapTable(numberOfSwaps + 1);
     }
 }
