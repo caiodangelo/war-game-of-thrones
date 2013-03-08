@@ -243,7 +243,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 				<panel width="100%" height="3px" childLayout="vertical" backgroundColor="#000"/>
 				<panel width="100%" height="80%" childLayout="horizontal">
 					<panel width="50%" height="100%" childLayout="vertical">
-						<control color="#333333ff" font="resources/fonts/calibri_bold.fnt" marginTop="20%" textHAlign="left" name="label" text="Geral:" width="100%" height="10%"/>
+						<control marginLeft="5%" color="#333333ff" font="resources/fonts/calibri_bold.fnt" marginTop="20%" textHAlign="left" name="label" text="Geral:" width="100%" height="10%"/>
 						<panel width="100%" height="7%" childLayout="horizontal">
 							<panel marginLeft="5%" width="40%" height="100%" childLayout="center" backgroundColor="#045ED3">
 								<control color="#FFF" textHAlign="center" textVAlign="center" font="resources/fonts/calibri_bold.fnt" name="label" text="Tempo de duração do jogo"/>

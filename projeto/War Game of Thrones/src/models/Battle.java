@@ -41,8 +41,12 @@ public class Battle {
         //Board.getInstance().getStatistic().setTerritoryMoreAttacked(null);
         Player attackerPlayer = this.getAttackerPlayerFromTerritory();
         Player defenderPlayer = this.getDefenderPlayerFromTerritory();
-        attackerPlayer.getStatisticPlayerManager().increaseNumberOfAttacks();
-        defenderPlayer.getStatisticPlayerManager().increaseNumberOfDefences();
+        
+        int dicePairs = Math.min(numberAttackers, numberDefenders);
+        for (int i = 0; i < dicePairs; i++) {
+            attackerPlayer.getStatisticPlayerManager().increaseNumberOfAttacks();
+            defenderPlayer.getStatisticPlayerManager().increaseNumberOfDefences();
+        }
         attackerPlayer.getStatisticPlayerManager().updateAttackTable(defenderPlayer);
         attackerPlayer.getStatisticPlayerManager().setYouAttackedMore();
         defenderPlayer.getStatisticPlayerManager().updateDefenceTable(attackerPlayer);
@@ -71,13 +75,11 @@ public class Battle {
         
         Arrays.sort(tempAttackersDices, Collections.reverseOrder());
         Arrays.sort(tempDefendersDices, Collections.reverseOrder());
-        int smallerPart = Math.min(numberAttackers, numberDefenders);
-        for (int i = 0; i < smallerPart; i++) {
+        for (int i = 0; i < dicePairs; i++) {
             if (compareDices(tempAttackersDices[i], tempDefendersDices[i])) {
                 defenderDeaths++; // Ataque ganha
                 //Estatisticas
                 attackerPlayer.getStatisticPlayerManager().increaseNumberOfAttackWins();
-                attackerPlayer.getStatisticPlayerManager().setSuccessfulAttackPercentage();
                 attackerPlayer.getStatisticPlayerManager().increaseLostArmies();
                 //Board.getInstance().getStatistic().setMostWinnerAttacks();
                 //Fim estatisticas
@@ -86,7 +88,6 @@ public class Battle {
                 attackerDeaths++; // Defesa ganha
                 //Estatisticas
                 defenderPlayer.getStatisticPlayerManager().increaseNumberOfDefenceWins();
-                defenderPlayer.getStatisticPlayerManager().setSuccessfulDefencePercentage();
                 defenderPlayer.getStatisticPlayerManager().increaseLostArmies();
                 //Board.getInstance().getStatistic().setMostWinnerDefences();
                 //Fim estatisticas
@@ -95,6 +96,8 @@ public class Battle {
 //            Board.getInstance().getStatistic().setMoreAttacker();
 //            Board.getInstance().getStatistic().setMoreDefender();
         }
+        attackerPlayer.getStatisticPlayerManager().setSuccessfulAttackPercentage();
+        defenderPlayer.getStatisticPlayerManager().setSuccessfulDefencePercentage();
     }
     
     private static Integer[] getCheatDices(int count, int value){
