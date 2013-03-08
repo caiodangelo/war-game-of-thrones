@@ -134,7 +134,7 @@ public class CardsController {
         
         hideObligateText();
         
-        boolean playerIsDistributing = Board.getInstance().getCurrentPlayer().getPendingArmies() > 0;
+        boolean playerIsDistributing = Board.getInstance().getCurrentPlayer().getTotalPendingArmies() > 0;
         if(checkedCount == 3 && 
                 (RepositoryCardsTerritory.checkCardsTradeable(selected))){
             if(playerIsDistributing)
@@ -172,10 +172,10 @@ public class CardsController {
         List<CardTerritory> allCards = p.getCards();
         
         List<CardTerritory> cardsToTrade = getSelectedCards();
-        int oldArmies = p.getPendingArmies();
+        int oldArmies = p.getTotalPendingArmies();
         RepositoryCardsTerritory repo = RepositoryCardsTerritory.getInstance();
         repo.swapCards(cardsToTrade, p);
-        int newArmies = p.getPendingArmies() - oldArmies;
+        int newArmies = p.getTotalPendingArmies() - oldArmies;
 //        dissmissPopup();
         parent.showPendingArmiesMsg();
         parent.updatePlayersData();

@@ -13,7 +13,7 @@ public class EasyAI extends Difficulty {
     @Override
     public void distributeArmies() {
         // Distribui os exércitos de forma totalmente aleatória
-        while (player.getPendingArmies() > 0) {
+        while (player.getTotalPendingArmies() > 0) {
             int numTerritories = player.getTerritories().size();
             int territoryToDistribute = new Random().nextInt(numTerritories);
             player.distributeArmies(player.getTerritories().get(territoryToDistribute), 1);

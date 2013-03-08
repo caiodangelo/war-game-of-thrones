@@ -9,10 +9,6 @@ public class AudioManager {
     
     private static AudioManager instance;
     private HashMap audioMap = new HashMap();
-    private static Music opening;
-    private static Sound startGame;
-    private static Sound attackSound;
-    private static Sound changeTurnSound;
     private float musicVolume;
     private boolean musicMuted;
     private float soundVolume;
@@ -24,23 +20,21 @@ public class AudioManager {
     public static final int ATTACK_SOUND = 2;
     public static final int SWORD_TURN_SOUND = 3;
     public static final int GAME_RUNNING = 4;
+    public static final int FIREWORKS = 5;
     
     public AudioManager() {
         try {
-            opening = new Music("resources/sounds/got-opening.ogg");
-            startGame = new Sound("resources/sounds/raio-start.ogg");
-            attackSound = new Sound("resources/sounds/explosion.ogg");
-            changeTurnSound = new Sound("resources/sounds/sword-turn.ogg");
+            audioMap.put(OPENING, new Music("resources/sounds/got-opening.ogg"));
+            audioMap.put(START_GAME, new Sound("resources/sounds/raio-start.ogg"));
+            audioMap.put(ATTACK_SOUND, new Sound("resources/sounds/explosion.ogg"));
+            audioMap.put(SWORD_TURN_SOUND, new Sound("resources/sounds/sword-turn.ogg"));
             audioMap.put(GAME_RUNNING, new Music("resources/sounds/game_running.ogg"));
+            audioMap.put(FIREWORKS, new Music("resources/sounds/fireworks.ogg"));
         } catch (SlickException ex) {
             System.out.println(ex.getMessage());
         }
         this.musicVolume = 1;
         this.soundVolume = 1;
-        audioMap.put(OPENING, opening);
-        audioMap.put(START_GAME, startGame);
-        audioMap.put(ATTACK_SOUND, attackSound);
-        audioMap.put(SWORD_TURN_SOUND, changeTurnSound);
     }
     
     public static AudioManager getInstance(){
@@ -66,9 +60,8 @@ public class AudioManager {
             s.play(1, soundVolume);
     }
     
-    public void stopMusic(int key) {
-        Music m = (Music) audioMap.get(key);
-        m.stop();
+    public void stopCurrentMusic() {
+        currentMusic.stop();
         currentMusic = null;
     }
     

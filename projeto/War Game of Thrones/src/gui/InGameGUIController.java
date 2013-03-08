@@ -241,7 +241,7 @@ public class InGameGUIController implements ScreenController {
     public void nextPlayerTurn() {
         PopupManager.closePopup(n, nextTurnConfirmPopup);
         Player curr = getCurrentPlayer();
-        int pendingArmies = curr.getPendingArmies();
+        int pendingArmies = curr.getTotalPendingArmies();
         if (pendingArmies > 0)
             showAlert("Você ainda possui " + pendingArmies + " exércitos para distribuir!");
         else {
@@ -453,7 +453,7 @@ public class InGameGUIController implements ScreenController {
 //        for(BackEndTerritory t : ts){
 //            t.setNumArmies(1);
 //        }
-        showRemainingPendingArmies(curr, curr.getPendingArmies());
+        showRemainingPendingArmies(curr, curr.getTotalPendingArmies());
         updatePlayersData();
 
         GameScene.getInstance().showPlayerTurnMsg();
@@ -469,8 +469,10 @@ public class InGameGUIController implements ScreenController {
     }
 
     public void goToStatistics() {
-        if (mayGoToStatistics)
+        if (mayGoToStatistics) {
             Main.getInstance().enterState(WarScenes.STATISTICS_SCENE);
+            AudioManager.getInstance().stopCurrentMusic();
+        }
     }
 
     @NiftyEventSubscriber(id = "menuItemid")
@@ -569,7 +571,7 @@ public class InGameGUIController implements ScreenController {
 
     public void showPendingArmiesMsg() {
         Player curr = b.getCurrentPlayer();
-        setRavenMessage("\\#333333ff#" + curr.getName() + " ainda possui \\#CC0000#" + curr.getPendingArmies() + "\\#333333ff# exército(s) para distribuir.");
+        setRavenMessage("\\#333333ff#" + curr.getName() + " ainda possui \\#CC0000#" + curr.getTotalPendingArmies() + "\\#333333ff# exército(s) para distribuir.");
     }
 
     public ContextMenuController getContextMenuController() {

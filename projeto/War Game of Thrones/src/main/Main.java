@@ -17,7 +17,7 @@ public class Main extends NiftyStateBasedGame{
     public static float windowW, windowH;
     private static Vector2f mapPos, mapSize;
     private static boolean showingTerritoriesNames;
-    private float AIMapMovementsSpeed;
+    private float AIMapMovementsSpeed = 0.1f;
     
     public static Vector2f getMapPos(){
         if(mapPos == null){

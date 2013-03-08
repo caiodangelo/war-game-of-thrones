@@ -136,7 +136,7 @@ public class PlayerTurnMessageRenderer extends RenderComponent{
 
     public void activate(Player player, de.lessvoid.nifty.tools.Color color) {
         playerName = player.getName();
-        bonus = player.getPendingArmies()+"";
+        bonus = player.getTotalPendingArmies()+"";
         c = new Color(color.getRed(), color.getGreen(), color.getBlue(), 0);
 //        AudioManager.getInstance().playSound(AudioManager.SWORD_TURN_SOUND);
         setState(FadeState.FADE_IN);
