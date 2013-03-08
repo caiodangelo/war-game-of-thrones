@@ -109,7 +109,7 @@ public class MissionTest {
             playerStark.addTerritory(b.getTerritories()[i]);
         }
         for (int i = 15; i < 39; i++) {
-            playerStark.addTerritory(b.getTerritories()[i]);
+            playerLannister.addTerritory(b.getTerritories()[i]);
         }                
 
         assertTrue(missionRegion1.isRegionMissionCompleted());
