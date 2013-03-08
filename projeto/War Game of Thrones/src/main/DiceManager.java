@@ -6,6 +6,7 @@ import models.AIPlayer;
 import models.Battle;
 import models.Board;
 import models.Difficulty;
+import models.Player;
 import org.newdawn.slick.geom.Vector2f;
 
 public class DiceManager {
@@ -175,8 +176,9 @@ public class DiceManager {
                 defendingTerritory.getArmy().changeImage();
             }
         }
-        if (Board.getInstance().getCurrentPlayer() instanceof AIPlayer) {
-            GameScene.getInstance().startAIAttackerAnim((AIPlayer) Board.getInstance().getCurrentPlayer());
+        Player current = Board.getInstance().getCurrentPlayer();
+        if (current.isAIPlayer()) {
+            GameScene.getInstance().startAIAttackerAnim((AIPlayer) current);
         }
     }
 

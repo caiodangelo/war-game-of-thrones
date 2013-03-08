@@ -22,4 +22,9 @@ public class TerritoryTransaction implements Serializable {
                 attacker.getSurplusArmies() > 0 && attacker.getSurplusArmies() >= numberOfAttackers &&
                 defender.getNumArmies() > 0 && attacker.getOwner() != defender.getOwner();
     }
+    
+    @Override
+    public String toString(){
+        return "Territory Transaction from " + this.attacker + " OF " + attacker.getOwner().getName() + " to " + this.defender + " OF " + defender.getOwner().getName() + " with count " + this.numberOfAttackers;
+    }
 }
