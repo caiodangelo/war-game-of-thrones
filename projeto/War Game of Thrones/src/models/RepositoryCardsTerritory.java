@@ -167,7 +167,8 @@ public class RepositoryCardsTerritory {
             b.incrementNumberOfSwappedCards();
             numberOfSwaps = b.getNumberOfSwappedCards();
             numberOfArmies = consultSwapTable(numberOfSwaps);
-            player.addPendingArmies(numberOfArmies);
+            player.addTotalPendingArmies(numberOfArmies);
+            player.addGeneralPendingArmies(numberOfArmies);
             return true;
         }
         return false;

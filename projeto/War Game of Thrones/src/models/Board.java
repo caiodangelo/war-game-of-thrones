@@ -294,18 +294,23 @@ public class Board implements Serializable {
 
     private void addPlayerArmies(Player curr) {
         int territoryCount = curr.getTerritories().size();
-        int pendingArmies = curr.getPendingArmies();
-        pendingArmies += territoryCount / 2;
+        int totalPendingArmies = curr.getTotalPendingArmies();
+        int generalPendingArmies = curr.getGeneralPendingArmies();
+        totalPendingArmies += territoryCount / 2;
+        generalPendingArmies += territoryCount / 2;
+        curr.addGeneralPendingArmies(generalPendingArmies);
+       
         for (Region r : regions) {
             if (r.conqueredByPlayer(curr)) {
-                pendingArmies += r.getBonus();
+                totalPendingArmies += r.getBonus();
+                curr.setPendingArmiesForRegion(r, r.getBonus());
                 System.out.println("receiving " + r.getBonus() + " from " + r);
             }
         }
         //minimum of received territories is 3
-        if (pendingArmies < 3)
-            pendingArmies = 3;
-        curr.addPendingArmies(pendingArmies);
+        if (totalPendingArmies < 3)
+            totalPendingArmies = 3;
+        curr.addTotalPendingArmies(totalPendingArmies);
     }
 
     public StatisticGameManager getStatistic() {

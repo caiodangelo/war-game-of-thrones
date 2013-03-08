@@ -19,7 +19,7 @@ public class MediumAI extends Difficulty {
     @Override
     public void distributeArmies() {
         int numberOfSearches = 0;
-        while (player.getPendingArmies() > 0) {
+        while (player.getTotalPendingArmies() > 0) {
             switch (player.getMission().getType()) {
                 case Mission.TYPE_REGION:
                     distributeAccordingRegionMission(numberOfSearches);
@@ -100,15 +100,15 @@ public class MediumAI extends Difficulty {
     public boolean distribute(BackEndTerritory territory, int numberOfSearches) {
         int numArmies = territory.getNumArmies();
         if (numberOfSearches == 0) {
-            if ((numArmies == 1) && (player.getPendingArmies() >= 2)) {
+            if ((numArmies == 1) && (player.getTotalPendingArmies() >= 2)) {
                 return player.distributeArmies(territory, 2);
             }
-            if ((numArmies == 2) && (player.getPendingArmies() >= 1)) {                
+            if ((numArmies == 2) && (player.getTotalPendingArmies() >= 1)) {                
                 return player.distributeArmies(territory, 1);
             }
         } 
         else {
-            if (player.getPendingArmies() > 0) {                
+            if (player.getTotalPendingArmies() > 0) {                
                 return player.distributeArmies(territory, 1);
             }
         }
