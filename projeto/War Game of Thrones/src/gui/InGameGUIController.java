@@ -469,8 +469,10 @@ public class InGameGUIController implements ScreenController {
     }
 
     public void goToStatistics() {
-        if (mayGoToStatistics)
+        if (mayGoToStatistics) {
             Main.getInstance().enterState(WarScenes.STATISTICS_SCENE);
+            AudioManager.getInstance().stopCurrentMusic();
+        }
     }
 
     @NiftyEventSubscriber(id = "menuItemid")

@@ -73,7 +73,7 @@ public class GameEndingAnimationRenderer extends RenderComponent{
 
     public void activate(Player player) {
         playerName = player.getName();
-        AudioManager.getInstance().stopMusic(AudioManager.GAME_RUNNING);
+        AudioManager.getInstance().playMusic(AudioManager.FIREWORKS);
         cFirstMessage = new Color(Color.black);
         cFirstMessage.a = 0;
         cSecondMessage = new Color(Color.black);
