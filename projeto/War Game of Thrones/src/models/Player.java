@@ -41,6 +41,7 @@ public abstract class Player implements Serializable {
     public Player(String name, House house) {
         this(name);
         this.house = house;
+        house.setPlayer(this);
     }
     
     public abstract boolean isAIPlayer ();
