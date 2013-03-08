@@ -66,16 +66,20 @@ public class Main extends NiftyStateBasedGame{
 
     
     public static void main(String[] args) throws Exception {
-        LibraryLoader.loadLibrary();
-        
-        disableNiftyWarnings();
-        Main m = getInstance();
-        
-        AppGameContainer app = new AppGameContainer(m);
-        m.container = app;
-        app.setDisplayMode((int)windowW, (int)windowH, FULLSCREEN);
-        app.setTargetFrameRate(60);
-        app.start();
+        try{
+            LibraryLoader.loadLibrary();
+
+            disableNiftyWarnings();
+            Main m = getInstance();
+
+            AppGameContainer app = new AppGameContainer(m);
+            m.container = app;
+            app.setDisplayMode((int)windowW, (int)windowH, FULLSCREEN);
+            app.setTargetFrameRate(60);
+            app.start();
+        }catch(Exception e){
+            new BugReporter(e).setVisible(true);
+        }
     }
 
     @Override
