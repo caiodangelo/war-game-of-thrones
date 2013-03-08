@@ -51,7 +51,7 @@ public class AIArmyAttacker extends Entity implements MovementCompleteListener {
                 }
             }
             else
-                System.out.println("ia obj complete");
+                GameScene.getInstance().startGameEndingAnimation();
             
         }catch(Exception e){
             e.printStackTrace();
