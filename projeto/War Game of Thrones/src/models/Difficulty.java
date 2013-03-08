@@ -1,5 +1,6 @@
 package models;
 
+import java.util.HashMap;
 import java.util.List;
 
 public abstract class Difficulty {
@@ -10,7 +11,7 @@ public abstract class Difficulty {
      * Faz a IA distribuir os exércitos pendentes para os territórios que ela
      * possui.
      */
-    abstract public void distributeArmies();
+    abstract public HashMap<BackEndTerritory, Integer> distributeArmies();
 
     /**
      * Pergunta à IA se ela deseja continuar atacando, ou se deseja terminar a
@@ -80,5 +81,12 @@ public abstract class Difficulty {
             }
         }
         return selectedType;
+    }
+
+    public void increaseTerritoryDistribution(HashMap<BackEndTerritory, Integer> distribution, BackEndTerritory territory, int amount) {
+        if (!distribution.containsKey(territory))
+            distribution.put(territory, amount);
+        else
+            distribution.put(territory, distribution.get(territory) + amount);
     }
 }

@@ -18,6 +18,8 @@ public class TerritoryTransaction implements Serializable {
     }
 
     public boolean isValid() {
-        return attacker.getSurplusArmies() > 0 && attacker.getSurplusArmies() >= numberOfAttackers && defender.getNumArmies() > 0;
+        return attacker != null && defender != null && numberOfAttackers > 0 &&
+                attacker.getSurplusArmies() > 0 && attacker.getSurplusArmies() >= numberOfAttackers &&
+                defender.getNumArmies() > 0 && attacker.getOwner() != defender.getOwner();
     }
 }

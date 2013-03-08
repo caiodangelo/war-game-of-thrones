@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,28 +18,30 @@ public class MediumAI extends Difficulty {
      * Missão Casa: colocar mais exercitos onde há vizinhos cujos donos pertencem a Casa a ser derrotada.
      */
     @Override
-    public void distributeArmies() {
+    public HashMap<BackEndTerritory, Integer> distributeArmies() {
+        HashMap<BackEndTerritory, Integer> distribution = new HashMap<BackEndTerritory, Integer>();
         int numberOfSearches = 0;
         while (player.getTotalPendingArmies() > 0) {
             switch (player.getMission().getType()) {
                 case Mission.TYPE_REGION:
-                    distributeAccordingRegionMission(numberOfSearches);
+                    distributeAccordingRegionMission(numberOfSearches, distribution);
                     break;
                 case Mission.TYPE_TERRITORY:
-                    distributeAccordingTerritoryMission();
+                    distributeAccordingTerritoryMission(distribution);
                     break;
                 case Mission.TYPE_HOUSE:
-                    distributeAccordingHouseMission();
+                    distributeAccordingHouseMission(distribution);
                     break;
-            }  
+            }
             numberOfSearches++;
         }
+        return distribution;
     }
-   
-    public void distributeAccordingHouseMission() {
+
+    public void distributeAccordingHouseMission(HashMap<BackEndTerritory, Integer> distribution) {
         boolean successful = false;
         int numArmies;
-        House house  = player.getHouse();
+        House house = player.getHouse();
         for (BackEndTerritory territory : player.getTerritories()) {
             List<BackEndTerritory> neighbours = territory.getNeighbours();
             for (BackEndTerritory neighbour : neighbours) {
@@ -46,38 +49,39 @@ public class MediumAI extends Difficulty {
                     while (!successful) {
                         if (territory.getNumArmies() > 3) {
                             numArmies = 3;
+                            increaseTerritoryDistribution(distribution, territory, numArmies);
+                            successful = player.distributeArmies(territory, numArmies);
+                            numArmies--;
+                        } else {
+                            numArmies = 6;
+                            increaseTerritoryDistribution(distribution, territory, numArmies);
                             successful = player.distributeArmies(territory, numArmies);
                             numArmies--;
                         }
-                        else {
-                            numArmies = 6;
-                            successful = player.distributeArmies(territory, numArmies);
-                            numArmies--;                            
-                        }
                     }
-                }
-                else {
+                } else {
                     player.distributeArmies(territory, 1);
                 }
             }
         }
     }
-    
-    public void distributeAccordingTerritoryMission() {
+
+    public void distributeAccordingTerritoryMission(HashMap<BackEndTerritory, Integer> distribution) {
         boolean successful;
         for (int i = 0; i < player.getTerritories().size(); i++) {
             BackEndTerritory territory = player.getTerritories().get(i);
-            successful = distribute(territory, 0);
-            if (! successful) break;
+            successful = distribute(territory, 0, distribution);
+            if (!successful)
+                break;
         }
     }
-    
-    public void distributeAccordingRegionMission(int numberOfSearches) {
-        ArrayList<BackEndTerritory> aux = new ArrayList<BackEndTerritory>();        
+
+    public void distributeAccordingRegionMission(int numberOfSearches, HashMap<BackEndTerritory, Integer> distribution) {
+        ArrayList<BackEndTerritory> aux = new ArrayList<BackEndTerritory>();
         for (BackEndTerritory territory : player.getTerritories()) {
             for (Region region : player.getMission().getRegions()) {
                 if (territory.belongToRegion(region)) //Se o territorio for crucial para completar a missao
-                    distribute(territory, numberOfSearches);
+                    distribute(territory, numberOfSearches, distribution);
                 else
                     aux.add(territory); //Adiciona numa lista auxiliar                     
             }
@@ -87,28 +91,29 @@ public class MediumAI extends Difficulty {
             for (BackEndTerritory neighbour : neighbours) {
                 for (Region region : player.getMission().getRegions()) {
                     if (neighbour.belongToRegion(region))
-                        distribute(territory, numberOfSearches);                        
+                        distribute(territory, numberOfSearches, distribution);
                 }
             }
-        }        
+        }
     }
 
     /*
      * Metodo auxiliar que distribui de fato os exercitos. Parametro "num" indica quantas vezes a IA 
      * já acessou os seus territorios para a distruibuição
      */
-    public boolean distribute(BackEndTerritory territory, int numberOfSearches) {
+    public boolean distribute(BackEndTerritory territory, int numberOfSearches, HashMap<BackEndTerritory, Integer> distribution) {
         int numArmies = territory.getNumArmies();
         if (numberOfSearches == 0) {
             if ((numArmies == 1) && (player.getTotalPendingArmies() >= 2)) {
+                increaseTerritoryDistribution(distribution, territory, 2);
                 return player.distributeArmies(territory, 2);
             }
-            if ((numArmies == 2) && (player.getTotalPendingArmies() >= 1)) {                
+            if ((numArmies == 2) && (player.getTotalPendingArmies() >= 1)) {
+                increaseTerritoryDistribution(distribution, territory, 1);
                 return player.distributeArmies(territory, 1);
             }
-        } 
-        else {
-            if (player.getTotalPendingArmies() > 0) {                
+        } else {
+            if (player.getTotalPendingArmies() > 0) {
                 return player.distributeArmies(territory, 1);
             }
         }
@@ -170,7 +175,7 @@ public class MediumAI extends Difficulty {
         }
         return null; // Não conseguiu arranjar nenhum esquema de troca
     }
-    
+
     /*
      * A IA deve continuar atacando se ele tiver num aceitavel de exercitos para atacar.
      * E deve parar se os exercitos de seus territorios estão muito distribuidos 
@@ -186,11 +191,11 @@ public class MediumAI extends Difficulty {
             if (territory.getNumArmiesCanMoveThisRound() > 2)
                 countNumArmiesCanBeMoved++;
         }
-        
-        if (countNumArmies > (player.getTerritories().size() / 3) && 
-                (countNumArmiesCanBeMoved > (player.getTerritories().size())))
+
+        if (countNumArmies > (player.getTerritories().size() / 3)
+                && (countNumArmiesCanBeMoved > (player.getTerritories().size())))
             return true;
-        return false;        
+        return false;
     }
 
     /*
@@ -200,22 +205,22 @@ public class MediumAI extends Difficulty {
      * territorio atacante.
      */
     @Override
-    public TerritoryTransaction nextAttack() {       
+    public TerritoryTransaction nextAttack() {
         if (keepAttacking()) {
             for (int control = 0; control < 100; control++) { // Control serve só como safeguard, caso dê merda e entre em loop infinito.
                 switch (player.getMission().getType()) {
-                    case Mission.TYPE_HOUSE :
+                    case Mission.TYPE_HOUSE:
                         return attackAccordingHouseAttack();
-                    case Mission.TYPE_REGION :
+                    case Mission.TYPE_REGION:
                         return attackAccordingRegionAttack();
-                    case Mission.TYPE_TERRITORY :
+                    case Mission.TYPE_TERRITORY:
                         return attackAccordingTerritoryAttack();
                 }
             }
         }
         return null;
     }
-    
+
     public TerritoryTransaction attackAccordingHouseAttack() {
         BackEndTerritory origin = null;
         BackEndTerritory destiny = null;
@@ -227,17 +232,17 @@ public class MediumAI extends Difficulty {
             for (BackEndTerritory neighbour : territory.getNeighbours()) {
                 if (neighbour.getOwner().equals(player) && neighbour.getSurplusArmies() >= 1)
                     origins.add(neighbour);
-                
+
                 if (!neighbour.getOwner().equals(player)) {
                     for (BackEndTerritory secondDegreeNeighbour : neighbour.getNeighbours()) {
                         if (secondDegreeNeighbour.getOwner().equals(player) && secondDegreeNeighbour.getSurplusArmies() >= 1) {
                             reasonableOrigins.add(secondDegreeNeighbour);
                             reasonableDestiny.add(neighbour);
                         }
-                   }
-               }
+                    }
+                }
             }
-            
+
             int maxArmies = 0;
             if (origins.size() > 0) {
                 // Escolhe o território de origem com o maior número de exércitos
@@ -248,9 +253,8 @@ public class MediumAI extends Difficulty {
                     }
                 }
                 destiny = territory;
-                
-            }
-            else if (reasonableOrigins.size() > 0) {
+
+            } else if (reasonableOrigins.size() > 0) {
                 int index = 0;
                 for (int i = 0; i < reasonableOrigins.size(); i++) {
                     // Escolhe o território de origem com o maior número de exércitos
@@ -264,7 +268,7 @@ public class MediumAI extends Difficulty {
                 destiny = reasonableDestiny.get(index);
             }
             //Se tiver poucos exercitos ele opta por n atacar
-            if ((origin.getSurplusArmies() > 1)&& origin.getOwner().equals(destiny.getOwner())) {
+            if ((origin.getSurplusArmies() > 1) && origin.getOwner().equals(destiny.getOwner())) {
                 int numArmies = origin.getSurplusArmies() > 3 ? 3 : origin.getSurplusArmies();
                 return new TerritoryTransaction(origin, destiny, numArmies);
             }
@@ -280,7 +284,7 @@ public class MediumAI extends Difficulty {
             if (region.getName() == null) {
                 List<Region> myRegions = player.getMoreSubduedRegion();
                 for (Region r : myRegions) {
-                    if (!player.getMission().getRegions().contains(r)) 
+                    if (!player.getMission().getRegions().contains(r))
                         region = r;
                 }
             }
@@ -290,7 +294,7 @@ public class MediumAI extends Difficulty {
                 List<BackEndTerritory> reasonableDestiny = new ArrayList<BackEndTerritory>();
                 for (BackEndTerritory neighbour : territory.getNeighbours()) {
                     if (neighbour.getOwner() == player && origin.getSurplusArmies() >= 1)
-                            origins.add(neighbour);
+                        origins.add(neighbour);
                     if (!neighbour.getOwner().equals(player)) {
                         for (BackEndTerritory secondDegreeNeighbour : neighbour.getNeighbours()) {
                             if (secondDegreeNeighbour.getOwner().equals(player) && secondDegreeNeighbour.getSurplusArmies() >= 1) {
@@ -300,10 +304,10 @@ public class MediumAI extends Difficulty {
                         }
                     }
                 }
-                
+
                 int maxArmies = 0;
                 if (origins.size() > 0) {
-                // Escolhe o território de origem com o maior número de exércitos
+                    // Escolhe o território de origem com o maior número de exércitos
                     for (BackEndTerritory possibleOrigin : origins) {
                         if (possibleOrigin.getSurplusArmies() > maxArmies) {
                             maxArmies = possibleOrigin.getSurplusArmies();
@@ -311,9 +315,8 @@ public class MediumAI extends Difficulty {
                         }
                     }
                     destiny = territory;
-                
-                }
-                else if (reasonableOrigins.size() > 0) {
+
+                } else if (reasonableOrigins.size() > 0) {
                     int index = 0;
                     for (int i = 0; i < reasonableOrigins.size(); i++) {
                         // Escolhe o território de origem com o maior número de exércitos
@@ -327,15 +330,15 @@ public class MediumAI extends Difficulty {
                     destiny = reasonableDestiny.get(index);
                 }
                 //Se tiver poucos exercitos ele opta por n atacar
-                if ((origin.getSurplusArmies() > 1)&& origin.getOwner().equals(destiny.getOwner())) {
-                        int numArmies = origin.getSurplusArmies() > 3 ? 3 : origin.getSurplusArmies();
-                        return new TerritoryTransaction(origin, destiny, numArmies);
+                if ((origin.getSurplusArmies() > 1) && origin.getOwner().equals(destiny.getOwner())) {
+                    int numArmies = origin.getSurplusArmies() > 3 ? 3 : origin.getSurplusArmies();
+                    return new TerritoryTransaction(origin, destiny, numArmies);
                 }
             }
         }
         return null;
     }
-    
+
     public TerritoryTransaction attackAccordingTerritoryAttack() {
         BackEndTerritory origin = null;
         BackEndTerritory destiny = null;
@@ -354,13 +357,13 @@ public class MediumAI extends Difficulty {
                     if (possibleDestiny.getNumArmies() > minArmies) {
                         minArmies = possibleDestiny.getNumArmies();
                         destiny = possibleDestiny;
-                    }                
+                    }
                 }
             }
             origin = territory;
         }
         int numArmies = origin.getSurplusArmies() > 3 ? 3 : origin.getSurplusArmies();
-                return new TerritoryTransaction(origin, destiny, numArmies);
+        return new TerritoryTransaction(origin, destiny, numArmies);
     }
 
     @Override
@@ -446,5 +449,4 @@ public class MediumAI extends Difficulty {
         }
         return null;
     }
-
 }

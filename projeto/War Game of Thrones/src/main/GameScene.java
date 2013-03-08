@@ -14,11 +14,10 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import util.Scene;
 
-public class GameScene extends Scene{
-    
+public class GameScene extends Scene {
+
     private static int mouseWheel;
     private static GameScene instance;
-    
     private PlayerTurnMessage turnMsg;
     private Board b;
     private InGameGUIController ctrl;
@@ -26,28 +25,27 @@ public class GameScene extends Scene{
     private TerritoryName terrName;
     private Map map;
     private MapMover mapMover;
-    
-    public GameScene(){
+
+    public GameScene() {
         super();
         instance = this;
     }
-    
-    public static GameScene getInstance(){
+
+    public static GameScene getInstance() {
         return instance;
     }
-    
-    
-    public static int getMouseWheel(){
+
+    public static int getMouseWheel() {
         return mouseWheel;
     }
-    
+
     @Override
     public void setupNifty(Nifty n) {
         n.gotoScreen("inGameScreen");
     }
-    
+
     @Override
-    public void enterState(GameContainer container, StateBasedGame game) throws SlickException { 
+    public void enterState(GameContainer container, StateBasedGame game) throws SlickException {
         super.enterState(container, game);
         StatisticGameManager.getInstance().startGameTimer();
         map = new Map();
@@ -56,47 +54,45 @@ public class GameScene extends Scene{
         container.getInput().clearMousePressedRecord();
         DiceManager dm = DiceManager.getInstance();
         dm.setGameScene(this);
-        
+
         b = Board.getInstance();
         turnMsg = new PlayerTurnMessage();
         addEntity(turnMsg);
         ctrl = InGameGUIController.getInstance();
         helper = new TurnHelper(this, ctrl);
-        
+
         terrName = new TerritoryName();
         addEntity(terrName);
         AudioManager.getInstance().playMusic(AudioManager.GAME_RUNNING);
-        
+
         addEntity(new RegionNames(Map.armyPositions, map));
 
         mapMover = new MapMover(map);
         addEntity(mapMover);
-        
-        if(!b.getCurrentPlayer().isAIPlayer())
+
+        if (!b.getCurrentPlayer().isAIPlayer())
             ctrl.showInfoTerritories();
         else
             ctrl.startPlayerInitialDistribution();
-        
+
     }
-    
-    public Map getMap(){
+
+    public Map getMap() {
         return map;
     }
-    
-    public void setHighlightedTerritory(Territory t){
+
+    public void setHighlightedTerritory(Territory t) {
         terrName.setHighlightedTerritory(t);
     }
-    
-    public void showPlayerTurnMsg(){
+
+    public void showPlayerTurnMsg() {
         b = Board.getInstance();
         Player p = b.getCurrentPlayer();
         Color c = p.getHouse().getColor();
-        
+
         turnMsg.activate(p, c);
     }
 
-    
-    
     @Override
     public void mouseWheelMoved(int newValue) {
         super.mouseWheelMoved(newValue);
@@ -119,10 +115,9 @@ public class GameScene extends Scene{
         int pendingArmies = curr.getTotalPendingArmies();
         if (!b.isOnInitialSetup() && pendingArmies == 0) {
             InGameGUIController.handleTerritoryClick(territory);
-        }
-        else {
+        } else {
             ctrl.updatePlayersData();
-            if (territory.getBackEndTerritory().getOwner() == curr){
+            if (territory.getBackEndTerritory().getOwner() == curr) {
                 models.BackEndTerritory t = territory.getBackEndTerritory();
                 t.increaseArmies(1);
                 t.resetMovedArmies();
@@ -130,21 +125,22 @@ public class GameScene extends Scene{
                 pendingArmies--;
                 if (t.getNumArmies() < 3 && b.hasGameEnded()) //checking if 17 territories with 2 armies mission is completed
                     startGameEndingAnimation();
-            } 
-            if (pendingArmies == 0) {
-                if (b.isOnInitialSetup()) {
-                    ctrl.setRavenMessage(curr.getName()+" distribuiu seus exércitos!");
-                    helper.changeTurn();
-                }
-                else
-                    ctrl.setRavenMessage(curr.getName()+" está jogando!");
             }
-            else {
-                ctrl.setRavenMessage("\\#333333ff#"+curr.getName()+" ainda possui \\#CC0000#"+pendingArmies+"\\#333333ff# exército(s) para distribuir.");
+            if (pendingArmies == 0) {
+                for (models.BackEndTerritory t : b.getCurrentPlayer().getTerritories()) {
+                    t.resetMovedArmies();
+                }
+                if (b.isOnInitialSetup()) {
+                    ctrl.setRavenMessage(curr.getName() + " distribuiu seus exércitos!");
+                    helper.changeTurn();
+                } else
+                    ctrl.setRavenMessage(curr.getName() + " está jogando!");
+            } else {
+                ctrl.setRavenMessage("\\#333333ff#" + curr.getName() + " ainda possui \\#CC0000#" + pendingArmies + "\\#333333ff# exército(s) para distribuir.");
             }
         }
     }
-    
+
     public void startGameEndingAnimation() {
         ctrl.openEmptyPopup();
         GameEndingAnimation a = new GameEndingAnimation();
@@ -153,8 +149,8 @@ public class GameScene extends Scene{
         FireworksManager fm = new FireworksManager();
         addEntity(fm);
     }
-    
-    public void startAIDistributionAnim(AIPlayer p, IAHelper helper){
+
+    public void startAIDistributionAnim(AIPlayer p, IAHelper helper) {
         AIArmyDistributor dist = new AIArmyDistributor(this, p, helper, map, mapMover);
         addEntity(dist);
         dist.start();
@@ -172,9 +168,8 @@ public class GameScene extends Scene{
         addEntity(attacker);
         attacker.start();
     }
-    
-    public void resetMapPosition(){
+
+    public void resetMapPosition() {
         mapMover.activate(new Vector2f(0.5f, 0.5f), 1.2f, null);
     }
-           
 }

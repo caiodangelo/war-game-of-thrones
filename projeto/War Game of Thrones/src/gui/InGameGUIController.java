@@ -39,7 +39,7 @@ public class InGameGUIController implements ScreenController {
     private HashMap<Integer, String> turnsOrder;
     private HashMap<String, String> regionsColors;
     private boolean mayGoToStatistics;
-    
+
     public InGameGUIController() {
         turnsOrder = new HashMap();
         turnsOrder.put(0, "primeiro");
@@ -103,7 +103,7 @@ public class InGameGUIController implements ScreenController {
         alert.setText(text);
         PopupManager.showPopup(n, s, alertPopup);
     }
-    
+
     public void mayGoToStatistics() {
         mayGoToStatistics = true;
     }
@@ -124,7 +124,7 @@ public class InGameGUIController implements ScreenController {
         soundSlider.setValue(1 - AudioManager.getInstance().getSoundVolume());
         Slider AIMovementsSpeed = optionsPopup.findNiftyControl("sliderCPUMovementSpeed", Slider.class);
         AIMovementsSpeed.setValue(11 - Math.round(Main.getInstance().getAIMapMovementsSpeed() * 10));
-        
+
         Label musicVolumeValue = optionsPopup.findNiftyControl("musicVolumeValue", Label.class);
         musicVolumeValue.setText(((int) (100 * AudioManager.getInstance().getMusicVolume())) + "");
         Label soundVolumeValue = optionsPopup.findNiftyControl("soundVolumeValue", Label.class);
@@ -132,8 +132,8 @@ public class InGameGUIController implements ScreenController {
         Label AIMovementsSpeedValue = optionsPopup.findNiftyControl("CPUmovementSpeedValue", Label.class);
         System.out.println(Main.getInstance().getAIMapMovementsSpeed() * 10);
         System.out.println(Math.round(Main.getInstance().getAIMapMovementsSpeed() * 10));
-        AIMovementsSpeedValue.setText(Math.round(Main.getInstance().getAIMapMovementsSpeed() * 10)+"");
-        
+        AIMovementsSpeedValue.setText(Math.round(Main.getInstance().getAIMapMovementsSpeed() * 10) + "");
+
         CheckBox musicMute = optionsPopup.findNiftyControl("musicMute", CheckBox.class);
         if (AudioManager.getInstance().musicIsMuted())
             musicMute.check();
@@ -182,8 +182,8 @@ public class InGameGUIController implements ScreenController {
     private Player getCurrentPlayer() {
         return b.getCurrentPlayer();
     }
-    
-    private boolean currentPlayerIsHuman(){
+
+    private boolean currentPlayerIsHuman() {
         return !getCurrentPlayer().isAIPlayer();
     }
 
@@ -206,7 +206,7 @@ public class InGameGUIController implements ScreenController {
     }
 
     public void showPlayerObjective() {
-        if(currentPlayerIsHuman()){
+        if (currentPlayerIsHuman()) {
             resetMouseCursor();
             Label description = objectivePopup.findNiftyControl("objectiveDescLabel", Label.class);
             String objectiveStr = "Seu objetivo é: " + getCurrentPlayer().getMission().getDescription();
@@ -216,7 +216,7 @@ public class InGameGUIController implements ScreenController {
     }
 
     public void showPlayerCards() {
-        if(currentPlayerIsHuman()){
+        if (currentPlayerIsHuman()) {
             resetMouseCursor();
             cardsCtrl.showPopup();
         }
@@ -239,8 +239,9 @@ public class InGameGUIController implements ScreenController {
     }
 
     public void nextPlayerTurn() {
-        PopupManager.closePopup(n, nextTurnConfirmPopup);
         Player curr = getCurrentPlayer();
+        if (!curr.isAIPlayer())
+            PopupManager.closePopup(n, nextTurnConfirmPopup);
         int pendingArmies = curr.getTotalPendingArmies();
         if (pendingArmies > 0)
             showAlert("Você ainda possui " + pendingArmies + " exércitos para distribuir!");
@@ -257,16 +258,19 @@ public class InGameGUIController implements ScreenController {
                 if (curr instanceof AIPlayer) {
                     TurnHelper.getInstance().changeTurn();
                     if (cardsCtrl.playerMustSwapCards())
-                        if (Board.getInstance().getCurrentPlayer() instanceof AIPlayer) {
-                            // TODO: fazer a troca de cartas obrigatória para a IA
-                        } else
+                        if (Board.getInstance().getCurrentPlayer().isAIPlayer())
+                            cardsCtrl.tradeCards();
+                        else
                             cardsCtrl.showPopup();
                 } else
                     PopupManager.showPopup(n, s, cardEarnedPopup);
             } else {
                 TurnHelper.getInstance().changeTurn();
                 if (cardsCtrl.playerMustSwapCards())
-                    cardsCtrl.showPopup();
+                    if (Board.getInstance().getCurrentPlayer().isAIPlayer())
+                        cardsCtrl.tradeCards();
+                    else
+                        cardsCtrl.showPopup();
             }
             setInfoLabelText(null);
             System.out.println("reset 7");
@@ -282,7 +286,10 @@ public class InGameGUIController implements ScreenController {
         TurnHelper.getInstance().changeTurn();
         PopupManager.closePopup(n, cardEarnedPopup);
         if (cardsCtrl.playerMustSwapCards())
-            cardsCtrl.showPopup();
+            if (Board.getInstance().getCurrentPlayer().isAIPlayer())
+                cardsCtrl.tradeCards();
+            else
+                cardsCtrl.showPopup();
     }
 
     //Top Menu event handling
@@ -458,8 +465,8 @@ public class InGameGUIController implements ScreenController {
 
         GameScene.getInstance().showPlayerTurnMsg();
     }
-    
-    public void showRemainingPendingArmies(Player p, int count){
+
+    public void showRemainingPendingArmies(Player p, int count) {
         setRavenMessage("\\#333333ff#" + p.getName() + " ainda possui \\#CC0000#" + count + "\\#333333ff# exército(s) para distribuir.");
     }
 
@@ -495,13 +502,13 @@ public class InGameGUIController implements ScreenController {
         Label soundVolumeValue = optionsPopup.findNiftyControl("soundVolumeValue", Label.class);
         soundVolumeValue.setText(((int) (newVolume * 100)) + "");
     }
-    
-    @NiftyEventSubscriber(id="sliderCPUMovementSpeed")
+
+    @NiftyEventSubscriber(id = "sliderCPUMovementSpeed")
     public void onCPUDifficultySliderChange(final String id, final SliderChangedEvent event) {
-        float selectedAIMovementsSpeed = event.getValue()/10f;
+        float selectedAIMovementsSpeed = event.getValue() / 10f;
         Main.getInstance().setAIMapMovementsSpeed(1.1f - selectedAIMovementsSpeed);
         Label AIMovementsSpeedValue = optionsPopup.findNiftyControl("CPUmovementSpeedValue", Label.class);
-        AIMovementsSpeedValue.setText((11 - (Math.round(selectedAIMovementsSpeed * 10)))+"");
+        AIMovementsSpeedValue.setText((11 - (Math.round(selectedAIMovementsSpeed * 10))) + "");
     }
 
     @NiftyEventSubscriber(id = "musicMute")

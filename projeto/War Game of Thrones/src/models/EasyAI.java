@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -11,14 +12,20 @@ public class EasyAI extends Difficulty {
      * possui.
      */
     @Override
-    public void distributeArmies() {
+    public HashMap<BackEndTerritory, Integer> distributeArmies() {
+        HashMap<BackEndTerritory, Integer> distribution = new HashMap<BackEndTerritory, Integer>();
         // Distribui os exércitos de forma totalmente aleatória
         while (player.getTotalPendingArmies() > 0) {
             int numTerritories = player.getTerritories().size();
             int territoryToDistribute = new Random().nextInt(numTerritories);
+            BackEndTerritory territory = player.getTerritories().get(territoryToDistribute);
+            if (!distribution.containsKey(territory))
+                distribution.put(territory, 1);
+            else
+                distribution.put(territory, distribution.get(territory) + 1);
             player.distributeArmies(player.getTerritories().get(territoryToDistribute), 1);
         }
-        
+        return distribution;
     }
 
     /**
@@ -35,8 +42,8 @@ public class EasyAI extends Difficulty {
         // de sobra o jogador tiver, maior a chance dele querer continuar atacando, até um máximo de 90% de chance.
         int chance = numSurplusArmies * 5;
         chance = (chance > 90) ? 90 : chance;
-        chance = new Random().nextInt(chance);
-        return chance < 90; // 90% máximo de chance de continuar atacando.
+        int random = new Random().nextInt(100);
+        return chance > random; // 90% máximo de chance de continuar atacando.
     }
 
     /**
@@ -55,8 +62,8 @@ public class EasyAI extends Difficulty {
                         Mission playerMission = player.getMission();
                         House targetHouse = playerMission.getHouse();
                         Player targetPlayer = targetHouse.getPlayer();
-                        List<BackEndTerritory> terr = targetPlayer.getTerritories();
-                        for (BackEndTerritory territory : terr) {
+                        List<BackEndTerritory> territories = targetPlayer.getTerritories();
+                        for (BackEndTerritory territory : territories) {
                             List<BackEndTerritory> origins = new ArrayList<BackEndTerritory>();
                             for (BackEndTerritory neighbour : territory.getNeighbours()) {
                                 if (neighbour.getOwner() == player && origin.getSurplusArmies() >= 1)
@@ -82,7 +89,7 @@ public class EasyAI extends Difficulty {
                             for (BackEndTerritory territory : region.getTerritories()) {
                                 List<BackEndTerritory> origins = new ArrayList<BackEndTerritory>();
                                 for (BackEndTerritory neighbour : territory.getNeighbours()) {
-                                    if (neighbour.getOwner() == player && origin.getSurplusArmies() >= 1)
+                                    if (neighbour.getOwner() == player && neighbour.getSurplusArmies() >= 1)
                                         origins.add(neighbour);
                                 }
                                 if (origins.size() > 0) {
@@ -96,7 +103,8 @@ public class EasyAI extends Difficulty {
                                     }
                                     destiny = territory;
                                     int numArmies = origin.getSurplusArmies() > 3 ? 3 : origin.getSurplusArmies();
-                                    return new TerritoryTransaction(origin, destiny, numArmies);
+                                    if (destiny != null && origin != null && numArmies > 0)
+                                        return new TerritoryTransaction(origin, destiny, numArmies);
                                 }
                             }
                         }
@@ -216,8 +224,9 @@ public class EasyAI extends Difficulty {
                     break;
                 case 5:
                     boolean[] chosenTypes = new boolean[4];
-                    for (int i = 0; i < chosenTypes.length; i++)
+                    for (int i = 0; i < chosenTypes.length; i++) {
                         chosenTypes[i] = false;
+                    }
                     for (CardTerritory card : player.getCards()) {
                         if (!chosenTypes[card.getType() - 1]) {
                             cards.add(card);

@@ -6,6 +6,7 @@ import ai.evaluators.DistributionEvaluator;
 import ai.evaluators.MovementEvaluator;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -15,10 +16,11 @@ import java.util.List;
 public class ExtremeAI extends Difficulty implements Serializable {
 
     @Override
-    public void distributeArmies() {
+    public HashMap<BackEndTerritory, Integer> distributeArmies() {
         // First of all, set the new targetRegion for the Player.
         // The targetRegion is the best (in general, the easiest to conquer) region
         // that's not currently owned by the player.
+        HashMap<BackEndTerritory, Integer> distribution = new HashMap<BackEndTerritory, Integer>();
         List<Region> regionsNotOwnedByPlayer = new ArrayList<Region>();
         for (Region region : Board.getInstance().getRegions()) {
             if (!region.conqueredByPlayer(player))
@@ -46,7 +48,9 @@ public class ExtremeAI extends Difficulty implements Serializable {
                 }
             }
             player.distributeArmies(chosen, 1);
+            increaseTerritoryDistribution(distribution, chosen, 1);
         }
+        return distribution;
     }
 
     @Override
@@ -140,8 +144,8 @@ public class ExtremeAI extends Difficulty implements Serializable {
     public TerritoryTransaction nextMove() {
         BackEndTerritory origin = null;
         BackEndTerritory destiny = null;
-        double maxRating = 0.0;
-        double currentRating = 0.0;
+        double maxRating = Double.NEGATIVE_INFINITY;
+        double currentRating = Double.NEGATIVE_INFINITY;
         for (BackEndTerritory territory : player.getTerritories()) {
             if (territory.getNumArmiesCanMoveThisRound() >= 1) {
                 for (BackEndTerritory neighbour : territory.getNeighbours()) {
@@ -183,8 +187,9 @@ public class ExtremeAI extends Difficulty implements Serializable {
                 }
             }
         }
-        double maxRating = 0.0;
-        double currentRating = 0.0;
+        System.out.println("AI has " + attacks.size() + " possible attacks to make");
+        double maxRating = Double.NEGATIVE_INFINITY;
+        double currentRating = Double.NEGATIVE_INFINITY;
         TerritoryTransaction chosenAttack = null;
         for (TerritoryTransaction attack : attacks) {
             AttackEvaluator evaluator = new AttackEvaluator(Board.getInstance(), player);
@@ -196,10 +201,16 @@ public class ExtremeAI extends Difficulty implements Serializable {
                 chosenAttack = attack;
             }
         }
-        double battleChance = BattleComputer.calculateThreatToTerritory(chosenAttack.attacker, chosenAttack.defender);
-        maxRating *= 1 + (battleChance - 0.500);
-        if (maxRating > currentRating) {
-            return chosenAttack;
+        if (chosenAttack != null) {
+            double battleChanceBonus = 1 + (BattleComputer.calculateThreatToTerritory(chosenAttack.attacker, chosenAttack.defender) - 0.500);
+            if (battleChanceBonus > 1)
+                if (maxRating < 0)
+                    maxRating /= battleChanceBonus;
+                else
+                    maxRating *= battleChanceBonus;
+            if (maxRating > currentRating) {
+                return chosenAttack;
+            }
         }
         return null;
     }

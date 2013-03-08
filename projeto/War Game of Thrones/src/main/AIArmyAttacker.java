@@ -41,7 +41,7 @@ public class AIArmyAttacker extends Entity implements MovementCompleteListener {
                 System.out.println("ia obj not complete");
                 nextAttack = difficulty.nextAttack();
                 System.out.println("next attack is " + nextAttack);
-                if (nextAttack != null) {
+                if (nextAttack != null && nextAttack.isValid()) {
                     System.out.println("ia next attack not null");
                     Territory destiny = map.getFrontEndTerritory(nextAttack.defender);
                     mover.activate(destiny.getArmyRelativePos(), this);

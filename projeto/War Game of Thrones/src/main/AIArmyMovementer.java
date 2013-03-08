@@ -39,16 +39,11 @@ public class AIArmyMovementer extends Entity implements MovementCompleteListener
     private void processNextZoom() {
         if (!player.getMission().isCompleted()) {
             nextRearrange = difficulty.nextMove();
-            if (nextRearrange != null) {
+            if (nextRearrange != null && nextRearrange.isValid()) {
                 Territory destiny = map.getFrontEndTerritory(nextRearrange.defender);
                 mover.activate(destiny.getArmyRelativePos(), this);
             } else {
                 InGameGUIController.getInstance().nextPlayerTurn();
-                try {
-                    // Não funciona sem isso. Não perguntem que eu tb não sei pq.
-                    Thread.sleep(100);
-                } catch (Exception ex) {
-                }
             }
         }
     }

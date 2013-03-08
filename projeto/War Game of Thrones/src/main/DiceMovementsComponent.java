@@ -10,14 +10,15 @@ import util.Component;
 public class DiceMovementsComponent extends Component {
 
     private static final float TIME_TO_START = 1;
+    private static final float TIME_TO_REMOVE_AI = 1f;
     private static final int SHAKING_AMPLITUDE = 3;
-    
     private double trajetory;
     private Vector2f originalPosition;
     private Vector2f destination;
     private boolean movingDown;
     private boolean winner;
     private float timer;
+    private float removeTimer;
     private static final float TRAJETORY_SPEED = 5f;
     private static final float SHAKE_SPEED = 25f;
 
@@ -28,8 +29,9 @@ public class DiceMovementsComponent extends Component {
         trajetory = 0;
         winner = w;
         timer = 0;
+        removeTimer = 0;
     }
-    
+
     @Override
     public void update(GameContainer gc, StateBasedGame sb, float delta) {
         boolean reached = false;
@@ -44,8 +46,7 @@ public class DiceMovementsComponent extends Component {
                 else
                     multiplier = -1;
                 parametricTrajetory(multiplier, delta);
-            }
-            else {
+            } else {
                 if (!((Dice) owner).hasReachedDestination()) {
                     ((Dice) owner).setReachedDestination(true);
                     dm.checkIfAllDicesReachedDestination();
@@ -56,31 +57,33 @@ public class DiceMovementsComponent extends Component {
                     InGameGUIController guiControl = InGameGUIController.getInstance();
                     guiControl.setInfoLabelText("Clique para dispensar os dados.");
                     Input i = gc.getInput();
-                    if (i.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) || i.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) {
+                    if (i.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) || i.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON) ||
+                            (removeTimer >= TIME_TO_REMOVE_AI && dm.getBattle().getAttackerPlayerFromTerritory().isAIPlayer() &&
+                            dm.getBattle().getDefenderPlayerFromTerritory().isAIPlayer())) {
                         dm.removeDices();
                         guiControl.setInfoLabelText(null);
                     }
+                    removeTimer += delta;
                 }
             }
-        }
-        else
+        } else
             timer += delta;
     }
-    
+
     private void parametricTrajetory(int multiplier, float delta) {
         owner.setPosition(new Vector2f(parametricTrajetoryX(multiplier), parametricTrajetoryY(multiplier)));
         trajetory += TRAJETORY_SPEED * delta;
     }
-    
+
     private float parametricTrajetoryX(int mult) {
         if (destination.y == originalPosition.y) //dice won't move
             return owner.getPosition().x;
         else
-            return (float) (originalPosition.x + mult * 20 * Math.cos(trajetory + Math.PI/2.0));
+            return (float) (originalPosition.x + mult * 20 * Math.cos(trajetory + Math.PI / 2.0));
     }
-    
+
     private float parametricTrajetoryY(int mult) {
-        return (float) (originalPosition.y + mult * Math.abs(originalPosition.y - destination.y) * Math.sin(trajetory/2.0));   
+        return (float) (originalPosition.y + mult * Math.abs(originalPosition.y - destination.y) * Math.sin(trajetory / 2.0));
     }
     
     private void shake(float delta) {
