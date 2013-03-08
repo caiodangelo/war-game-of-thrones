@@ -40,10 +40,6 @@ public class TerritoryHoverImage extends ImageRenderComponent {
         if (highlightedImage) {
             Territory tOwner = ((Territory) owner);
             highlightTerritoryImage.draw(pos.x, pos.y, scale);
-//            if (main.Main.isShowingTerritoriesNames()) {
-//                gr.setColor(Color.black);
-//                drawTerritoryName(gr, tOwner.getArmy(), tOwner.getBackEndTerritory().getName());
-//            }
         }
         else if (owned)
             image.draw(pos.x, pos.y, scale);
@@ -90,18 +86,6 @@ public class TerritoryHoverImage extends ImageRenderComponent {
     private static boolean mouseInsideMapArea(float x, float y) {
         Vector2f mapPos = Main.getMapPos(), mapSize = Main.getMapSize();
         return x >= mapPos.x && x <= mapPos.x + mapSize.x 
-                && y >= mapPos.y && y <= mapSize.y;
-    }
-    
-    private void drawTerritoryName(Graphics gr, Army a, String name) {
-        float armyXCenter = a.getPosition().x + a.getScaledWidth()/2f;
-        float fontHeight = gr.getFont().getHeight(name);
-        float fontXPos = armyXCenter - gr.getFont().getWidth(name)/2f;
-        float fontYPos;
-        if (a.getPosition().y > main.Main.getMapPos().y + main.Main.getMapSize().y/2f)
-            fontYPos = a.getPosition().y - (1.5f * fontHeight);
-        else
-            fontYPos = a.getPosition().y + a.getScaledHeight() + (1.5f * fontHeight);
-        gr.drawString(name, fontXPos, fontYPos);
+                && y >= mapPos.y && y <= mapPos.y + mapSize.y;
     }
 }
