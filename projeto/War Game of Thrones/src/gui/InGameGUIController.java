@@ -131,8 +131,6 @@ public class InGameGUIController implements ScreenController {
         Label soundVolumeValue = optionsPopup.findNiftyControl("soundVolumeValue", Label.class);
         soundVolumeValue.setText(((int) (100 * AudioManager.getInstance().getSoundVolume())) + "");
         Label AIMovementsSpeedValue = optionsPopup.findNiftyControl("CPUmovementSpeedValue", Label.class);
-        System.out.println(Main.getInstance().getAIMapMovementsSpeed() * 10);
-        System.out.println(Math.round(Main.getInstance().getAIMapMovementsSpeed() * 10));
         AIMovementsSpeedValue.setText(Math.round(Main.getInstance().getAIMapMovementsSpeed() * 10) + "");
 
         CheckBox musicMute = optionsPopup.findNiftyControl("musicMute", CheckBox.class);

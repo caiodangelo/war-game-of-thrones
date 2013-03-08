@@ -117,7 +117,7 @@ public class EasyAI extends Difficulty {
                         break;
                 }
                 // Se não tiver nenhum território que eu possa atacar que satisfaça diretamente meu objetivo, a IA vai
-                // atacar qualquer merda e ver oq vai acontecer
+                // atacar qualquer um e ver o que vai acontecer
                 destiny = getRandomAttackableTerritory();
                 for (BackEndTerritory neighbour : destiny.getNeighbours()) {
                     if (neighbour.getOwner() == player)
