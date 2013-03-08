@@ -47,13 +47,14 @@ public class MediumAI extends Difficulty {
             for (BackEndTerritory neighbour : neighbours) {
                 if (house.equals(neighbour.getOwner().getHouse())) {
                     while (!successful) {
+                        System.out.println("WHILE !SUCCESSFUL");
                         if (territory.getNumArmies() > 3) {
-                            numArmies = 3;
+                            numArmies = 1;
                             increaseTerritoryDistribution(distribution, territory, numArmies);
                             successful = player.distributeArmies(territory, numArmies);
                             numArmies--;
                         } else {
-                            numArmies = 6;
+                            numArmies = 1;
                             increaseTerritoryDistribution(distribution, territory, numArmies);
                             successful = player.distributeArmies(territory, numArmies);
                             numArmies--;
@@ -128,16 +129,14 @@ public class MediumAI extends Difficulty {
     @Override
     protected boolean keepAttacking() {
         int countNumArmies = 0;
-        int countNumArmiesCanBeMoved = 0;
         for (BackEndTerritory territory : player.getTerritories()) {
-            if (territory.getNumArmies() > 2)
+            if (territory.getNumArmies() >= 2)
                 countNumArmies++;
-            if (territory.getNumArmiesCanMoveThisRound() > 2)
-                countNumArmiesCanBeMoved++;
         }
 
-        if (countNumArmies > (player.getTerritories().size() / 3)
-                && (countNumArmiesCanBeMoved > (player.getTerritories().size())))
+        int territoryCount = player.getTerritories().size();
+        
+        if (countNumArmies > (territoryCount / 3))
             return true;
         return false;
     }
@@ -150,14 +149,19 @@ public class MediumAI extends Difficulty {
      */
     @Override
     public TerritoryTransaction nextAttack() {
+        System.out.println("NEXT ATTACK");
         if (keepAttacking()) {
+            System.out.println("KEEP ATTACKING");
             for (int control = 0; control < 100; control++) { // Control serve só como safeguard, caso dê merda e entre em loop infinito.
                 switch (player.getMission().getType()) {
                     case Mission.TYPE_HOUSE:
+                        System.out.println("TYPE HOUSE");
                         return attackAccordingHouseAttack();
                     case Mission.TYPE_REGION:
+                        System.out.println("TYPE REGION");
                         return attackAccordingRegionAttack();
                     case Mission.TYPE_TERRITORY:
+                        System.out.println("TYPE TERRITORY");
                         return attackAccordingTerritoryAttack();
                 }
             }
@@ -212,9 +216,11 @@ public class MediumAI extends Difficulty {
                 destiny = reasonableDestiny.get(index);
             }
             //Se tiver poucos exercitos ele opta por n atacar
-            if ((origin.getSurplusArmies() > 1) && origin.getOwner().equals(destiny.getOwner())) {
+            if ((origin.getSurplusArmies() > 1) && !origin.getOwner().equals(destiny.getOwner())) {
                 int numArmies = origin.getSurplusArmies() > 3 ? 3 : origin.getSurplusArmies();
                 return new TerritoryTransaction(origin, destiny, numArmies);
+            } else{
+                System.out.println("Origin surplus: " + origin.getSurplusArmies());
             }
         }
         return null;
@@ -237,6 +243,7 @@ public class MediumAI extends Difficulty {
                 List<BackEndTerritory> reasonableOrigins = new ArrayList<BackEndTerritory>();
                 List<BackEndTerritory> reasonableDestiny = new ArrayList<BackEndTerritory>();
                 for (BackEndTerritory neighbour : territory.getNeighbours()) {
+                    origin = neighbour;
                     if (neighbour.getOwner() == player && origin.getSurplusArmies() >= 1)
                         origins.add(neighbour);
                     if (!neighbour.getOwner().equals(player)) {
@@ -274,7 +281,7 @@ public class MediumAI extends Difficulty {
                     destiny = reasonableDestiny.get(index);
                 }
                 //Se tiver poucos exercitos ele opta por n atacar
-                if ((origin.getSurplusArmies() > 1) && origin.getOwner().equals(destiny.getOwner())) {
+                if ((origin.getSurplusArmies() > 1) && !origin.getOwner().equals(destiny.getOwner())) {
                     int numArmies = origin.getSurplusArmies() > 3 ? 3 : origin.getSurplusArmies();
                     return new TerritoryTransaction(origin, destiny, numArmies);
                 }
@@ -298,7 +305,7 @@ public class MediumAI extends Difficulty {
             if (destinations.size() > 0) {
                 for (BackEndTerritory possibleDestiny : destinations) {
                     // Escolhe o território de origem com o maior número de exércitos
-                    if (possibleDestiny.getNumArmies() > minArmies) {
+                    if (possibleDestiny.getNumArmies() > minArmies && destiny.getOwner().equals(origin.getOwner())) {
                         minArmies = possibleDestiny.getNumArmies();
                         destiny = possibleDestiny;
                     }
@@ -365,7 +372,7 @@ public class MediumAI extends Difficulty {
                         }
                     }
                     //Se houver algum inimigo com um num de exercitos muito grande (razao > 1,5), AI player não fará a movimentação
-                    if ((territory.getNumArmies() / dangerousEnemyArmies) <= 1.5) {
+                    if (dangerousEnemyArmies != 0 && (territory.getNumArmies() / dangerousEnemyArmies) <= 1.5) {
                         for (BackEndTerritory neighbour : territory.getNeighbours()) {
                             if (neighbour.getOwner().equals(player) && neighbour.getNumArmies() <= territory.getNumArmies()) {
                                 origin = territory;

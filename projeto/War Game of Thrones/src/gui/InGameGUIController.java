@@ -426,7 +426,7 @@ public class InGameGUIController implements ScreenController {
         Board b = Board.getInstance();
         Player currPlayer = b.getCurrentPlayer();
         String turn = turnsOrder.get(b.getPlayerOrder(currPlayer));
-        content += currPlayer.getName() + "! Os turnos foram sorteados e você é o " + turn + " a jogar!\n\nSeus territórios são:";
+        content += currPlayer.getName().toUpperCase() + "! Os turnos foram sorteados e você é o " + turn + " a jogar!\n\nSEU OBJETIVO ESTÁ NO FINAL DESTA JANELA!!! Não deixe que nenhum outro jogador o veja!\n\nSeus territórios são:";
         String colorCode;
         Iterator<String> regionsIterator = regionsColors.keySet().iterator();
         String currIterationRegion;
@@ -449,7 +449,7 @@ public class InGameGUIController implements ScreenController {
             auxContent = "";
             anyTerritoriesOnRegion = false;
         }
-        content += "\n\nATENÇÃO!!!!!! Seu objetivo está logo abaixo! Não deixe que nenhum outro jogador o veja!\n\n\nSEU OBJETIVO:\n\n" + currPlayer.getMission().getDescription();
+        content += "\n\nSeu objetivo está abaixo...\n\n\n\nSEU OBJETIVO: " + currPlayer.getMission().getDescription();
         infoTerritories.setText(content);
         PopupManager.showPopup(n, s, infoTerritoriesPopup);
     }

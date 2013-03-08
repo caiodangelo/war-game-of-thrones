@@ -3,6 +3,7 @@ package main;
 import gui.ContextMenuController;
 import gui.InGameGUIController;
 import models.AIPlayer;
+import models.Board;
 import models.Difficulty;
 import models.TerritoryTransaction;
 import org.newdawn.slick.GameContainer;
@@ -36,26 +37,21 @@ public class AIArmyAttacker extends Entity implements MovementCompleteListener {
     }
 
     private void processNextZoom() {
-        try{
-            if (!player.getMission().isCompleted()) {
-                System.out.println("ia obj not complete");
-                nextAttack = difficulty.nextAttack();
-                System.out.println("next attack is " + nextAttack);
-                if (nextAttack != null && nextAttack.isValid()) {
-                    System.out.println("ia next attack not null");
-                    Territory destiny = map.getFrontEndTerritory(nextAttack.defender);
-                    mover.activate(destiny.getArmyRelativePos(), this);
-                } else {
-                    System.out.println("ia next attack null");
-                    GameScene.getInstance().startAIMovementAnim(player);
-                }
+        if (!Board.getInstance().hasGameEnded()) {
+            System.out.println("ia obj not complete");
+            nextAttack = difficulty.nextAttack();
+            System.out.println("next attack is " + nextAttack);
+            if (nextAttack != null && nextAttack.isValid()) {
+                System.out.println("ia next attack not null");
+                Territory destiny = map.getFrontEndTerritory(nextAttack.defender);
+                mover.activate(destiny.getArmyRelativePos(), this);
+            } else {
+                System.out.println("ia next attack null");
+                GameScene.getInstance().startAIMovementAnim(player);
             }
-            else
-                System.out.println("ia obj complete");
-            
-        }catch(Exception e){
-            e.printStackTrace();
         }
+        else
+            GameScene.getInstance().startGameEndingAnimation();
     }
 
     @Override
