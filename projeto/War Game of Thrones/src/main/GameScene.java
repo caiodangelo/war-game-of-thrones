@@ -136,8 +136,9 @@ public class GameScene extends Scene {
                 } else
                     ctrl.setRavenMessage(curr.getName() + " está jogando!");
             } else {
-                ctrl.setRavenMessage("\\#333333ff#" + curr.getName() + " ainda possui \\#CC0000#" + pendingArmies + "\\#333333ff# exército(s) para distribuir.");
-                InGameGUIController.getInstance().debugPendingArmies();
+                ctrl.showPendingArmiesMsg();
+//                ctrl.setRavenMessage("\\#333333ff#" + curr.getName() + " ainda possui \\#CC0000#" + pendingArmies + "\\#333333ff# exército(s) para distribuir.");
+//                InGameGUIController.getInstance().debugPendingArmies();
             }
         }
     }
