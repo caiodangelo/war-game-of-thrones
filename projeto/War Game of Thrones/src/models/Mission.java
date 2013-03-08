@@ -56,19 +56,19 @@ public class Mission implements Serializable {
             switch (type) {
                 case TYPE_TERRITORY:
                     if (territories == 23) {
-                        description = "Seu objetivo é conquistar " + territories + " territórios a sua escolha!";
+                        description = "conquistar " + territories + " territórios a sua escolha!";
                     }
                     if (territories == 17) {
-                        description = "Seu objetivo é conquistar " + territories + " territórios a sua escolha com 2 exércitos em cada um deles!";
+                        description = "conquistar " + territories + " territórios a sua escolha com 2 exércitos em cada um deles!";
                     }
                     break;
                 case TYPE_HOUSE:
                     String houseOwner = getHouseOwner();
-                    description = "Seu objetivo é destruir todos os exércitos da casa \"" + house.getName() +
+                    description = "destruir todos os exércitos da casa \"" + house.getName() +
                             "\" (" + houseOwner + ")!";
                     break;
                 case TYPE_REGION:
-                    description = "Seu objetivo é conquistar completamente os seguintes continentes: ";
+                    description = "conquistar completamente os seguintes continentes: ";
                     for (int i = 0; i < regions.size(); i++) {
                         Region region = regions.get(i);
                         if (i == regions.size() - 1) {

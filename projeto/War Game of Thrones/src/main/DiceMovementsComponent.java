@@ -19,6 +19,7 @@ public class DiceMovementsComponent extends Component {
     private boolean winner;
     private float timer;
     private static final float TRAJETORY_SPEED = 5f;
+    private static final float SHAKE_SPEED = 25f;
 
     public DiceMovementsComponent(String id, Vector2f pos, Vector2f dest, boolean w) {
         originalPosition = pos;
@@ -51,7 +52,7 @@ public class DiceMovementsComponent extends Component {
                 }
                 if (dm.allDicesOnCorrectPosition()) {
                     if (winner)
-                        shake();
+                        shake(delta);
                     InGameGUIController guiControl = InGameGUIController.getInstance();
                     guiControl.setInfoLabelText("Clique para dispensar os dados.");
                     Input i = gc.getInput();
@@ -82,10 +83,10 @@ public class DiceMovementsComponent extends Component {
         return (float) (originalPosition.y + mult * Math.abs(originalPosition.y - destination.y) * Math.sin(trajetory/2.0));   
     }
     
-    private void shake() {
+    private void shake(float delta) {
         float x = owner.getPosition().x;
         float y = owner.getPosition().y;
         owner.setPosition(new Vector2f((float) (x + SHAKING_AMPLITUDE * Math.cos(trajetory)), (float) (y + SHAKING_AMPLITUDE * Math.sin(trajetory))));
-        trajetory += 0.5;
+        trajetory += SHAKE_SPEED * delta;
     }
 }

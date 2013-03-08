@@ -209,7 +209,7 @@ public class InGameGUIController implements ScreenController {
         if(currentPlayerIsHuman()){
             resetMouseCursor();
             Label description = objectivePopup.findNiftyControl("objectiveDescLabel", Label.class);
-            String objectiveStr = getCurrentPlayer().getMission().getDescription();
+            String objectiveStr = "Seu objetivo é: " + getCurrentPlayer().getMission().getDescription();
             description.setText(objectiveStr);
             PopupManager.showPopup(n, s, objectivePopup);
         }

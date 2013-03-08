@@ -18,16 +18,24 @@ public class GameEndingAnimationRenderer extends RenderComponent{
     
     private Color cFirstMessage;
     private Color cSecondMessage;
-    private String playerName;
+    private Player winner;
     private float elapsed = DELAY_TO_SHOW_MESSAGE;
     private Vector2f pos;
     private Vector2f mapSize;
+    private AngelCodeFont freckle80, freckle50, freckle30;
     
     public GameEndingAnimationRenderer(String id){
         super(id);
         Vector2f mapPos = main.Main.getMapPos();
         mapSize =  main.Main.getMapSize();
         pos = new Vector2f(mapPos.x, mapPos.y + mapSize.y/2);
+        try {
+            freckle80 = new AngelCodeFont("resources/fonts/freckle_face_80.fnt", "resources/fonts/freckle_face_80_0.tga");
+            freckle50 = new AngelCodeFont("resources/fonts/freckle_face_50.fnt", "resources/fonts/freckle_face_50_0.tga");
+            freckle30 = new AngelCodeFont("resources/fonts/freckle_face_30.fnt", "resources/fonts/freckle_face_30_0.tga");
+        } catch (SlickException ex) {
+            ex.printStackTrace();
+        }
     }
     
     private float getPcgt(){
@@ -36,22 +44,16 @@ public class GameEndingAnimationRenderer extends RenderComponent{
     
     @Override
     public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
-        if(playerName != null && elapsed >= 0){
+        if(winner != null && elapsed >= 0){
             float pctg = getPcgt();
             if(elapsed <= FADING_IN_DURATION)
                 cFirstMessage.a = pctg / 0.5f;
             gr.setColor(cFirstMessage);
-            AngelCodeFont fnt = null;
-            try {
-                fnt = new AngelCodeFont("resources/fonts/freckle_face_80.fnt", "resources/fonts/freckle_face_80_0.tga");
-                gr.setFont(fnt);
-            } catch (SlickException ex) {
-                ex.printStackTrace();
-            }
-            String winner = playerName+" venceu!";
+            gr.setFont(freckle80);
+            String winnerName = this.winner.getName() +" venceu!";
             String congratulations = "Parabéns!";
-            gr.drawString(congratulations, pos.x + (mapSize.x - fnt.getWidth(congratulations))/2.0f, pos.y);
-            gr.drawString(winner, pos.x + (mapSize.x - fnt.getWidth(winner))/2.0f, pos.y - fnt.getHeight(winner));
+            gr.drawString(congratulations, pos.x + (mapSize.x - freckle80.getWidth(congratulations))/2.0f, pos.y);
+            gr.drawString(winnerName, pos.x + (mapSize.x - freckle80.getWidth(winnerName))/2.0f, pos.y - freckle80.getHeight(winnerName));
             String clickToStatistics = "Clique em qualquer lugar para ver as estatísticas";
             elapsed -= 1f;
             pctg = getPcgt();
@@ -60,7 +62,11 @@ public class GameEndingAnimationRenderer extends RenderComponent{
             if (cSecondMessage.a >= 1f)
                 InGameGUIController.getInstance().mayGoToStatistics();
             gr.setColor(cSecondMessage);
-            gr.drawString(clickToStatistics, pos.x + (mapSize.x - fnt.getWidth(clickToStatistics))/2.0f, pos.y + fnt.getHeight(winner));
+            gr.setFont(freckle50);
+            gr.drawString(clickToStatistics, pos.x + (mapSize.x - freckle50.getWidth(clickToStatistics))/2.0f, pos.y + freckle80.getHeight(winnerName));
+            String objectiveStr = "Objetivo: " + winner.getMission().getDescription();
+            gr.setFont(freckle30);
+            gr.drawString(objectiveStr, pos.x + (mapSize.x - freckle30.getWidth(clickToStatistics))/2.0f, pos.y + 2*freckle80.getHeight(winnerName));
             elapsed += 1f;
         }
     }
@@ -72,7 +78,7 @@ public class GameEndingAnimationRenderer extends RenderComponent{
     }
 
     public void activate(Player player) {
-        playerName = player.getName();
+        this.winner = player;
         AudioManager.getInstance().stopMusic(AudioManager.GAME_RUNNING);
         cFirstMessage = new Color(Color.black);
         cFirstMessage.a = 0;
