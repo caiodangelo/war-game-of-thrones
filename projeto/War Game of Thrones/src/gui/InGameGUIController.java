@@ -12,6 +12,7 @@ import de.lessvoid.nifty.tools.Color;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import main.*;
 import models.*;
 import org.newdawn.slick.GameContainer;
@@ -578,10 +579,51 @@ public class InGameGUIController implements ScreenController {
 
     public void showPendingArmiesMsg() {
         Player curr = b.getCurrentPlayer();
-        setRavenMessage("\\#333333ff#" + curr.getName() + " ainda possui \\#CC0000#" + curr.getTotalPendingArmies() + "\\#333333ff# exército(s) para distribuir.");
+        String msg = "\\#333333ff#" + curr.getName() + " ainda possui \\#CC0000#" + curr.getTotalPendingArmies() + "\\#333333ff# exército(s) para distribuir ";
+        msg += getBonusArmiesString();
+        setRavenMessage(msg);
+        
+        debugPendingArmies();
     }
 
     public ContextMenuController getContextMenuController() {
         return ctxMenuCtrl;
+    }
+    
+    public void debugPendingArmies(){
+        Player p = getCurrentPlayer();
+        int total = p.getTotalPendingArmies();
+        int general = p.getGeneralPendingArmies();
+        HashMap<Region, Integer> pendings = p.getPendingArmiesForRegion();
+        Set<Region> regs = pendings.keySet();
+        System.out.println("Total armies: " + total);
+        System.out.println("General armies: " + general);
+        for(Region r : regs){
+            int count = pendings.get(r);
+            System.out.println(count + " armies for " + r.getName());
+        }
+    }
+    
+    public String getBonusArmiesString(){
+        String resp = "";
+        Player p = getCurrentPlayer();
+        HashMap<Region, Integer> pendings = p.getPendingArmiesForRegion();
+        Set<Region> regs = pendings.keySet();
+        boolean first = true;
+        for(Region r : regs){
+            int bounus = pendings.get(r);
+            if(bounus > 0){
+                if(!first)
+                    resp += ", ";
+                else
+                    resp += "(";
+                resp += "+" + bounus + " " + r.getName();
+                first = false;
+            }
+        }
+        //if there was any bonus, close parenthesis
+        if(!first)
+            resp += ")";
+        return resp;
     }
 }

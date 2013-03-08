@@ -46,7 +46,7 @@ public class TurnHelper {
             if (b.isOnFirstTurn())
                 ctrl.setRavenMessage(curr.getName() + " está jogando.");
             else
-                ctrl.setRavenMessage(curr.getName() + " recebeu \\#CC0000#" + curr.getTotalPendingArmies() + "\\#333333ff# exército(s) para distribuir.");
+                ctrl.setRavenMessage(curr.getName() + " recebeu \\#CC0000#" + curr.getTotalPendingArmies() + "\\#333333ff# exército(s) para distribuir " + ctrl.getBonusArmiesString());
             if (curr.isAIPlayer()) {
                 iaHelper = new IAHelper(this, (AIPlayer) curr);
                 iaHelper.handleIAStart();
