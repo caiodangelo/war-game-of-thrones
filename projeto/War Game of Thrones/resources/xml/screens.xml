@@ -171,10 +171,9 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 					</panel>
 				</panel>
 				<panel childLayout="vertical" width="88%" height="100%">
-					<panel childLayout="vertical" width="100%" height="82%" >
+					<panel childLayout="vertical" width="100%" height="82%">
 						<panel id="infoPanel" valign="bottom" align="center" width="100%" height="3%" backgroundColor="#00000080" childLayout="horizontal" padding="10px" visible="false">
-							<control valign="center" textVAlign="center" textHAlign="left" id="infoLabel" name="label" text="Info auxiliar" width="100%" height="100px">
-							</control>
+							<control valign="center" textVAlign="center" textHAlign="left" id="infoLabel" name="label" text="Info auxiliar" width="100%" height="100px"/>
 						</panel>
 						<panel childLayout="vertical" width="100%" height="97%" padding="0px,20px,0px,0px">
 							<interact onMouseOver="mouseMovedOverBottomPanel()"/>
@@ -190,8 +189,8 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 					<panel backgroundColor="#f0f0f0ff" valign="bottom" align="right" width="100%" height="18%" childLayout="horizontal">
 						<interact onMouseOver="mouseMovedOverBottomPanel()"/>
 						<panel childLayout="vertical" width="15%">
-							<control height="20%" width="100%" font="resources/fonts/calibri_bold.fnt" color="#333333ff" id="playerStatusName" name="label" text="Marcelle Guine"/>
-							<panel  height="70%" childLayout="vertical" padding="5px">
+							<control height="20%" width="100%" font="resources/fonts/calibri_bold.fnt" color="#333333ff" id="playerStatusName" name="label" text=""/>
+							<panel height="70%" childLayout="vertical" padding="5px">
 								<image id="currHouseImg" align="center" filename="resources/images/house_logos/stark.png" height="80%" width="40%"/>
 								<control id="currHouseName" textHAlign="center" color="#333333ff" name="label" text="Stark" height="20%" width="50%"/>
 							</panel>
