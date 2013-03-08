@@ -119,11 +119,15 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 								<control name="radioButton" id="humanRadioBtn" group="RadioGroup-1"/>
 								<control name="label" text="Humano" width="20%"/>
 								<control name="radioButton" id="cpuRadioBtn" group="RadioGroup-1"/>
-								<control name="label" text="Computador"/>
+								<control name="label" text="Computador" width="20%"/>
+								<control width="20%" id="dropDownAIDifficulty" name="dropDown" textColor="#ffff" color="#ffff"/>
 						</panel>
-						
-						<control align="left" name="label" text="Casa: "/>
-						<control valign="bottom" id="dropDown2" name="dropDown" textColor="#ffff" color="#ffff"/>
+						<panel width="100%" childLayout="horizontal">
+							<panel width="50%" childLayout="vertical">
+								<control align="left" name="label" text="Casa: "/>
+								<control width="100%" valign="bottom" id="dropDown2" name="dropDown" textColor="#ffff" color="#ffff"/>
+							</panel>
+						</panel>
 					</panel>
 					<panel align="center" height="10%" childLayout="vertical"/>
 					<panel valign="bottom" align="center" width="65%" childLayout="center">
@@ -1190,9 +1194,9 @@ Em cada vez de jogar, o participante pode:&#10;
 					</panel>
 				</panel>
 				<panel width="33%" height="80%" childLayout="vertical">
-					<control color="#333333ff" height="20%" width="100%" name="label" text="Dificuldade dos jogadores&#10;não humanos"/>
-					<control id="sliderCPUdifficulty" name="verticalSlider" height="65%" min ="1.0" max="3.0" initial="1.0" stepSize="1.0" buttonStepSize="1.0"/>
-					<control id="CPUdifficultyValue" color="#333333ff" height="10%" width="100%" name="label" text="Fácil"/>
+					<control color="#333333ff" height="20%" width="100%" name="label" text="Velocidade dos movimentos&#10;não humanos"/>
+					<control id="sliderCPUMovementSpeed" name="verticalSlider" height="65%" min ="1" max="10" initial="10" stepSize="1" buttonStepSize="1"/>
+					<control id="CPUmovementSpeedValue" color="#333333ff" height="10%" width="100%" name="label" text="1"/>
 					<panel marginTop="5%" width="100%" height="25%" childLayout="vertical">
 						<control align="center" id="showTerritories" name="checkbox" height="30%" width="10%" checked="true"/>
 						<control align="center" wrap="true" color="#333333ff" name="label" text="Mostrar nomes de territórios e regiões" height="30%" width="80%"/>

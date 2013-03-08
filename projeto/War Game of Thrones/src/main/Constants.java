@@ -7,6 +7,8 @@ public class Constants {
     public static boolean JUMP_TO_STATISTICS = false;
     public static boolean FULLSCREEN = false;
     
+    public static boolean SINGLE_CLICK_STOP_DICES = false;
+    
     /**
      * Randomizar jogadores ou não.
      */

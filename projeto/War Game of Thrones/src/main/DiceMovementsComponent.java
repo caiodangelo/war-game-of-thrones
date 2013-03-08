@@ -1,7 +1,6 @@
 package main;
 
 import gui.InGameGUIController;
-import models.StatisticGameManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Vector2f;
@@ -19,6 +18,7 @@ public class DiceMovementsComponent extends Component {
     private boolean movingDown;
     private boolean winner;
     private float timer;
+    private static final float TRAJETORY_SPEED = 5f;
 
     public DiceMovementsComponent(String id, Vector2f pos, Vector2f dest, boolean w) {
         originalPosition = pos;
@@ -42,7 +42,7 @@ public class DiceMovementsComponent extends Component {
                     multiplier = 1;
                 else
                     multiplier = -1;
-                parametricTrajetory(multiplier);
+                parametricTrajetory(multiplier, delta);
             }
             else {
                 if (!((Dice) owner).hasReachedDestination()) {
@@ -66,9 +66,9 @@ public class DiceMovementsComponent extends Component {
             timer += delta;
     }
     
-    private void parametricTrajetory(int multiplier) {
+    private void parametricTrajetory(int multiplier, float delta) {
         owner.setPosition(new Vector2f(parametricTrajetoryX(multiplier), parametricTrajetoryY(multiplier)));
-        trajetory += 0.05;
+        trajetory += TRAJETORY_SPEED * delta;
     }
     
     private float parametricTrajetoryX(int mult) {

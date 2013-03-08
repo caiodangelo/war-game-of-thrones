@@ -24,7 +24,8 @@ public class AddPlayerController implements ScreenController{
     private TextField nameField;
     private Nifty n;
     private Screen s;
-    private DropDown housesDropdown;
+    private DropDown<HouseData> housesDropdown;
+    private DropDown<AIDifficulty> difficultyDropdown;
     private List<HouseData> availableHouses;
     private List<PlayerData> createdPlayers;
     private RadioButton humanButton, cpuButton;
@@ -51,13 +52,18 @@ public class AddPlayerController implements ScreenController{
         playButton = screen.findNiftyControl("playButton", Button.class);
         nameField = screen.findNiftyControl("nameTextField", TextField.class);
         housesDropdown = screen.findNiftyControl("dropDown2", DropDown.class);
+        difficultyDropdown = screen.findNiftyControl("dropDownAIDifficulty", DropDown.class);
         humanButton = screen.findNiftyControl("humanRadioBtn", RadioButton.class);
         cpuButton = screen.findNiftyControl("cpuRadioBtn", RadioButton.class);
         emptyNamePopup = nifty.createPopup("emptyNamePopup");
     }
     
     @Override
-    public void onStartScreen() {   
+    public void onStartScreen() { 
+        difficultyDropdown.clear();
+        difficultyDropdown.addItem(AIDifficulty.EASY);
+        difficultyDropdown.addItem(AIDifficulty.MEDIUM);
+        difficultyDropdown.addItem(AIDifficulty.HARD);
         resetController();
     }
 
@@ -87,7 +93,7 @@ public class AddPlayerController implements ScreenController{
     public void updatePlayerImage(){
         Element icon = playerIcons[currentEditingIndex];
         ImageRenderer r = icon.getRenderer(ImageRenderer.class);
-        HouseData houseData = (HouseData)housesDropdown.getSelection();
+        HouseData houseData = housesDropdown.getSelection();
         if(houseData != null)
             r.setImage(n.createImage(houseData.imgPath, false));
         EffectEventId effectID = EffectEventId.onCustom;
@@ -99,7 +105,15 @@ public class AddPlayerController implements ScreenController{
     private void resetDisplay(){
         housesDropdown.clear();
         PlayerData currentPlayer = createdPlayers.get(currentEditingIndex);
-        (currentPlayer.isHuman ? humanButton : cpuButton).select();
+        
+        if(currentPlayer.isHuman){
+            humanButton.select();
+            difficultyDropdown.getElement().setVisible(false);
+        } else {
+            cpuButton.select();
+            difficultyDropdown.selectItem(currentPlayer.difficulty);
+            difficultyDropdown.getElement().setVisible(true);
+        }
         
         String playerName = currentPlayer.name;
         nameField.setText(playerName);
@@ -126,6 +140,7 @@ public class AddPlayerController implements ScreenController{
             }
         }
         housesDropdown.selectItem(currentPlayer.house);
+        difficultyDropdown.selectItem(currentPlayer.difficulty);
     }
     
     //Elements interaction callbacks
@@ -147,7 +162,7 @@ public class AddPlayerController implements ScreenController{
     }
     
     private void addBlankPlayerData(){
-        PlayerData dummy = new PlayerData("", true, availableHouses.get(0));
+        PlayerData dummy = new PlayerData("", true, availableHouses.get(0), AIDifficulty.EASY);
         createdPlayers.add(dummy);
         currentEditingIndex = createdPlayers.size() - 1;
     }
@@ -155,8 +170,11 @@ public class AddPlayerController implements ScreenController{
     private void saveCurrentPlayerData(){
         String name = nameField.getDisplayedText();
         boolean isHuman = humanButton.isActivated();
-        HouseData houseData = (HouseData)housesDropdown.getSelection();
-        PlayerData pd = new PlayerData(name, isHuman, houseData);
+        
+        HouseData houseData = housesDropdown.getSelection();
+        AIDifficulty diff = difficultyDropdown.getSelection();
+        
+        PlayerData pd = new PlayerData(name, isHuman, houseData, diff);
         if(createdPlayers.size() <= currentEditingIndex)
             createdPlayers.add(pd);
         else
@@ -221,20 +239,20 @@ public class AddPlayerController implements ScreenController{
         if(pd.isHuman)
             return new HumanPlayer(pd.name, h);
         AIPlayer ai = new AIPlayer(pd.name, h);
-        int difficulty = MainScreenController.getIADifficulty();
+        int difficulty = pd.difficulty.getID();
         //easy = 1, medium = 2, hard = 3
         Difficulty d;
         System.out.println("create backend player");
         switch(difficulty){
-            case 1:
+            case 0:
                 ai.setDifficulty(new EasyAI());
                 System.out.println("creating easy IA");
                 break;
-            case 2:
+            case 1:
                 ai.setDifficulty(new MediumAI());
                 System.out.println("creating medium IA");
                 break;
-            case 3:
+            case 2:
                 ai.setDifficulty(new ExtremeAI());
                 System.out.println("creating hard IA");
                 break;
@@ -283,6 +301,13 @@ public class AddPlayerController implements ScreenController{
         updatePlayerImage();
     }
     
+    @NiftyEventSubscriber(id="RadioGroup-1")
+    public void onDropdownSelectionChanged(String id, RadioButtonGroupStateChangedEvent evt){
+        boolean cpuChecked = cpuButton.isActivated();
+        Element e = difficultyDropdown.getElement();
+        e.setVisible(cpuChecked);
+    }
+    
     @NiftyEventSubscriber(id="nameTextField")
     public void onPlayerNameChanged(String id, TextFieldChangedEvent evt){
         nameField = evt.getTextFieldControl();
@@ -303,10 +328,13 @@ public class AddPlayerController implements ScreenController{
         String name;
         HouseData house;
         boolean isHuman;
-        public PlayerData(String name, boolean isHuman, HouseData house){
+        AIDifficulty difficulty;
+        
+        public PlayerData(String name, boolean isHuman, HouseData house, AIDifficulty diff){
             this.name = name;
             this.isHuman = isHuman;
             this.house = house;
+            this.difficulty = diff;
         }
     }
     

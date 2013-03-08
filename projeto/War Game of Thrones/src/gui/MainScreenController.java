@@ -9,16 +9,16 @@ import de.lessvoid.nifty.controls.Slider;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import main.AudioManager;
+import main.Main;
 import util.PopupManager;
 public class MainScreenController implements ScreenController {
-
+    
     private Nifty n;
     private Screen s;
     private Element exitConfirmPopup, helpPopup, optionsPopup;
-    private static int selectedDifficulty = 1;
-    private HashMap<Integer, String> difficulties;
     
     @Override
     public void bind(Nifty nifty, Screen screen) {
@@ -27,14 +27,6 @@ public class MainScreenController implements ScreenController {
         exitConfirmPopup = n.createPopup("quitConfirmationPopup");
         helpPopup = n.createPopup("helpPopup");
         optionsPopup = n.createPopup("optionsPopup");
-        this.difficulties = new HashMap();
-        difficulties.put(1, "Fácil");
-        difficulties.put(2, "Médio");
-        difficulties.put(3, "Difícil");
-    }
-
-    public static int getIADifficulty(){
-        return selectedDifficulty;
     }
     
     @Override
@@ -81,11 +73,13 @@ public class MainScreenController implements ScreenController {
         soundVolumeValue.setText(((int) (newVolume*100))+"");
     }
     
-    @NiftyEventSubscriber(id="sliderCPUdifficulty")
+    @NiftyEventSubscriber(id="sliderCPUMovementSpeed")
     public void onCPUDifficultySliderChange(final String id, final SliderChangedEvent event) {
-        selectedDifficulty = (int)(event.getValue());
-        Label CPUDifficultyValue = optionsPopup.findNiftyControl("CPUdifficultyValue", Label.class);
-        CPUDifficultyValue.setText(difficulties.get((int) event.getValue()));
+        float selectedAIMovementsSpeed = event.getValue()/10f;
+        Main.getInstance().setAIMapMovementsSpeed(1.1f - selectedAIMovementsSpeed);
+        System.out.println(Main.getInstance().getAIMapMovementsSpeed());
+        Label AIMovementsSpeedValue = optionsPopup.findNiftyControl("CPUmovementSpeedValue", Label.class);
+        AIMovementsSpeedValue.setText((11 - (Math.round(selectedAIMovementsSpeed * 10)))+"");
     }
     
     @NiftyEventSubscriber(id="musicMute")

@@ -16,7 +16,7 @@ public class MapMover extends Entity{
     private enum ScrollState {WAITING, MOVING, COMPLETE_DELAY}
     private ScrollState state = ScrollState.WAITING;
     
-    private static final float SPEED = 0.1f;
+    //private static final float SPEED = 0.1f;
     private static final float END_SCALE = 1.5f;
     private static final float COMPLETE_WAIT = 0.5f;
     private float elapsed = 0;
@@ -31,7 +31,7 @@ public class MapMover extends Entity{
     }
     
     public void activate(Vector2f destPosition, MovementCompleteListener l){
-        activate(destPosition, END_SCALE,l);
+        activate(destPosition, END_SCALE, l);
     }
     
     public void activate(Vector2f destPosition, float endScale, MovementCompleteListener l) {
@@ -40,7 +40,7 @@ public class MapMover extends Entity{
         end = destPosition;
         moveVector = sub(end, start);
         moveVector.normalise();
-        moveVector.scale(SPEED);
+        moveVector.scale(Main.getInstance().getAIMapMovementsSpeed());
         state =  ScrollState.MOVING;
         startScale = map.getScale();
         this.endScale = endScale;

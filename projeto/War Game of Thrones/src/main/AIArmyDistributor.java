@@ -1,15 +1,14 @@
 package main;
 
 import gui.InGameGUIController;
+import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Queue;
 import models.AIPlayer;
 import models.BackEndTerritory;
 import models.Board;
 import models.Difficulty;
 import models.Region;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import util.Entity;
 
@@ -21,6 +20,7 @@ public class AIArmyDistributor extends Entity implements MovementCompleteListene
     private Map m;
     private MapMover mover;
     private LinkedList<Territory> territoriesToZoom;
+    private HashMap<BackEndTerritory, Integer> armiesPlaced;
     private int pendingArmies;
 
     public AIArmyDistributor(GameScene scene, AIPlayer p, IAHelper helper, Map m, MapMover mover) {
@@ -35,12 +35,12 @@ public class AIArmyDistributor extends Entity implements MovementCompleteListene
         System.out.println("IA ARMY DISTRIBUTOR START");
         InGameGUIController.getInstance().startPlayerInitialDistribution();
         pendingArmies = player.getTotalPendingArmies();
-        d.distributeArmies();
+        armiesPlaced = d.distributeArmies();
         Territory[] frontTerr = m.getTerritories();
         territoriesToZoom = new LinkedList<Territory>();
         for (Territory t : frontTerr) {
             BackEndTerritory tBack = t.getBackEndTerritory();
-            if (tBack.getOwner().equals(player) && gotArmies(tBack)) {
+            if (tBack.getOwner().equals(player) && gotArmies(tBack, armiesPlaced)) {
                 System.out.println(t + " got armies, sending to queue");
                 territoriesToZoom.offer(t);
             }
@@ -52,7 +52,9 @@ public class AIArmyDistributor extends Entity implements MovementCompleteListene
     private void processNextZoom() {
         Territory next = territoriesToZoom.poll();
         if (next != null) {
-            pendingArmies -= next.getBackEndTerritory().getNumArmies() - 1;
+            int placedCount = armiesPlaced.get(next.getBackEndTerritory());
+            pendingArmies -= placedCount;
+//            pendingArmies -= next.getBackEndTerritory().getNumArmies() - 1;
             InGameGUIController.getInstance().showRemainingPendingArmies(player, pendingArmies);
             mover.activate(next.getArmyRelativePos(), this);
         } else if (Board.getInstance().isOnInitialSetup()) {
@@ -72,8 +74,8 @@ public class AIArmyDistributor extends Entity implements MovementCompleteListene
         processNextZoom();
     }
 
-    private boolean gotArmies(BackEndTerritory tBack) {
-        return tBack.getNumArmies() > 1;
+    private boolean gotArmies(BackEndTerritory tBack, HashMap<BackEndTerritory, Integer> armiesPlaced) {
+        return armiesPlaced.containsKey(tBack);
     }
 
     private static LinkedList<Territory> sortList(LinkedList<Territory> territoriesToZoom) {
