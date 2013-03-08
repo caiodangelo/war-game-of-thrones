@@ -49,12 +49,12 @@ public class MediumAI extends Difficulty {
                     while (!successful) {
                         System.out.println("WHILE !SUCCESSFUL");
                         if (territory.getNumArmies() > 3) {
-                            numArmies = 3;
+                            numArmies = 1;
                             increaseTerritoryDistribution(distribution, territory, numArmies);
                             successful = player.distributeArmies(territory, numArmies);
                             numArmies--;
                         } else {
-                            numArmies = 6;
+                            numArmies = 1;
                             increaseTerritoryDistribution(distribution, territory, numArmies);
                             successful = player.distributeArmies(territory, numArmies);
                             numArmies--;
@@ -305,7 +305,7 @@ public class MediumAI extends Difficulty {
             if (destinations.size() > 0) {
                 for (BackEndTerritory possibleDestiny : destinations) {
                     // Escolhe o território de origem com o maior número de exércitos
-                    if (possibleDestiny.getNumArmies() > minArmies) {
+                    if (possibleDestiny.getNumArmies() > minArmies && destiny.getOwner().equals(origin.getOwner())) {
                         minArmies = possibleDestiny.getNumArmies();
                         destiny = possibleDestiny;
                     }

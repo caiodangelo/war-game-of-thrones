@@ -1,10 +1,11 @@
 package models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public abstract class Difficulty {
+public abstract class Difficulty implements Serializable{
 
     public AIPlayer player;
 

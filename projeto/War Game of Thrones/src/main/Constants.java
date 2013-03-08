@@ -5,7 +5,7 @@ public class Constants {
     //slick setup
     public static boolean JUMP_TO_GAME = false;
     public static boolean JUMP_TO_STATISTICS = false;
-    public static boolean FULLSCREEN = false;
+    public static boolean FULLSCREEN = true;
     
     public static boolean SINGLE_CLICK_STOP_DICES = false;
     
@@ -27,8 +27,8 @@ public class Constants {
     /**
      * Aceitar nomes que tenham menos que 3 ou mais que 10 caracteres.
      */
-    public static boolean ACCEPT_INVALID_NAMES = true;
+    public static boolean ACCEPT_INVALID_NAMES = false;
     
-    public static boolean ACCEPT_LESS_THAN_3_PLAYERS = true;
+    public static boolean ACCEPT_LESS_THAN_3_PLAYERS = false;
     
 }
