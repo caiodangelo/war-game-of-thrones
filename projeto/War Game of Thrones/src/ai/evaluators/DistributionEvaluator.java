@@ -35,7 +35,7 @@ public class DistributionEvaluator extends Evaluator {
         features.add(new MaximumThreatFeature());
         features.add(new ContinentArmyDominationFeature());
         features.add(new MissionArmiesCompletionFeature());
-        features.add(new NeighbourTerritoriesFeature());
+//        features.add(new NeighbourTerritoriesFeature());
     }
 
     @Override

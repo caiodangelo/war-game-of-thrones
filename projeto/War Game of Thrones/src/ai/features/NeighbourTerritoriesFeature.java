@@ -17,25 +17,30 @@ import models.Player;
 public class NeighbourTerritoriesFeature extends Feature {
 
     public NeighbourTerritoriesFeature() {
-        importance = 10;
+        importance = 3;
         scaleFactor = 1;
     }
 
     @Override
     public double calculate(Board gameState, Player player) {
-        double rating = 0.0;
-        for (BackEndTerritory territory : player.getTerritoriesThatCanAttack()) {
-            List<BackEndTerritory> enemyTerritories = new ArrayList<BackEndTerritory>();
-            for (BackEndTerritory neighbour : territory.getNeighbours()) {
-                if (neighbour.getOwner() != player)
-                    enemyTerritories.add(neighbour);
+        try {
+            double rating = 0.0;
+            for (BackEndTerritory territory : player.getTerritoriesThatCanAttack()) {
+                List<BackEndTerritory> enemyTerritories = new ArrayList<BackEndTerritory>();
+                for (BackEndTerritory neighbour : territory.getNeighbours()) {
+                    if (neighbour.getOwner() != player)
+                        enemyTerritories.add(neighbour);
+                }
+                double partialRating = 0.0;
+                for (BackEndTerritory enemyTerritory : enemyTerritories) {
+                    partialRating += BattleComputer.calculateThreatToTerritory(territory, enemyTerritory);
+                }
+                rating += (partialRating / enemyTerritories.size());
             }
-            double partialRating = 0.0;
-            for (BackEndTerritory enemyTerritory : enemyTerritories) {
-                partialRating += BattleComputer.calculateThreatToTerritory(territory, enemyTerritory);
-            }
-            rating += (partialRating / enemyTerritories.size());
+            return rating / player.getTerritoriesThatCanAttack().size();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return 0.0;
         }
-        return rating / player.getTerritoriesThatCanAttack().size();
     }
 }

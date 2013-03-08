@@ -19,7 +19,7 @@ public class ContinentThreatFeature extends Feature {
 
 
     public ContinentThreatFeature() {
-        importance = 2;
+        importance = 3;
         scaleFactor = 1;
     }
 

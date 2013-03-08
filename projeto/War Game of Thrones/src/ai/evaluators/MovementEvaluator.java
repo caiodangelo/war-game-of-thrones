@@ -32,7 +32,7 @@ public class MovementEvaluator extends Evaluator {
         features.add(new ContinentThreatFeature());
         features.add(new MaximumThreatFeature());
         features.add(new ContinentArmyDominationFeature());
-        features.add(new NeighbourTerritoriesFeature());
+//        features.add(new NeighbourTerritoriesFeature());
     }
 
     @Override
