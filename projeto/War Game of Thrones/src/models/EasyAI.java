@@ -55,6 +55,7 @@ public class EasyAI extends Difficulty {
     public TerritoryTransaction nextAttack() {
         BackEndTerritory origin = null;
         BackEndTerritory destiny = null;
+        System.out.println(player.getName()+"  "+player.getMission().getType());
         if (keepAttacking()) {
             for (int control = 0; control < 100; control++) { // Control serve só como safeguard, caso dê merda e entre em loop infinito.
                 switch (player.getMission().getType()) {

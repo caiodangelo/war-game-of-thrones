@@ -37,7 +37,7 @@ public class RegionNames extends Entity{
         regions[2] = new RegionData(centers[2], "O Norte");
         regions[3] = new RegionData(centers[3], "O Sul");
         regions[4] = new RegionData(centers[4], "Tridente");
-        regions[5] = new RegionData(centers[5], "Mar Dothraki");
+        regions[5] = new RegionData(centers[5], "O Mar Dothraki");
         
     }
 
