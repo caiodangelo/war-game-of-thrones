@@ -205,17 +205,15 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 								<control marginLeft="5px" textHAlign="left" valign="center" color="#333333ff" align="left" id="playerStatusTerritories" name="label" text="7 territórios" width="33%"/>
 							</panel>
 							<panel width="100%" height="30%" childLayout="horizontal">
-								<control align="left" textHAlign="left" width="30%" color="#1464f6ff" id="seeObjectiveButton" name="label" text="Ver objetivo" visibleToMouse="true">
-									<interact onClick="showPlayerObjective()"/>
-								</control>
-								<panel childLayout="center" width="5%"/>
 								<control align="left" textHAlign="left" width="30%" color="#1464f6ff" id="seeCardsButton" name="label" text="Ver cartas" visibleToMouse="true">
 									<interact onClick="showPlayerCards()"/>
 								</control>
+								<panel childLayout="center" width="5%"/>
+								<control align="left" textHAlign="left" width="30%" color="#1464f6ff" id="seeObjectiveButton" name="label" text="Ver objetivo" visibleToMouse="true">
+									<interact onClick="showPlayerObjective()"/>
+								</control>
 							</panel>
 							<panel childLayout="horizontal" width="100%">
-								<!-- <control align="left" name="button" label="Trocar cartas" width="35%" focusable="false"/>
-								<panel childLayout="center" width="10%"/> -->
 								<control align="right" name="button" label="Passar a vez" width="35%" focusable="false">
 									<interact onClick="nextPlayerTurnConfirm()"/>
 								</control>
@@ -975,7 +973,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 		<panel style="nifty-panel-custom" width="60%" height="50%" childLayout="vertical">
 			<control color="#333333ff" font="resources/fonts/calibri_bold.fnt" align="left" textHAlign="left" name="label" text="Suas cartas" width="100%"/>
 			<panel width="100%" height="3px" childLayout="vertical" backgroundColor="#000"/>
-			<control id="obligateTradeText" textVAlign="center" color="#333333ff" name="label" text="Você já tem 5 cartas e deverá fazer uma troca." width="100%"/>
+			<control font="resources/fonts/calibri_bold.fnt" id="obligateTradeText" textVAlign="center" color="#333333ff" name="label" text="Você já tem 5 cartas e deverá fazer uma troca." width="100%"/>
 			<panel width="100%" height="80%" childLayout="horizontal">
 				<panel padding="10%,0,0,10%" width="20%" height="80%" childLayout="vertical">
 					<image id="card0" filename="resources/images/cartas/a-costa-gelada.png" width="100%" height="100%">
@@ -1062,7 +1060,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 	</popup>
 	
 	<popup id="tablesPopup" childLayout="center" backgroundColor="#000a">
-		<panel style="nifty-panel-custom" width="800px" height="370px" childLayout="vertical">
+		<panel style="nifty-panel-custom" width="800px" height="400px" childLayout="vertical">
 			<control font="resources/fonts/calibri_bold.fnt" color="#333333ff" align="left" textHAlign="left" name="label" text="Tabelas" width="100%"/>
 			<panel  width="100%" height="3px" childLayout="vertical" backgroundColor="#000"/>
 			<panel align="center" childLayout="center" height="95px">
@@ -1071,6 +1069,7 @@ xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-
 			<panel align="center" childLayout="center" height="171px">
 				<image  width="609px" height="161px" filename="resources/images/tabela2.jpg"/>
 			</panel>
+			<control padding="8px,0px,0px,0px" font="resources/fonts/calibri_bold.fnt" id="nextTradeLabel" color="#333333ff" align="left" textHAlign="left" name="label" text="Próxima troca: " width="100%"/>
 			<panel align="center" childLayout="center" height="55px">
 				<control align="center" name="button" label="OK" focusable="false">
 					<interact onClick="dismissTablesPopup()"/>
